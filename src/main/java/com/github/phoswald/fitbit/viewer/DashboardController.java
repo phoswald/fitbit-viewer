@@ -6,6 +6,7 @@ import jakarta.ws.rs.CookieParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 
 import io.quarkus.qute.Template;
@@ -21,13 +22,19 @@ public class DashboardController {
     @Inject
     private FitbitApiClient apiClient;
 
+    @QueryParam("errorMessage")
+    private String errorMessage;
+
+    @CookieParam("fitbitAccessToken")
+    private String fitbitAccessToken;
+
     @GET
     @Produces(MediaType.TEXT_HTML)
-    public TemplateInstance getDashboardPage(@CookieParam("fitbit_access_token") String fitbitAccessToken) {
+    public TemplateInstance getDashboardPage() {
         FitbitProfile profile = null;
         if(fitbitAccessToken != null) {
             profile = apiClient.getUserProfile(fitbitAccessToken);
         }
-        return dashboard.data("model", new DashboardViewModel(profile));
+        return dashboard.data("model", new DashboardViewModel(errorMessage, profile));
     }
 }

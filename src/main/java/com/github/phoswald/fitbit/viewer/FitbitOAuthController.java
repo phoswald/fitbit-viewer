@@ -48,14 +48,17 @@ public class FitbitOAuthController {
         log.debug("callback: code={}, error={}", code, error);
         if (error != null) {
             // TODO: add error handling to view
-            return Response.seeOther(URI.create("pages/dashboard?error=" + URLEncoder.encode(error, UTF_8))).build();
+            return Response.seeOther(URI.create("pages/dashboard?errorMessage=" + URLEncoder.encode(error, UTF_8))).build();
         }
-        String accessToken = apiClient.exchangeCode(code);
-        NewCookie cookie = new NewCookie.Builder("fitbit_access_token")
-                .value(accessToken)
+        String fitbitAccessToken = apiClient.exchangeCode(code);
+        return Response.seeOther(URI.create("pages/dashboard")).cookie(createCookie(fitbitAccessToken)).build();
+    }
+
+    private NewCookie createCookie(String fitbitAccessToken) {
+        return new NewCookie.Builder("fitbitAccessToken")
+                .value(fitbitAccessToken)
                 .path("/")
                 .httpOnly(true)
                 .build();
-        return Response.seeOther(URI.create("pages/dashboard")).cookie(cookie).build();
     }
 }

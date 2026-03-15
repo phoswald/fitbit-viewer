@@ -9,6 +9,9 @@
   <body>
     <h1>Fitbit Viewer - Dashboard</h1>
     <p><a href="../..">[Home]</a></p>
+    {#if model.errorMessage}
+      <p><strong>ERROR:</strong> {model.errorMessage}</p>
+    {/if}
     {#if model.profile}
       <img src="{model.profile.avatarUrl}" alt="Avatar" width="64" height="64">
       <p><strong>{model.profile.displayName}</strong> ({model.profile.fullName})</p>
@@ -17,6 +20,6 @@
     {#else}
       <p><a href="../oauth/login">Login with Fitbit</a></p>
     {/if}
-    <p><small>Page generated: {model.now}</small></p>
+    <p><small>Generated: {model.now}</small></p>
   </body>
 </html>
