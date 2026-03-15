@@ -14,6 +14,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
 
 @RequestScoped
@@ -24,9 +25,6 @@ public class FitbitOAuthController {
 
     @Inject
     private FitbitConfig config;
-
-    @Inject
-    private FitbitTokenStore tokenStore;
 
     @Inject
     private FitbitApiClient apiClient;
@@ -53,7 +51,11 @@ public class FitbitOAuthController {
             return Response.seeOther(URI.create("pages/dashboard?error=" + URLEncoder.encode(error, UTF_8))).build();
         }
         String accessToken = apiClient.exchangeCode(code);
-        tokenStore.setAccessToken(accessToken);
-        return Response.seeOther(URI.create("pages/dashboard")).build();
+        NewCookie cookie = new NewCookie.Builder("fitbit_access_token")
+                .value(accessToken)
+                .path("/")
+                .httpOnly(true)
+                .build();
+        return Response.seeOther(URI.create("pages/dashboard")).cookie(cookie).build();
     }
 }

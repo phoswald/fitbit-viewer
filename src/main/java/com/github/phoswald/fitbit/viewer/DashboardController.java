@@ -2,6 +2,7 @@ package com.github.phoswald.fitbit.viewer;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.CookieParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -18,17 +19,14 @@ public class DashboardController {
     private Template dashboard;
 
     @Inject
-    private FitbitTokenStore tokenStore;
-
-    @Inject
     private FitbitApiClient apiClient;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
-    public TemplateInstance getDashboardPage() {
+    public TemplateInstance getDashboardPage(@CookieParam("fitbit_access_token") String fitbitAccessToken) {
         FitbitProfile profile = null;
-        if(tokenStore.hasToken()) {
-            profile = apiClient.getUserProfile(tokenStore.getAccessToken());
+        if(fitbitAccessToken != null) {
+            profile = apiClient.getUserProfile(fitbitAccessToken);
         }
         return dashboard.data("model", new DashboardViewModel(profile));
     }
