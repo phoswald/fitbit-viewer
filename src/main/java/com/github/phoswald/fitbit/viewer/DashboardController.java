@@ -15,11 +15,21 @@ import io.quarkus.qute.TemplateInstance;
 public class DashboardController {
 
     @Inject
-    Template dashboard;
+    private Template dashboard;
+
+    @Inject
+    private FitbitTokenStore tokenStore;
+
+    @Inject
+    private FitbitApiClient apiClient;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance getDashboardPage() {
-        return dashboard.data("model", new DashboardViewModel());
+        FitbitProfile profile = null;
+        if(tokenStore.hasToken()) {
+            profile = apiClient.getUserProfile(tokenStore.getAccessToken());
+        }
+        return dashboard.data("model", new DashboardViewModel(profile));
     }
 }

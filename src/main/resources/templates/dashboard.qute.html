@@ -8,7 +8,15 @@
   </head>
   <body>
     <h1>Fitbit Viewer - Dashboard</h1>
-    <p>The current time is {model.now}</p>
     <p><a href="../..">[Home]</a></p>
+    {#if model.profile}
+      <img src="{model.profile.avatarUrl}" alt="Avatar" width="64" height="64">
+      <p><strong>{model.profile.displayName}</strong> ({model.profile.fullName})</p>
+      <p>Age: {model.profile.age}</p>
+      <p>Gender: {model.profile.gender}</p>
+    {#else}
+      <p><a href="../oauth/login">Login with Fitbit</a></p>
+    {/if}
+    <p><small>Page generated: {model.now}</small></p>
   </body>
 </html>
