@@ -43,6 +43,12 @@
       <artifactId>quarkus-rest-jaxb</artifactId>
     </dependency>
 
+    <!-- REST Client -->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-rest-client-jackson</artifactId>
+    </dependency>
+
     <!-- Templating -->
     <dependency>
       <groupId>io.quarkus</groupId>
