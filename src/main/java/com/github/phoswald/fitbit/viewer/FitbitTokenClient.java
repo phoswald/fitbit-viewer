@@ -1,7 +1,5 @@
 package com.github.phoswald.fitbit.viewer;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.HeaderParam;
@@ -12,18 +10,24 @@ import jakarta.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @RegisterRestClient(configKey = "fitbit-api")
 @Path("/oauth2/token")
 public interface FitbitTokenClient {
 
-    record Response(@JsonProperty("access_token") String accessToken) {}
-
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    Response post(
-            @HeaderParam("Authorization") String authorization,
+    TokenResponse exchangeCode(
+            @HeaderParam("Authorization") String authorizationHeader,
             @FormParam("grant_type") String grantType,
             @FormParam("code") String code,
             @FormParam("redirect_uri") String redirectUri);
+
+    record TokenResponse(
+            @JsonProperty("access_token") String accessToken,
+            @JsonProperty("refresh_token") String refreshToken,
+            @JsonProperty("expires_in") Integer expiresIn
+    ) { }
 }
