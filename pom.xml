@@ -29,7 +29,7 @@
   </dependencyManagement>
 
   <dependencies>
-    <!-- Web Server -->
+    <!-- Web Server and REST Client -->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-rest</artifactId>
@@ -38,12 +38,6 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-rest-jackson</artifactId>
     </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-rest-jaxb</artifactId>
-    </dependency>
-
-    <!-- REST Client -->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-rest-client-jackson</artifactId>

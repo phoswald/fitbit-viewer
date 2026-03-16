@@ -6,7 +6,8 @@ Experiments with Fitbit Web API
 
 ~~~
 $ mvn clean verify
-$ export APP_SAMPLE_CONFIG=ValueFromShell
+$ export FITBIT_CLIENT_ID=
+$ export FITBIT_CLIENT_SECRET=
 $ java \
   -Dquarkus.http.port=8080 \
   -jar target/quarkus-app/quarkus-run.jar
