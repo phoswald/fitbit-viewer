@@ -37,6 +37,20 @@
     </form>
     <p></p>
     {#if model.steps}
+      <canvas id="stepsChart"></canvas>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+        new Chart(document.getElementById('stepsChart'), {
+          type: 'bar',
+          data: {
+            labels: [{#for entry in model.steps}'{entry.date}',{/for}],
+            datasets: [{
+              label: 'Steps',
+              data: [{#for entry in model.steps}{entry.stepCount},{/for}]
+            }]
+          }
+        });
+      </script>
       <table class="data">
         <tr>
           <th>Date</th>
