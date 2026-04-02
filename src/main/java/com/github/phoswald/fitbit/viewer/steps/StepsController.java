@@ -1,7 +1,8 @@
-package com.github.phoswald.fitbit.viewer;
+package com.github.phoswald.fitbit.viewer.steps;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -12,6 +13,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,17 +24,23 @@ import io.quarkus.qute.TemplateInstance;
 @Path("/pages/steps")
 public class StepsController {
 
-    private static final Logger log = LoggerFactory.getLogger(StepsController.class);
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Inject
     private Template steps;
 
     @Inject
-    private FitbitApiClient apiClient;
+    @RestClient
+    private StepsApiClient stepsClient;
 
-    @QueryParam("startDate") private String startDate;
-    @QueryParam("endDate") private String endDate;
-    @CookieParam("fitbitAccessToken") private String fitbitAccessToken;
+    @CookieParam("fitbitAccessToken")
+    private String accessToken;
+
+    @QueryParam("startDate")
+    private String startDate;
+
+    @QueryParam("endDate")
+    private String endDate;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
@@ -43,16 +51,17 @@ public class StepsController {
         if (endDate == null) {
             endDate = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
         }
-        if (fitbitAccessToken != null && startDate != null && endDate != null) {
+        if (accessToken != null && startDate != null && endDate != null) {
             log.debug("getStepsPage: startDate={}, endDate={}", startDate, endDate);
             try {
-                var stepsList = apiClient.getSteps(fitbitAccessToken, startDate, endDate);
-                return steps.data("model", new StepsViewModel(startDate, endDate, stepsList, null));
+                var stepsResponse = stepsClient.getSteps("Bearer " + accessToken, startDate, endDate);
+                return steps.data("model", StepsViewModel.create(startDate, endDate, stepsResponse));
             } catch (Exception e) {
                 log.warn("getStepsPage: failed to fetch steps", e);
-                return steps.data("model", new StepsViewModel(startDate, endDate, null, e.getMessage()));
+                return steps.data("model", StepsViewModel.createError(e.getMessage()));
             }
+        } else {
+            return steps.data("model", StepsViewModel.create(startDate, endDate, null));
         }
-        return steps.data("model", new StepsViewModel(startDate, endDate, null, null));
     }
 }

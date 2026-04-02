@@ -1,4 +1,4 @@
-package com.github.phoswald.fitbit.viewer;
+package com.github.phoswald.fitbit.viewer.profile;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
@@ -10,7 +10,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 @RegisterRestClient(configKey = "fitbit-api")
 @Path("/1/user/-/profile.json")
-public interface FitbitProfileClient {
+interface ProfileApiClient {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -23,8 +23,8 @@ public interface FitbitProfileClient {
     record UserData(
             String displayName,
             String fullName,
-            int age,
+            Integer age,
             String gender,
             String avatar
-    ) {}
+    ) { }
 }

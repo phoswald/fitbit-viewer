@@ -1,4 +1,4 @@
-package com.github.phoswald.fitbit.viewer;
+package com.github.phoswald.fitbit.viewer.login;
 
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.FormParam;
@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @RegisterRestClient(configKey = "fitbit-api")
 @Path("/oauth2/token")
-public interface FitbitTokenClient {
+interface OAuthClient {
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)

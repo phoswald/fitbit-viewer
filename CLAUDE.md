@@ -30,4 +30,6 @@ This is a **Quarkus 3.x** Java application targeting Java 25. It uses:
 - **View model pattern**: controller creates a POJO view model and passes it to the Qute template
 - Static files served from `src/main/resources/META-INF/resources/`
 
-The application artifact is published to a custom Maven repository at `https://code.phoswald.ch/api/packages/philip/maven`.
+Make classes package level visible and fields private by default.
+
+For plain DTOs, use Java records and the @RecordBuilder annotation, which generates a Builder class.

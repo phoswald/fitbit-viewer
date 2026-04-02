@@ -1,4 +1,4 @@
-package com.github.phoswald.fitbit.viewer;
+package com.github.phoswald.fitbit.viewer.steps;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @RegisterRestClient(configKey = "fitbit-api")
 @Path("/1/user/-/activities/steps/date")
-public interface FitbitStepsClient {
+interface StepsApiClient {
 
     @GET
     @Path("/{startDate}/{endDate}.json")
@@ -26,9 +26,8 @@ public interface FitbitStepsClient {
             @PathParam("endDate") String endDate);
 
     record StepsResponse(
-            @JsonProperty("activities-steps") List<StepsEntry> activitiesSteps) { }
+            @JsonProperty("activities-steps") List<StepsEntry> activitiesSteps
+    ) { }
 
-    record StepsEntry(
-            String dateTime,
-            String value) { }
+    record StepsEntry(String dateTime, String value) { }
 }

@@ -1,4 +1,4 @@
-package com.github.phoswald.fitbit.viewer;
+package com.github.phoswald.fitbit.viewer.login;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -21,11 +21,11 @@ import org.slf4j.LoggerFactory;
 
 @RequestScoped
 @Path("/oauth")
-public class FitbitOAuthController {
+public class OAuthController {
 
     private static final String AUTHORIZE_URL = "https://www.fitbit.com/oauth2/authorize";
 
-    private static final Logger log = LoggerFactory.getLogger(FitbitOAuthController.class);
+    private static final Logger log = LoggerFactory.getLogger(OAuthController.class);
 
     @Inject
     @ConfigProperty(name = "app.fitbit.client-id")
@@ -41,7 +41,7 @@ public class FitbitOAuthController {
 
     @Inject
     @RestClient
-    private FitbitTokenClient tokenClient;
+    private OAuthClient tokenClient;
 
     @GET
     @Path("/login")
