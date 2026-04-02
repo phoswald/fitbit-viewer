@@ -13,8 +13,8 @@
       <p><strong>ERROR:</strong> {model.errorMessage}</p>
     {/if}
     <form method="get" action="steps">
-      <label>From: <input type="date" name="startDate" value="{model.startDate}"></label>
-      <label>To: <input type="date" name="endDate" value="{model.endDate}"></label>
+      <label>From: <input type="date" name="begDate" value="{model.begDate}"></label>
+      <label>To:   <input type="date" name="endDate" value="{model.endDate}"></label>
       <button type="submit">Query</button>
     </form>
     {#if model.steps}
@@ -29,7 +29,7 @@
           {#for entry in model.steps}
             <tr>
               <td>{entry.date}</td>
-              <td>{entry.steps}</td>
+              <td>{entry.stepCount}</td>
             </tr>
           {/for}
         </tbody>

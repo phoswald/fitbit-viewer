@@ -2,7 +2,6 @@ package com.github.phoswald.fitbit.viewer.steps;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -36,8 +35,8 @@ public class StepsController {
     @CookieParam("fitbitAccessToken")
     private String accessToken;
 
-    @QueryParam("startDate")
-    private String startDate;
+    @QueryParam("begDate")
+    private String begDate;
 
     @QueryParam("endDate")
     private String endDate;
@@ -45,23 +44,23 @@ public class StepsController {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance getStepsPage() {
-        if (startDate == null) {
-            startDate = LocalDate.now().minusDays(30).format(DateTimeFormatter.ISO_LOCAL_DATE);
+        if (begDate == null) {
+            begDate = LocalDate.now().minusDays(30).format(DateTimeFormatter.ISO_LOCAL_DATE);
         }
         if (endDate == null) {
             endDate = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
         }
-        if (accessToken != null && startDate != null && endDate != null) {
-            log.debug("getStepsPage: startDate={}, endDate={}", startDate, endDate);
+        if (accessToken != null && begDate != null && endDate != null) {
+            log.debug("getStepsPage: begDate={}, endDate={}", begDate, endDate);
             try {
-                var stepsResponse = stepsClient.getSteps("Bearer " + accessToken, startDate, endDate);
-                return steps.data("model", StepsViewModel.create(startDate, endDate, stepsResponse));
+                var stepsResponse = stepsClient.getSteps("Bearer " + accessToken, begDate, endDate);
+                return steps.data("model", StepsViewModel.create(begDate, endDate, stepsResponse.activitiesSteps()));
             } catch (Exception e) {
                 log.warn("getStepsPage: failed to fetch steps", e);
                 return steps.data("model", StepsViewModel.createError(e.getMessage()));
             }
         } else {
-            return steps.data("model", StepsViewModel.create(startDate, endDate, null));
+            return steps.data("model", StepsViewModel.create(begDate, endDate, null));
         }
     }
 }

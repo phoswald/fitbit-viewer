@@ -3,12 +3,16 @@ package com.github.phoswald.fitbit.viewer.profile;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
+import com.github.phoswald.record.builder.RecordBuilder;
+
+@RecordBuilder
 record DashboardViewModel(
-        String errorMessage,
         Profile profile,
+        String errorMessage,
         String now
 ) {
 
+    @RecordBuilder
     record Profile(
             String displayName,
             String fullName,
@@ -19,17 +23,23 @@ record DashboardViewModel(
     }
 
     static DashboardViewModel create(ProfileApiClient.UserData user) {
-        return new DashboardViewModel(
-                null,
-                new Profile(user.displayName(), user.fullName(), user.age(), user.gender(), user.avatar()),
-                getNow());
+        return new DashboardViewModelBuilder()
+                .profile(new ProfileBuilder()
+                        .displayName(user.displayName())
+                        .fullName(user.fullName())
+                        .age(user.age())
+                        .gender(user.gender())
+                        .avatarUrl(user.avatar())
+                        .build())
+                .now(getNow())
+                .build();
     }
 
     static DashboardViewModel createError(String errorMessage) {
-        return new DashboardViewModel(
-                errorMessage,
-                null,
-                getNow());
+        return new DashboardViewModelBuilder()
+                .errorMessage(errorMessage)
+                .now(getNow())
+                .build();
     }
 
     private static String getNow() {

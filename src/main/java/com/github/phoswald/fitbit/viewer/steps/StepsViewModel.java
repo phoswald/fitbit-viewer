@@ -4,34 +4,35 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import com.github.phoswald.record.builder.RecordBuilder;
+
+@RecordBuilder
 record StepsViewModel(
-        String errorMessage,
-        String startDate,
+        String begDate,
         String endDate,
         List<StepsEntry> steps,
-        String now /* = ; */
+        String errorMessage,
+        String now
 ) {
-    record StepsEntry(String date, Integer steps) { }
+    record StepsEntry(String date, Integer stepCount) { }
 
     static StepsViewModel create(
-            String startDate,
+            String begDate,
             String endDate,
-            StepsApiClient.StepsResponse response) {
-        return new StepsViewModel(
-                null,
-                startDate,
-                endDate,
-                response == null ? null : response.activitiesSteps().stream().map(e -> createEntry(e)).toList(),
-                getNow());
+            List<StepsApiClient.StepsEntry> steps) {
+        return new StepsViewModelBuilder()
+                .begDate(begDate)
+                .endDate(endDate)
+                .steps(steps == null ? null : steps.stream().map(StepsViewModel::createEntry).toList())
+                .now(getNow())
+                .build();
     }
 
     static StepsViewModel createError(String errorMessage) {
-        return new StepsViewModel(
-                errorMessage,
-                null,
-                null,
-                null,
-                getNow());
+        return new StepsViewModelBuilder()
+                .errorMessage(errorMessage)
+                .now(getNow())
+                .build();
     }
 
     static StepsEntry createEntry(StepsApiClient.StepsEntry entry) {

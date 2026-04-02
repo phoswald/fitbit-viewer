@@ -29,6 +29,14 @@
   </dependencyManagement>
 
   <dependencies>
+    <!-- Provided -->
+    <dependency>
+      <groupId>com.github.phoswald</groupId>
+      <artifactId>record-builder</artifactId>
+      <version>0.2.1</version>
+      <scope>provided</scope>
+    </dependency>
+
     <!-- Web Server and REST Client -->
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -91,6 +99,13 @@
         <version>3.14.1</version>
         <configuration>
           <parameters>true</parameters>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>com.github.phoswald</groupId>
+              <artifactId>record-builder</artifactId>
+              <version>0.2.1</version>
+            </path>
+          </annotationProcessorPaths>
         </configuration>
       </plugin>
       <plugin>
