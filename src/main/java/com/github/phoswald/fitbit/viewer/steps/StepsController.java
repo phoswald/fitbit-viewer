@@ -57,7 +57,7 @@ public class StepsController {
                 return steps.data("model", StepsViewModel.createError(e.getMessage()));
             }
         } else {
-            return steps.data("model", StepsViewModel.create(begDate, endDate, null));
+            return steps.data("model", StepsViewModel.createError("You are not logged in."));
         }
     }
 }

@@ -18,7 +18,7 @@ import io.quarkus.qute.TemplateInstance;
 
 @RequestScoped
 @Path("/pages/profile")
-public class PorfileController {
+public class ProfileController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -47,7 +47,7 @@ public class PorfileController {
                 return profile.data("model", ProfileViewModel.createError(e.getMessage()));
             }
         } else {
-            return profile.data("model", ProfileViewModel.createError("You are not logged in."));
+            return profile.data("model", ProfileViewModel.createError(null));
         }
     }
 }
