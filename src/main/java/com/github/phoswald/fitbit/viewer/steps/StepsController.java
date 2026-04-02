@@ -1,7 +1,6 @@
 package com.github.phoswald.fitbit.viewer.steps;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -36,24 +35,22 @@ public class StepsController {
     private String accessToken;
 
     @QueryParam("begDate")
-    private String begDate;
+    private LocalDate begDate;
 
     @QueryParam("endDate")
-    private String endDate;
+    private LocalDate endDate;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance getStepsPage() {
-        if (begDate == null) {
-            begDate = LocalDate.now().minusDays(30).format(DateTimeFormatter.ISO_LOCAL_DATE);
+        if(begDate == null || endDate == null) {
+            begDate = LocalDate.now().minusDays(30);
+            endDate = LocalDate.now();
         }
-        if (endDate == null) {
-            endDate = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
-        }
-        if (accessToken != null && begDate != null && endDate != null) {
+        if (accessToken != null) {
             log.debug("getStepsPage: begDate={}, endDate={}", begDate, endDate);
             try {
-                var stepsResponse = stepsClient.getSteps("Bearer " + accessToken, begDate, endDate);
+                var stepsResponse = stepsClient.getSteps("Bearer " + accessToken, begDate.toString(), endDate.toString());
                 return steps.data("model", StepsViewModel.create(begDate, endDate, stepsResponse.activitiesSteps()));
             } catch (Exception e) {
                 log.warn("getStepsPage: failed to fetch steps", e);

@@ -1,7 +1,6 @@
 package com.github.phoswald.fitbit.viewer.profile;
 
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 
 import com.github.phoswald.record.builder.RecordBuilder;
 
@@ -9,7 +8,7 @@ import com.github.phoswald.record.builder.RecordBuilder;
 record DashboardViewModel(
         Profile profile,
         String errorMessage,
-        String now
+        ZonedDateTime now
 ) {
 
     @RecordBuilder
@@ -31,18 +30,14 @@ record DashboardViewModel(
                         .gender(user.gender())
                         .avatarUrl(user.avatar())
                         .build())
-                .now(getNow())
+                .now(ZonedDateTime.now())
                 .build();
     }
 
     static DashboardViewModel createError(String errorMessage) {
         return new DashboardViewModelBuilder()
                 .errorMessage(errorMessage)
-                .now(getNow())
+                .now(ZonedDateTime.now())
                 .build();
-    }
-
-    private static String getNow() {
-        return ZonedDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME);
     }
 }
