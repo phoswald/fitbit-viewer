@@ -43,10 +43,10 @@
         new Chart(document.getElementById('stepsChart'), {
           type: 'bar',
           data: {
-            labels: [{#for entry in model.steps}'{entry.date}',{/for}],
+            labels: {model.stepDates.formatJsArray},
             datasets: [{
               label: 'Steps',
-              data: [{#for entry in model.steps}{entry.stepCount},{/for}]
+              data: {model.stepCounts.formatJsArray}
             }]
           }
         });

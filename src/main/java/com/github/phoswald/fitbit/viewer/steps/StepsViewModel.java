@@ -7,7 +7,7 @@ import java.util.List;
 import com.github.phoswald.record.builder.RecordBuilder;
 
 @RecordBuilder
-record StepsViewModel(
+public record StepsViewModel(
         LocalDate begDate,
         LocalDate endDate,
         List<StepsEntry> steps,
@@ -37,5 +37,13 @@ record StepsViewModel(
 
     static StepsEntry createEntry(StepsApiClient.StepsEntry entry) {
         return new StepsEntry(LocalDate.parse(entry.dateTime()), Integer.parseInt(entry.value()));
+    }
+
+    public List<LocalDate> stepDates() {
+        return steps == null ? null : steps.stream().map(StepsEntry::date).toList();
+    }
+
+    public List<Integer> stepCounts() {
+        return steps == null ? null : steps.stream().map(StepsEntry::stepCount).toList();
     }
 }

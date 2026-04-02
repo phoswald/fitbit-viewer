@@ -1,32 +1,4 @@
 
-@font-face {
-  font-family: "Noto Sans";
-  font-weight: normal;
-  /*src: url(fonts/NotoSans-Regular.ttf); !* downloaded from https://fonts.google.com/ *!*/
-  /*-fs-pdf-font-embed: embed; !* Flying Saucer custom style *!*/
-}
-
-@font-face {
-  font-family: "Noto Sans";
-  font-weight: bold;
-  /*src: url(fonts/NotoSans-Bold.ttf); !* downloaded from https://fonts.google.com/ *!*/
-  /*-fs-pdf-font-embed: embed; !* Flying Saucer custom style *!*/
-}
-
-@font-face {
-  font-family: "Noto Sans Mono";
-  font-weight: normal;
-  /*src: url(fonts/NotoSansMono-Regular.ttf); !* downloaded from https://fonts.google.com/ *!*/
-  /*-fs-pdf-font-embed: embed; !* Flying Saucer custom style *!*/
-}
-
-@font-face {
-  font-family: "Noto Serif";
-  font-weight: normal;
-  /*src: url(fonts/NotoSerif-Regular.ttf); !* downloaded from https://fonts.google.com/ *!*/
-  /*-fs-pdf-font-embed: embed; !* Flying Saucer custom style *!*/
-}
-
 /* block elements */
 
 html, body, div, h1, h2, h3, h4, h5, h6, p, blockquote, pre, ol, ul, li, table, thead, tbody, tr, th, td {
@@ -41,7 +13,7 @@ html, body, div, h1, h2, h3, h4, h5, h6, p, blockquote, pre, ol, ul, li, table, 
 }
 
 body {
-  font-family: "Noto Sans";
+  font-family: "Noto Sans"; /* TODO */
 }
 
 @media screen {
@@ -90,7 +62,7 @@ blockquote {
 }
 
 pre {
-  font-family: "Noto Sans Mono";
+  font-family: "Noto Sans Mono"; /* TODO */
 }
 
 ol, ul {
@@ -131,7 +103,7 @@ a:hover {
 }
 
 code {
-  font-family: "Noto Sans Mono";
+  font-family: "Noto Sans Mono"; /* TODO */
 }
 
 sub, sup {
