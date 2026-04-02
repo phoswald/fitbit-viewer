@@ -1,0 +1,36 @@
+
+ul.menu {
+  padding: 0;
+  display: block;
+}
+
+ul.menu li {
+  display: inline;
+}
+
+table.form {
+    margin: 0.75em 0 0.75em 0;
+    background-color: #f0f0f0;
+}
+
+table.form tr td {
+    padding: .375em .75em .375em .75em;
+}
+
+table.data {
+    margin: 0.75em 0 0.75em 0;
+}
+
+table.data tr th {
+    font-weight: bold;
+    border-bottom: 2px solid black;
+}
+
+table.data tr td {
+    border-bottom: 1px solid lightgrey;
+}
+
+table.data tr th,
+table.data tr td {
+    padding: .375em .75em .375em .75em;
+}

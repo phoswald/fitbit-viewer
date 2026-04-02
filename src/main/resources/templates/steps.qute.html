@@ -6,40 +6,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Fitbit Viewer - Steps</title>
     <link rel="stylesheet" href="/defaults.css">
+    <link rel="stylesheet" href="/styles.css">
   </head>
   <body>
+    <ul class="menu">
+      <li><a href="../..">[Home]</a></li>
+      <li><a href="profile">[Profile]</a></li>
+      <li>[Steps]</li>
+    </ul>
+    <hr>
     <h1>Fitbit Viewer - Steps</h1>
-    <p>
-      <a href="../..">[Home]</a>
-      <a href="profile">[Profile]</a>
-      [Steps]
-    </p>
     {#if model.errorMessage}
       <p><strong>ERROR:</strong> {model.errorMessage}</p>
     {/if}
     <form method="get" action="steps">
-      <label>From: <input type="date" name="begDate" value="{model.begDate}"></label>
-      <label>To:   <input type="date" name="endDate" value="{model.endDate}"></label>
-      <button type="submit">Query</button>
+      <table class="form">
+        <tr>
+          <td><strong>From</strong></td>
+          <td><input type="date" name="begDate" value="{model.begDate}"></td>
+        </tr>
+        <tr>
+          <td><strong>To</strong></td>
+          <td><input type="date" name="endDate" value="{model.endDate}"></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><button type="submit">Query</button></td>
+        </tr>
+      </table>
     </form>
+    <p></p>
     {#if model.steps}
-      <table>
-        <thead>
+      <table class="data">
+        <tr>
+          <th>Date</th>
+          <th>Steps</th>
+        </tr>
+        {#for entry in model.steps}
           <tr>
-            <th>Date</th>
-            <th>Steps</th>
+            <td>{entry.date}</td>
+            <td>{entry.stepCount}</td>
           </tr>
-        </thead>
-        <tbody>
-          {#for entry in model.steps}
-            <tr>
-              <td>{entry.date}</td>
-              <td>{entry.stepCount}</td>
-            </tr>
-          {/for}
-        </tbody>
+        {/for}
       </table>
     {/if}
+    <hr>
     <p><small>Generated: {model.now.format('yyyy-MM-dd HH:mm:ss')}</small></p>
   </body>
 </html>
