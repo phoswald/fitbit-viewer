@@ -21,7 +21,7 @@ class TemplateExtensions {
             if(element instanceof Number) {
                 builder.append(element);
             } else {
-                builder.append("\"" + element + "\"");
+                builder.append("\"" + element + "\""); // TODO: escape correctly
             }
             builder.append(",");
         }

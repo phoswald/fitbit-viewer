@@ -40,10 +40,10 @@ public record StepsViewModel(
     }
 
     public List<LocalDate> stepDates() {
-        return steps == null ? null : steps.stream().map(StepsEntry::date).toList();
+        return steps.stream().map(StepsEntry::date).toList();
     }
 
     public List<Integer> stepCounts() {
-        return steps == null ? null : steps.stream().map(StepsEntry::stepCount).toList();
+        return steps.stream().map(StepsEntry::stepCount).toList();
     }
 }
