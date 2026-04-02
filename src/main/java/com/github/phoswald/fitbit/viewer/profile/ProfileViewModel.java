@@ -5,14 +5,14 @@ import java.time.ZonedDateTime;
 import com.github.phoswald.record.builder.RecordBuilder;
 
 @RecordBuilder
-record DashboardViewModel(
-        Profile profile,
+record ProfileViewModel(
+        User user,
         String errorMessage,
         ZonedDateTime now
 ) {
 
     @RecordBuilder
-    record Profile(
+    record User(
             String displayName,
             String fullName,
             Integer age,
@@ -21,9 +21,9 @@ record DashboardViewModel(
     ) {
     }
 
-    static DashboardViewModel create(ProfileApiClient.UserData user) {
-        return new DashboardViewModelBuilder()
-                .profile(new ProfileBuilder()
+    static ProfileViewModel create(ProfileApiClient.UserData user) {
+        return new ProfileViewModelBuilder()
+                .user(new UserBuilder()
                         .displayName(user.displayName())
                         .fullName(user.fullName())
                         .age(user.age())
@@ -34,8 +34,8 @@ record DashboardViewModel(
                 .build();
     }
 
-    static DashboardViewModel createError(String errorMessage) {
-        return new DashboardViewModelBuilder()
+    static ProfileViewModel createError(String errorMessage) {
+        return new ProfileViewModelBuilder()
                 .errorMessage(errorMessage)
                 .now(ZonedDateTime.now())
                 .build();

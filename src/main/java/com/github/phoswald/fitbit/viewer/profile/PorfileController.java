@@ -17,13 +17,13 @@ import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
 
 @RequestScoped
-@Path("/pages/dashboard")
-public class DashboardController {
+@Path("/pages/profile")
+public class PorfileController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Inject
-    private Template dashboard;
+    private Template profile;
 
     @Inject
     @RestClient
@@ -41,13 +41,13 @@ public class DashboardController {
         if(accessToken != null) {
             try {
                 var profile = profileClient.getProfile("Bearer " + accessToken);
-                return dashboard.data("model", DashboardViewModel.create(profile.user()));
+                return this.profile.data("model", ProfileViewModel.create(profile.user()));
             } catch (Exception e) {
                 log.warn("getProfile: failed to fetch steps", e);
-                return dashboard.data("model", DashboardViewModel.createError(e.getMessage()));
+                return profile.data("model", ProfileViewModel.createError(e.getMessage()));
             }
         } else {
-            return dashboard.data("model", DashboardViewModel.createError("You are not logged in."));
+            return profile.data("model", ProfileViewModel.createError("You are not logged in."));
         }
     }
 }
