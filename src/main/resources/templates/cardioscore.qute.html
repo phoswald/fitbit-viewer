@@ -1,10 +1,10 @@
-{@com.github.phoswald.fitbit.viewer.steps.StepsViewModel model}
+{@com.github.phoswald.fitbit.viewer.cardioscore.CardioScoreViewModel model}
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Fitbit Viewer - Steps</title>
+    <title>Fitbit Viewer - Cardio Fitness Score</title>
     <link rel="stylesheet" href="/defaults.css">
     <link rel="stylesheet" href="/styles.css">
   </head>
@@ -12,16 +12,16 @@
     <ul class="menu">
       <li><a href="../..">[Home]</a></li>
       <li><a href="profile">[Profile]</a></li>
-      <li>[Steps]</li>
+      <li><a href="steps">[Steps]</a></li>
       <li><a href="heartrate">[Heart Rate]</a></li>
-      <li><a href="cardioscore">[Cardio Fitness]</a></li>
+      <li>[Cardio Fitness]</li>
     </ul>
     <hr>
-    <h1>Fitbit Viewer - Steps</h1>
+    <h1>Fitbit Viewer - Cardio Fitness Score</h1>
     {#if model.errorMessage}
       <p><strong>ERROR:</strong> {model.errorMessage}</p>
     {/if}
-    <form method="get" action="steps">
+    <form method="get" action="cardioscore">
       <table class="form">
         <tr>
           <td><strong>From</strong></td>
@@ -38,31 +38,35 @@
       </table>
     </form>
     <p></p>
-    {#if model.steps}
-      <canvas id="stepsChart"></canvas>
+    {#if model.scores}
+      <canvas id="cardioFitnessScoreChart"></canvas>
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       <script>
-        new Chart(document.getElementById('stepsChart'), {
-          type: 'bar',
+        new Chart(document.getElementById('cardioFitnessScoreChart'), {
+          type: 'line',
           data: {
-            labels: {model.stepDates.formatJsArray},
+            labels: {model.scoreDates.formatJsArray},
             datasets: [{
-              label: 'Steps',
-              data: {model.stepCounts.formatJsArray}
+              label: 'Score (Min)',
+              data: {model.scoreMinValues.formatJsArray}
+            },{
+              label: 'Score (Max)',
+              data: {model.scoreMaxValues.formatJsArray}
             }]
-          },
-          options: { scales: { y: { beginAtZero: true } } }
+          }
         });
       </script>
       <table class="data">
         <tr>
           <th>Date</th>
-          <th>Steps</th>
+          <th>Score (Min)</th>
+          <th>Score (Max)</th>
         </tr>
-        {#for entry in model.steps}
+        {#for entry in model.scores}
           <tr>
             <td>{entry.date}</td>
-            <td>{entry.stepCount}</td>
+            <td>{entry.scoreMin}</td>
+            <td>{entry.scoreMax}</td>
           </tr>
         {/for}
       </table>
