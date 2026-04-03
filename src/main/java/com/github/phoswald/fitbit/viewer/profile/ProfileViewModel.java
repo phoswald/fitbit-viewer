@@ -2,6 +2,7 @@ package com.github.phoswald.fitbit.viewer.profile;
 
 import java.time.ZonedDateTime;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.phoswald.record.builder.RecordBuilder;
 
 @RecordBuilder
@@ -13,22 +14,30 @@ record ProfileViewModel(
 
     @RecordBuilder
     record User(
+            String userId,
             String displayName,
             String fullName,
+            String avatarUrl,
             Integer age,
+            String dateOfBirth,
             String gender,
-            String avatarUrl
+            String memberSince,
+            String averageDailySteps
     ) {
     }
 
     static ProfileViewModel create(ProfileApiClient.UserData user) {
         return new ProfileViewModelBuilder()
                 .user(new UserBuilder()
+                        .userId(user.userId())
                         .displayName(user.displayName())
                         .fullName(user.fullName())
-                        .age(user.age())
-                        .gender(user.gender())
                         .avatarUrl(user.avatar())
+                        .age(user.age())
+                        .dateOfBirth(user.dateOfBirth())
+                        .gender(user.gender())
+                        .memberSince(user.memberSince())
+                        .averageDailySteps(user.averageDailySteps())
                         .build())
                 .now(ZonedDateTime.now())
                 .build();

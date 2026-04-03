@@ -34,8 +34,24 @@
           <td>{model.user.age}</td>
         </tr>
         <tr>
+          <td><strong>Date of Birth</strong></td>
+          <td>{model.user.dateOfBirth}</td>
+        </tr>
+        <tr>
           <td><strong>Gender</strong></td>
           <td>{model.user.gender}</td>
+        </tr>
+        <tr>
+          <td><strong>Member since</strong></td>
+          <td>{model.user.memberSince}</td>
+        </tr>
+        <tr>
+          <td><strong>Steps</strong></td>
+          <td>{model.user.averageDailySteps} (daily average)</td>
+        </tr>
+        <tr>
+          <td><strong>User ID</strong></td>
+          <td>{model.user.userId}</td>
         </tr>
       </table>
     {#else}
