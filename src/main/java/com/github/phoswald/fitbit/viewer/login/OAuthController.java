@@ -52,7 +52,7 @@ public class OAuthController {
                 + "?response_type=code"
                 + "&client_id=" + URLEncoder.encode(clientId, UTF_8)
                 + "&redirect_uri=" + URLEncoder.encode(redirectUri, UTF_8)
-                + "&scope=profile+activity";
+                + "&scope=profile+activity+heartrate";
         return Response.seeOther(URI.create(url)).build();
     }
 
@@ -61,7 +61,7 @@ public class OAuthController {
     public Response callback(@QueryParam("code") String code, @QueryParam("error") String error) {
         if (error != null) {
             log.warn("callback: error={}", error);
-            return Response.seeOther(URI.create("pages/dashboard?errorMessage=" + URLEncoder.encode(error, UTF_8))).build();
+            return Response.seeOther(URI.create("pages/profile?errorMessage=" + URLEncoder.encode(error, UTF_8))).build();
         } else {
             log.debug("callback: code={} (length)", lengthOf(code));
             var tokenResponse = tokenClient.exchangeCode(
@@ -71,7 +71,7 @@ public class OAuthController {
             log.debug("exchanged: access_token={} (length), refresh_token={} (length), expires_in={}",
                     lengthOf(tokenResponse.accessToken()), lengthOf(tokenResponse.refreshToken()), tokenResponse.expiresIn());
             String fitbitAccessToken = tokenResponse.accessToken();
-            return Response.seeOther(URI.create("pages/dashboard")).cookie(createCookie(fitbitAccessToken)).build();
+            return Response.seeOther(URI.create("pages/profile")).cookie(createCookie(fitbitAccessToken)).build();
         }
     }
 

@@ -37,7 +37,7 @@ public class ProfileController {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
-    public TemplateInstance getDashboardPage() {
+    public TemplateInstance getProfilePage() {
         if(accessToken != null) {
             try {
                 var profile = profileClient.getProfile("Bearer " + accessToken);

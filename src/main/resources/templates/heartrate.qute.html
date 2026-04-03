@@ -1,10 +1,10 @@
-{@com.github.phoswald.fitbit.viewer.steps.StepsViewModel model}
+{@com.github.phoswald.fitbit.viewer.heartrate.HeartRateViewModel model}
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Fitbit Viewer - Steps</title>
+    <title>Fitbit Viewer - Heart Rate</title>
     <link rel="stylesheet" href="/defaults.css">
     <link rel="stylesheet" href="/styles.css">
   </head>
@@ -12,15 +12,15 @@
     <ul class="menu">
       <li><a href="../..">[Home]</a></li>
       <li><a href="profile">[Profile]</a></li>
-      <li>[Steps]</li>
-      <li><a href="heartrate">[Heart Rate]</a></li>
+      <li><a href="steps">[Steps]</a></li>
+      <li>[Heart Rate]</li>
     </ul>
     <hr>
-    <h1>Fitbit Viewer - Steps</h1>
+    <h1>Fitbit Viewer - Heart Rate</h1>
     {#if model.errorMessage}
       <p><strong>ERROR:</strong> {model.errorMessage}</p>
     {/if}
-    <form method="get" action="steps">
+    <form method="get" action="heartrate">
       <table class="form">
         <tr>
           <td><strong>From</strong></td>
@@ -37,17 +37,17 @@
       </table>
     </form>
     <p></p>
-    {#if model.steps}
-      <canvas id="stepsChart"></canvas>
+    {#if model.heartRates}
+      <canvas id="heartRateChart"></canvas>
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       <script>
-        new Chart(document.getElementById('stepsChart'), {
-          type: 'bar',
+        new Chart(document.getElementById('heartRateChart'), {
+          type: 'line',
           data: {
-            labels: {model.stepDates.formatJsArray},
+            labels: {model.heartRateDates.formatJsArray},
             datasets: [{
-              label: 'Steps',
-              data: {model.stepCounts.formatJsArray}
+              label: 'Resting Heart Rate (bpm)',
+              data: {model.restingHeartRates.formatJsArray}
             }]
           }
         });
@@ -55,12 +55,12 @@
       <table class="data">
         <tr>
           <th>Date</th>
-          <th>Steps</th>
+          <th>Resting Heart Rate (bpm)</th>
         </tr>
-        {#for entry in model.steps}
+        {#for entry in model.heartRates}
           <tr>
             <td>{entry.date}</td>
-            <td>{entry.stepCount}</td>
+            <td>{entry.restingHeartRate}</td>
           </tr>
         {/for}
       </table>
