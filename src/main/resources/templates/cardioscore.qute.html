@@ -4,20 +4,21 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Fitbit Viewer - Cardio Fitness Score</title>
+    <title>Fitbit Viewer - Cardio Fitness Score (VO2 max)</title>
+    <link rel="icon" href="/favicon.ico">
     <link rel="stylesheet" href="/defaults.css">
     <link rel="stylesheet" href="/styles.css">
   </head>
   <body>
     <ul class="menu">
-      <li><a href="../..">[Home]</a></li>
+      <li><a href="/">[Home]</a></li>
       <li><a href="profile">[Profile]</a></li>
       <li><a href="steps">[Steps]</a></li>
       <li><a href="heartrate">[Heart Rate]</a></li>
       <li>[Cardio Fitness]</li>
     </ul>
     <hr>
-    <h1>Fitbit Viewer - Cardio Fitness Score</h1>
+    <h1>Fitbit Viewer - Cardio Fitness Score (VO2 max)</h1>
     {#if model.errorMessage}
       <p><strong>ERROR:</strong> {model.errorMessage}</p>
     {/if}
@@ -53,6 +54,13 @@
               label: 'Score (Max)',
               data: {model.scoreMaxValues.formatJsArray}
             }]
+          },
+          options: {
+            scales: {
+              y: {
+                grace: "50%"
+              }
+            }
           }
         });
       </script>

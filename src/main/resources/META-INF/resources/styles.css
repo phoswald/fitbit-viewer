@@ -34,3 +34,7 @@ table.data tr th,
 table.data tr td {
     padding: .375em .75em .375em .75em;
 }
+
+img.logo {
+    height: 100px;
+}
