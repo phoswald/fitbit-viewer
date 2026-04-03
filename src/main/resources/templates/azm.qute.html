@@ -1,10 +1,10 @@
-{@com.github.phoswald.fitbit.viewer.steps.StepsViewModel model}
+{@com.github.phoswald.fitbit.viewer.azm.AzmViewModel model}
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Fitbit Viewer - Steps</title>
+    <title>Fitbit Viewer - Active Zone Minutes</title>
     <link rel="icon" href="/favicon.ico">
     <link rel="stylesheet" href="/defaults.css">
     <link rel="stylesheet" href="/styles.css">
@@ -13,17 +13,17 @@
     <ul class="menu">
       <li><a href="/">[Home]</a></li>
       <li><a href="profile">[Profile]</a></li>
-      <li>[Steps]</li>
+      <li><a href="steps">[Steps]</a></li>
       <li><a href="heartrate">[Heart Rate]</a></li>
       <li><a href="cardioscore">[Cardio Fitness]</a></li>
-      <li><a href="azm">[Active Zone Minutes]</a></li>
+      <li>[Active Zone Minutes]</li>
     </ul>
     <hr>
-    <h1>Fitbit Viewer - Steps</h1>
+    <h1>Fitbit Viewer - Active Zone Minutes</h1>
     {#if model.errorMessage}
       <p><strong>ERROR:</strong> {model.errorMessage}</p>
     {/if}
-    <form method="get" action="steps">
+    <form method="get" action="azm">
       <table class="form">
         <tr>
           <td><strong>From</strong></td>
@@ -40,17 +40,26 @@
       </table>
     </form>
     <p></p>
-    {#if model.steps}
-      <canvas id="stepsChart"></canvas>
+    {#if model.entries}
+      <canvas id="azmChart"></canvas>
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       <script>
-        new Chart(document.getElementById('stepsChart'), {
+        new Chart(document.getElementById('azmChart'), {
           type: 'bar',
           data: {
-            labels: {model.stepDates.formatJsArray},
+            labels: {model.dates.formatJsArray},
             datasets: [{
-              label: 'Steps',
-              data: {model.stepCounts.formatJsArray}
+              label: 'Fat Burn',
+              data: {model.fatBurnActiveZoneMinutes.formatJsArray},
+              stack: 'azm'
+            },{
+              label: 'Cardio',
+              data: {model.cardioActiveZoneMinutes.formatJsArray},
+              stack: 'azm'
+            },{
+              label: 'Peak',
+              data: {model.peakActiveZoneMinutes.formatJsArray},
+              stack: 'azm'
             }]
           },
           options: { scales: { y: { beginAtZero: true } } }
@@ -59,12 +68,18 @@
       <table class="data">
         <tr>
           <th>Date</th>
-          <th>Steps</th>
+          <th>Total (min)</th>
+          <th>Fat Burn (min)</th>
+          <th>Cardio (min)</th>
+          <th>Peak (min)</th>
         </tr>
-        {#for entry in model.steps}
+        {#for entry in model.entries}
           <tr>
             <td>{entry.date}</td>
-            <td>{entry.stepCount}</td>
+            <td>{entry.activeZoneMinutes}</td>
+            <td>{entry.fatBurnActiveZoneMinutes}</td>
+            <td>{entry.cardioActiveZoneMinutes}</td>
+            <td>{entry.peakActiveZoneMinutes}</td>
           </tr>
         {/for}
       </table>
