@@ -1,0 +1,63 @@
+package com.github.phoswald.fitbit.viewer.azm;
+
+import java.time.LocalDate;
+
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.CookieParam;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.MediaType;
+
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.quarkus.qute.Template;
+import io.quarkus.qute.TemplateInstance;
+
+@RequestScoped
+@Path("/pages/azm")
+public class AzmController {
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
+    @Inject
+    private Template azm;
+
+    @Inject
+    @RestClient
+    private AzmApiClient azmClient;
+
+    @CookieParam("fitbitAccessToken")
+    private String accessToken;
+
+    @QueryParam("begDate")
+    private LocalDate begDate;
+
+    @QueryParam("endDate")
+    private LocalDate endDate;
+
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    public TemplateInstance getAzmPage() {
+        if (begDate == null || endDate == null) {
+            begDate = LocalDate.now().minusDays(30);
+            endDate = LocalDate.now();
+        }
+        if (accessToken != null) {
+            log.debug("getAzmPage: begDate={}, endDate={}", begDate, endDate);
+            try {
+                var response = azmClient.getAzm("Bearer " + accessToken, begDate.toString(), endDate.toString());
+                return azm.data("model", AzmViewModel.create(begDate, endDate, response.activitiesActiveZoneMinutes()));
+            } catch (Exception e) {
+                log.warn("getAzmPage: failed to fetch active zone minutes", e);
+                return azm.data("model", AzmViewModel.createError(e.getMessage()));
+            }
+        } else {
+            return azm.data("model", AzmViewModel.createError("You are not logged in."));
+        }
+    }
+}
