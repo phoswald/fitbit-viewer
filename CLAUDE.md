@@ -6,13 +6,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 # Development mode with hot reload
-mvn quarkus:dev -Dquarkus.http.port=8080
+mvn quarkus:dev
 
 # Build
 mvn clean verify
 
 # Run after build
-java -Dquarkus.http.port=8080 -jar target/quarkus-app/quarkus-run.jar
+java -jar target/quarkus-app/quarkus-run.jar
 
 # Run unit tests
 mvn test
@@ -23,7 +23,7 @@ mvn verify -DskipITs=false
 
 ## Architecture
 
-This is a **Quarkus 3.x** Java application targeting Java 25. It uses:
+This is a **Quarkus 3.x (latest)** Java application targeting Java 25. It uses:
 - **JAX-RS** (`quarkus-rest`) for REST endpoints, all under the `/app` path prefix (defined in `RestApplication.java`)
 - **Qute** (`quarkus-rest-qute`) for server-side HTML templating — templates live in `src/main/resources/templates/` and are injected via `@Inject Template <name>`
 - **CDI** for dependency injection; controllers are `@RequestScoped`
