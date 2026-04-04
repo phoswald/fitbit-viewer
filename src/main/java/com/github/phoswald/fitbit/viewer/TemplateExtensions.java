@@ -1,5 +1,7 @@
 package com.github.phoswald.fitbit.viewer;
 
+import java.text.DecimalFormat;
+import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -12,6 +14,14 @@ class TemplateExtensions {
 
     static String format(ZonedDateTime dt, String pattern) {
         return dt.format(DateTimeFormatter.ofPattern(pattern));
+    }
+
+    static String format(OffsetDateTime dt, String pattern) {
+        return dt.format(DateTimeFormatter.ofPattern(pattern));
+    }
+
+    static String format(Double value, String pattern) {
+        return new DecimalFormat(pattern).format(value);
     }
 
     static RawString formatJsArray(List<?> list) {
