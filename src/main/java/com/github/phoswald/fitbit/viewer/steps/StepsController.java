@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.CookieParam;
+
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -14,6 +15,8 @@ import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.github.phoswald.fitbit.viewer.login.SessionManager;
 
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
@@ -31,8 +34,11 @@ public class StepsController {
     @RestClient
     private StepsApiClient stepsClient;
 
-    @CookieParam("fitbitAccessToken")
-    private String accessToken;
+    @Inject
+    private SessionManager sessionManager;
+
+    @CookieParam(SessionManager.COOKIE_NAME)
+    private String sessionCookie;
 
     @QueryParam("begDate")
     private LocalDate begDate;
@@ -47,10 +53,11 @@ public class StepsController {
             begDate = LocalDate.now().minusDays(30);
             endDate = LocalDate.now();
         }
-        if (accessToken != null) {
+        var session = sessionManager.parseAndverify(sessionCookie);
+        if (session.isPresent()) {
             log.debug("getStepsPage: begDate={}, endDate={}", begDate, endDate);
             try {
-                var stepsResponse = stepsClient.getSteps("Bearer " + accessToken, begDate.toString(), endDate.toString());
+                var stepsResponse = stepsClient.getSteps("Bearer " + session.get().accessToken(), begDate.toString(), endDate.toString());
                 return steps.data("model", StepsViewModel.create(begDate, endDate, stepsResponse.activitiesSteps()));
             } catch (Exception e) {
                 log.warn("getStepsPage: failed to fetch steps", e);

@@ -2,12 +2,19 @@ package com.github.phoswald.fitbit.viewer.login;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import java.io.ByteArrayInputStream;
+import java.io.StringReader;
 import java.net.URI;
 import java.net.URLEncoder;
+import java.time.Instant;
 import java.util.Base64;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
@@ -19,13 +26,15 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.vertx.ext.web.Session;
+
 @RequestScoped
 @Path("/oauth")
 public class OAuthController {
 
     private static final String AUTHORIZE_URL = "https://www.fitbit.com/oauth2/authorize";
 
-    private static final Logger log = LoggerFactory.getLogger(OAuthController.class);
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Inject
     @ConfigProperty(name = "app.fitbit.client-id")
@@ -42,6 +51,9 @@ public class OAuthController {
     @Inject
     @RestClient
     private OAuthClient tokenClient;
+
+    @Inject
+    private SessionManager sessionManager;
 
     @GET
     @Path("/login")
@@ -70,8 +82,19 @@ public class OAuthController {
 
             log.debug("exchanged: access_token={} (length), refresh_token={} (length), expires_in={}",
                     lengthOf(tokenResponse.accessToken()), lengthOf(tokenResponse.refreshToken()), tokenResponse.expiresIn());
-            String fitbitAccessToken = tokenResponse.accessToken();
-            return Response.seeOther(URI.create("pages/profile")).cookie(createCookie(fitbitAccessToken)).build();
+
+            String userId = JwtUtil.getSubject(tokenResponse.accessToken());
+            log.debug("exracted: userId={}", userId);
+
+            SessionData sessionData = new SessionDataBuilder()
+                    .accessToken(tokenResponse.accessToken())
+                    .expiresAt(Instant.now().plusSeconds(tokenResponse.expiresIn()).toEpochMilli())
+                    .userId(userId)
+                    .build();
+            return Response
+                    .seeOther(URI.create("pages/profile"))
+                    .cookie(createCookie(sessionManager.createAndSignCookie(sessionData)))
+                    .build();
         }
     }
 
@@ -79,9 +102,9 @@ public class OAuthController {
         return "Basic " + Base64.getEncoder().encodeToString((clientId + ":" + clientSecret).getBytes(UTF_8));
     }
 
-    private static NewCookie createCookie(String fitbitAccessToken) {
-        return new NewCookie.Builder("fitbitAccessToken")
-                .value(fitbitAccessToken)
+    private static NewCookie createCookie(String sessionCookie) {
+        return new NewCookie.Builder(SessionManager.COOKIE_NAME)
+                .value(sessionCookie)
                 .path("/")
                 .httpOnly(true)
                 .build();

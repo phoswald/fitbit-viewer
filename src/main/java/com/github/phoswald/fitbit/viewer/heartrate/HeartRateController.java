@@ -5,6 +5,9 @@ import java.time.LocalDate;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.CookieParam;
+
+import com.github.phoswald.fitbit.viewer.login.SessionManager;
+
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -31,8 +34,11 @@ public class HeartRateController {
     @RestClient
     private HeartRateApiClient heartRateClient;
 
-    @CookieParam("fitbitAccessToken")
-    private String accessToken;
+    @Inject
+    private SessionManager sessionManager;
+
+    @CookieParam(SessionManager.COOKIE_NAME)
+    private String sessionCookie;
 
     @QueryParam("begDate")
     private LocalDate begDate;
@@ -47,10 +53,11 @@ public class HeartRateController {
             begDate = LocalDate.now().minusDays(30);
             endDate = LocalDate.now();
         }
-        if (accessToken != null) {
+        var session = sessionManager.parseAndverify(sessionCookie);
+        if (session.isPresent()) {
             log.debug("getHeartRatePage: begDate={}, endDate={}", begDate, endDate);
             try {
-                var response = heartRateClient.getHeartRate("Bearer " + accessToken, begDate.toString(), endDate.toString());
+                var response = heartRateClient.getHeartRate("Bearer " + session.get().accessToken(), begDate.toString(), endDate.toString());
                 return heartrate.data("model", HeartRateViewModel.create(begDate, endDate, response.activitiesHeart()));
             } catch (Exception e) {
                 log.warn("getHeartRatePage: failed to fetch heart rate", e);

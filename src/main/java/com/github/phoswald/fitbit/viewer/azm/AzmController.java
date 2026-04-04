@@ -5,6 +5,9 @@ import java.time.LocalDate;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.CookieParam;
+
+import com.github.phoswald.fitbit.viewer.login.SessionManager;
+
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -31,8 +34,11 @@ public class AzmController {
     @RestClient
     private AzmApiClient azmClient;
 
-    @CookieParam("fitbitAccessToken")
-    private String accessToken;
+    @Inject
+    private SessionManager sessionManager;
+
+    @CookieParam(SessionManager.COOKIE_NAME)
+    private String sessionCookie;
 
     @QueryParam("begDate")
     private LocalDate begDate;
@@ -47,10 +53,11 @@ public class AzmController {
             begDate = LocalDate.now().minusDays(30);
             endDate = LocalDate.now();
         }
-        if (accessToken != null) {
+        var session = sessionManager.parseAndverify(sessionCookie);
+        if (session.isPresent()) {
             log.debug("getAzmPage: begDate={}, endDate={}", begDate, endDate);
             try {
-                var response = azmClient.getAzm("Bearer " + accessToken, begDate.toString(), endDate.toString());
+                var response = azmClient.getAzm("Bearer " + session.get().accessToken(), begDate.toString(), endDate.toString());
                 return azm.data("model", AzmViewModel.create(begDate, endDate, response.activitiesActiveZoneMinutes()));
             } catch (Exception e) {
                 log.warn("getAzmPage: failed to fetch active zone minutes", e);

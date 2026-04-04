@@ -3,6 +3,9 @@ package com.github.phoswald.fitbit.viewer.profile;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.CookieParam;
+
+import com.github.phoswald.fitbit.viewer.login.SessionManager;
+
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -29,25 +32,29 @@ public class ProfileController {
     @RestClient
     private ProfileApiClient profileClient;
 
+    @Inject
+    private SessionManager sessionManager;
+
+    @CookieParam(SessionManager.COOKIE_NAME)
+    private String sessionCookie;
+
     @QueryParam("errorMessage")
     private String errorMessage;
-
-    @CookieParam("fitbitAccessToken")
-    private String accessToken;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance getProfilePage() {
-        if(accessToken != null) {
+        var session = sessionManager.parseAndverify(sessionCookie);
+        if (session.isPresent()) {
             try {
-                var profile = profileClient.getProfile("Bearer " + accessToken);
+                var profile = profileClient.getProfile("Bearer " + session.get().accessToken());
                 return this.profile.data("model", ProfileViewModel.create(profile.user()));
             } catch (Exception e) {
                 log.warn("getProfile: failed to fetch steps", e);
                 return profile.data("model", ProfileViewModel.createError(e.getMessage()));
             }
         } else {
-            return profile.data("model", ProfileViewModel.createError(null));
+            return profile.data("model", ProfileViewModel.createError(errorMessage));
         }
     }
 }
