@@ -2,10 +2,4 @@
 img.logo {
     height: 80px;
     margin: 0.5rem;
-    opacity: 0.8;
-    transition: opacity 0.15s;
-}
-
-img.logo:hover {
-    opacity: 1;
 }
