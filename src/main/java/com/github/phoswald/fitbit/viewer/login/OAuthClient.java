@@ -10,7 +10,7 @@ import jakarta.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.json.bind.annotation.JsonbProperty;
 
 @RegisterRestClient(configKey = "fitbit-api")
 @Path("/oauth2/token")
@@ -26,8 +26,8 @@ interface OAuthClient {
             @FormParam("redirect_uri") String redirectUri);
 
     record TokenResponse(
-            @JsonProperty("access_token") String accessToken,
-            @JsonProperty("refresh_token") String refreshToken,
-            @JsonProperty("expires_in") Integer expiresIn
+            @JsonbProperty("access_token") String accessToken,
+            @JsonbProperty("refresh_token") String refreshToken,
+            @JsonbProperty("expires_in") Integer expiresIn
     ) { }
 }

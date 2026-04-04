@@ -8,7 +8,7 @@ import jakarta.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.json.bind.annotation.JsonbProperty;
 
 @RegisterRestClient(configKey = "fitbit-api")
 @Path("/1/user/-/profile.json")
@@ -23,7 +23,7 @@ interface ProfileApiClient {
     ) { }
 
     record UserData(
-            @JsonProperty("encodedId") String userId,
+            @JsonbProperty("encodedId") String userId,
             String displayName,
             String fullName,
             String avatar,

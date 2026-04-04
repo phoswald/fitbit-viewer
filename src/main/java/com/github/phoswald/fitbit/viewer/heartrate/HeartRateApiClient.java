@@ -11,7 +11,7 @@ import jakarta.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.json.bind.annotation.JsonbProperty;
 
 @RegisterRestClient(configKey = "fitbit-api")
 @Path("/1/user/-/activities/heart/date")
@@ -26,7 +26,7 @@ interface HeartRateApiClient {
             @PathParam("endDate") String endDate);
 
     record HeartRateResponse(
-            @JsonProperty("activities-heart") List<HeartRateEntry> activitiesHeart
+            @JsonbProperty("activities-heart") List<HeartRateEntry> activitiesHeart
     ) { }
 
     record HeartRateEntry(String dateTime, HeartRateValue value) { }

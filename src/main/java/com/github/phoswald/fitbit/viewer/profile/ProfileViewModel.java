@@ -2,7 +2,6 @@ package com.github.phoswald.fitbit.viewer.profile;
 
 import java.time.ZonedDateTime;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.phoswald.record.builder.RecordBuilder;
 
 @RecordBuilder

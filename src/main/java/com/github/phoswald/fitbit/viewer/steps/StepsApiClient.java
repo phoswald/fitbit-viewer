@@ -11,7 +11,7 @@ import jakarta.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.json.bind.annotation.JsonbProperty;
 
 @RegisterRestClient(configKey = "fitbit-api")
 @Path("/1/user/-/activities/steps/date")
@@ -26,7 +26,7 @@ interface StepsApiClient {
             @PathParam("endDate") String endDate);
 
     record StepsResponse(
-            @JsonProperty("activities-steps") List<StepsEntry> activitiesSteps
+            @JsonbProperty("activities-steps") List<StepsEntry> activitiesSteps
     ) { }
 
     record StepsEntry(String dateTime, String value) { }

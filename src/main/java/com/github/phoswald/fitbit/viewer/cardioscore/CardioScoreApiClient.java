@@ -11,7 +11,6 @@ import jakarta.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @RegisterRestClient(configKey = "fitbit-api")
 @Path("/1/user/-/cardioscore/date")
@@ -26,7 +25,7 @@ interface CardioScoreApiClient {
             @PathParam("endDate") String endDate);
 
     record CardioScoreResponse(
-            @JsonProperty("cardioScore") List<CardioScoreEntry> cardioScore
+            List<CardioScoreEntry> cardioScore
     ) { }
 
     record CardioScoreEntry(String dateTime, CardioScoreValue value) { }
