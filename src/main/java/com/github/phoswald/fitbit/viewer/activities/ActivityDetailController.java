@@ -90,10 +90,14 @@ public class ActivityDetailController {
 
     private List<TrackPoint> fetchTrackPoints(String authorizationHeader) {
         try {
+            log.debug("Querying TCX for logId={}...", logId); // XXX
             String tcx = tcxClient.getTcx(authorizationHeader, logId);
-            return TcxParser.parse(tcx);
+            log.debug("Querying TCX for logId={}: found string: {}", logId, tcx); // XXX
+            var trackPoints = TcxParser.parse(tcx);
+            log.info("Querying TCX for logId={}: found points: {}", logId, trackPoints.size()); // XXX
+            return trackPoints;
         } catch (Exception e) {
-            log.debug("getActivityDetailPage: TCX not available for logId={}", logId);
+            log.error("TCX not available for logId={}", logId); // XXX
             return List.of();
         }
     }

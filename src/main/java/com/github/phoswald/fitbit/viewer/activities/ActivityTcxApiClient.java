@@ -14,7 +14,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 interface ActivityTcxApiClient {
 
     @GET
-    @Path("/{logId}/tcx.json")
+    @Path("/{logId}.tcx")
     @Produces(MediaType.WILDCARD)
     String getTcx(
             @HeaderParam("Authorization") String authorizationHeader,
