@@ -76,20 +76,17 @@ public class OAuthController {
             return Response.seeOther(URI.create("pages/profile?errorMessage=" + URLEncoder.encode(error, UTF_8))).build();
         } else {
             log.debug("callback: code={} (length)", lengthOf(code));
+
             var tokenResponse = tokenClient.exchangeCode(
                     createAuthorizationHeader(clientId, clientSecret),
                     "authorization_code", code, redirectUri);
-
             log.debug("exchanged: access_token={} (length), refresh_token={} (length), expires_in={}",
                     lengthOf(tokenResponse.accessToken()), lengthOf(tokenResponse.refreshToken()), tokenResponse.expiresIn());
-
-            String userId = JwtUtil.getSubject(tokenResponse.accessToken());
-            log.debug("exracted: userId={}", userId);
 
             SessionData sessionData = new SessionDataBuilder()
                     .accessToken(tokenResponse.accessToken())
                     .expiresAt(Instant.now().plusSeconds(tokenResponse.expiresIn()).toEpochMilli())
-                    .userId(userId)
+                    .userId(JwtUtil.getSubject(tokenResponse.accessToken()))
                     .build();
             return Response
                     .seeOther(URI.create("pages/profile"))

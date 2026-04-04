@@ -25,7 +25,7 @@ public class SessionManager {
     private String secret;
 
     public String createAndSignCookie(SessionData session) {
-        log.debug("createAndSignCookie(): {}", session);
+        log.info("createAndSignCookie(): userId={}", session.userId());
         String payload = jsonb.toJson(session);
         return JwtUtil.createAndSign(payload, secret);
     }
@@ -37,7 +37,7 @@ public class SessionManager {
         try {
             String payload = JwtUtil.parseAndVerify(cookieValue, secret);
             SessionData session = jsonb.fromJson(payload, SessionData.class);
-            log.debug("parseAndVerifyCookie(): {}", session);
+            log.debug("parseAndVerifyCookie(): userId={}", session.userId());
             return Optional.of(session);
         } catch(IllegalArgumentException e) {
             log.warn("parseAndVerifyCookie(): {}", e.getMessage());
