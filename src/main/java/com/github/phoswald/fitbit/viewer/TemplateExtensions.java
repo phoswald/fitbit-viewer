@@ -6,6 +6,8 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import com.github.phoswald.fitbit.viewer.activities.TrackPoint;
+
 import io.quarkus.qute.RawString;
 import io.quarkus.qute.TemplateExtension;
 
@@ -22,6 +24,15 @@ class TemplateExtensions {
 
     static String format(Double value, String pattern) {
         return new DecimalFormat(pattern).format(value);
+    }
+
+    static RawString formatJsTrackPoints(List<TrackPoint> points) {
+        StringBuilder sb = new StringBuilder("[");
+        for (TrackPoint p : points) {
+            sb.append("[").append(p.latitude()).append(",").append(p.longitude()).append("],");
+        }
+        sb.append("]");
+        return new RawString(sb.toString());
     }
 
     static RawString formatJsArray(List<?> list) {

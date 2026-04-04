@@ -109,6 +109,23 @@
           {/if}
         </table>
 
+        {#if e.trackPoints}
+        <h2 class="h5 mb-2">Track</h2>
+        <div id="map" style="height: 400px;" class="mb-4 rounded border"></div>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script>
+          var coords = {e.trackPoints.formatJsTrackPoints};
+          var map = L.map('map');
+          L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          }).addTo(map);
+          var polyline = L.polyline(coords, {color: '#0d6efd', weight: 3}).addTo(map);
+          map.fitBounds(polyline.getBounds());
+        </script>
+        {/if}
+
         {#if e.heartRateZones}
         <h2 class="h5 mb-2">Heart Rate Zones</h2>
         <table class="table table-sm table-hover w-auto mb-4">

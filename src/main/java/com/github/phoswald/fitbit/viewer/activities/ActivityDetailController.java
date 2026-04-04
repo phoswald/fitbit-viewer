@@ -1,6 +1,7 @@
 package com.github.phoswald.fitbit.viewer.activities;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -33,6 +34,10 @@ public class ActivityDetailController {
     @Inject
     @RestClient
     private ActivityApiClient activityClient;
+
+    @Inject
+    @RestClient
+    private ActivityTcxApiClient tcxClient;
 
     @Inject
     private SessionManager sessionManager;
@@ -70,7 +75,8 @@ public class ActivityDetailController {
                             ActivityDetailViewModel.createError(logId, date,
                                     "Activity with logId " + logId + " not found for date " + date + "."));
                 }
-                return activityDetail.data("model", ActivityDetailViewModel.create(logId, date, match));
+                var trackPoints = fetchTrackPoints("Bearer " + session.get().accessToken());
+                return activityDetail.data("model", ActivityDetailViewModel.create(logId, date, match, trackPoints));
             } catch (Exception e) {
                 log.warn("getActivityDetailPage: failed to fetch activity", e);
                 return activityDetail.data("model",
@@ -79,6 +85,16 @@ public class ActivityDetailController {
         } else {
             return activityDetail.data("model",
                     ActivityDetailViewModel.createError(logId, date, "You are not logged in."));
+        }
+    }
+
+    private List<TrackPoint> fetchTrackPoints(String authorizationHeader) {
+        try {
+            String tcx = tcxClient.getTcx(authorizationHeader, logId);
+            return TcxParser.parse(tcx);
+        } catch (Exception e) {
+            log.debug("getActivityDetailPage: TCX not available for logId={}", logId);
+            return List.of();
         }
     }
 }

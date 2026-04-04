@@ -34,7 +34,8 @@ public record ActivityDetailViewModel(
             Double speed,
             Double elevationGain,
             Integer floors,
-            ActivitySourceEntry source
+            ActivitySourceEntry source,
+            List<TrackPoint> trackPoints
     ) { }
 
     @RecordBuilder
@@ -59,11 +60,11 @@ public record ActivityDetailViewModel(
             String url
     ) { }
 
-    static ActivityDetailViewModel create(Long logId, LocalDate date, ActivityApiClient.ActivityEntry apiEntry) {
+    static ActivityDetailViewModel create(Long logId, LocalDate date, ActivityApiClient.ActivityEntry apiEntry, List<TrackPoint> trackPoints) {
         return new ActivityDetailViewModelBuilder()
                 .logId(logId)
                 .date(date)
-                .entry(createEntry(apiEntry))
+                .entry(createEntry(apiEntry, trackPoints))
                 .now(ZonedDateTime.now())
                 .build();
     }
@@ -77,7 +78,7 @@ public record ActivityDetailViewModel(
                 .build();
     }
 
-    private static ActivityDetailEntry createEntry(ActivityApiClient.ActivityEntry e) {
+    private static ActivityDetailEntry createEntry(ActivityApiClient.ActivityEntry e, List<TrackPoint> trackPoints) {
         return new ActivityDetailEntryBuilder()
                 .logId(e.logId())
                 .activityName(e.activityName())
@@ -101,6 +102,7 @@ public record ActivityDetailViewModel(
                 .elevationGain(e.elevationGain())
                 .floors(e.floors())
                 .source(e.source() != null ? createSource(e.source()) : null)
+                .trackPoints(trackPoints)
                 .build();
     }
 
