@@ -53,7 +53,7 @@ public class HeartRateController {
             begDate = LocalDate.now().minusDays(30);
             endDate = LocalDate.now();
         }
-        var session = sessionManager.parseAndverify(sessionCookie);
+        var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
             log.debug("getHeartRatePage: begDate={}, endDate={}", begDate, endDate);
             try {

@@ -53,7 +53,7 @@ public class AzmController {
             begDate = LocalDate.now().minusDays(30);
             endDate = LocalDate.now();
         }
-        var session = sessionManager.parseAndverify(sessionCookie);
+        var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
             log.debug("getAzmPage: begDate={}, endDate={}", begDate, endDate);
             try {

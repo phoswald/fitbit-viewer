@@ -44,7 +44,7 @@ public class ProfileController {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance getProfilePage() {
-        var session = sessionManager.parseAndverify(sessionCookie);
+        var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
             try {
                 var profile = profileClient.getProfile("Bearer " + session.get().accessToken());
