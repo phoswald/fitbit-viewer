@@ -39,6 +39,32 @@ interface ActivityApiClient {
             Double distance,
             String distanceUnit,
             Integer averageHeartRate,
-            String logType
+            String logType,
+            List<HeartRateZone> heartRateZones,
+            List<ActivityLevel> activityLevel,
+            Double pace,
+            Double speed,
+            Double elevationGain,
+            Integer floors,
+            ActivitySource source
+    ) { }
+
+    record HeartRateZone(
+            String name,
+            Integer minutes,
+            Double caloriesOut,
+            Integer min,
+            Integer max
+    ) { }
+
+    record ActivityLevel(
+            String name,
+            Integer minutes
+    ) { }
+
+    record ActivitySource(
+            String name,
+            String type,
+            String url
     ) { }
 }

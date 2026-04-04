@@ -60,7 +60,7 @@
             {#for entry in model.entries}
               <tr>
                 <td>{entry.startTime.format('yyyy-MM-dd HH:mm')}</td>
-                <td>{entry.activityName}</td>
+                <td><a href="activities/{entry.logId}?date={entry.startTime.format('yyyy-MM-dd')}">{entry.activityName}</a></td>
                 <td>{entry.durationMinutes}</td>
                 <td>{entry.calories}</td>
                 <td>{entry.steps}</td>
