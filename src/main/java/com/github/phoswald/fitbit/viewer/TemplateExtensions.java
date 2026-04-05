@@ -6,7 +6,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import com.github.phoswald.fitbit.viewer.activities.TrackPoint;
+import com.github.phoswald.fitbit.viewer.pages.activities.TrackPoint;
 
 import io.quarkus.qute.RawString;
 import io.quarkus.qute.TemplateExtension;
