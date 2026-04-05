@@ -57,7 +57,7 @@ public class ActivityController {
         if (session.isPresent()) {
             try {
                 log.info("getActivitiesPage(): begDate={}, limit={}", begDate, limit);
-                var response = activityClient.getActivities("Bearer " + session.get().accessToken(), begDate.toString(), "asc", 0, limit);
+                var response = activityClient.getActivities("Bearer " + session.get().accessToken(), begDate.toString(), null,"asc", limit, 0);
                 return activities.data("model", ActivityViewModel.create(begDate, limit, response.activities()));
             } catch (Exception e) {
                 log.warn("getActivitiesPage(): failed", e);

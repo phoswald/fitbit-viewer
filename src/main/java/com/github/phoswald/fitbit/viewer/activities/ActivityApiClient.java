@@ -22,9 +22,10 @@ interface ActivityApiClient {
     ActivityResponse getActivities(
             @HeaderParam("Authorization") String authorizationHeader,
             @QueryParam("afterDate") String afterDate,
+            @QueryParam("beforeDate") String beforeDate,
             @QueryParam("sort") String sort,
-            @QueryParam("offset") int offset,
-            @QueryParam("limit") int limit);
+            @QueryParam("limit") int limit,
+            @QueryParam("offset") int offset);
 
     record ActivityResponse(
             List<ActivityEntry> activities

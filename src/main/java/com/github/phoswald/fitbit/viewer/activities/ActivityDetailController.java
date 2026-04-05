@@ -17,6 +17,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.aayushatharva.brotli4j.common.annotations.Local;
 import com.github.phoswald.fitbit.viewer.login.SessionData;
 import com.github.phoswald.fitbit.viewer.login.SessionManager;
 
@@ -61,7 +62,7 @@ public class ActivityDetailController {
                 log.info("getActivityDetailPage(): logId={}, date={}", logId, date);
                 var response = activityClient.getActivities(
                         "Bearer " + session.get().accessToken(),
-                        date.minusDays(1).toString(), "asc", 0, 10);
+                        date.toString(), null, "asc", 10, 0);
                 var activity = response.activities() == null ? null :
                         response.activities().stream()
                         .filter(e -> logId.equals(e.logId()))
