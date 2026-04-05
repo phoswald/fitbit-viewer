@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.CookieParam;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -15,15 +15,15 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.phoswald.fitbit.viewer.auth.SessionManager;
 import com.github.phoswald.fitbit.viewer.fitbitapi.AzmApiClient;
+import com.github.phoswald.fitbit.viewer.pages.PageController;
 
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
 
 @RequestScoped
 @Path("/pages/azm")
-public class AzmController {
+public class AzmController extends PageController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -34,12 +34,6 @@ public class AzmController {
     @RestClient
     private AzmApiClient azmClient;
 
-    @Inject
-    private SessionManager sessionManager;
-
-    @CookieParam(SessionManager.COOKIE_NAME)
-    private String sessionCookie;
-
     @QueryParam("begDate")
     private LocalDate begDate;
 
@@ -48,6 +42,7 @@ public class AzmController {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
+    @Transactional
     public TemplateInstance getAzmPage() {
         if (begDate == null || endDate == null) {
             begDate = LocalDate.now().minusDays(30);

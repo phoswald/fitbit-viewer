@@ -7,7 +7,6 @@ import java.util.Optional;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.CookieParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -20,8 +19,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
-import com.github.phoswald.fitbit.viewer.auth.SessionManager;
 import com.github.phoswald.fitbit.viewer.fitbitapi.ActivityApiClient;
+import com.github.phoswald.fitbit.viewer.pages.PageController;
 import com.github.phoswald.fitbit.viewer.repository.TcxEntity;
 import com.github.phoswald.fitbit.viewer.repository.TcxRepository;
 import com.github.phoswald.fitbit.viewer.tcx.GeoPoint;
@@ -32,7 +31,7 @@ import io.quarkus.qute.TemplateInstance;
 
 @RequestScoped
 @Path("/pages/activities/{logId}")
-public class ActivityDetailController {
+public class ActivityDetailController extends PageController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -45,12 +44,6 @@ public class ActivityDetailController {
 
     @Inject
     private TcxRepository tcxRepository;
-
-    @Inject
-    private SessionManager sessionManager;
-
-    @CookieParam(SessionManager.COOKIE_NAME)
-    private String sessionCookie;
 
     @PathParam("logId")
     private Long logId;

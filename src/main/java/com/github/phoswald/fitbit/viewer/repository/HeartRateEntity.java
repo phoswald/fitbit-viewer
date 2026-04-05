@@ -11,16 +11,17 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
+import com.github.phoswald.fitbit.viewer.fitbitapi.HeartRateApiClient;
 import com.github.phoswald.fitbit.viewer.fitbitapi.StepsApiClient;
 
 @Entity
-@Table(name = "fitbit_steps_")
+@Table(name = "fitbit_heartrate_")
 @NamedQuery(
-        name = "StepsEntity.loadByUserIdAndDateRange",
-        query = "SELECT s FROM StepsEntity s WHERE s.userId = :userId AND s.date >= :begDate AND s.date <= :endDate ORDER BY s.date"
+        name = "HeartRateEntity.loadByUserIdAndDateRange",
+        query = "SELECT h FROM HeartRateEntity h WHERE h.userId = :userId AND h.date >= :begDate AND h.date <= :endDate ORDER BY h.date"
 )
-@IdClass(StepsEntity.StepsId.class)
-public class StepsEntity {
+@IdClass(HeartRateEntity.HeartRateId.class)
+public class HeartRateEntity {
 
     @Id
     @Column(name = "user_id_", length = 32, nullable = false)
@@ -30,14 +31,14 @@ public class StepsEntity {
     @Column(name = "date_", nullable = false)
     private LocalDate date;
 
-    @Column(name = "step_count_")
-    private Integer stepCount;
+    @Column(name = "resting_heart_rate_")
+    private Integer restingHeartRate;
 
-    public static StepsEntity create(String userId, StepsApiClient.StepsEntry entry) {
-        StepsEntity entity = new StepsEntity();
+    public static HeartRateEntity create(String userId, HeartRateApiClient.HeartRateEntry entry) {
+        HeartRateEntity entity = new HeartRateEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
         entity.setDate(LocalDate.parse(requireNonNull(entry.dateTime(), "date")));
-        entity.setStepCount(entry.value() == null ? null : Integer.parseInt(entry.value()));
+        entity.setRestingHeartRate(entry.value() == null ? null : entry.value().restingHeartRate());
         return entity;
     }
 
@@ -57,13 +58,13 @@ public class StepsEntity {
         this.date = date;
     }
 
-    public Integer getStepCount() {
-        return stepCount;
+    public Integer getRestingHeartRate() {
+        return restingHeartRate;
     }
 
-    public void setStepCount(Integer stepCount) {
-        this.stepCount = stepCount;
+    public void setRestingHeartRate(Integer restingHeartRate) {
+        this.restingHeartRate = restingHeartRate;
     }
 
-    public record StepsId(String userId, LocalDate date) implements java.io.Serializable { }
+    public record HeartRateId(String userId, LocalDate date) implements java.io.Serializable { }
 }

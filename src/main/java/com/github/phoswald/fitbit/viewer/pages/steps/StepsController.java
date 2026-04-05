@@ -1,14 +1,11 @@
 package com.github.phoswald.fitbit.viewer.pages.steps;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.CookieParam;
-
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -20,8 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
-import com.github.phoswald.fitbit.viewer.auth.SessionManager;
 import com.github.phoswald.fitbit.viewer.fitbitapi.StepsApiClient;
+import com.github.phoswald.fitbit.viewer.pages.PageController;
 import com.github.phoswald.fitbit.viewer.repository.StepsEntity;
 import com.github.phoswald.fitbit.viewer.repository.StepsRepository;
 
@@ -30,7 +27,7 @@ import io.quarkus.qute.TemplateInstance;
 
 @RequestScoped
 @Path("/pages/steps")
-public class StepsController {
+public class StepsController extends PageController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -43,12 +40,6 @@ public class StepsController {
 
     @Inject
     private StepsRepository stepsRepository;
-
-    @Inject
-    private SessionManager sessionManager;
-
-    @CookieParam(SessionManager.COOKIE_NAME)
-    private String sessionCookie;
 
     @QueryParam("begDate")
     private LocalDate begDate;
@@ -96,7 +87,4 @@ public class StepsController {
         }
     }
 
-    private boolean isComplete(List<?> entities, LocalDate begDate, LocalDate endDate) {
-        return entities.size() == ChronoUnit.DAYS.between(begDate, endDate) + 1;
-    }
 }

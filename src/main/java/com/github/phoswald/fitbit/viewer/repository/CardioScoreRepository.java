@@ -8,21 +8,21 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
 @ApplicationScoped
-public class StepsRepository {
+public class CardioScoreRepository {
 
     @PersistenceContext
     private EntityManager em;
 
-    public List<StepsEntity> loadByUserIdAndDateRange(String userId, LocalDate begDate, LocalDate endDate) {
-        return em.createNamedQuery("StepsEntity.loadByUserIdAndDateRange", StepsEntity.class)
+    public List<CardioScoreEntity> loadByUserIdAndDateRange(String userId, LocalDate begDate, LocalDate endDate) {
+        return em.createNamedQuery("CardioScoreEntity.loadByUserIdAndDateRange", CardioScoreEntity.class)
                 .setParameter("userId", userId)
                 .setParameter("begDate", begDate)
                 .setParameter("endDate", endDate)
                 .getResultList();
     }
 
-    public void storeAll(List<StepsEntity> entities) {
-        for (StepsEntity entity : entities) {
+    public void storeAll(List<CardioScoreEntity> entities) {
+        for (CardioScoreEntity entity : entities) {
             em.merge(entity);
         }
     }

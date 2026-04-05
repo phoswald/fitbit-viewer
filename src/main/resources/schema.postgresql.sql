@@ -1,4 +1,6 @@
 
+-- Steps
+
 create table fitbit_steps_ (
     user_id_     varchar(32) not null,
     date_        date not null,
@@ -7,6 +9,31 @@ create table fitbit_steps_ (
 
 alter table fitbit_steps_
     add constraint fitbit_steps_pk_ primary key (user_id_, date_);
+
+-- Heart Rate
+
+create table fitbit_heartrate_ (
+    user_id_              varchar(32) not null,
+    date_                 date not null,
+    resting_heart_rate_   integer null
+);
+
+alter table fitbit_heartrate_
+    add constraint fitbit_heartrate_pk_ primary key (user_id_, date_);
+
+-- Cardio Score
+
+create table fitbit_cardioscore_ (
+    user_id_     varchar(32) not null,
+    date_        date not null,
+    score_min_   integer null,
+    score_max_   integer null
+);
+
+alter table fitbit_cardioscore_
+    add constraint fitbit_cardioscore_pk_ primary key (user_id_, date_);
+
+-- Activities - TCX
 
 create table fitbit_tcx_ (
     user_id_     varchar(32) not null,

@@ -42,20 +42,20 @@
           <button type="submit" class="btn btn-primary">Query</button>
         </div>
       </form>
-      {#if model.scores}
+      {#if model.cardioScores}
         <canvas id="cardioFitnessScoreChart" class="mb-4"></canvas>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
           new Chart(document.getElementById('cardioFitnessScoreChart'), {
             type: 'line',
             data: {
-              labels: {model.scoreDates.formatJsArray},
+              labels: {model.cardioScoreDates.formatJsArray},
               datasets: [{
                 label: 'Score (Min)',
-                data: {model.scoreMinValues.formatJsArray}
+                data: {model.cardioScoreMinValues.formatJsArray}
               },{
                 label: 'Score (Max)',
-                data: {model.scoreMaxValues.formatJsArray}
+                data: {model.cardioScoreMaxValues.formatJsArray}
               }]
             },
             options: {
@@ -76,7 +76,7 @@
             </tr>
           </thead>
           <tbody>
-            {#for entry in model.scores}
+            {#for entry in model.cardioScores}
               <tr>
                 <td>{entry.date}</td>
                 <td>{entry.scoreMin}</td>
