@@ -6,6 +6,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 import com.github.phoswald.fitbit.viewer.fitbitapi.ActivityApiClient;
+import com.github.phoswald.fitbit.viewer.tcx.GeoPoint;
 import com.github.phoswald.record.builder.RecordBuilder;
 
 @RecordBuilder
@@ -36,7 +37,7 @@ public record ActivityDetailViewModel(
             Double elevationGain,
             Integer floors,
             ActivitySourceEntry source,
-            List<TrackPoint> trackPoints
+            List<GeoPoint> track
     ) { }
 
     @RecordBuilder
@@ -61,11 +62,11 @@ public record ActivityDetailViewModel(
             String url
     ) { }
 
-    static ActivityDetailViewModel create(Long logId, LocalDate date, ActivityApiClient.ActivityEntry apiEntry, List<TrackPoint> trackPoints) {
+    static ActivityDetailViewModel create(Long logId, LocalDate date, ActivityApiClient.ActivityEntry apiEntry, List<GeoPoint> track) {
         return new ActivityDetailViewModelBuilder()
                 .logId(logId)
                 .date(date)
-                .entry(createEntry(apiEntry, trackPoints))
+                .entry(createEntry(apiEntry, track))
                 .now(ZonedDateTime.now())
                 .build();
     }
@@ -77,7 +78,7 @@ public record ActivityDetailViewModel(
                 .build();
     }
 
-    private static ActivityDetailEntry createEntry(ActivityApiClient.ActivityEntry e, List<TrackPoint> trackPoints) {
+    private static ActivityDetailEntry createEntry(ActivityApiClient.ActivityEntry e, List<GeoPoint> track) {
         return new ActivityDetailEntryBuilder()
                 .logId(e.logId())
                 .activityName(e.activityName())
@@ -97,7 +98,7 @@ public record ActivityDetailViewModel(
                 .elevationGain(e.elevationGain())
                 .floors(e.floors())
                 .source(e.source() == null ? null : createSource(e.source()))
-                .trackPoints(trackPoints)
+                .track(track)
                 .build();
     }
 

@@ -153,13 +153,13 @@
         </table>
         {/if}
 
-        {#if e.trackPoints}
+        {#if e.track}
         <h2 class="h5 mb-2">Track</h2>
         <div id="map" style="aspect-ratio: 1 / 1;" class="mb-4 rounded border"></div>
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <script>
-          var coords = {e.trackPoints.formatJsTrackPoints};
+          var coords = {e.track.formatJsGeoPoints};
           var map = L.map('map');
           L.tileLayer('https://tile.openstreetmap.org/\{z}/\{x}/\{y}.png', {
             maxZoom: 19,

@@ -2,9 +2,11 @@ package com.github.phoswald.fitbit.viewer.pages.activities;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.CookieParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -17,8 +19,12 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.phoswald.fitbit.viewer.auth.SessionData;
 import com.github.phoswald.fitbit.viewer.auth.SessionManager;
 import com.github.phoswald.fitbit.viewer.fitbitapi.ActivityApiClient;
+import com.github.phoswald.fitbit.viewer.repository.TcxEntity;
+import com.github.phoswald.fitbit.viewer.repository.TcxRepository;
+import com.github.phoswald.fitbit.viewer.tcx.GeoPoint;
 import com.github.phoswald.fitbit.viewer.tcx.TcxDatabase;
 
 import io.quarkus.qute.Template;
@@ -35,7 +41,10 @@ public class ActivityDetailController {
 
     @Inject
     @RestClient
-    private ActivityApiClient activityClient;
+    private ActivityApiClient activityApiClient;
+
+    @Inject
+    private TcxRepository tcxRepository;
 
     @Inject
     private SessionManager sessionManager;
@@ -51,6 +60,7 @@ public class ActivityDetailController {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
+    @Transactional
     public TemplateInstance getActivityDetailPage() {
         if (date == null) {
             return activityDetail.data("model",
@@ -58,44 +68,48 @@ public class ActivityDetailController {
         }
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            try {
-                log.info("getActivityDetailPage(): logId={}, date={}", logId, date);
-                var response = activityClient.getActivities(
-                        "Bearer " + session.get().accessToken(),
-                        date.toString(), null, "asc", 10, 0);
-                var activity = response.activities() == null ? null :
-                        response.activities().stream()
-                        .filter(e -> logId.equals(e.logId()))
-                        .findFirst()
-                        .orElse(null);
-                if (activity == null) {
-                    return activityDetail.data("model",
-                            ActivityDetailViewModel.createError("Activity not found"));
-                }
-                var tcxDatabase = activityClient.getActivityTcx("Bearer " + session.get().accessToken(), logId);
-                var trackPoints = collectTrackPoints(tcxDatabase);
-                log.debug("getActivityDetailPage(): logId={}: found {} points", logId, trackPoints.size());
-                return activityDetail.data("model", ActivityDetailViewModel.create(logId, date, activity, trackPoints));
-            } catch (Exception e) {
-                log.warn("getActivityDetailPage(): failed", e);
-                return activityDetail.data("model", ActivityDetailViewModel.createError(e.getMessage()));
-            }
+            return activityDetail.data("model", createActivityDetailViewModel(session.get(), logId, date));
         } else {
             return activityDetail.data("model", ActivityDetailViewModel.createError("You are not logged in."));
         }
     }
 
-    private List<TrackPoint> collectTrackPoints(TcxDatabase tcxDatabase) {
-        if (tcxDatabase == null || tcxDatabase.getActivities() == null) {
-            return List.of();
+    private ActivityDetailViewModel createActivityDetailViewModel(SessionData session, Long logId, LocalDate date) {
+        try {
+            log.info("Querying: logId={}, date={}", logId, date);
+
+            var response = activityApiClient.getActivities(
+                    "Bearer " + session.accessToken(),
+                    date.toString(), null, "asc", 10, 0);
+            var activity = response.activities() == null ? null :
+                    response.activities().stream()
+                    .filter(e -> logId.equals(e.logId()))
+                    .findFirst();
+
+            if (activity.isEmpty()) {
+                return ActivityDetailViewModel.createError("Activity not found");
+            }
+
+            var tcxEntity = tcxRepository.load(session.userId(), logId);
+            if(tcxEntity.isPresent()) {
+                log.debug("Found TCX entity");
+            } else {
+                String tcxXml = activityApiClient.getActivityTcx("Bearer " + session.accessToken(), logId);
+                tcxEntity = Optional.of(TcxEntity.create(session.userId(), logId, tcxXml));
+                log.info("Storing TCX entity");
+                tcxRepository.store(tcxEntity.get());
+            }
+
+            List<GeoPoint> track = tcxEntity
+                    .flatMap(TcxEntity::parseTcxXml)
+                    .map(TcxDatabase::collectTrackPoints)
+                    .orElse(List.of());
+            log.debug("createActivityDetailViewModel(): logId={}: found track with {} points", logId, track.size());
+
+            return ActivityDetailViewModel.create(logId, date, activity.get(), track);
+        } catch (Exception e) {
+            log.warn("getActivityDetailPage(): failed", e);
+            return ActivityDetailViewModel.createError(e.getMessage());
         }
-        return tcxDatabase.getActivities().stream()
-                .filter(activity -> activity.getLaps() != null)
-                .flatMap(activity -> activity.getLaps().stream())
-                .filter(lap -> lap.getTrackpoints() != null)
-                .flatMap(lap -> lap.getTrackpoints().stream())
-                .filter(trackpoint -> trackpoint.getPosition() != null && trackpoint.getPosition().getLatitudeDegrees() != null && trackpoint.getPosition().getLongitudeDegrees() != null)
-                .map(trackpoint -> new TrackPoint(trackpoint.getPosition().getLatitudeDegrees(), trackpoint.getPosition().getLongitudeDegrees()))
-                .toList();
     }
 }

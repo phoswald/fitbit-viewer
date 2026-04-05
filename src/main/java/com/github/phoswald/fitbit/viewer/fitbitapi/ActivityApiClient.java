@@ -12,8 +12,6 @@ import jakarta.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import com.github.phoswald.fitbit.viewer.tcx.TcxDatabase;
-
 @RegisterRestClient(configKey = "fitbit-api")
 @Path("/1/user/-/activities")
 public interface ActivityApiClient {
@@ -76,7 +74,7 @@ public interface ActivityApiClient {
     @GET
     @Path("/{logId}.tcx")
     @Produces(MediaType.TEXT_XML)
-    TcxDatabase getActivityTcx(
+    String /*TcxDatabase*/ getActivityTcx(
             @HeaderParam("Authorization") String authorizationHeader,
             @PathParam("logId") Long logId);
 }

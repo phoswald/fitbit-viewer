@@ -1,7 +1,8 @@
 package com.github.phoswald.fitbit.viewer.repository;
 
-import java.time.LocalDate;
 import static java.util.Objects.requireNonNull;
+
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

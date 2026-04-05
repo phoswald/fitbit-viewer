@@ -6,7 +6,6 @@ import java.util.List;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
 
 @ApplicationScoped
 public class StepsRepository {
@@ -22,7 +21,6 @@ public class StepsRepository {
                 .getResultList();
     }
 
-    @Transactional
     public void storeAll(List<StepsEntity> entities) {
         for (StepsEntity entity : entities) {
             em.merge(entity);

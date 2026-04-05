@@ -25,4 +25,18 @@ public class TcxDatabase {
     public void setActivities(List<TcxActivity> activities) {
         this.activities = activities;
     }
+
+    public List<GeoPoint> collectTrackPoints() {
+        if (activities == null) {
+            return List.of();
+        }
+        return activities.stream()
+                .filter(activity -> activity.getLaps() != null)
+                .flatMap(activity -> activity.getLaps().stream())
+                .filter(lap -> lap.getTrackpoints() != null)
+                .flatMap(lap -> lap.getTrackpoints().stream())
+                .filter(trackpoint -> trackpoint.getPosition() != null && trackpoint.getPosition().getLatitudeDegrees() != null && trackpoint.getPosition().getLongitudeDegrees() != null)
+                .map(trackpoint -> new GeoPoint(trackpoint.getPosition().getLatitudeDegrees(), trackpoint.getPosition().getLongitudeDegrees()))
+                .toList();
+    }
 }

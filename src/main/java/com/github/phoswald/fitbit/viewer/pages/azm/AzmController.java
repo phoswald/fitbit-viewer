@@ -5,10 +5,6 @@ import java.time.LocalDate;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.CookieParam;
-
-import com.github.phoswald.fitbit.viewer.auth.SessionManager;
-import com.github.phoswald.fitbit.viewer.fitbitapi.AzmApiClient;
-
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -18,6 +14,9 @@ import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.github.phoswald.fitbit.viewer.auth.SessionManager;
+import com.github.phoswald.fitbit.viewer.fitbitapi.AzmApiClient;
 
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
