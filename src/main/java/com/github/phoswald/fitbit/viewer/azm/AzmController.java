@@ -55,12 +55,12 @@ public class AzmController {
         }
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            log.debug("getAzmPage: begDate={}, endDate={}", begDate, endDate);
             try {
+                log.info("getAzmPage(): begDate={}, endDate={}", begDate, endDate);
                 var response = azmClient.getAzm("Bearer " + session.get().accessToken(), begDate.toString(), endDate.toString());
                 return azm.data("model", AzmViewModel.create(begDate, endDate, response.activitiesActiveZoneMinutes()));
             } catch (Exception e) {
-                log.warn("getAzmPage: failed to fetch active zone minutes", e);
+                log.warn("getAzmPage(): failed", e);
                 return azm.data("model", AzmViewModel.createError(e.getMessage()));
             }
         } else {

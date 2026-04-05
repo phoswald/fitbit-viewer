@@ -46,7 +46,8 @@
         <table class="table table-sm table-hover">
           <thead class="table-light">
             <tr>
-              <th>Date &amp; Time</th>
+              <th>Date</th>
+              <th>Time</th>
               <th>Activity</th>
               <th>Duration (min)</th>
               <th>Calories</th>
@@ -59,8 +60,9 @@
           <tbody>
             {#for entry in model.entries}
               <tr>
-                <td>{entry.startTime.format('yyyy-MM-dd HH:mm')}</td>
-                <td><a href="activities/{entry.logId}?date={entry.startTime.format('yyyy-MM-dd')}">{entry.activityName}</a></td>
+                <td>{entry.begDateTime.format('yyyy-MM-dd')}</td>
+                <td>{entry.begDateTime.format('HH:mm')} - {entry.endDateTime.format('HH:mm')}</td>
+                <td><a href="activities/{entry.logId}?date={entry.begDateTime.format('yyyy-MM-dd')}">{entry.activityName}</a></td>
                 <td>{entry.durationMinutes}</td>
                 <td>{entry.calories}</td>
                 <td>{entry.steps}</td>

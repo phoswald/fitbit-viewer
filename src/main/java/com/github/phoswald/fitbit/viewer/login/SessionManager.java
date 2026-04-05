@@ -40,7 +40,7 @@ public class SessionManager {
             log.debug("parseAndVerifyCookie(): userId={}", session.userId());
             return Optional.of(session);
         } catch(IllegalArgumentException e) {
-            log.warn("parseAndVerifyCookie(): {}", e.getMessage());
+            log.warn("parseAndVerifyCookie(): failed: {}", e.getMessage());
             return Optional.empty();
         }
     }

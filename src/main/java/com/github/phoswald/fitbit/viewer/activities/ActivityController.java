@@ -55,12 +55,12 @@ public class ActivityController {
         }
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            log.debug("getActivitiesPage: begDate={}, limit={}", begDate, limit);
             try {
+                log.info("getActivitiesPage(): begDate={}, limit={}", begDate, limit);
                 var response = activityClient.getActivities("Bearer " + session.get().accessToken(), begDate.toString(), "asc", 0, limit);
                 return activities.data("model", ActivityViewModel.create(begDate, limit, response.activities()));
             } catch (Exception e) {
-                log.warn("getActivitiesPage: failed to fetch activities", e);
+                log.warn("getActivitiesPage(): failed", e);
                 return activities.data("model", ActivityViewModel.createError(e.getMessage()));
             }
         } else {

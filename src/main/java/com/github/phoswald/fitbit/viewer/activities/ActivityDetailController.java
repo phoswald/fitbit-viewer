@@ -17,6 +17,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.phoswald.fitbit.viewer.login.SessionData;
 import com.github.phoswald.fitbit.viewer.login.SessionManager;
 
 import io.quarkus.qute.Template;
@@ -36,10 +37,6 @@ public class ActivityDetailController {
     private ActivityApiClient activityClient;
 
     @Inject
-    @RestClient
-    private ActivityTcxApiClient tcxClient;
-
-    @Inject
     private SessionManager sessionManager;
 
     @CookieParam(SessionManager.COOKIE_NAME)
@@ -56,49 +53,35 @@ public class ActivityDetailController {
     public TemplateInstance getActivityDetailPage() {
         if (date == null) {
             return activityDetail.data("model",
-                    ActivityDetailViewModel.createError(logId, null, "Query parameter 'date' is required."));
+                    ActivityDetailViewModel.createError("Query parameter 'date' is required."));
         }
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            log.debug("getActivityDetailPage: logId={}, date={}", logId, date);
             try {
+                log.info("getActivityDetailPage(): logId={}, date={}", logId, date);
                 var response = activityClient.getActivities(
                         "Bearer " + session.get().accessToken(),
                         date.minusDays(1).toString(), "asc", 0, 10);
-                var match = response.activities() == null ? null :
+                var activity = response.activities() == null ? null :
                         response.activities().stream()
-                                .filter(e -> logId.equals(e.logId()))
-                                .findFirst()
-                                .orElse(null);
-                if (match == null) {
+                        .filter(e -> logId.equals(e.logId()))
+                        .findFirst()
+                        .orElse(null);
+                if (activity == null) {
                     return activityDetail.data("model",
-                            ActivityDetailViewModel.createError(logId, date,
-                                    "Activity with logId " + logId + " not found for date " + date + "."));
+                            ActivityDetailViewModel.createError("Activity not found"));
                 }
-                var trackPoints = fetchTrackPoints("Bearer " + session.get().accessToken());
-                return activityDetail.data("model", ActivityDetailViewModel.create(logId, date, match, trackPoints));
+                String tcx = activityClient.getActivityTcx(
+                        "Bearer " + session.get().accessToken(), logId);
+                var trackPoints = TcxParser.parse(tcx);
+                log.debug("getActivityDetailPage(): logId={}: found {} points", logId, trackPoints.size());
+                return activityDetail.data("model", ActivityDetailViewModel.create(logId, date, activity, trackPoints));
             } catch (Exception e) {
-                log.warn("getActivityDetailPage: failed to fetch activity", e);
-                return activityDetail.data("model",
-                        ActivityDetailViewModel.createError(logId, date, e.getMessage()));
+                log.warn("getActivityDetailPage(): failed", e);
+                return activityDetail.data("model", ActivityDetailViewModel.createError(e.getMessage()));
             }
         } else {
-            return activityDetail.data("model",
-                    ActivityDetailViewModel.createError(logId, date, "You are not logged in."));
-        }
-    }
-
-    private List<TrackPoint> fetchTrackPoints(String authorizationHeader) {
-        try {
-            log.debug("Querying TCX for logId={}...", logId); // XXX
-            String tcx = tcxClient.getTcx(authorizationHeader, logId);
-            log.debug("Querying TCX for logId={}: found string: {}", logId, tcx); // XXX
-            var trackPoints = TcxParser.parse(tcx);
-            log.info("Querying TCX for logId={}: found points: {}", logId, trackPoints.size()); // XXX
-            return trackPoints;
-        } catch (Exception e) {
-            log.error("TCX not available for logId={}", logId); // XXX
-            return List.of();
+            return activityDetail.data("model", ActivityDetailViewModel.createError("You are not logged in."));
         }
     }
 }

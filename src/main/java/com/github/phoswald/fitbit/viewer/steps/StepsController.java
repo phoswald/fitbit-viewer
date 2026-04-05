@@ -55,12 +55,12 @@ public class StepsController {
         }
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            log.debug("getStepsPage: begDate={}, endDate={}", begDate, endDate);
             try {
+                log.info("getStepsPage(): begDate={}, endDate={}", begDate, endDate);
                 var stepsResponse = stepsClient.getSteps("Bearer " + session.get().accessToken(), begDate.toString(), endDate.toString());
                 return steps.data("model", StepsViewModel.create(begDate, endDate, stepsResponse.activitiesSteps()));
             } catch (Exception e) {
-                log.warn("getStepsPage: failed to fetch steps", e);
+                log.warn("getStepsPage(): failed", e);
                 return steps.data("model", StepsViewModel.createError(e.getMessage()));
             }
         } else {

@@ -58,7 +58,7 @@ public class OAuthController {
     @GET
     @Path("/login")
     public Response login() {
-        log.debug("login: clientId={}, clientSecret={} (length), redirectUri={}",
+        log.info("login: clientId={}, clientSecret={} (length), redirectUri={}",
                 clientId, lengthOf(clientSecret), redirectUri);
         String url = AUTHORIZE_URL
                 + "?response_type=code"
@@ -72,15 +72,15 @@ public class OAuthController {
     @Path("/callback")
     public Response callback(@QueryParam("code") String code, @QueryParam("error") String error) {
         if (error != null) {
-            log.warn("callback: error={}", error);
+            log.warn("callback(): error={}", error);
             return Response.seeOther(URI.create("pages/profile?errorMessage=" + URLEncoder.encode(error, UTF_8))).build();
         } else {
-            log.debug("callback: code={} (length)", lengthOf(code));
+            log.info("callback(): code={} (length)", lengthOf(code));
 
             var tokenResponse = tokenClient.exchangeCode(
                     createAuthorizationHeader(clientId, clientSecret),
                     "authorization_code", code, redirectUri);
-            log.debug("exchanged: access_token={} (length), refresh_token={} (length), expires_in={}",
+            log.info("callback(): exchanged access_token={} (length), refresh_token={} (length), expires_in={}",
                     lengthOf(tokenResponse.accessToken()), lengthOf(tokenResponse.refreshToken()), tokenResponse.expiresIn());
 
             SessionData sessionData = new SessionDataBuilder()

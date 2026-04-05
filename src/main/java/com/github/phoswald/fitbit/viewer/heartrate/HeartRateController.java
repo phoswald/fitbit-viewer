@@ -55,12 +55,12 @@ public class HeartRateController {
         }
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            log.debug("getHeartRatePage: begDate={}, endDate={}", begDate, endDate);
             try {
+                log.info("getHeartRatePage(): begDate={}, endDate={}", begDate, endDate);
                 var response = heartRateClient.getHeartRate("Bearer " + session.get().accessToken(), begDate.toString(), endDate.toString());
                 return heartrate.data("model", HeartRateViewModel.create(begDate, endDate, response.activitiesHeart()));
             } catch (Exception e) {
-                log.warn("getHeartRatePage: failed to fetch heart rate", e);
+                log.warn("getHeartRatePage(): failed", e);
                 return heartrate.data("model", HeartRateViewModel.createError(e.getMessage()));
             }
         } else {

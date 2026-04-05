@@ -14,7 +14,12 @@ public record StepsViewModel(
         String errorMessage,
         ZonedDateTime now
 ) {
-    record StepsEntry(LocalDate date, Integer stepCount) { }
+
+    @RecordBuilder
+    record StepsEntry(
+            LocalDate date,
+            Integer stepCount
+    ) { }
 
     static StepsViewModel create(
             LocalDate begDate,
@@ -36,7 +41,11 @@ public record StepsViewModel(
     }
 
     static StepsEntry createEntry(StepsApiClient.StepsEntry entry) {
-        return new StepsEntry(LocalDate.parse(entry.dateTime()), Integer.parseInt(entry.value()));
+        String value = entry.value();
+        return new StepsEntryBuilder()
+                .date(LocalDate.parse(entry.dateTime()))
+                .stepCount(value == null ? null : Integer.parseInt(value))
+                .build();
     }
 
     public List<LocalDate> stepDates() {

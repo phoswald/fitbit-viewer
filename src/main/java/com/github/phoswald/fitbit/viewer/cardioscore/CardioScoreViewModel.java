@@ -16,7 +16,13 @@ public record CardioScoreViewModel(
         String errorMessage,
         ZonedDateTime now
 ) {
-    record CardioScoreEntry(LocalDate date, Integer scoreMin, Integer scoreMax) { }
+
+    @RecordBuilder
+    record CardioScoreEntry(
+            LocalDate date,
+            Integer scoreMin,
+            Integer scoreMax
+    ) { }
 
     static CardioScoreViewModel create(
             LocalDate begDate,
@@ -38,14 +44,13 @@ public record CardioScoreViewModel(
     }
 
     static CardioScoreEntry createEntry(CardioScoreApiClient.CardioScoreEntry entry) {
-        Matcher matcher = Pattern.compile("([0-9]+)-([0-9]+)").matcher(entry.value().vo2Max());
-        Integer scoreMin = null;
-        Integer scoreMax = null;
-        if(matcher.matches()) {
-            scoreMin = Integer.valueOf(matcher.group(1));
-            scoreMax = Integer.valueOf(matcher.group(2));
-        }
-        return new CardioScoreEntry(LocalDate.parse(entry.dateTime()), scoreMin, scoreMax);
+        CardioScoreApiClient.CardioScoreValue value = entry.value();
+        Matcher matcher = Pattern.compile("([0-9]+)-([0-9]+)").matcher(value == null ? null : value.vo2Max());
+        return new CardioScoreEntryBuilder()
+                .date(LocalDate.parse(entry.dateTime()))
+                .scoreMin(!matcher.matches() ? null : Integer.parseInt(matcher.group(1)))
+                .scoreMax(!matcher.matches() ? null : Integer.parseInt(matcher.group(2)))
+                .build();
     }
 
     public List<LocalDate> scoreDates() {

@@ -14,7 +14,12 @@ public record HeartRateViewModel(
         String errorMessage,
         ZonedDateTime now
 ) {
-    record HeartRateEntry(LocalDate date, Integer restingHeartRate) { }
+
+    @RecordBuilder
+    record HeartRateEntry(
+            LocalDate date,
+            Integer restingHeartRate
+    ) { }
 
     static HeartRateViewModel create(
             LocalDate begDate,
@@ -35,9 +40,12 @@ public record HeartRateViewModel(
                 .build();
     }
 
-    static HeartRateEntry createEntry(HeartRateApiClient.HeartRateEntry entry) {
-        Integer bpm = entry.value() != null ? entry.value().restingHeartRate() : null;
-        return new HeartRateEntry(LocalDate.parse(entry.dateTime()), bpm);
+    private static HeartRateEntry createEntry(HeartRateApiClient.HeartRateEntry entry) {
+        HeartRateApiClient.HeartRateValue value = entry.value();
+        return new HeartRateEntryBuilder()
+                .date(LocalDate.parse(entry.dateTime()))
+                .restingHeartRate(value == null ? null : value.restingHeartRate())
+                .build();
     }
 
     public List<LocalDate> heartRateDates() {

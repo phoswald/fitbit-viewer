@@ -20,8 +20,8 @@ public record ActivityDetailViewModel(
             Long logId,
             String activityName,
             OffsetDateTime startTime,
-            long durationMinutes,
-            long activeDurationMinutes,
+            Integer durationMinutes,
+            Integer activeDurationMinutes,
             Integer calories,
             Integer steps,
             Double distance,
@@ -69,10 +69,8 @@ public record ActivityDetailViewModel(
                 .build();
     }
 
-    static ActivityDetailViewModel createError(Long logId, LocalDate date, String errorMessage) {
+    static ActivityDetailViewModel createError(String errorMessage) {
         return new ActivityDetailViewModelBuilder()
-                .logId(logId)
-                .date(date)
                 .errorMessage(errorMessage)
                 .now(ZonedDateTime.now())
                 .build();
@@ -82,26 +80,22 @@ public record ActivityDetailViewModel(
         return new ActivityDetailEntryBuilder()
                 .logId(e.logId())
                 .activityName(e.activityName())
-                .startTime(e.startTime() != null ? OffsetDateTime.parse(e.startTime()) : null)
-                .durationMinutes(e.duration() != null ? e.duration() / 60_000 : 0)
-                .activeDurationMinutes(e.activeDuration() != null ? e.activeDuration() / 60_000 : 0)
+                .startTime(e.startTime() == null ? null : OffsetDateTime.parse(e.startTime()))
+                .durationMinutes(e.duration() == null ? null : e.duration().intValue() / 60_000)
+                .activeDurationMinutes(e.activeDuration() == null ? null : e.activeDuration().intValue() / 60_000)
                 .calories(e.calories())
                 .steps(e.steps())
                 .distance(e.distance())
                 .distanceUnit(e.distanceUnit())
                 .averageHeartRate(e.averageHeartRate())
                 .logType(e.logType())
-                .heartRateZones(e.heartRateZones() != null
-                        ? e.heartRateZones().stream().map(ActivityDetailViewModel::createZone).toList()
-                        : null)
-                .activityLevels(e.activityLevel() != null
-                        ? e.activityLevel().stream().map(ActivityDetailViewModel::createLevel).toList()
-                        : null)
+                .heartRateZones(e.heartRateZones() == null ? null : e.heartRateZones().stream().map(ActivityDetailViewModel::createZone).toList())
+                .activityLevels(e.activityLevel() == null ? null : e.activityLevel().stream().map(ActivityDetailViewModel::createLevel).toList())
                 .pace(e.pace())
                 .speed(e.speed())
                 .elevationGain(e.elevationGain())
                 .floors(e.floors())
-                .source(e.source() != null ? createSource(e.source()) : null)
+                .source(e.source() == null ? null : createSource(e.source()))
                 .trackPoints(trackPoints)
                 .build();
     }

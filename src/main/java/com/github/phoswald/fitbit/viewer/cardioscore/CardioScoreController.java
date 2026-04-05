@@ -55,12 +55,12 @@ public class CardioScoreController {
         }
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            log.debug("getCardioScorePage: begDate={}, endDate={}", begDate, endDate);
             try {
+                log.info("getCardioScorePage(): begDate={}, endDate={}", begDate, endDate);
                 var response = cardioScoreClient.getCardioScore("Bearer " + session.get().accessToken(), begDate.toString(), endDate.toString());
                 return cardioscore.data("model", CardioScoreViewModel.create(begDate, endDate, response.cardioScore()));
             } catch (Exception e) {
-                log.warn("getCardioScorePage: failed to fetch cardio score", e);
+                log.warn("getCardioScorePage(): failed", e);
                 return cardioscore.data("model", CardioScoreViewModel.createError(e.getMessage()));
             }
         } else {

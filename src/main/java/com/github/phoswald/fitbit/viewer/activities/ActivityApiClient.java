@@ -5,6 +5,7 @@ import java.util.List;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
@@ -12,10 +13,11 @@ import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 @RegisterRestClient(configKey = "fitbit-api")
-@Path("/1/user/-/activities/list.json")
+@Path("/1/user/-/activities")
 interface ActivityApiClient {
 
     @GET
+    @Path("/list.json")
     @Produces(MediaType.APPLICATION_JSON)
     ActivityResponse getActivities(
             @HeaderParam("Authorization") String authorizationHeader,
@@ -67,4 +69,11 @@ interface ActivityApiClient {
             String type,
             String url
     ) { }
+
+    @GET
+    @Path("/{logId}.tcx")
+    @Produces(MediaType.WILDCARD)
+    String getActivityTcx(
+            @HeaderParam("Authorization") String authorizationHeader,
+            @PathParam("logId") Long logId);
 }

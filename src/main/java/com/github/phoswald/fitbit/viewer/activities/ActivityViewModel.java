@@ -19,8 +19,9 @@ public record ActivityViewModel(
     record ActivityEntry(
             Long logId,
             String activityName,
-            OffsetDateTime startTime,
-            long durationMinutes,
+            OffsetDateTime begDateTime,
+            OffsetDateTime endDateTime,
+            Long durationMinutes,
             Integer calories,
             Integer steps,
             Double distance,
@@ -52,8 +53,9 @@ public record ActivityViewModel(
         return new ActivityEntryBuilder()
                 .logId(e.logId())
                 .activityName(e.activityName())
-                .startTime(e.startTime() != null ? OffsetDateTime.parse(e.startTime()) : null)
-                .durationMinutes(e.duration() != null ? e.duration() / 60_000 : 0)
+                .begDateTime(e.startTime() == null ? null : OffsetDateTime.parse(e.startTime()))
+                .endDateTime(e.startTime() == null || e.duration() == null ? null : OffsetDateTime.parse(e.startTime()).plusSeconds(e.duration() / 1000))
+                .durationMinutes(e.duration() == null ? null : (e.duration() / 60_000))
                 .calories(e.calories())
                 .steps(e.steps())
                 .distance(e.distance())

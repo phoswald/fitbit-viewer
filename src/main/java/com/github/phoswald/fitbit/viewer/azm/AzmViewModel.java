@@ -14,6 +14,8 @@ public record AzmViewModel(
         String errorMessage,
         ZonedDateTime now
 ) {
+
+    @RecordBuilder
     record AzmEntry(
             LocalDate date,
             Integer activeZoneMinutes,
@@ -41,15 +43,15 @@ public record AzmViewModel(
                 .build();
     }
 
-    static AzmEntry createEntry(AzmApiClient.AzmEntry entry) {
-        AzmApiClient.AzmValue v = entry.value();
-        return new AzmEntry(
-                LocalDate.parse(entry.dateTime()),
-                v != null ? v.activeZoneMinutes() : null,
-                v != null ? v.fatBurnActiveZoneMinutes() : null,
-                v != null ? v.cardioActiveZoneMinutes() : null,
-                v != null ? v.peakActiveZoneMinutes() : null
-        );
+    private static AzmEntry createEntry(AzmApiClient.AzmEntry entry) {
+        AzmApiClient.AzmValue value = entry.value();
+        return new AzmEntryBuilder()
+                .date(LocalDate.parse(entry.dateTime()))
+                .activeZoneMinutes(value == null ? null : value.activeZoneMinutes())
+                .fatBurnActiveZoneMinutes(value == null ? null : value.fatBurnActiveZoneMinutes())
+                .cardioActiveZoneMinutes(value == null ? null : value.cardioActiveZoneMinutes())
+                .peakActiveZoneMinutes(value == null ? null : value.peakActiveZoneMinutes())
+                .build();
     }
 
     public List<LocalDate> dates() {
