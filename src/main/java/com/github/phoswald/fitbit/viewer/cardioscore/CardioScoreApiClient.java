@@ -13,11 +13,11 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 
 @RegisterRestClient(configKey = "fitbit-api")
-@Path("/1/user/-/cardioscore/date")
+@Path("/1/user/-/cardioscore")
 interface CardioScoreApiClient {
 
     @GET
-    @Path("/{startDate}/{endDate}.json")
+    @Path("/date/{startDate}/{endDate}.json")
     @Produces(MediaType.APPLICATION_JSON)
     CardioScoreResponse getCardioScore(
             @HeaderParam("Authorization") String authorizationHeader,
@@ -28,7 +28,12 @@ interface CardioScoreApiClient {
             List<CardioScoreEntry> cardioScore
     ) { }
 
-    record CardioScoreEntry(String dateTime, CardioScoreValue value) { }
+    record CardioScoreEntry(
+            String dateTime,
+            CardioScoreValue value
+    ) { }
 
-    record CardioScoreValue(String vo2Max) { }
+    record CardioScoreValue(
+            String vo2Max
+    ) { }
 }

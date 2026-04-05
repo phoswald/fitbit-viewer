@@ -14,11 +14,11 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import jakarta.json.bind.annotation.JsonbProperty;
 
 @RegisterRestClient(configKey = "fitbit-api")
-@Path("/1/user/-/activities/heart/date")
+@Path("/1/user/-/activities/heart")
 interface HeartRateApiClient {
 
     @GET
-    @Path("/{startDate}/{endDate}.json")
+    @Path("/date/{startDate}/{endDate}.json")
     @Produces(MediaType.APPLICATION_JSON)
     HeartRateResponse getHeartRate(
             @HeaderParam("Authorization") String authorizationHeader,
@@ -29,7 +29,12 @@ interface HeartRateApiClient {
             @JsonbProperty("activities-heart") List<HeartRateEntry> activitiesHeart
     ) { }
 
-    record HeartRateEntry(String dateTime, HeartRateValue value) { }
+    record HeartRateEntry(
+            String dateTime,
+            HeartRateValue value
+    ) { }
 
-    record HeartRateValue(Integer restingHeartRate) { }
+    record HeartRateValue(
+            Integer restingHeartRate
+    ) { }
 }

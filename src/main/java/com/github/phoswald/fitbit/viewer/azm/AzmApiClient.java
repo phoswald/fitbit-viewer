@@ -14,11 +14,11 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import jakarta.json.bind.annotation.JsonbProperty;
 
 @RegisterRestClient(configKey = "fitbit-api")
-@Path("/1/user/-/activities/active-zone-minutes/date")
+@Path("/1/user/-/activities/active-zone-minutes")
 interface AzmApiClient {
 
     @GET
-    @Path("/{startDate}/{endDate}.json")
+    @Path("/date/{startDate}/{endDate}.json")
     @Produces(MediaType.APPLICATION_JSON)
     AzmResponse getAzm(
             @HeaderParam("Authorization") String authorizationHeader,
@@ -29,7 +29,10 @@ interface AzmApiClient {
             @JsonbProperty("activities-active-zone-minutes") List<AzmEntry> activitiesActiveZoneMinutes
     ) { }
 
-    record AzmEntry(String dateTime, AzmValue value) { }
+    record AzmEntry(
+            String dateTime,
+            AzmValue value
+    ) { }
 
     record AzmValue(
             Integer activeZoneMinutes,

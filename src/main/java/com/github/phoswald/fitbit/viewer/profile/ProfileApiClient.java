@@ -11,10 +11,11 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import jakarta.json.bind.annotation.JsonbProperty;
 
 @RegisterRestClient(configKey = "fitbit-api")
-@Path("/1/user/-/profile.json")
+@Path("/1/user/-")
 interface ProfileApiClient {
 
     @GET
+    @Path("/profile.json")
     @Produces(MediaType.APPLICATION_JSON)
     ProfileResponse getProfile(@HeaderParam("Authorization") String authorizationHeader);
 

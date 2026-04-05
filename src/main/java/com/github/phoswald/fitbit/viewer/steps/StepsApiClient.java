@@ -14,11 +14,11 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import jakarta.json.bind.annotation.JsonbProperty;
 
 @RegisterRestClient(configKey = "fitbit-api")
-@Path("/1/user/-/activities/steps/date")
+@Path("/1/user/-/activities/steps")
 interface StepsApiClient {
 
     @GET
-    @Path("/{startDate}/{endDate}.json")
+    @Path("/date/{startDate}/{endDate}.json")
     @Produces(MediaType.APPLICATION_JSON)
     StepsResponse getSteps(
             @HeaderParam("Authorization") String authorizationHeader,
@@ -29,5 +29,8 @@ interface StepsApiClient {
             @JsonbProperty("activities-steps") List<StepsEntry> activitiesSteps
     ) { }
 
-    record StepsEntry(String dateTime, String value) { }
+    record StepsEntry(
+            String dateTime,
+            String value
+    ) { }
 }
