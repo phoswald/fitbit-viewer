@@ -71,9 +71,8 @@ public class ActivityDetailController {
                     return activityDetail.data("model",
                             ActivityDetailViewModel.createError("Activity not found"));
                 }
-                String tcx = activityClient.getActivityTcx(
-                        "Bearer " + session.get().accessToken(), logId);
-                var trackPoints = TcxParser.parse(tcx);
+                var tcxDatabase = activityClient.getActivityTcx("Bearer " + session.get().accessToken(), logId);
+                var trackPoints = collectTrackPoints(tcxDatabase);
                 log.debug("getActivityDetailPage(): logId={}: found {} points", logId, trackPoints.size());
                 return activityDetail.data("model", ActivityDetailViewModel.create(logId, date, activity, trackPoints));
             } catch (Exception e) {
@@ -83,5 +82,19 @@ public class ActivityDetailController {
         } else {
             return activityDetail.data("model", ActivityDetailViewModel.createError("You are not logged in."));
         }
+    }
+
+    private List<TrackPoint> collectTrackPoints(TcxDatabase tcxDatabase) {
+        if (tcxDatabase == null || tcxDatabase.activities == null) {
+            return List.of();
+        }
+        return tcxDatabase.activities.stream()
+                .filter(a -> a.laps != null)
+                .flatMap(a -> a.laps.stream())
+                .filter(l -> l.trackpoints != null)
+                .flatMap(l -> l.trackpoints.stream())
+                .filter(tp -> tp.position != null && tp.position.latitudeDegrees != null && tp.position.longitudeDegrees != null)
+                .map(tp -> new TrackPoint(tp.position.latitudeDegrees, tp.position.longitudeDegrees))
+                .toList();
     }
 }

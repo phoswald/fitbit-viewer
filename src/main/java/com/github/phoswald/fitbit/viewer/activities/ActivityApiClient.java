@@ -72,8 +72,8 @@ interface ActivityApiClient {
 
     @GET
     @Path("/{logId}.tcx")
-    @Produces(MediaType.WILDCARD)
-    String getActivityTcx(
+    @Produces(MediaType.TEXT_XML)
+    TcxDatabase getActivityTcx(
             @HeaderParam("Authorization") String authorizationHeader,
             @PathParam("logId") Long logId);
 }
