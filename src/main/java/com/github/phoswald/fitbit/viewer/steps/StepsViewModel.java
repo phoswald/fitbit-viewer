@@ -4,31 +4,26 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
 
+import com.github.phoswald.fitbit.viewer.repository.StepsEntity;
 import com.github.phoswald.record.builder.RecordBuilder;
 
 @RecordBuilder
 public record StepsViewModel(
         LocalDate begDate,
         LocalDate endDate,
-        List<StepsEntry> steps,
+        List<StepsEntity> steps,
         String errorMessage,
         ZonedDateTime now
 ) {
 
-    @RecordBuilder
-    record StepsEntry(
-            LocalDate date,
-            Integer stepCount
-    ) { }
-
     static StepsViewModel create(
             LocalDate begDate,
             LocalDate endDate,
-            List<StepsApiClient.StepsEntry> steps) {
+            List<StepsEntity> steps) {
         return new StepsViewModelBuilder()
                 .begDate(begDate)
                 .endDate(endDate)
-                .steps(steps == null ? null : steps.stream().map(StepsViewModel::createEntry).toList())
+                .steps(steps)
                 .now(ZonedDateTime.now())
                 .build();
     }
@@ -40,19 +35,11 @@ public record StepsViewModel(
                 .build();
     }
 
-    static StepsEntry createEntry(StepsApiClient.StepsEntry entry) {
-        String value = entry.value();
-        return new StepsEntryBuilder()
-                .date(LocalDate.parse(entry.dateTime()))
-                .stepCount(value == null ? null : Integer.parseInt(value))
-                .build();
-    }
-
     public List<LocalDate> stepDates() {
-        return steps.stream().map(StepsEntry::date).toList();
+        return steps.stream().map(StepsEntity::getDate).toList();
     }
 
     public List<Integer> stepCounts() {
-        return steps.stream().map(StepsEntry::stepCount).toList();
+        return steps.stream().map(StepsEntity::getStepCount).toList();
     }
 }

@@ -15,7 +15,7 @@ import jakarta.json.bind.annotation.JsonbProperty;
 
 @RegisterRestClient(configKey = "fitbit-api")
 @Path("/1/user/-/activities/steps")
-interface StepsApiClient {
+public interface StepsApiClient {
 
     @GET
     @Path("/date/{startDate}/{endDate}.json")
