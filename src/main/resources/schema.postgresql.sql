@@ -33,6 +33,20 @@ create table fitbit_cardioscore_ (
 alter table fitbit_cardioscore_
     add constraint fitbit_cardioscore_pk_ primary key (user_id_, date_);
 
+-- Active Zone Minutes
+
+create table fitbit_azm_ (
+    user_id_                       varchar(32) not null,
+    date_                          date not null,
+    active_zone_minutes_           integer null,
+    fat_burn_active_zone_minutes_  integer null,
+    cardio_active_zone_minutes_    integer null,
+    peak_active_zone_minutes_      integer null
+);
+
+alter table fitbit_azm_
+    add constraint fitbit_azm_pk_ primary key (user_id_, date_);
+
 -- Activities - TCX
 
 create table fitbit_tcx_ (
