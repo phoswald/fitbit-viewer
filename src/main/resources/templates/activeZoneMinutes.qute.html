@@ -1,4 +1,4 @@
-{@com.github.phoswald.fitbit.viewer.pages.azm.AzmViewModel model}
+{@com.github.phoswald.fitbit.viewer.pages.azm.ActiveZoneMinutesViewModel model}
 <!doctype html>
 <html lang="en">
   <head>
@@ -52,15 +52,15 @@
               labels: {model.dates.formatJsArray},
               datasets: [{
                 label: 'Fat Burn',
-                data: {model.fatBurnActiveZoneMinutes.formatJsArray},
+                data: {model.fatBurnAzm.formatJsArray},
                 stack: 'azm'
               },{
                 label: 'Cardio',
-                data: {model.cardioActiveZoneMinutes.formatJsArray},
+                data: {model.cardioAzm.formatJsArray},
                 stack: 'azm'
               },{
                 label: 'Peak',
-                data: {model.peakActiveZoneMinutes.formatJsArray},
+                data: {model.peakAzm.formatJsArray},
                 stack: 'azm'
               }]
             },
@@ -81,10 +81,10 @@
             {#for entry in model.entries}
               <tr>
                 <td>{entry.date}</td>
-                <td>{entry.activeZoneMinutes}</td>
-                <td>{entry.fatBurnActiveZoneMinutes}</td>
-                <td>{entry.cardioActiveZoneMinutes}</td>
-                <td>{entry.peakActiveZoneMinutes}</td>
+                <td>{entry.totalAzm}</td>
+                <td>{entry.fatBurnAzm}</td>
+                <td>{entry.cardioAzm}</td>
+                <td>{entry.peakAzm}</td>
               </tr>
             {/for}
           </tbody>

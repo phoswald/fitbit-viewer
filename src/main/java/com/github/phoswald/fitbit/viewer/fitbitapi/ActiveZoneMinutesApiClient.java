@@ -14,7 +14,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 @RegisterRestClient(configKey = "fitbit-api")
 @Path("/1/user/-/activities/active-zone-minutes")
-public interface AzmApiClient {
+public interface ActiveZoneMinutesApiClient {
 
     @GET
     @Path("/date/{startDate}/{endDate}.json")
