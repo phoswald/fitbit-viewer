@@ -14,17 +14,18 @@ public class ActivityRepository {
     private EntityManager em;
 
     public Optional<ActivityEntity> loadByUserIdAndLogId(String userId, long logId) {
-        var result = em.createNamedQuery("ActivityEntity.loadByUserIdAndLogIdWithLevels", ActivityEntity.class)
+        // TODO: why are other solutions not working (lazy init, fetch mode SUBSELECT)?
+        em.createQuery("SELECT a FROM ActivityEntity a LEFT JOIN FETCH a.activityLevels WHERE a.userId = :userId AND a.logId = :logId")
                 .setParameter("userId", userId)
                 .setParameter("logId", logId)
                 .getResultStream()
                 .findFirst();
-        em.createNamedQuery("ActivityEntity.loadByUserIdAndLogIdWithZones", ActivityEntity.class)
+        em.createQuery("SELECT a FROM ActivityEntity a LEFT JOIN FETCH a.heartRateZones WHERE a.userId = :userId AND a.logId = :logId")
                 .setParameter("userId", userId)
                 .setParameter("logId", logId)
                 .getResultStream()
                 .findFirst();
-        return result;
+        return Optional.ofNullable(em.find(ActivityEntity.class, new ActivityEntity.ActivityId(userId, logId)));
     }
 
     public void storeAll(Collection<ActivityEntity> entities) {

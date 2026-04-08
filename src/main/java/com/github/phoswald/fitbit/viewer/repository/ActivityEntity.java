@@ -16,7 +16,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinColumns;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
@@ -26,14 +25,6 @@ import com.github.phoswald.fitbit.viewer.fitbitapi.ActivityApiClient;
 @Entity
 @Table(name = "fitbit_activity_")
 @IdClass(ActivityEntity.ActivityId.class)
-@NamedQuery(
-        name = "ActivityEntity.loadByUserIdAndLogIdWithLevels",
-        query = "SELECT a FROM ActivityEntity a LEFT JOIN FETCH a.activityLevels WHERE a.userId = :userId AND a.logId = :logId"
-)
-@NamedQuery(
-        name = "ActivityEntity.loadByUserIdAndLogIdWithZones",
-        query = "SELECT a FROM ActivityEntity a LEFT JOIN FETCH a.heartRateZones WHERE a.userId = :userId AND a.logId = :logId"
-)
 public class ActivityEntity {
 
     @Id
@@ -110,7 +101,7 @@ public class ActivityEntity {
         @JoinColumn(name = "log_id_", referencedColumnName = "log_id_")
     })
     @OrderBy("sortIndex ASC")
-    private List<ActivityLevelEntity> activityLevels = new ArrayList<>();
+    private List<ActivityLevelEntity> activityLevels;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumns({
@@ -118,7 +109,7 @@ public class ActivityEntity {
         @JoinColumn(name = "log_id_", referencedColumnName = "log_id_")
     })
     @OrderBy("heartRateMin ASC")
-    private List<ActivityHeartRateZoneEntity> heartRateZones = new ArrayList<>();
+    private List<ActivityHeartRateZoneEntity> heartRateZones;
 
     public static ActivityEntity create(String userId, ActivityApiClient.ActivityEntry entry) {
         ActivityEntity entity = new ActivityEntity();
