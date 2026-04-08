@@ -70,13 +70,6 @@ public class ActivityDetailController extends PageController {
                 return ActivityDetailViewModel.createError("Activity not found");
             }
             log.debug("Found entity with {} activity levels and {} heartrate zones", entity.get().getActivityLevels().size(), entity.get().getHeartRateZones().size());
-//            var response = activityApiClient.getActivities(
-//                    "Bearer " + session.accessToken(),
-//                    date.toString(), null, "asc", 10, 0);
-//            var activity = response.activities() == null ? null :
-//                    response.activities().stream()
-//                    .filter(e -> logId.equals(e.logId()))
-//                    .findFirst();
             var tcxEntity = tcxRepository.load(session.userId(), logId);
             if(tcxEntity.isPresent()) {
                 log.debug("Found TCX entity");

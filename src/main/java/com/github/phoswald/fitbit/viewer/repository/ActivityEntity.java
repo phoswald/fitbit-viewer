@@ -11,11 +11,12 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinColumns;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
@@ -25,6 +26,14 @@ import com.github.phoswald.fitbit.viewer.fitbitapi.ActivityApiClient;
 @Entity
 @Table(name = "fitbit_activity_")
 @IdClass(ActivityEntity.ActivityId.class)
+@NamedQuery(
+        name = "ActivityEntity.loadByUserIdAndLogIdWithLevels",
+        query = "SELECT a FROM ActivityEntity a LEFT JOIN FETCH a.activityLevels WHERE a.userId = :userId AND a.logId = :logId"
+)
+@NamedQuery(
+        name = "ActivityEntity.loadByUserIdAndLogIdWithZones",
+        query = "SELECT a FROM ActivityEntity a LEFT JOIN FETCH a.heartRateZones WHERE a.userId = :userId AND a.logId = :logId"
+)
 public class ActivityEntity {
 
     @Id
@@ -95,7 +104,7 @@ public class ActivityEntity {
     @Column(name = "source_features_")
     private String sourceFeatures;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumns({
         @JoinColumn(name = "user_id_", referencedColumnName = "user_id_"),
         @JoinColumn(name = "log_id_", referencedColumnName = "log_id_")
@@ -103,7 +112,7 @@ public class ActivityEntity {
     @OrderBy("sortIndex ASC")
     private List<ActivityLevelEntity> activityLevels = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumns({
         @JoinColumn(name = "user_id_", referencedColumnName = "user_id_"),
         @JoinColumn(name = "log_id_", referencedColumnName = "log_id_")
@@ -140,6 +149,7 @@ public class ActivityEntity {
             entity.setSourceFeatures(entry.source().trackerFeatures() == null ? null : entry.source().trackerFeatures().toString());
         }
         if(entry.activityLevel() != null && !entry.activityLevel().isEmpty()) {
+            entity.setActivityLevels(new ArrayList<>());
             int nextSortIndex = 1;
             for(var activityLevel : entry.activityLevel()) {
                 entity.getActivityLevels().add(ActivityLevelEntity.create(
@@ -147,6 +157,7 @@ public class ActivityEntity {
             }
         }
         if(entry.heartRateZones() != null && !entry.heartRateZones().isEmpty()) {
+            entity.setHeartRateZones(new ArrayList<>());
             for(var heartRateZone : entry.heartRateZones()) {
                 entity.getHeartRateZones().add(ActivityHeartRateZoneEntity.create(
                         userId, entity.getLogId(), heartRateZone));

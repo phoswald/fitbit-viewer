@@ -14,7 +14,17 @@ public class ActivityRepository {
     private EntityManager em;
 
     public Optional<ActivityEntity> loadByUserIdAndLogId(String userId, long logId) {
-        return Optional.ofNullable(em.find(ActivityEntity.class, new ActivityEntity.ActivityId(userId, logId)));
+        var result = em.createNamedQuery("ActivityEntity.loadByUserIdAndLogIdWithLevels", ActivityEntity.class)
+                .setParameter("userId", userId)
+                .setParameter("logId", logId)
+                .getResultStream()
+                .findFirst();
+        em.createNamedQuery("ActivityEntity.loadByUserIdAndLogIdWithZones", ActivityEntity.class)
+                .setParameter("userId", userId)
+                .setParameter("logId", logId)
+                .getResultStream()
+                .findFirst();
+        return result;
     }
 
     public void storeAll(Collection<ActivityEntity> entities) {
