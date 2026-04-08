@@ -65,8 +65,8 @@ public class ActiveZoneMinutesController extends PageController {
     private ActiveZoneMinutesViewModel createAzmViewModel(SessionData session, LocalDate begDate, LocalDate endDate) {
         try {
             log.info("Querying: begDate={}, endDate={}", begDate, endDate);
-            var entities = toSortedMap(ActiveZoneMinutesEntity::getDate,
-                    azmRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate));
+            var entities = azmRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate).stream()
+                    .collect(toSortedMap(ActiveZoneMinutesEntity::getDate));
             if (isComplete(entities, begDate, endDate)) {
                 log.debug("Found {} entities", entities.size());
             } else {
@@ -74,10 +74,9 @@ public class ActiveZoneMinutesController extends PageController {
                         "Bearer " + session.accessToken(),
                         begDate.toString(),
                         endDate.toString());
-                entities = toSortedMap(ActiveZoneMinutesEntity::getDate,
-                        response.activitiesActiveZoneMinutes().stream()
+                entities = response.activitiesActiveZoneMinutes().stream()
                         .map(entry -> ActiveZoneMinutesEntity.create(session.userId(), entry))
-                        .toList());
+                        .collect(toSortedMap(ActiveZoneMinutesEntity::getDate));
                 for(LocalDate date = begDate; !date.isAfter(endDate); date = date.plusDays(1)) {
                     if(!entities.containsKey(date)) {
                         entities.put(date, createEmptyDay(session.userId(), date));

@@ -2,6 +2,7 @@ package com.github.phoswald.fitbit.viewer.pages.cardioscore;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.Collection;
 import java.util.List;
 
 import com.github.phoswald.fitbit.viewer.repository.CardioScoreEntity;
@@ -11,7 +12,7 @@ import com.github.phoswald.record.builder.RecordBuilder;
 public record CardioScoreViewModel(
         LocalDate begDate,
         LocalDate endDate,
-        List<CardioScoreEntity> cardioScores,
+        Collection<CardioScoreEntity> cardioScores,
         String errorMessage,
         ZonedDateTime now
 ) {
@@ -19,7 +20,7 @@ public record CardioScoreViewModel(
     static CardioScoreViewModel create(
             LocalDate begDate,
             LocalDate endDate,
-            List<CardioScoreEntity> cardioScores) {
+            Collection<CardioScoreEntity> cardioScores) {
         return new CardioScoreViewModelBuilder()
                 .begDate(begDate)
                 .endDate(endDate)

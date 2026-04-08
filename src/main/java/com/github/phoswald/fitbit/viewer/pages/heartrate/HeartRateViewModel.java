@@ -2,6 +2,7 @@ package com.github.phoswald.fitbit.viewer.pages.heartrate;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.Collection;
 import java.util.List;
 
 import com.github.phoswald.fitbit.viewer.repository.HeartRateEntity;
@@ -11,7 +12,7 @@ import com.github.phoswald.record.builder.RecordBuilder;
 public record HeartRateViewModel(
         LocalDate begDate,
         LocalDate endDate,
-        List<HeartRateEntity> heartRates,
+        Collection<HeartRateEntity> heartRates,
         String errorMessage,
         ZonedDateTime now
 ) {
@@ -19,7 +20,7 @@ public record HeartRateViewModel(
     static HeartRateViewModel create(
             LocalDate begDate,
             LocalDate endDate,
-            List<HeartRateEntity> heartRates) {
+            Collection<HeartRateEntity> heartRates) {
         return new HeartRateViewModelBuilder()
                 .begDate(begDate)
                 .endDate(endDate)

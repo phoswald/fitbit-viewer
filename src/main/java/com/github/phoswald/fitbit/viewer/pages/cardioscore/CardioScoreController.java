@@ -1,7 +1,6 @@
 package com.github.phoswald.fitbit.viewer.pages.cardioscore;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -66,7 +65,8 @@ public class CardioScoreController extends PageController {
     private CardioScoreViewModel createCardioScoreViewModel(SessionData session, LocalDate begDate, LocalDate endDate) {
         try {
             log.info("Querying: begDate={}, endDate={}", begDate, endDate);
-            List<CardioScoreEntity> entities = cardioScoreRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate);
+            var entities = cardioScoreRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate).stream()
+                    .collect(toSortedMap(CardioScoreEntity::getDate));
             if (isComplete(entities, begDate, endDate)) {
                 log.debug("Found {} entities", entities.size());
             } else {
@@ -76,14 +76,27 @@ public class CardioScoreController extends PageController {
                         endDate.toString());
                 entities = response.cardioScore().stream()
                         .map(entry -> CardioScoreEntity.create(session.userId(), entry))
-                        .toList();
+                        .collect(toSortedMap(CardioScoreEntity::getDate));
+                for(LocalDate date = begDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+                    if(!entities.containsKey(date)) {
+                        entities.put(date, createEmptyDay(session.userId(), date));
+                    }
+                }
                 log.info("Storing {} entities", entities.size());
-                cardioScoreRepository.storeAll(entities);
+                cardioScoreRepository.storeAll(entities.values());
             }
-            return CardioScoreViewModel.create(begDate, endDate, entities);
+            return CardioScoreViewModel.create(begDate, endDate, entities.values());
         } catch (Exception e) {
             log.warn("Failed", e);
             return CardioScoreViewModel.createError(e.getMessage());
         }
+    }
+
+    private CardioScoreEntity createEmptyDay(String userId, LocalDate date) {
+        log.debug("Filling gap: {}", date);
+        CardioScoreEntity entity = new CardioScoreEntity();
+        entity.setUserId(userId);
+        entity.setDate(date);
+        return entity;
     }
 }

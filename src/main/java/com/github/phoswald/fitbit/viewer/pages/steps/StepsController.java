@@ -1,7 +1,6 @@
 package com.github.phoswald.fitbit.viewer.pages.steps;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -66,7 +65,8 @@ public class StepsController extends PageController {
     private StepsViewModel createStepsViewModel(SessionData session, LocalDate begDate, LocalDate endDate) {
         try {
             log.info("Querying: begDate={}, endDate={}", begDate, endDate);
-            List<StepsEntity> entities = stepsRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate);
+            var entities = stepsRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate).stream()
+                    .collect(toSortedMap(StepsEntity::getDate));
             if(isComplete(entities, begDate, endDate)) {
                 log.debug("Found {} entities", entities.size());
             } else {
@@ -76,15 +76,27 @@ public class StepsController extends PageController {
                         endDate.toString());
                 entities = response.activitiesSteps().stream()
                         .map(entry -> StepsEntity.create(session.userId(), entry))
-                        .toList();
+                        .collect(toSortedMap(StepsEntity::getDate));
+                for(LocalDate date = begDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+                    if(!entities.containsKey(date)) {
+                        entities.put(date, createEmptyDay(session.userId(), date));
+                    }
+                }
                 log.info("Storing {} entities", entities.size());
-                stepsRepository.storeAll(entities);
+                stepsRepository.storeAll(entities.values());
             }
-            return StepsViewModel.create(begDate, endDate, entities);
+            return StepsViewModel.create(begDate, endDate, entities.values());
         } catch (Exception e) {
             log.warn("Failed", e);
             return StepsViewModel.createError(e.getMessage());
         }
     }
 
+    private StepsEntity createEmptyDay(String userId, LocalDate date) {
+        log.debug("Filling gap: {}", date);
+        StepsEntity entity = new StepsEntity();
+        entity.setUserId(userId);
+        entity.setDate(date);
+        return entity;
+    }
 }

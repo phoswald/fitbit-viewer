@@ -1,7 +1,6 @@
 package com.github.phoswald.fitbit.viewer.pages.heartrate;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -66,7 +65,8 @@ public class HeartRateController extends PageController {
     private HeartRateViewModel createHeartRateViewModel(SessionData session, LocalDate begDate, LocalDate endDate) {
         try {
             log.info("Querying: begDate={}, endDate={}", begDate, endDate);
-            List<HeartRateEntity> entities = heartRateRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate);
+            var entities = heartRateRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate).stream()
+                    .collect(toSortedMap(HeartRateEntity::getDate));
             if(isComplete(entities, begDate, endDate)) {
                 log.debug("Found {} entities", entities.size());
             } else {
@@ -76,15 +76,27 @@ public class HeartRateController extends PageController {
                         endDate.toString());
                 entities = response.activitiesHeart().stream()
                         .map(entry -> HeartRateEntity.create(session.userId(), entry))
-                        .toList();
+                        .collect(toSortedMap(HeartRateEntity::getDate));
+                for(LocalDate date = begDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+                    if(!entities.containsKey(date)) {
+                        entities.put(date, createEmptyDay(session.userId(), date));
+                    }
+                }
                 log.info("Storing {} entities", entities.size());
-                heartRateRepository.storeAll(entities);
+                heartRateRepository.storeAll(entities.values());
             }
-            return HeartRateViewModel.create(begDate, endDate, entities);
+            return HeartRateViewModel.create(begDate, endDate, entities.values());
         } catch (Exception e) {
             log.warn("Failed", e);
             return HeartRateViewModel.createError(e.getMessage());
         }
     }
 
+    private HeartRateEntity createEmptyDay(String userId, LocalDate date) {
+        log.debug("Filling gap: {}", date);
+        HeartRateEntity entity = new HeartRateEntity();
+        entity.setUserId(userId);
+        entity.setDate(date);
+        return entity;
+    }
 }

@@ -2,6 +2,7 @@ package com.github.phoswald.fitbit.viewer.pages.steps;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.Collection;
 import java.util.List;
 
 import com.github.phoswald.fitbit.viewer.repository.StepsEntity;
@@ -11,7 +12,7 @@ import com.github.phoswald.record.builder.RecordBuilder;
 public record StepsViewModel(
         LocalDate begDate,
         LocalDate endDate,
-        List<StepsEntity> steps,
+        Collection<StepsEntity> steps,
         String errorMessage,
         ZonedDateTime now
 ) {
@@ -19,7 +20,7 @@ public record StepsViewModel(
     static StepsViewModel create(
             LocalDate begDate,
             LocalDate endDate,
-            List<StepsEntity> steps) {
+            Collection<StepsEntity> steps) {
         return new StepsViewModelBuilder()
                 .begDate(begDate)
                 .endDate(endDate)

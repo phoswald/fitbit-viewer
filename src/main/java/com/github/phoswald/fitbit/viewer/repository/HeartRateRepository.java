@@ -1,6 +1,7 @@
 package com.github.phoswald.fitbit.viewer.repository;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -21,7 +22,7 @@ public class HeartRateRepository {
                 .getResultList();
     }
 
-    public void storeAll(List<HeartRateEntity> entities) {
+    public void storeAll(Collection<HeartRateEntity> entities) {
         for (HeartRateEntity entity : entities) {
             em.merge(entity);
         }
