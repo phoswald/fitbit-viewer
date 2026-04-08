@@ -69,6 +69,7 @@ public class ActivityDetailController extends PageController {
             if (entity.isEmpty()) {
                 return ActivityDetailViewModel.createError("Activity not found");
             }
+            log.debug("Found entity with {} activity levels and {} heartrate zones", entity.get().getActivityLevels().size(), entity.get().getHeartRateZones().size());
 //            var response = activityApiClient.getActivities(
 //                    "Bearer " + session.accessToken(),
 //                    date.toString(), null, "asc", 10, 0);

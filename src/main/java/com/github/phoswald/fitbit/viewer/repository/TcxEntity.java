@@ -25,12 +25,12 @@ public class TcxEntity {
 
     @Id
     @Column(name = "log_id_", nullable = false)
-    private Long logId;
+    private long logId;
 
     @Column(name = "tcx_xml_", nullable = false)
     private String tcxXml;
 
-    public static TcxEntity create(String userId, Long logId, String tcxXml) {
+    public static TcxEntity create(String userId, long logId, String tcxXml) {
         TcxEntity entity = new TcxEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
         entity.setLogId(requireNonNull(logId, "logId"));
@@ -46,11 +46,11 @@ public class TcxEntity {
         this.userId = userId;
     }
 
-    public Long getLogId() {
+    public long getLogId() {
         return logId;
     }
 
-    public void setLogId(Long logId) {
+    public void setLogId(long logId) {
         this.logId = logId;
     }
 
@@ -67,5 +67,5 @@ public class TcxEntity {
                 JAXB.unmarshal(new StringReader(tcxXml), TcxDatabase.class));
     }
 
-    public record TcxId(String userId, Long logId) implements java.io.Serializable { }
+    public record TcxId(String userId, long logId) implements java.io.Serializable { }
 }

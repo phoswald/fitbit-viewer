@@ -11,7 +11,7 @@ import com.github.phoswald.record.builder.RecordBuilder;
 public record ActivityViewModel(
         LocalDate begDate,
         int limit,
-        Collection<ActivityEntity> entries,
+        Collection<ActivityEntity> activities,
         String errorMessage,
         ZonedDateTime now
 ) {
@@ -19,11 +19,11 @@ public record ActivityViewModel(
     static ActivityViewModel create(
             LocalDate begDate,
             int limit,
-            Collection<ActivityEntity> entries) {
+            Collection<ActivityEntity> activities) {
         return new ActivityViewModelBuilder()
                 .begDate(begDate)
                 .limit(limit)
-                .entries(entries)
+                .activities(activities)
                 .now(ZonedDateTime.now())
                 .build();
     }

@@ -12,7 +12,7 @@ public class TcxRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public Optional<TcxEntity> load(String userId, Long logId) {
+    public Optional<TcxEntity> load(String userId, long logId) {
         return Optional.ofNullable(em.find(TcxEntity.class, new TcxEntity.TcxId(userId, logId)));
     }
 

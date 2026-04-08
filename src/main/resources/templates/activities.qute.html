@@ -42,7 +42,7 @@
           <button type="submit" class="btn btn-primary">Query</button>
         </div>
       </form>
-      {#if model.entries}
+      {#if model.activities}
         <table class="table table-sm table-hover">
           <thead class="table-light">
             <tr>
@@ -58,17 +58,17 @@
             </tr>
           </thead>
           <tbody>
-            {#for entry in model.entries}
+            {#for activity in model.activities}
               <tr>
-                <td>{entry.begDateTime.format('yyyy-MM-dd')}</td>
-                <td>{entry.begDateTime.format('HH:mm')} - {entry.endDateTime.format('HH:mm')}</td>
-                <td><a href="activities/{entry.logId}">{entry.activityName}</a></td>
-                <td>{entry.durationMinutes}</td>
-                <td>{entry.calories}</td>
-                <td>{entry.steps}</td>
-                <td>{#if entry.distance}{entry.distance.format('0.00')} {entry.distanceUnit}{/if}</td>
-                <td>{entry.averageHeartRate}</td>
-                <td>{entry.logType}</td>
+                <td>{activity.begDateTime.format('yyyy-MM-dd')}</td>
+                <td>{activity.begDateTime.format('HH:mm')} - {activity.endDateTime.format('HH:mm')}</td>
+                <td><a href="activities/{activity.logId}">{activity.activityName}</a></td>
+                <td>{activity.durationMinutes}</td>
+                <td>{activity.calories}</td>
+                <td>{activity.steps}</td>
+                <td>{#if activity.distance}{activity.distance.format('0.00')} {activity.distanceUnit}{/if}</td>
+                <td>{activity.averageHeartRate}</td>
+                <td>{activity.logType}</td>
               </tr>
             {/for}
           </tbody>

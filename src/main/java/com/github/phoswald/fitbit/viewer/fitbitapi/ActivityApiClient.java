@@ -27,12 +27,24 @@ public interface ActivityApiClient {
             @QueryParam("limit") int limit,
             @QueryParam("offset") int offset);
 
+    @GET
+    @Path("/list.json")
+    @Produces(MediaType.APPLICATION_JSON)
+    String getActivities2( // TODO: REMOVE
+            @HeaderParam("Authorization") String authorizationHeader,
+            @QueryParam("afterDate") String afterDate,
+            @QueryParam("beforeDate") String beforeDate,
+            @QueryParam("sort") String sort,
+            @QueryParam("limit") int limit,
+            @QueryParam("offset") int offset);
+
     record ActivityResponse(
             List<ActivityEntry> activities
     ) { }
 
     record ActivityEntry(
             Long logId,
+            Integer activityTypeId,
             String activityName,
             String startTime,
             Long duration,
@@ -49,7 +61,8 @@ public interface ActivityApiClient {
             Double speed,
             Double elevationGain,
             Integer floors,
-            ActivitySource source
+            ActivitySource source,
+            ActiveZoneMinutes activeZoneMinutes
     ) { }
 
     record HeartRateZone(
@@ -68,7 +81,12 @@ public interface ActivityApiClient {
     record ActivitySource(
             String name,
             String type,
-            String url
+            String url,
+            List<String> trackerFeatures
+    ) { }
+
+    record ActiveZoneMinutes(
+            Integer totalMinutes
     ) { }
 
     @GET

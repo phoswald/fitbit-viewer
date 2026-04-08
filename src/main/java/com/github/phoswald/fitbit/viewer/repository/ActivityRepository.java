@@ -14,10 +14,7 @@ public class ActivityRepository {
     private EntityManager em;
 
     public Optional<ActivityEntity> loadByUserIdAndLogId(String userId, long logId) {
-        return Optional.ofNullable(em.createNamedQuery("ActivityEntity.loadByUserIdAndLogId", ActivityEntity.class)
-                .setParameter("userId", userId)
-                .setParameter("logId", logId)
-                .getSingleResultOrNull());
+        return Optional.ofNullable(em.find(ActivityEntity.class, new ActivityEntity.ActivityId(userId, logId)));
     }
 
     public void storeAll(Collection<ActivityEntity> entities) {

@@ -30,8 +30,8 @@
       {#if model.errorMessage}
         <div class="alert alert-danger">{model.errorMessage}</div>
       {/if}
-      {#if model.entry}
-        {#let e = model.entry}
+      {#if model.activity}
+        {#let e = model.activity}
         <table class="table table-sm table-borderless w-auto mb-4">
           <tr>
             <th class="table-light pe-4">Activity</th>
@@ -39,7 +39,7 @@
           </tr>
           <tr>
             <th class="table-light pe-4">Date &amp; Time</th>
-            <td>{e.startTime.format('yyyy-MM-dd HH:mm')}</td>
+            <td>{e.begDateTime.format('yyyy-MM-dd HH:mm')}</td>
           </tr>
           <tr>
             <th class="table-light pe-4">Duration</th>
@@ -85,26 +85,14 @@
             <td>{e.averageHeartRate} bpm</td>
           </tr>
           {/if}
-          {#if e.elevationGain}
-          <tr>
-            <th class="table-light pe-4">Elevation Gain</th>
-            <td>{e.elevationGain.format('0.0')} m</td>
-          </tr>
-          {/if}
-          {#if e.floors}
-          <tr>
-            <th class="table-light pe-4">Floors</th>
-            <td>{e.floors}</td>
-          </tr>
-          {/if}
           <tr>
             <th class="table-light pe-4">Log Type</th>
             <td>{e.logType}</td>
           </tr>
-          {#if e.source}
+          {#if e.sourceName && e.sourceType}
           <tr>
             <th class="table-light pe-4">Source</th>
-            <td>{e.source.name} ({e.source.type})</td>
+            <td>{e.sourceName} ({e.sourceType})</td>
           </tr>
           {/if}
         </table>
@@ -123,10 +111,10 @@
           <tbody>
             {#for z in e.heartRateZones}
             <tr>
-              <td>{z.name}</td>
-              <td>{z.minBpm} – {z.maxBpm}</td>
-              <td>{z.minutes}</td>
-              <td>{#if z.caloriesOut}{z.caloriesOut.format('0.0')}{/if}</td>
+              <td>{z.zoneName}</td>
+              <td>{z.heartRateMin} – {z.heartRateMax}</td>
+              <td>{z.zoneMinutes}</td>
+              <td>{#if z.calories}{z.calories.format('0.0')}{/if}</td>
             </tr>
             {/for}
           </tbody>
@@ -145,33 +133,33 @@
           <tbody>
             {#for l in e.activityLevels}
             <tr>
-              <td>{l.name}</td>
-              <td>{l.minutes}</td>
+              <td>{l.levelName}</td>
+              <td>{l.levelMinutes}</td>
             </tr>
             {/for}
           </tbody>
         </table>
         {/if}
-
-        {#if e.track}
-        <h2 class="h5 mb-2">Track</h2>
-        <div id="map" style="aspect-ratio: 1 / 1;" class="mb-4 rounded border"></div>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-        <script>
-          var coords = {e.track.formatJsGeoPoints};
-          var map = L.map('map');
-          L.tileLayer('https://tile.openstreetmap.org/\{z}/\{x}/\{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          }).addTo(map);
-          var polyline = L.polyline(coords, \{color: '#0d6efd', weight: 3}).addTo(map);
-          map.fitBounds(polyline.getBounds());
-        </script>
-        {/if}
-
         {/let}
       {/if}
+
+      {#if model.track}
+      <h2 class="h5 mb-2">Track</h2>
+      <div id="map" style="aspect-ratio: 1 / 1;" class="mb-4 rounded border"></div>
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+      <script>
+        var coords = {model.track.formatJsGeoPoints};
+        var map = L.map('map');
+        L.tileLayer('https://tile.openstreetmap.org/\{z}/\{x}/\{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        var polyline = L.polyline(coords, \{color: '#0d6efd', weight: 3}).addTo(map);
+        map.fitBounds(polyline.getBounds());
+      </script>
+      {/if}
+
       <footer class="border-top mt-4 pt-2 text-muted small">
         Generated: {model.now.format('yyyy-MM-dd HH:mm:ss')}
       </footer>

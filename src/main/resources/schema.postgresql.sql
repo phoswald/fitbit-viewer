@@ -51,22 +51,55 @@ alter table fitbit_active_zone_minutes_
 
 create table fitbit_activity_ (
     user_id_                varchar(32) not null,
-    date_                   date not null,
     log_id_                 bigint not null,
+    log_type_               varchar(32) null,
+    activity_type_id_       integer null,
+    activity_name_          varchar(64) null,
+    date_                   date not null,
     beg_date_time_          timestamptz null,
     end_date_time_          timestamptz null,
     duration_minutes_       integer null,
-    calories_               integer null,
-    steps_                  integer null,
-    log_type_               varchar(32) null,
-    activity_name_          varchar(64) null,
+    active_duration_minutes_ integer null,
     distance_               double precision null,
     distance_unit_          varchar(16) null,
-    average_heart_rate_     integer null
+    steps_                  integer null,
+    calories_               integer null,
+    speed_                  double precision null,
+    pace_                   double precision null,
+    average_heart_rate_     integer null,
+    active_zone_minutes_    integer null,
+    source_type_            varchar null,
+    source_name_            varchar null,
+    source_url_             varchar null,
+    source_features_        varchar null
 );
 
 alter table fitbit_activity_
-    add constraint fitbit_activity_pk_ primary key (user_id_, date_, log_id_);
+    add constraint fitbit_activity_pk_ primary key (user_id_, log_id_);
+
+create table fitbit_activity_level_ (
+    user_id_                varchar(32) not null,
+    log_id_                 bigint not null,
+    level_name_             varchar(32) not null,
+    level_minutes_          integer null,
+    sort_index_             integer null
+);
+
+alter table fitbit_activity_level_
+    add constraint fitbit_activity_level_pk_ primary key (user_id_, log_id_, level_name_);
+
+create table fitbit_activity_heartrate_zone_ (
+    user_id_                varchar(32) not null,
+    log_id_                 bigint not null,
+    zone_name_              varchar(32) not null,
+    zone_minutes_           integer null,
+    calories_               double precision null,
+    heartrate_min_          integer null,
+    heartrate_max_          integer null
+);
+
+alter table fitbit_activity_heartrate_zone_
+    add constraint fitbit_activity_heartrate_zone_pk_ primary key (user_id_, log_id_, zone_name_);
 
 -- Activities - TCX
 
