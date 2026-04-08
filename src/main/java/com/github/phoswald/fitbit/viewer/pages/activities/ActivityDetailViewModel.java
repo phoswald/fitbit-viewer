@@ -6,6 +6,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 import com.github.phoswald.fitbit.viewer.fitbitapi.ActivityApiClient;
+import com.github.phoswald.fitbit.viewer.repository.ActivityEntity;
 import com.github.phoswald.fitbit.viewer.tcx.GeoPoint;
 import com.github.phoswald.record.builder.RecordBuilder;
 
@@ -13,12 +14,13 @@ import com.github.phoswald.record.builder.RecordBuilder;
 public record ActivityDetailViewModel(
         Long logId,
         LocalDate date,
+        ActivityEntity activity,
         ActivityDetailEntry entry,
         String errorMessage,
         ZonedDateTime now
 ) {
     @RecordBuilder
-    record ActivityDetailEntry(
+    record ActivityDetailEntry( // TODO remove
             Long logId,
             String activityName,
             OffsetDateTime startTime,
@@ -62,11 +64,11 @@ public record ActivityDetailViewModel(
             String url
     ) { }
 
-    static ActivityDetailViewModel create(Long logId, LocalDate date, ActivityApiClient.ActivityEntry apiEntry, List<GeoPoint> track) {
+    static ActivityDetailViewModel create(Long logId, ActivityEntity activity, List<GeoPoint> track) {
         return new ActivityDetailViewModelBuilder()
                 .logId(logId)
-                .date(date)
-                .entry(createEntry(apiEntry, track))
+                .activity(activity)
+                .entry(createEntry(activity, track))
                 .now(ZonedDateTime.now())
                 .build();
     }
@@ -78,26 +80,26 @@ public record ActivityDetailViewModel(
                 .build();
     }
 
-    private static ActivityDetailEntry createEntry(ActivityApiClient.ActivityEntry e, List<GeoPoint> track) {
+    private static ActivityDetailEntry createEntry(ActivityEntity activity, List<GeoPoint> track) {
         return new ActivityDetailEntryBuilder()
-                .logId(e.logId())
-                .activityName(e.activityName())
-                .startTime(e.startTime() == null ? null : OffsetDateTime.parse(e.startTime()))
-                .durationMinutes(e.duration() == null ? null : e.duration().intValue() / 60_000)
-                .activeDurationMinutes(e.activeDuration() == null ? null : e.activeDuration().intValue() / 60_000)
-                .calories(e.calories())
-                .steps(e.steps())
-                .distance(e.distance())
-                .distanceUnit(e.distanceUnit())
-                .averageHeartRate(e.averageHeartRate())
-                .logType(e.logType())
-                .heartRateZones(e.heartRateZones() == null ? null : e.heartRateZones().stream().map(ActivityDetailViewModel::createZone).toList())
-                .activityLevels(e.activityLevel() == null ? null : e.activityLevel().stream().map(ActivityDetailViewModel::createLevel).toList())
-                .pace(e.pace())
-                .speed(e.speed())
-                .elevationGain(e.elevationGain())
-                .floors(e.floors())
-                .source(e.source() == null ? null : createSource(e.source()))
+                .logId(activity.getLogId())
+                .logType(activity.getLogType())
+                .activityName(activity.getActivityName())
+                .startTime(activity.getBegDateTime())
+                .durationMinutes(activity.getDurationMinutes())
+//              .activeDurationMinutes(e.activeDuration() == null ? null : e.activeDuration().intValue() / 60_000)
+                .calories(activity.getCalories())
+                .steps(activity.getSteps())
+                .distance(activity.getDistance())
+                .distanceUnit(activity.getDistanceUnit())
+                .averageHeartRate(activity.getAverageHeartRate())
+//                .heartRateZones(e.heartRateZones() == null ? null : e.heartRateZones().stream().map(ActivityDetailViewModel::createZone).toList())
+//                .activityLevels(e.activityLevel() == null ? null : e.activityLevel().stream().map(ActivityDetailViewModel::createLevel).toList())
+//                .pace(e.pace())
+//                .speed(e.speed())
+//                .elevationGain(e.elevationGain())
+//                .floors(e.floors())
+//                .source(e.source() == null ? null : createSource(e.source()))
                 .track(track)
                 .build();
     }

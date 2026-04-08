@@ -16,8 +16,11 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.phoswald.fitbit.viewer.auth.SessionData;
 import com.github.phoswald.fitbit.viewer.fitbitapi.ActivityApiClient;
 import com.github.phoswald.fitbit.viewer.pages.PageController;
+import com.github.phoswald.fitbit.viewer.repository.ActivityEntity;
+import com.github.phoswald.fitbit.viewer.repository.ActivityRepository;
 
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
@@ -35,6 +38,9 @@ public class ActivityController extends PageController {
     @RestClient
     private ActivityApiClient activityClient;
 
+    @Inject
+    private ActivityRepository activityRepository;
+
     @QueryParam("begDate")
     private LocalDate begDate;
 
@@ -51,16 +57,29 @@ public class ActivityController extends PageController {
         }
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            try {
-                log.info("getActivitiesPage(): begDate={}, limit={}", begDate, limit);
-                var response = activityClient.getActivities("Bearer " + session.get().accessToken(), begDate.toString(), null,"asc", limit, 0);
-                return activities.data("model", ActivityViewModel.create(begDate, limit, response.activities()));
-            } catch (Exception e) {
-                log.warn("getActivitiesPage(): failed", e);
-                return activities.data("model", ActivityViewModel.createError(e.getMessage()));
-            }
+            return activities.data("model", createActivityViewModel(session.get(), begDate, limit));
         } else {
             return activities.data("model", ActivityViewModel.createError("You are not logged in."));
+        }
+    }
+
+    private ActivityViewModel createActivityViewModel(SessionData session, LocalDate begDate, int limit) {
+        try {
+            log.info("Querying: begDate={}, limit={}", begDate, limit);
+            var response = activityClient.getActivities(
+                    "Bearer " + session.accessToken(),
+                    begDate.toString(),
+                    null,"asc",
+                    limit, 0);
+            var entities = response.activities().stream()
+                    .map(entry -> ActivityEntity.create(session.userId(), entry))
+                    .toList();
+            log.info("Storing {} entities", entities.size());
+            activityRepository.storeAll(entities);
+            return ActivityViewModel.create(begDate, limit, entities);
+        } catch (Exception e) {
+            log.warn("Failed", e);
+            return ActivityViewModel.createError(e.getMessage());
         }
     }
 }

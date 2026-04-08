@@ -1,6 +1,5 @@
 package com.github.phoswald.fitbit.viewer.pages.activities;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +10,6 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -21,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
 import com.github.phoswald.fitbit.viewer.fitbitapi.ActivityApiClient;
 import com.github.phoswald.fitbit.viewer.pages.PageController;
+import com.github.phoswald.fitbit.viewer.repository.ActivityRepository;
 import com.github.phoswald.fitbit.viewer.repository.TcxEntity;
 import com.github.phoswald.fitbit.viewer.repository.TcxRepository;
 import com.github.phoswald.fitbit.viewer.tcx.GeoPoint;
@@ -45,44 +44,38 @@ public class ActivityDetailController extends PageController {
     @Inject
     private TcxRepository tcxRepository;
 
+    @Inject
+    private ActivityRepository activityRepository;
+
     @PathParam("logId")
     private Long logId;
-
-    @QueryParam("date")
-    private LocalDate date;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Transactional
     public TemplateInstance getActivityDetailPage() {
-        if (date == null) {
-            return activityDetail.data("model",
-                    ActivityDetailViewModel.createError("Query parameter 'date' is required."));
-        }
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            return activityDetail.data("model", createActivityDetailViewModel(session.get(), logId, date));
+            return activityDetail.data("model", createActivityDetailViewModel(session.get(), logId));
         } else {
             return activityDetail.data("model", ActivityDetailViewModel.createError("You are not logged in."));
         }
     }
 
-    private ActivityDetailViewModel createActivityDetailViewModel(SessionData session, Long logId, LocalDate date) {
+    private ActivityDetailViewModel createActivityDetailViewModel(SessionData session, long logId) {
         try {
-            log.info("Querying: logId={}, date={}", logId, date);
-
-            var response = activityApiClient.getActivities(
-                    "Bearer " + session.accessToken(),
-                    date.toString(), null, "asc", 10, 0);
-            var activity = response.activities() == null ? null :
-                    response.activities().stream()
-                    .filter(e -> logId.equals(e.logId()))
-                    .findFirst();
-
-            if (activity.isEmpty()) {
+            log.info("Querying: logId={}", logId);
+            var entity = activityRepository.loadByUserIdAndLogId(session.userId(), logId);
+            if (entity.isEmpty()) {
                 return ActivityDetailViewModel.createError("Activity not found");
             }
-
+//            var response = activityApiClient.getActivities(
+//                    "Bearer " + session.accessToken(),
+//                    date.toString(), null, "asc", 10, 0);
+//            var activity = response.activities() == null ? null :
+//                    response.activities().stream()
+//                    .filter(e -> logId.equals(e.logId()))
+//                    .findFirst();
             var tcxEntity = tcxRepository.load(session.userId(), logId);
             if(tcxEntity.isPresent()) {
                 log.debug("Found TCX entity");
@@ -92,14 +85,12 @@ public class ActivityDetailController extends PageController {
                 log.info("Storing TCX entity");
                 tcxRepository.store(tcxEntity.get());
             }
-
             List<GeoPoint> track = tcxEntity
                     .flatMap(TcxEntity::parseTcxXml)
                     .map(TcxDatabase::collectTrackPoints)
                     .orElse(List.of());
             log.debug("createActivityDetailViewModel(): logId={}: found track with {} points", logId, track.size());
-
-            return ActivityDetailViewModel.create(logId, date, activity.get(), track);
+            return ActivityDetailViewModel.create(logId, entity.get(), track);
         } catch (Exception e) {
             log.warn("getActivityDetailPage(): failed", e);
             return ActivityDetailViewModel.createError(e.getMessage());

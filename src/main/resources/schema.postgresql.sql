@@ -47,6 +47,27 @@ create table fitbit_active_zone_minutes_ (
 alter table fitbit_active_zone_minutes_
     add constraint fitbit_active_zone_minutes_pk_ primary key (user_id_, date_);
 
+-- Activities
+
+create table fitbit_activity_ (
+    user_id_                varchar(32) not null,
+    date_                   date not null,
+    log_id_                 bigint not null,
+    beg_date_time_          timestamptz null,
+    end_date_time_          timestamptz null,
+    duration_minutes_       integer null,
+    calories_               integer null,
+    steps_                  integer null,
+    log_type_               varchar(32) null,
+    activity_name_          varchar(64) null,
+    distance_               double precision null,
+    distance_unit_          varchar(16) null,
+    average_heart_rate_     integer null
+);
+
+alter table fitbit_activity_
+    add constraint fitbit_activity_pk_ primary key (user_id_, date_, log_id_);
+
 -- Activities - TCX
 
 create table fitbit_tcx_ (
