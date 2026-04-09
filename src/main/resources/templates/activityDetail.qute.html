@@ -31,97 +31,86 @@
         <div class="alert alert-danger">{model.errorMessage}</div>
       {/if}
       {#if model.activity}
-        {#let e = model.activity}
         <table class="table table-sm table-borderless w-auto mb-4">
           <tr>
             <th class="table-light pe-4">Activity</th>
-            <td><strong>{e.activityName}</strong></td>
+            <td><strong>{model.activity.activityName}</strong></td>
           </tr>
           <tr>
             <th class="table-light pe-4">Date &amp; Time</th>
-            <td>{e.begDateTime.format('yyyy-MM-dd HH:mm')} - {e.endDateTime.format('HH:mm')}</td>
+            <td>{model.activity.begDateTime.format('yyyy-MM-dd HH:mm')} - {model.activity.endDateTime.format('HH:mm')}</td>
           </tr>
           <tr>
             <th class="table-light pe-4">Duration</th>
-            <td>{e.durationMinutes} min</td>
+            <td>{#if model.activity.durationMinutes}{model.activity.durationMinutes.formatDuration}{/if}</td>
           </tr>
           <tr>
             <th class="table-light pe-4">Active Duration</th>
-            <td>{e.activeDurationMinutes} min</td>
+            <td>{#if model.activity.activeDurationMinutes}{model.activity.activeDurationMinutes.formatDuration}{/if}</td>
           </tr>
           <tr>
             <th class="table-light pe-4">Calories</th>
-            <td>{e.calories}</td>
+            <td>{model.activity.calories}</td>
           </tr>
           <tr>
             <th class="table-light pe-4">Steps</th>
-            <td>{e.steps}</td>
+            <td>{model.activity.steps}</td>
           </tr>
-          {#if e.distance}
           <tr>
             <th class="table-light pe-4">Distance</th>
-            <td>{e.distance.format('0.00')} {e.distanceUnit}</td>
+            <td>{#if model.activity.distance}{model.activity.distance.format('0.00')} km{/if}</td>
           </tr>
-          {/if}
-          {#if e.pace}
           <tr>
             <th class="table-light pe-4">Pace</th>
-            <td>{e.pace.format('0.00')} s/m</td>
+            <td>{#if model.activity.pace}{model.activity.pace.formatPace} min/km{/if}</td>
           </tr>
-          {/if}
-          {#if e.speed}
           <tr>
             <th class="table-light pe-4">Speed</th>
-            <td>{e.speed.format('0.00')} m/s</td>
+            <td>{#if model.activity.speed}{model.activity.speed.format('0.00')} km/h{/if}</td>
           </tr>
-          {/if}
-          {#if e.averageHeartRate}
           <tr>
             <th class="table-light pe-4">Avg Heart Rate</th>
-            <td>{e.averageHeartRate} bpm</td>
+            <td>{#if model.activity.averageHeartRate}{model.activity.averageHeartRate} bpm{/if}</td>
           </tr>
-          {/if}
           <tr>
             <th class="table-light pe-4">Log Type</th>
-            <td>{e.logType}</td>
+            <td>{model.activity.logType}</td>
           </tr>
-          {#if e.sourceName && e.sourceType}
           <tr>
             <th class="table-light pe-4">Source</th>
-            <td>{e.sourceName} ({e.sourceType})</td>
+            <td>{model.activity.sourceName}{#if model.activity.sourceType} ({model.activity.sourceType}){/if}</td>
           </tr>
           <tr>
             <th class="table-light pe-4">Source Features</th>
-            <td>{e.sourceFeatures}</td>
+            <td>{model.activity.sourceFeatures}</td>
           </tr>
-          {/if}
         </table>
 
-        {#if e.heartRateZones}
+        {#if model.activity.heartRateZones}
         <h2 class="h5 mb-2">Heart Rate Zones</h2>
         <table class="table table-sm table-hover w-auto mb-4">
           <thead class="table-light">
             <tr>
               <th>Zone</th>
-              <th>Range (bpm)</th>
+              <th>Heart Rate (bpm)</th>
               <th>Time (min)</th>
               <th>Calories Out</th>
             </tr>
           </thead>
           <tbody>
-            {#for z in e.heartRateZones}
+            {#for zone in model.activity.heartRateZones}
             <tr>
-              <td>{z.zoneName}</td>
-              <td>{z.heartRateMin} – {z.heartRateMax}</td>
-              <td>{z.zoneMinutes}</td>
-              <td>{#if z.calories}{z.calories.format('0.0')}{/if}</td>
+              <td>{zone.zoneName}</td>
+              <td>{zone.heartRateMin} – {zone.heartRateMax}</td>
+              <td>{zone.zoneMinutes}</td>
+              <td>{#if zone.calories}{zone.calories.format('0.0')}{/if}</td>
             </tr>
             {/for}
           </tbody>
         </table>
         {/if}
 
-        {#if e.activityLevels}
+        {#if model.activity.activityLevels}
         <h2 class="h5 mb-2">Activity Levels</h2>
         <table class="table table-sm table-hover w-auto mb-4">
           <thead class="table-light">
@@ -131,16 +120,15 @@
             </tr>
           </thead>
           <tbody>
-            {#for l in e.activityLevels}
+            {#for level in model.activity.activityLevels}
             <tr>
-              <td>{l.levelName}</td>
-              <td>{l.levelMinutes}</td>
+              <td>{level.levelName}</td>
+              <td>{level.levelMinutes}</td>
             </tr>
             {/for}
           </tbody>
         </table>
         {/if}
-        {/let}
       {/if}
 
       {#if model.track}

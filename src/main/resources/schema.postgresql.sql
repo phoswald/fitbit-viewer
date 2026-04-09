@@ -79,10 +79,9 @@ create table fitbit_activity_ (
     date_                   date not null,
     beg_date_time_          timestamptz null,
     end_date_time_          timestamptz null,
-    duration_minutes_       integer null,
-    active_duration_minutes_ integer null,
+    duration_minutes_       double precision null,
+    active_duration_minutes_ double precision null,
     distance_               double precision null,
-    distance_unit_          varchar(16) null,
     steps_                  integer null,
     calories_               integer null,
     speed_                  double precision null,
@@ -109,6 +108,9 @@ create table fitbit_activity_level_ (
 alter table fitbit_activity_level_
     add constraint fitbit_activity_level_pk_ primary key (user_id_, log_id_, level_name_);
 
+alter table fitbit_activity_level_
+    add constraint fitbit_activity_level_activity_fk_ foreign key (user_id_, log_id_) references fitbit_activity_ (user_id_, log_id_);
+
 create table fitbit_activity_heartrate_zone_ (
     user_id_                varchar(32) not null,
     log_id_                 bigint not null,
@@ -121,6 +123,9 @@ create table fitbit_activity_heartrate_zone_ (
 
 alter table fitbit_activity_heartrate_zone_
     add constraint fitbit_activity_heartrate_zone_pk_ primary key (user_id_, log_id_, zone_name_);
+
+alter table fitbit_activity_heartrate_zone_
+    add constraint fitbit_activity_heartrate_zone_activity_fk_ foreign key (user_id_, log_id_) references fitbit_activity_ (user_id_, log_id_);
 
 -- Activities - TCX
 

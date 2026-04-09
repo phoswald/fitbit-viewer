@@ -63,12 +63,20 @@ public class ProfileEntity {
         entity.setAge(user.age());
         entity.setGender(user.gender());
         entity.setMemberSince(user.memberSince());
-        entity.setHeight(user.height());
-        entity.setWeight(user.weight());
-        entity.setStrideLengthWalking(user.strideLengthWalking());
-        entity.setStrideLengthRunning(user.strideLengthRunning());
+        entity.setHeight(maskZero(user.height()));
+        entity.setWeight(maskZero(user.weight()));
+        entity.setStrideLengthWalking(maskZero(user.strideLengthWalking()));
+        entity.setStrideLengthRunning(maskZero(user.strideLengthRunning()));
         entity.setAverageDailySteps(user.averageDailySteps());
         return entity;
+    }
+
+    private static Integer maskZero(Integer value) {
+        return value == null || value.intValue() == 0 ? null : value;
+    }
+
+    private static Double maskZero(Double value) {
+        return value == null || value.doubleValue() == 0 ? null : value;
     }
 
     public String getUserId() {

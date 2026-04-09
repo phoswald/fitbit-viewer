@@ -54,16 +54,13 @@ public class ActivityEntity {
     private OffsetDateTime endDateTime;
 
     @Column(name = "duration_minutes_")
-    private Integer durationMinutes;
+    private Double durationMinutes;
 
     @Column(name = "active_duration_minutes_")
-    private Integer activeDurationMinutes;
+    private Double activeDurationMinutes;
 
     @Column(name = "distance_")
     private Double distance;
-
-    @Column(name = "distance_unit_", length = 16)
-    private String distanceUnit;
 
     @Column(name = "steps_")
     private Integer steps;
@@ -119,12 +116,14 @@ public class ActivityEntity {
         entity.setActivityTypeId(entry.activityTypeId());
         entity.setActivityName(entry.activityName());
         entity.setDate(OffsetDateTime.parse(requireNonNull(entry.startTime(), "startTime")).toLocalDate());
-        entity.setBegDateTime(entry.startTime() == null ? null : OffsetDateTime.parse(entry.startTime()));
-        entity.setEndDateTime(entry.startTime() == null || entry.duration() == null ? null : OffsetDateTime.parse(entry.startTime()).plusSeconds(entry.duration() / 1000));
-        entity.setDurationMinutes(entry.duration() == null ? null : (int) (entry.duration() / 60_000));
-        entity.setActiveDurationMinutes(entry.activeDuration() == null ? null : (int) (entry.activeDuration() / 60_000));
+        entity.setBegDateTime(parseDateTime(entry.startTime()));
+        entity.setEndDateTime(plusMillis(parseDateTime(entry.startTime()), entry.duration()));
+        entity.setDurationMinutes(divideBy(entry.duration(),60_000));
+        entity.setActiveDurationMinutes(divideBy(entry.activeDuration(),60_000));
+        if(entry.distanceUnit() != null && !entry.distanceUnit().equals("Kilometer")) {
+            throw new IllegalArgumentException("Unsupported distanceUnit=" + entry.distanceUnit());
+        }
         entity.setDistance(entry.distance());
-        entity.setDistanceUnit(entry.distanceUnit());
         entity.setSteps(entry.steps());
         entity.setCalories(entry.calories());
         entity.setSpeed(entry.speed());
@@ -155,6 +154,18 @@ public class ActivityEntity {
             }
         }
         return entity;
+    }
+
+    private static OffsetDateTime parseDateTime(String value) {
+        return value == null ? null : OffsetDateTime.parse(value);
+    }
+
+    private static OffsetDateTime plusMillis(OffsetDateTime value, Long delta) {
+        return value == null || delta == null ? null : value.plusSeconds(delta / 1000);
+    }
+
+    private static Double divideBy(Long value, int divisor) {
+        return value == null ? null : value.doubleValue() / divisor;
     }
 
     public String getUserId() {
@@ -221,19 +232,19 @@ public class ActivityEntity {
         this.endDateTime = endDateTime;
     }
 
-    public Integer getDurationMinutes() {
+    public Double getDurationMinutes() {
         return durationMinutes;
     }
 
-    public void setDurationMinutes(Integer durationMinutes) {
+    public void setDurationMinutes(Double durationMinutes) {
         this.durationMinutes = durationMinutes;
     }
 
-    public Integer getActiveDurationMinutes() {
+    public Double getActiveDurationMinutes() {
         return activeDurationMinutes;
     }
 
-    public void setActiveDurationMinutes(Integer activeDurationMinutes) {
+    public void setActiveDurationMinutes(Double activeDurationMinutes) {
         this.activeDurationMinutes = activeDurationMinutes;
     }
 
@@ -243,14 +254,6 @@ public class ActivityEntity {
 
     public void setDistance(Double distance) {
         this.distance = distance;
-    }
-
-    public String getDistanceUnit() {
-        return distanceUnit;
-    }
-
-    public void setDistanceUnit(String distanceUnit) {
-        this.distanceUnit = distanceUnit;
     }
 
     public Integer getSteps() {

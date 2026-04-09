@@ -56,23 +56,23 @@
           </tr>
           <tr>
             <th class="table-light">Height</th>
-            <td>{model.profile.height} cm</td>
+            <td>{#if model.profile.height}{model.profile.height} cm{/if}</td>
           </tr>
           <tr>
             <th class="table-light">Weight</th>
-            <td>{model.profile.weight} kg</td>
+          <td>{#if model.profile.weight}{model.profile.weight} kg{/if}</td>
           </tr>
           <tr>
             <th class="table-light">Stride Length Walking</th>
-            <td>{model.profile.strideLengthWalking} cm</td>
+            <td>{#if model.profile.strideLengthWalking}{model.profile.strideLengthWalking} cm{/if}</td>
           </tr>
           <tr>
             <th class="table-light">Stride Length Running</th>
-            <td>{model.profile.strideLengthRunning} cm</td>
+            <td>{#if model.profile.strideLengthRunning}{model.profile.strideLengthRunning} cm{/if}</td>
           </tr>
           <tr>
             <th class="table-light">Steps</th>
-            <td>{model.profile.averageDailySteps} (daily average)</td>
+            <td>{#if model.profile.averageDailySteps}{model.profile.averageDailySteps} (daily average){/if}</td>
           </tr>
           <tr>
             <th class="table-light">User ID</th>

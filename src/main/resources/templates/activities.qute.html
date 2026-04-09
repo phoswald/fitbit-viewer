@@ -49,11 +49,11 @@
               <th>Date</th>
               <th>Time</th>
               <th>Activity</th>
-              <th>Duration (min)</th>
+              <th>Duration</th>
               <th>Calories</th>
               <th>Steps</th>
-              <th>Distance</th>
-              <th>Avg HR (bpm)</th>
+              <th>Distance (km)</th>
+              <th>Avg Heart Rate (bpm)</th>
               <th>Type</th>
             </tr>
           </thead>
@@ -63,10 +63,10 @@
                 <td>{activity.begDateTime.format('yyyy-MM-dd')}</td>
                 <td>{activity.begDateTime.format('HH:mm')} - {activity.endDateTime.format('HH:mm')}</td>
                 <td><a href="activities/{activity.logId}">{activity.activityName}</a></td>
-                <td>{activity.durationMinutes}</td>
+                <td>{activity.durationMinutes.formatDuration}</td>
                 <td>{activity.calories}</td>
                 <td>{activity.steps}</td>
-                <td>{#if activity.distance}{activity.distance.format('0.00')} {activity.distanceUnit}{/if}</td>
+                <td>{#if activity.distance}{activity.distance.format('0.00')}{/if}</td>
                 <td>{activity.averageHeartRate}</td>
                 <td>{activity.logType}</td>
               </tr>
