@@ -12,7 +12,6 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
 import com.github.phoswald.fitbit.viewer.fitbitapi.HeartRateApiClient;
-import com.github.phoswald.fitbit.viewer.fitbitapi.StepsApiClient;
 
 @Entity
 @Table(name = "fitbit_heartrate_")

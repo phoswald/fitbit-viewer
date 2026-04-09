@@ -1,7 +1,5 @@
 package com.github.phoswald.fitbit.viewer.pages.activities;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 
 import jakarta.enterprise.context.RequestScoped;
@@ -73,12 +71,6 @@ public class ActivityController extends PageController {
                     begDate.toString(),
                     null,"asc",
                     limit, 0);
-            var response2 = activityClient.getActivities2( // TODO: REMOVE
-                    "Bearer " + session.accessToken(),
-                    begDate.toString(),
-                    null,"asc",
-                    limit, 0);
-            Files.writeString(Paths.get("target/actitiv.json"), response2); // TODO: REMOVE
             var entities = response.activities().stream()
                     .map(entry -> ActivityEntity.create(session.userId(), entry))
                     .toList();

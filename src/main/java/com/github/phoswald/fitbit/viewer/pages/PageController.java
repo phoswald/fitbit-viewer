@@ -2,7 +2,6 @@ package com.github.phoswald.fitbit.viewer.pages;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.function.Function;

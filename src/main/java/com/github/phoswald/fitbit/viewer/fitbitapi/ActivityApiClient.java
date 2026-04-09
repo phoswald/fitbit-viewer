@@ -27,17 +27,6 @@ public interface ActivityApiClient {
             @QueryParam("limit") int limit,
             @QueryParam("offset") int offset);
 
-    @GET
-    @Path("/list.json")
-    @Produces(MediaType.APPLICATION_JSON)
-    String getActivities2( // TODO: REMOVE
-            @HeaderParam("Authorization") String authorizationHeader,
-            @QueryParam("afterDate") String afterDate,
-            @QueryParam("beforeDate") String beforeDate,
-            @QueryParam("sort") String sort,
-            @QueryParam("limit") int limit,
-            @QueryParam("offset") int offset);
-
     record ActivityResponse(
             List<ActivityEntry> activities
     ) { }

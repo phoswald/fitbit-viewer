@@ -42,11 +42,11 @@ public class ProfileController extends PageController {
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
             try {
-                log.info("getProfile(): userId={}", session.get().userId());
+                log.info("Querying: userId={}", session.get().userId());
                 var profile = profileClient.getProfile("Bearer " + session.get().accessToken());
                 return this.profile.data("model", ProfileViewModel.create(profile.user()));
             } catch (Exception e) {
-                log.warn("getProfile(): failed", e);
+                log.warn("Failed", e);
                 return profile.data("model", ProfileViewModel.createError(e.getMessage()));
             }
         } else {

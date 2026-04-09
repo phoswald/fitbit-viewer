@@ -27,10 +27,14 @@ public interface ProfileApiClient {
             String displayName,
             String fullName,
             String avatar,
-            Integer age,
             String dateOfBirth,
+            Integer age,
             String gender,
             String memberSince,
+            Integer height,
+            Integer weight,
+            Double strideLengthWalking,
+            Double strideLengthRunning,
             String averageDailySteps
     ) { }
 }

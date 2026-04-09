@@ -18,10 +18,14 @@ record ProfileViewModel(
             String displayName,
             String fullName,
             String avatarUrl,
-            Integer age,
             String dateOfBirth,
+            Integer age,
             String gender,
             String memberSince,
+            Integer height,
+            Integer weight,
+            Double strideLengthWalking,
+            Double strideLengthRunning,
             String averageDailySteps
     ) {
     }
@@ -33,10 +37,14 @@ record ProfileViewModel(
                         .displayName(user.displayName())
                         .fullName(user.fullName())
                         .avatarUrl(user.avatar())
-                        .age(user.age())
                         .dateOfBirth(user.dateOfBirth())
+                        .age(user.age())
                         .gender(user.gender())
                         .memberSince(user.memberSince())
+                        .height(user.height())
+                        .weight(user.weight())
+                        .strideLengthWalking(user.strideLengthWalking())
+                        .strideLengthRunning(user.strideLengthRunning())
                         .averageDailySteps(user.averageDailySteps())
                         .build())
                 .now(ZonedDateTime.now())
