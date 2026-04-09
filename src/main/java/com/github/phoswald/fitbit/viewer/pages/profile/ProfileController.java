@@ -1,5 +1,7 @@
 package com.github.phoswald.fitbit.viewer.pages.profile;
 
+import java.util.Optional;
+
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -13,8 +15,11 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.phoswald.fitbit.viewer.auth.SessionData;
 import com.github.phoswald.fitbit.viewer.fitbitapi.ProfileApiClient;
 import com.github.phoswald.fitbit.viewer.pages.PageController;
+import com.github.phoswald.fitbit.viewer.repository.ProfileEntity;
+import com.github.phoswald.fitbit.viewer.repository.ProfileRepository;
 
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
@@ -32,6 +37,9 @@ public class ProfileController extends PageController {
     @RestClient
     private ProfileApiClient profileClient;
 
+    @Inject
+    private ProfileRepository profileRepository;
+
     @QueryParam("errorMessage")
     private String errorMessage;
 
@@ -41,16 +49,28 @@ public class ProfileController extends PageController {
     public TemplateInstance getProfilePage() {
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            try {
-                log.info("Querying: userId={}", session.get().userId());
-                var profile = profileClient.getProfile("Bearer " + session.get().accessToken());
-                return this.profile.data("model", ProfileViewModel.create(profile.user()));
-            } catch (Exception e) {
-                log.warn("Failed", e);
-                return profile.data("model", ProfileViewModel.createError(e.getMessage()));
-            }
+            return profile.data("model", createProfileViewModel(session.get()));
         } else {
             return profile.data("model", ProfileViewModel.createError(errorMessage));
+        }
+    }
+
+    private ProfileViewModel createProfileViewModel(SessionData session) {
+        try {
+            log.info("Querying: userId={}", session.userId());
+            var entity = profileRepository.loadByUserId(session.userId());
+            if(entity.isPresent()) {
+                log.debug("Found entity");
+            } else {
+                var response = profileClient.getProfile("Bearer " + session.accessToken());
+                entity = Optional.of(ProfileEntity.create(response.user()));
+                log.info("Storing entity");
+                profileRepository.store(entity.get());
+            }
+            return ProfileViewModel.create(entity.get());
+        } catch (Exception e) {
+            log.warn("Failed", e);
+            return ProfileViewModel.createError(e.getMessage());
         }
     }
 }

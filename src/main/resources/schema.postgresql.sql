@@ -1,4 +1,25 @@
 
+-- Profile
+
+create table fitbit_profile_ (
+    user_id_                    varchar(32) not null,
+    display_name_               varchar null,
+    full_name_                  varchar null,
+    avatar_url_                 varchar null,
+    date_of_birth_              varchar null,
+    age_                        integer null,
+    gender_                     varchar null,
+    member_since_               varchar null,
+    height_                     integer null,
+    weight_                     integer null,
+    stride_length_walking_      double precision null,
+    stride_length_running_      double precision null,
+    average_daily_steps_        varchar null
+);
+
+alter table fitbit_profile_
+    add constraint fitbit_profile_pk_ primary key (user_id_);
+
 -- Steps
 
 create table fitbit_steps_ (

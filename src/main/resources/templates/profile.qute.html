@@ -29,54 +29,54 @@
       {#if model.errorMessage}
         <div class="alert alert-danger">{model.errorMessage}</div>
       {/if}
-      {#if model.user}
+      {#if model.profile}
         <div class="mb-3">
-          <img src="{model.user.avatarUrl}" alt="Avatar" width="64" height="64" class="rounded">
+          <img src="{model.profile.avatarUrl}" alt="Avatar" width="64" height="64" class="rounded">
         </div>
         <table class="table table-borderless w-auto">
           <tr>
             <th class="table-light">Name</th>
-            <td><strong>{model.user.displayName}</strong> ({model.user.fullName})</td>
+            <td><strong>{model.profile.displayName}</strong> ({model.profile.fullName})</td>
           </tr>
           <tr>
             <th class="table-light">Date of Birth</th>
-            <td>{model.user.dateOfBirth}</td>
+            <td>{model.profile.dateOfBirth}</td>
           </tr>
           <tr>
             <th class="table-light">Age</th>
-            <td>{model.user.age}</td>
+            <td>{model.profile.age}</td>
           </tr>
           <tr>
             <th class="table-light">Gender</th>
-            <td>{model.user.gender}</td>
+            <td>{model.profile.gender}</td>
           </tr>
           <tr>
             <th class="table-light">Member since</th>
-            <td>{model.user.memberSince}</td>
+            <td>{model.profile.memberSince}</td>
           </tr>
           <tr>
             <th class="table-light">Height</th>
-            <td>{model.user.height} cm</td>
+            <td>{model.profile.height} cm</td>
           </tr>
           <tr>
             <th class="table-light">Weight</th>
-            <td>{model.user.weight} kg</td>
+            <td>{model.profile.weight} kg</td>
           </tr>
           <tr>
             <th class="table-light">Stride Length Walking</th>
-            <td>{model.user.strideLengthWalking} cm</td>
+            <td>{model.profile.strideLengthWalking} cm</td>
           </tr>
           <tr>
             <th class="table-light">Stride Length Running</th>
-            <td>{model.user.strideLengthRunning} cm</td>
+            <td>{model.profile.strideLengthRunning} cm</td>
           </tr>
           <tr>
             <th class="table-light">Steps</th>
-            <td>{model.user.averageDailySteps} (daily average)</td>
+            <td>{model.profile.averageDailySteps} (daily average)</td>
           </tr>
           <tr>
             <th class="table-light">User ID</th>
-            <td>{model.user.userId}</td>
+            <td>{model.profile.userId}</td>
           </tr>
         </table>
       {#else}
