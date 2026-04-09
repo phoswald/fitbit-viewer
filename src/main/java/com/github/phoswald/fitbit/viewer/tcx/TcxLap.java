@@ -17,8 +17,4 @@ public class TcxLap {
     public List<TcxTrackpoint> getTrackpoints() {
         return trackpoints;
     }
-
-    public void setTrackpoints(List<TcxTrackpoint> trackpoints) {
-        this.trackpoints = trackpoints;
-    }
 }

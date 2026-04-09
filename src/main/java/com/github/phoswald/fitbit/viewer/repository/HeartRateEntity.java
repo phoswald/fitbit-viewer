@@ -1,5 +1,6 @@
 package com.github.phoswald.fitbit.viewer.repository;
 
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.parseDate;
 import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;
@@ -36,7 +37,7 @@ public class HeartRateEntity {
     public static HeartRateEntity create(String userId, HeartRateApiClient.HeartRateEntry entry) {
         HeartRateEntity entity = new HeartRateEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
-        entity.setDate(LocalDate.parse(requireNonNull(entry.dateTime(), "date")));
+        entity.setDate(parseDate(requireNonNull(entry.dateTime(), "date")));
         entity.setRestingHeartRate(entry.value() == null ? null : entry.value().restingHeartRate());
         return entity;
     }

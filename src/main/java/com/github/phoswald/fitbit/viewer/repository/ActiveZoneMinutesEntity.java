@@ -1,5 +1,6 @@
 package com.github.phoswald.fitbit.viewer.repository;
 
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.parseDate;
 import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;
@@ -46,7 +47,7 @@ public class ActiveZoneMinutesEntity {
         ActiveZoneMinutesApiClient.AzmValue value = entry.value();
         ActiveZoneMinutesEntity entity = new ActiveZoneMinutesEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
-        entity.setDate(LocalDate.parse(requireNonNull(entry.dateTime(), "date")));
+        entity.setDate(parseDate(requireNonNull(entry.dateTime(), "date")));
         entity.setTotalAzm(value == null ? null : value.activeZoneMinutes());
         entity.setFatBurnAzm(value == null ? null : value.fatBurnActiveZoneMinutes());
         entity.setCardioAzm(value == null ? null : value.cardioActiveZoneMinutes());

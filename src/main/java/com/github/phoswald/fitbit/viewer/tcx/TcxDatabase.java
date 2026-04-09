@@ -22,11 +22,7 @@ public class TcxDatabase {
         return activities;
     }
 
-    public void setActivities(List<TcxActivity> activities) {
-        this.activities = activities;
-    }
-
-    public List<GeoPoint> collectTrackPoints() {
+    public List<TcxTrackpoint> collectTrackPoints() {
         if (activities == null) {
             return List.of();
         }
@@ -35,6 +31,11 @@ public class TcxDatabase {
                 .flatMap(activity -> activity.getLaps().stream())
                 .filter(lap -> lap.getTrackpoints() != null)
                 .flatMap(lap -> lap.getTrackpoints().stream())
+                .toList();
+    }
+
+    public List<GeoPoint> collectGeoPoints() {
+        return collectTrackPoints().stream()
                 .filter(trackpoint -> trackpoint.getPosition() != null && trackpoint.getPosition().getLatitudeDegrees() != null && trackpoint.getPosition().getLongitudeDegrees() != null)
                 .map(trackpoint -> new GeoPoint(trackpoint.getPosition().getLatitudeDegrees(), trackpoint.getPosition().getLongitudeDegrees()))
                 .toList();

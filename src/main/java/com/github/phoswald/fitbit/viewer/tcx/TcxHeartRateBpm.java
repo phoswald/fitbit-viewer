@@ -1,18 +1,16 @@
 package com.github.phoswald.fitbit.viewer.tcx;
 
-import java.util.List;
-
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TcxActivity {
+public class TcxHeartRateBpm {
 
-    @XmlElement(name = "Lap", namespace = TcxDatabase.NS)
-    private List<TcxLap> laps;
+    @XmlElement(name = "Value", namespace = TcxDatabase.NS)
+    private Integer value;
 
-    public List<TcxLap> getLaps() {
-        return laps;
+    public Integer getValue() {
+        return value;
     }
 }

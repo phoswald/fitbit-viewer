@@ -80,8 +80,8 @@ public class ActivityDetailController extends PageController {
                 tcxRepository.store(tcxEntity.get());
             }
             List<GeoPoint> track = tcxEntity
-                    .flatMap(TcxEntity::parseTcxXml)
-                    .map(TcxDatabase::collectTrackPoints)
+                    .flatMap(TcxEntity::getTcxDatabase)
+                    .map(TcxDatabase::collectGeoPoints)
                     .orElse(List.of());
             log.debug("createActivityDetailViewModel(): logId={}: found track with {} points", logId, track.size());
             return ActivityDetailViewModel.create(logId, entity.get(), track);

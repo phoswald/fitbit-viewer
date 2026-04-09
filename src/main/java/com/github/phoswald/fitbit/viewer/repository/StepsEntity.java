@@ -1,5 +1,6 @@
 package com.github.phoswald.fitbit.viewer.repository;
 
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.parseDate;
 import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;
@@ -36,7 +37,7 @@ public class StepsEntity {
     public static StepsEntity create(String userId, StepsApiClient.StepsEntry entry) {
         StepsEntity entity = new StepsEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
-        entity.setDate(LocalDate.parse(requireNonNull(entry.dateTime(), "date")));
+        entity.setDate(parseDate(requireNonNull(entry.dateTime(), "date")));
         entity.setStepCount(entry.value() == null ? null : Integer.parseInt(entry.value()));
         return entity;
     }

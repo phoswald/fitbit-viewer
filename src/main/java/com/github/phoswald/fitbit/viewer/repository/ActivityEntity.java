@@ -1,10 +1,13 @@
 package com.github.phoswald.fitbit.viewer.repository;
 
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.dateOf;
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.divideBy;
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.parseDateTime;
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.plusMillis;
 import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +47,7 @@ public class ActivityEntity {
     @Column(name = "activity_name_", length = 64)
     private String activityName;
 
-    @Column(name = "date_", nullable = false)
+    @Column(name = "date_")
     private LocalDate date;
 
     @Column(name = "beg_date_time_")
@@ -56,8 +59,8 @@ public class ActivityEntity {
     @Column(name = "duration_minutes_")
     private Double durationMinutes;
 
-    @Column(name = "active_duration_minutes_")
-    private Double activeDurationMinutes;
+    @Column(name = "duration_active_minutes_")
+    private Double durationActiveMinutes;
 
     @Column(name = "distance_")
     private Double distance;
@@ -115,11 +118,11 @@ public class ActivityEntity {
         entity.setLogType(entry.logType());
         entity.setActivityTypeId(entry.activityTypeId());
         entity.setActivityName(entry.activityName());
-        entity.setDate(OffsetDateTime.parse(requireNonNull(entry.startTime(), "startTime")).toLocalDate());
+        entity.setDate(dateOf(parseDateTime(entry.startTime())));
         entity.setBegDateTime(parseDateTime(entry.startTime()));
         entity.setEndDateTime(plusMillis(parseDateTime(entry.startTime()), entry.duration()));
         entity.setDurationMinutes(divideBy(entry.duration(),60_000));
-        entity.setActiveDurationMinutes(divideBy(entry.activeDuration(),60_000));
+        entity.setDurationActiveMinutes(divideBy(entry.activeDuration(),60_000));
         if(entry.distanceUnit() != null && !entry.distanceUnit().equals("Kilometer")) {
             throw new IllegalArgumentException("Unsupported distanceUnit=" + entry.distanceUnit());
         }
@@ -131,7 +134,9 @@ public class ActivityEntity {
         // entry.elevationGain(); // immer 0
         // entry.floors(); // nicht vorhanden
         entity.setAverageHeartRate(entry.averageHeartRate());
-        entity.setActiveZoneMinutes(entry.activeZoneMinutes().totalMinutes()); // redundant: sum over minutes * minuteMultiplier
+        if(entry.activeZoneMinutes() != null) {
+            entity.setActiveZoneMinutes(entry.activeZoneMinutes().totalMinutes()); // redundant: sum over minutes * minuteMultiplier
+        }
         if(entry.source() != null) {
             entity.setSourceType(entry.source().type());
             entity.setSourceName(entry.source().name());
@@ -154,18 +159,6 @@ public class ActivityEntity {
             }
         }
         return entity;
-    }
-
-    private static OffsetDateTime parseDateTime(String value) {
-        return value == null ? null : OffsetDateTime.parse(value);
-    }
-
-    private static OffsetDateTime plusMillis(OffsetDateTime value, Long delta) {
-        return value == null || delta == null ? null : value.plusSeconds(delta / 1000);
-    }
-
-    private static Double divideBy(Long value, int divisor) {
-        return value == null ? null : value.doubleValue() / divisor;
     }
 
     public String getUserId() {
@@ -240,12 +233,12 @@ public class ActivityEntity {
         this.durationMinutes = durationMinutes;
     }
 
-    public Double getActiveDurationMinutes() {
-        return activeDurationMinutes;
+    public Double getDurationActiveMinutes() {
+        return durationActiveMinutes;
     }
 
-    public void setActiveDurationMinutes(Double activeDurationMinutes) {
-        this.activeDurationMinutes = activeDurationMinutes;
+    public void setDurationActiveMinutes(Double durationActiveMinutes) {
+        this.durationActiveMinutes = durationActiveMinutes;
     }
 
     public Double getDistance() {

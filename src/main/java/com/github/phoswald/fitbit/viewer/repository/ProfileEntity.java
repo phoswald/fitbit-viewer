@@ -1,5 +1,6 @@
 package com.github.phoswald.fitbit.viewer.repository;
 
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.maskZero;
 import static java.util.Objects.requireNonNull;
 
 import jakarta.persistence.Column;
@@ -69,14 +70,6 @@ public class ProfileEntity {
         entity.setStrideLengthRunning(maskZero(user.strideLengthRunning()));
         entity.setAverageDailySteps(user.averageDailySteps());
         return entity;
-    }
-
-    private static Integer maskZero(Integer value) {
-        return value == null || value.intValue() == 0 ? null : value;
-    }
-
-    private static Double maskZero(Double value) {
-        return value == null || value.doubleValue() == 0 ? null : value;
     }
 
     public String getUserId() {

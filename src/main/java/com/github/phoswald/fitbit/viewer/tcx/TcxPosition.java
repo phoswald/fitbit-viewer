@@ -17,15 +17,7 @@ public class TcxPosition {
         return latitudeDegrees;
     }
 
-    public void setLatitudeDegrees(Double latitudeDegrees) {
-        this.latitudeDegrees = latitudeDegrees;
-    }
-
     public Double getLongitudeDegrees() {
         return longitudeDegrees;
-    }
-
-    public void setLongitudeDegrees(Double longitudeDegrees) {
-        this.longitudeDegrees = longitudeDegrees;
     }
 }

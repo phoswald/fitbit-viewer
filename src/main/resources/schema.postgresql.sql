@@ -76,11 +76,11 @@ create table fitbit_activity_ (
     log_type_               varchar(32) null,
     activity_type_id_       integer null,
     activity_name_          varchar(64) null,
-    date_                   date not null,
+    date_                   date null,
     beg_date_time_          timestamptz null,
     end_date_time_          timestamptz null,
     duration_minutes_       double precision null,
-    active_duration_minutes_ double precision null,
+    duration_active_minutes_ double precision null,
     distance_               double precision null,
     steps_                  integer null,
     calories_               integer null,
@@ -132,7 +132,19 @@ alter table fitbit_activity_heartrate_zone_
 create table fitbit_tcx_ (
     user_id_                varchar(32) not null,
     log_id_                 bigint not null,
-    tcx_xml_                varchar null
+    tcx_xml_                varchar null,
+    date_                   date null,
+    beg_date_time_          timestamptz null,
+    end_date_time_          timestamptz null,
+    duration_minutes_       double precision null,
+    distance_               double precision null,
+    latitude_min_           double precision null,
+    latitude_max_           double precision null,
+    longitude_min_          double precision null,
+    longitude_max_          double precision null,
+    altitude_min_           double precision null,
+    altitude_max_           double precision null,
+    heart_rate_max_         integer null
 );
 
 alter table fitbit_tcx_
