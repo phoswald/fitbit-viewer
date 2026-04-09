@@ -137,7 +137,7 @@ public class ActivityEntity {
             entity.setSourceType(entry.source().type());
             entity.setSourceName(entry.source().name());
             entity.setSourceUrl(entry.source().url());
-            entity.setSourceFeatures(entry.source().trackerFeatures() == null ? null : entry.source().trackerFeatures().toString());
+            entity.setSourceFeatures(entry.source().trackerFeatures() == null ? null : String.join(", ", entry.source().trackerFeatures()));
         }
         if(entry.activityLevel() != null && !entry.activityLevel().isEmpty()) {
             entity.setActivityLevels(new ArrayList<>());

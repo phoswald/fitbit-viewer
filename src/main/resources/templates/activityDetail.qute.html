@@ -39,7 +39,7 @@
           </tr>
           <tr>
             <th class="table-light pe-4">Date &amp; Time</th>
-            <td>{e.begDateTime.format('yyyy-MM-dd HH:mm')}</td>
+            <td>{e.begDateTime.format('yyyy-MM-dd HH:mm')} - {e.endDateTime.format('HH:mm')}</td>
           </tr>
           <tr>
             <th class="table-light pe-4">Duration</th>
@@ -49,18 +49,14 @@
             <th class="table-light pe-4">Active Duration</th>
             <td>{e.activeDurationMinutes} min</td>
           </tr>
-          {#if e.calories}
           <tr>
             <th class="table-light pe-4">Calories</th>
             <td>{e.calories}</td>
           </tr>
-          {/if}
-          {#if e.steps}
           <tr>
             <th class="table-light pe-4">Steps</th>
             <td>{e.steps}</td>
           </tr>
-          {/if}
           {#if e.distance}
           <tr>
             <th class="table-light pe-4">Distance</th>
@@ -93,6 +89,10 @@
           <tr>
             <th class="table-light pe-4">Source</th>
             <td>{e.sourceName} ({e.sourceType})</td>
+          </tr>
+          <tr>
+            <th class="table-light pe-4">Source Features</th>
+            <td>{e.sourceFeatures}</td>
           </tr>
           {/if}
         </table>
