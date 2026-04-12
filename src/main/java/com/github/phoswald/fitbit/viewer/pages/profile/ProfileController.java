@@ -58,16 +58,16 @@ public class ProfileController extends PageController {
     private ProfileViewModel createProfileViewModel(SessionData session) {
         try {
             log.info("Querying: userId={}", session.userId());
-            var entity = profileRepository.loadByUserId(session.userId());
-            if(entity.isPresent()) {
+            var profile = profileRepository.loadByUserId(session.userId());
+            if(profile.isPresent()) {
                 log.debug("Found entity");
             } else {
                 var response = profileClient.getProfile("Bearer " + session.accessToken());
-                entity = Optional.of(ProfileEntity.create(response.user()));
+                profile = Optional.of(ProfileEntity.create(response.user()));
                 log.info("Storing entity");
-                profileRepository.store(entity.get());
+                profileRepository.store(profile.get());
             }
-            return ProfileViewModel.create(entity.get());
+            return ProfileViewModel.create(profile.get());
         } catch (Exception e) {
             log.warn("Failed", e);
             return ProfileViewModel.createError(e.getMessage());

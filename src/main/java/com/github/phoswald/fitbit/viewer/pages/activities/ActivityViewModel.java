@@ -10,7 +10,9 @@ import com.github.phoswald.record.builder.RecordBuilder;
 @RecordBuilder
 public record ActivityViewModel(
         LocalDate begDate,
-        int limit,
+        LocalDate endDate,
+        boolean excludeAuto,
+        boolean excludeLowCal,
         Collection<ActivityEntity> activities,
         String errorMessage,
         ZonedDateTime now
@@ -18,12 +20,19 @@ public record ActivityViewModel(
 
     static ActivityViewModel create(
             LocalDate begDate,
-            int limit,
+            LocalDate endDate,
+            boolean excludeAuto,
+            boolean excludeLowCal,
             Collection<ActivityEntity> activities) {
         return new ActivityViewModelBuilder()
                 .begDate(begDate)
-                .limit(limit)
-                .activities(activities)
+                .endDate(endDate)
+                .excludeAuto(excludeAuto)
+                .excludeLowCal(excludeLowCal)
+                .activities(activities.stream()
+                        .filter(a -> !excludeAuto || !a.isAutoDetected())
+                        .filter(a -> !excludeLowCal || !a.isLowCal())
+                        .toList())
                 .now(ZonedDateTime.now())
                 .build();
     }

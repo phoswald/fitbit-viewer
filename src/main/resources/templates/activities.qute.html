@@ -35,11 +35,19 @@
           <input type="date" name="begDate" value="{model.begDate}" class="form-control">
         </div>
         <div class="col-auto">
-          <label class="form-label fw-semibold">Limit</label>
-          <input type="number" name="limit" value="{model.limit}" min="1" max="100" class="form-control" style="width: 5rem">
+          <label class="form-label fw-semibold">To</label>
+          <input type="date" name="endDate" value="{model.endDate}" class="form-control">
         </div>
         <div class="col-auto">
           <button type="submit" class="btn btn-primary">Query</button>
+        </div>
+        <div class="col-auto">
+          <input type="checkbox" name="excludeAuto" id="excludeAuto" value="true" {#if model.excludeAuto}checked{/if} class="form-check-input">
+          <label for="excludeAuto" class="form-check-label">Exclude auto detected</label>
+        </div>
+        <div class="col-auto">
+          <input type="checkbox" name="excludeLowCal" id="excludeLowCal" value="true" {#if model.excludeLowCal}checked{/if} class="form-check-input">
+          <label for="excludeLowCal" class="form-check-label">Exclude low calories</label>
         </div>
       </form>
       {#if model.activities}

@@ -42,7 +42,7 @@
           <button type="submit" class="btn btn-primary">Query</button>
         </div>
       </form>
-      {#if model.entries}
+      {#if model.azms}
         <canvas id="azmChart" class="mb-4"></canvas>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
@@ -78,13 +78,13 @@
             </tr>
           </thead>
           <tbody>
-            {#for entry in model.entries}
+            {#for azm in model.azms}
               <tr>
-                <td>{entry.date}</td>
-                <td>{entry.totalAzm}</td>
-                <td>{entry.fatBurnAzm}</td>
-                <td>{entry.cardioAzm}</td>
-                <td>{entry.peakAzm}</td>
+                <td>{azm.date}</td>
+                <td>{azm.totalAzm}</td>
+                <td>{azm.fatBurnAzm}</td>
+                <td>{azm.cardioAzm}</td>
+                <td>{azm.peakAzm}</td>
               </tr>
             {/for}
           </tbody>

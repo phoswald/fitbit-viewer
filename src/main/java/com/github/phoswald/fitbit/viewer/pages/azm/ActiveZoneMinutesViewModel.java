@@ -12,7 +12,7 @@ import com.github.phoswald.record.builder.RecordBuilder;
 public record ActiveZoneMinutesViewModel(
         LocalDate begDate,
         LocalDate endDate,
-        Collection<ActiveZoneMinutesEntity> entries,
+        Collection<ActiveZoneMinutesEntity> azms,
         String errorMessage,
         ZonedDateTime now
 ) {
@@ -20,11 +20,11 @@ public record ActiveZoneMinutesViewModel(
     static ActiveZoneMinutesViewModel create(
             LocalDate begDate,
             LocalDate endDate,
-            Collection<ActiveZoneMinutesEntity> entries) {
+            Collection<ActiveZoneMinutesEntity> azms) {
         return new ActiveZoneMinutesViewModelBuilder()
                 .begDate(begDate)
                 .endDate(endDate)
-                .entries(entries)
+                .azms(azms)
                 .now(ZonedDateTime.now())
                 .build();
     }
@@ -37,22 +37,22 @@ public record ActiveZoneMinutesViewModel(
     }
 
     public List<LocalDate> dates() {
-        return entries.stream().map(ActiveZoneMinutesEntity::getDate).toList();
+        return azms.stream().map(ActiveZoneMinutesEntity::getDate).toList();
     }
 
     public List<Integer> totalAzm() {
-        return entries.stream().map(ActiveZoneMinutesEntity::getTotalAzm).toList();
+        return azms.stream().map(ActiveZoneMinutesEntity::getTotalAzm).toList();
     }
 
     public List<Integer> fatBurnAzm() {
-        return entries.stream().map(ActiveZoneMinutesEntity::getFatBurnAzm).toList();
+        return azms.stream().map(ActiveZoneMinutesEntity::getFatBurnAzm).toList();
     }
 
     public List<Integer> cardioAzm() {
-        return entries.stream().map(ActiveZoneMinutesEntity::getCardioAzm).toList();
+        return azms.stream().map(ActiveZoneMinutesEntity::getCardioAzm).toList();
     }
 
     public List<Integer> peakAzm() {
-        return entries.stream().map(ActiveZoneMinutesEntity::getPeakAzm).toList();
+        return azms.stream().map(ActiveZoneMinutesEntity::getPeakAzm).toList();
     }
 }

@@ -65,27 +65,27 @@ public class HeartRateController extends PageController {
     private HeartRateViewModel createHeartRateViewModel(SessionData session, LocalDate begDate, LocalDate endDate) {
         try {
             log.info("Querying: begDate={}, endDate={}", begDate, endDate);
-            var entities = heartRateRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate).stream()
+            var heartRates = heartRateRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate).stream()
                     .collect(toSortedMap(HeartRateEntity::getDate));
-            if(isComplete(entities, begDate, endDate)) {
-                log.debug("Found {} entities", entities.size());
+            if(isComplete(heartRates, begDate, endDate)) {
+                log.debug("Found {} entities", heartRates.size());
             } else {
                 var response = heartRateApiClient.getHeartRate(
                         "Bearer " + session.accessToken(),
                         begDate.toString(),
                         endDate.toString());
-                entities = response.activitiesHeart().stream()
+                heartRates = response.activitiesHeart().stream()
                         .map(entry -> HeartRateEntity.create(session.userId(), entry))
                         .collect(toSortedMap(HeartRateEntity::getDate));
                 for(LocalDate date = begDate; !date.isAfter(endDate); date = date.plusDays(1)) {
-                    if(!entities.containsKey(date)) {
-                        entities.put(date, createEmptyDay(session.userId(), date));
+                    if(!heartRates.containsKey(date)) {
+                        heartRates.put(date, createEmptyDay(session.userId(), date));
                     }
                 }
-                log.info("Storing {} entities", entities.size());
-                heartRateRepository.storeAll(entities.values());
+                log.info("Storing {} entities", heartRates.size());
+                heartRateRepository.storeAll(heartRates.values());
             }
-            return HeartRateViewModel.create(begDate, endDate, entities.values());
+            return HeartRateViewModel.create(begDate, endDate, heartRates.values());
         } catch (Exception e) {
             log.warn("Failed", e);
             return HeartRateViewModel.createError(e.getMessage());

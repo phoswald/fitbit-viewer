@@ -19,6 +19,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinColumns;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
@@ -27,6 +28,10 @@ import com.github.phoswald.fitbit.viewer.fitbitapi.ActivityApiClient;
 
 @Entity
 @Table(name = "fitbit_activity_")
+@NamedQuery(
+        name = "ActivityEntity.loadByUserIdAndDateRange",
+        query = "SELECT a FROM ActivityEntity a WHERE a.userId = :userId AND a.date >= :begDate AND a.date <= :endDate ORDER BY a.date"
+)
 @IdClass(ActivityEntity.ActivityId.class)
 public class ActivityEntity {
 
@@ -343,6 +348,14 @@ public class ActivityEntity {
 
     public void setHeartRateZones(List<ActivityHeartRateZoneEntity> heartRateZones) {
         this.heartRateZones = heartRateZones;
+    }
+
+    public boolean isAutoDetected() {
+        return logType != null && logType.equals("auto_detected");
+    }
+
+    public boolean isLowCal() {
+        return calories != null && calories < 200;
     }
 
     record ActivityId(String userId, Long logId) implements java.io.Serializable { }

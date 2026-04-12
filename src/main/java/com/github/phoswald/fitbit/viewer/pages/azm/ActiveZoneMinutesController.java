@@ -65,27 +65,27 @@ public class ActiveZoneMinutesController extends PageController {
     private ActiveZoneMinutesViewModel createAzmViewModel(SessionData session, LocalDate begDate, LocalDate endDate) {
         try {
             log.info("Querying: begDate={}, endDate={}", begDate, endDate);
-            var entities = azmRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate).stream()
+            var azms = azmRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate).stream()
                     .collect(toSortedMap(ActiveZoneMinutesEntity::getDate));
-            if (isComplete(entities, begDate, endDate)) {
-                log.debug("Found {} entities", entities.size());
+            if (isComplete(azms, begDate, endDate)) {
+                log.debug("Found {} entities", azms.size());
             } else {
                 var response = azmClient.getAzm(
                         "Bearer " + session.accessToken(),
                         begDate.toString(),
                         endDate.toString());
-                entities = response.activitiesActiveZoneMinutes().stream()
+                azms = response.activitiesActiveZoneMinutes().stream()
                         .map(entry -> ActiveZoneMinutesEntity.create(session.userId(), entry))
                         .collect(toSortedMap(ActiveZoneMinutesEntity::getDate));
                 for(LocalDate date = begDate; !date.isAfter(endDate); date = date.plusDays(1)) {
-                    if(!entities.containsKey(date)) {
-                        entities.put(date, createEmptyDay(session.userId(), date));
+                    if(!azms.containsKey(date)) {
+                        azms.put(date, createEmptyDay(session.userId(), date));
                     }
                 }
-                log.info("Storing {} entities", entities.size());
-                azmRepository.storeAll(entities.values());
+                log.info("Storing {} entities", azms.size());
+                azmRepository.storeAll(azms.values());
             }
-            return ActiveZoneMinutesViewModel.create(begDate, endDate, entities.values());
+            return ActiveZoneMinutesViewModel.create(begDate, endDate, azms.values());
         } catch (Exception e) {
             log.warn("Failed", e);
             return ActiveZoneMinutesViewModel.createError(e.getMessage());

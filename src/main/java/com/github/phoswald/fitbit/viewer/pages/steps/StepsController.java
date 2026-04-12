@@ -65,27 +65,27 @@ public class StepsController extends PageController {
     private StepsViewModel createStepsViewModel(SessionData session, LocalDate begDate, LocalDate endDate) {
         try {
             log.info("Querying: begDate={}, endDate={}", begDate, endDate);
-            var entities = stepsRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate).stream()
+            var steps = stepsRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate).stream()
                     .collect(toSortedMap(StepsEntity::getDate));
-            if(isComplete(entities, begDate, endDate)) {
-                log.debug("Found {} entities", entities.size());
+            if(isComplete(steps, begDate, endDate)) {
+                log.debug("Found {} entities", steps.size());
             } else {
                 var response = stepsApiClient.getSteps(
                         "Bearer " + session.accessToken(),
                         begDate.toString(),
                         endDate.toString());
-                entities = response.activitiesSteps().stream()
+                steps = response.activitiesSteps().stream()
                         .map(entry -> StepsEntity.create(session.userId(), entry))
                         .collect(toSortedMap(StepsEntity::getDate));
                 for(LocalDate date = begDate; !date.isAfter(endDate); date = date.plusDays(1)) {
-                    if(!entities.containsKey(date)) {
-                        entities.put(date, createEmptyDay(session.userId(), date));
+                    if(!steps.containsKey(date)) {
+                        steps.put(date, createEmptyDay(session.userId(), date));
                     }
                 }
-                log.info("Storing {} entities", entities.size());
-                stepsRepository.storeAll(entities.values());
+                log.info("Storing {} entities", steps.size());
+                stepsRepository.storeAll(steps.values());
             }
-            return StepsViewModel.create(begDate, endDate, entities.values());
+            return StepsViewModel.create(begDate, endDate, steps.values());
         } catch (Exception e) {
             log.warn("Failed", e);
             return StepsViewModel.createError(e.getMessage());

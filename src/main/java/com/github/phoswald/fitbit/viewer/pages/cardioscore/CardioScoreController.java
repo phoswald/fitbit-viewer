@@ -65,27 +65,27 @@ public class CardioScoreController extends PageController {
     private CardioScoreViewModel createCardioScoreViewModel(SessionData session, LocalDate begDate, LocalDate endDate) {
         try {
             log.info("Querying: begDate={}, endDate={}", begDate, endDate);
-            var entities = cardioScoreRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate).stream()
+            var cardioScores = cardioScoreRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate).stream()
                     .collect(toSortedMap(CardioScoreEntity::getDate));
-            if (isComplete(entities, begDate, endDate)) {
-                log.debug("Found {} entities", entities.size());
+            if (isComplete(cardioScores, begDate, endDate)) {
+                log.debug("Found {} entities", cardioScores.size());
             } else {
                 var response = cardioScoreClient.getCardioScore(
                         "Bearer " + session.accessToken(),
                         begDate.toString(),
                         endDate.toString());
-                entities = response.cardioScore().stream()
+                cardioScores = response.cardioScore().stream()
                         .map(entry -> CardioScoreEntity.create(session.userId(), entry))
                         .collect(toSortedMap(CardioScoreEntity::getDate));
                 for(LocalDate date = begDate; !date.isAfter(endDate); date = date.plusDays(1)) {
-                    if(!entities.containsKey(date)) {
-                        entities.put(date, createEmptyDay(session.userId(), date));
+                    if(!cardioScores.containsKey(date)) {
+                        cardioScores.put(date, createEmptyDay(session.userId(), date));
                     }
                 }
-                log.info("Storing {} entities", entities.size());
-                cardioScoreRepository.storeAll(entities.values());
+                log.info("Storing {} entities", cardioScores.size());
+                cardioScoreRepository.storeAll(cardioScores.values());
             }
-            return CardioScoreViewModel.create(begDate, endDate, entities.values());
+            return CardioScoreViewModel.create(begDate, endDate, cardioScores.values());
         } catch (Exception e) {
             log.warn("Failed", e);
             return CardioScoreViewModel.createError(e.getMessage());

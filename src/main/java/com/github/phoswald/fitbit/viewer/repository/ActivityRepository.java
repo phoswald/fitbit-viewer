@@ -1,6 +1,8 @@
 package com.github.phoswald.fitbit.viewer.repository;
 
+import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -12,6 +14,14 @@ public class ActivityRepository {
 
     @PersistenceContext
     private EntityManager em;
+
+    public List<ActivityEntity> loadByUserIdAndDateRange(String userId, LocalDate begDate, LocalDate endDate) {
+        return em.createNamedQuery("ActivityEntity.loadByUserIdAndDateRange", ActivityEntity.class)
+                .setParameter("userId", userId)
+                .setParameter("begDate", begDate)
+                .setParameter("endDate", endDate)
+                .getResultList();
+    }
 
     public Optional<ActivityEntity> loadByUserIdAndLogId(String userId, long logId) {
         // TODO: why are other solutions not working (lazy init, fetch mode SUBSELECT)?
@@ -28,8 +38,22 @@ public class ActivityRepository {
         return Optional.ofNullable(em.find(ActivityEntity.class, new ActivityEntity.ActivityId(userId, logId)));
     }
 
+    public List<ActivityDayEntity> loadDaysByUserIdAndDateRange(String userId, LocalDate begDate, LocalDate endDate) {
+        return em.createNamedQuery("ActivityDayEntity.loadByUserIdAndDateRange", ActivityDayEntity.class)
+                .setParameter("userId", userId)
+                .setParameter("begDate", begDate)
+                .setParameter("endDate", endDate)
+                .getResultList();
+    }
+
     public void storeAll(Collection<ActivityEntity> entities) {
         for (ActivityEntity entity : entities) {
+            em.merge(entity);
+        }
+    }
+
+    public void storeAllDays(Collection<ActivityDayEntity> entities) {
+        for (ActivityDayEntity entity : entities) {
             em.merge(entity);
         }
     }

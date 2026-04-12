@@ -127,6 +127,14 @@ alter table fitbit_activity_heartrate_zone_
 alter table fitbit_activity_heartrate_zone_
     add constraint fitbit_activity_heartrate_zone_activity_fk_ foreign key (user_id_, log_id_) references fitbit_activity_ (user_id_, log_id_);
 
+create table fitbit_activity_day_ (
+    user_id_                varchar(32) not null,
+    date_                   date not null
+);
+
+alter table fitbit_activity_day_
+    add constraint fitbit_activity_day_pk_ primary key (user_id_, date_);
+
 -- Activities - TCX
 
 create table fitbit_tcx_ (

@@ -2,6 +2,8 @@ package com.github.phoswald.fitbit.viewer.pages;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.function.Function;
@@ -31,6 +33,14 @@ public abstract class PageController {
                 Function.identity(),
                 this::rejectDuplicates,
                 TreeMap::new);
+    }
+
+    protected <K, T> Collector<T, ?, Map<K, T>> toLinkedHashSet(Function<T, K> getKey) {
+        return Collectors.toMap(
+                getKey,
+                Function.identity(),
+                this::rejectDuplicates,
+                LinkedHashMap::new);
     }
 
     private <T> T rejectDuplicates(T value1, T value2) {
