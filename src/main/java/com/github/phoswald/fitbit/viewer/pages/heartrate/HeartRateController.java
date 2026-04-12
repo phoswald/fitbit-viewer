@@ -56,13 +56,13 @@ public class HeartRateController extends PageController {
         }
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            return heartrate.data("model", createHeartRateViewModel(session.get(), begDate, endDate));
+            return heartrate.data("model", createHeartRateViewModel(session.get()));
         } else {
             return heartrate.data("model", HeartRateViewModel.createError("You are not logged in."));
         }
     }
 
-    private HeartRateViewModel createHeartRateViewModel(SessionData session, LocalDate begDate, LocalDate endDate) {
+    private HeartRateViewModel createHeartRateViewModel(SessionData session) {
         try {
             log.info("Querying: begDate={}, endDate={}", begDate, endDate);
             var heartRates = heartRateRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate).stream()

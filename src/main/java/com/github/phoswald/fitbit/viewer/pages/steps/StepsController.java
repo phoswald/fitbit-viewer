@@ -56,13 +56,13 @@ public class StepsController extends PageController {
         }
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            return steps.data("model", createStepsViewModel(session.get(), begDate, endDate));
+            return steps.data("model", createStepsViewModel(session.get()));
         } else {
             return steps.data("model", StepsViewModel.createError("You are not logged in."));
         }
     }
 
-    private StepsViewModel createStepsViewModel(SessionData session, LocalDate begDate, LocalDate endDate) {
+    private StepsViewModel createStepsViewModel(SessionData session) {
         try {
             log.info("Querying: begDate={}, endDate={}", begDate, endDate);
             var steps = stepsRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate).stream()

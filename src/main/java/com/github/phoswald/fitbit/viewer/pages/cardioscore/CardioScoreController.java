@@ -56,13 +56,13 @@ public class CardioScoreController extends PageController {
         }
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            return cardioscore.data("model", createCardioScoreViewModel(session.get(), begDate, endDate));
+            return cardioscore.data("model", createCardioScoreViewModel(session.get()));
         } else {
             return cardioscore.data("model", CardioScoreViewModel.createError("You are not logged in."));
         }
     }
 
-    private CardioScoreViewModel createCardioScoreViewModel(SessionData session, LocalDate begDate, LocalDate endDate) {
+    private CardioScoreViewModel createCardioScoreViewModel(SessionData session) {
         try {
             log.info("Querying: begDate={}, endDate={}", begDate, endDate);
             var cardioScores = cardioScoreRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate).stream()

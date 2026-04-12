@@ -56,13 +56,13 @@ public class ActiveZoneMinutesController extends PageController {
         }
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            return activeZoneMinutes.data("model", createAzmViewModel(session.get(), begDate, endDate));
+            return activeZoneMinutes.data("model", createAzmViewModel(session.get()));
         } else {
             return activeZoneMinutes.data("model", ActiveZoneMinutesViewModel.createError("You are not logged in."));
         }
     }
 
-    private ActiveZoneMinutesViewModel createAzmViewModel(SessionData session, LocalDate begDate, LocalDate endDate) {
+    private ActiveZoneMinutesViewModel createAzmViewModel(SessionData session) {
         try {
             log.info("Querying: begDate={}, endDate={}", begDate, endDate);
             var azms = azmRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate).stream()

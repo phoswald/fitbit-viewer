@@ -56,13 +56,13 @@ public class ActivityDetailController extends PageController {
     public TemplateInstance getActivityDetailPage() {
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            return activityDetail.data("model", createActivityDetailViewModel(session.get(), logId));
+            return activityDetail.data("model", createActivityDetailViewModel(session.get()));
         } else {
             return activityDetail.data("model", ActivityDetailViewModel.createError("You are not logged in."));
         }
     }
 
-    private ActivityDetailViewModel createActivityDetailViewModel(SessionData session, long logId) {
+    private ActivityDetailViewModel createActivityDetailViewModel(SessionData session) {
         try {
             log.info("Querying: logId={}", logId);
             var entity = activityRepository.loadByUserIdAndLogId(session.userId(), logId);
@@ -83,10 +83,10 @@ public class ActivityDetailController extends PageController {
                     .flatMap(TcxEntity::getTcxDatabase)
                     .map(TcxDatabase::collectGeoPoints)
                     .orElse(List.of());
-            log.debug("createActivityDetailViewModel(): logId={}: found track with {} points", logId, track.size());
+            log.debug("Found TCX track with {} points", track.size());
             return ActivityDetailViewModel.create(logId, entity.get(), track);
         } catch (Exception e) {
-            log.warn("getActivityDetailPage(): failed", e);
+            log.warn("Failed", e);
             return ActivityDetailViewModel.createError(e.getMessage());
         }
     }
