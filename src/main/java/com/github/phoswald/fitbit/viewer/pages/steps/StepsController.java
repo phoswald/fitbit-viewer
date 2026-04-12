@@ -1,6 +1,8 @@
 package com.github.phoswald.fitbit.viewer.pages.steps;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -53,15 +55,26 @@ public class StepsController extends PageController {
     @Produces(MediaType.TEXT_HTML)
     @Transactional
     public TemplateInstance getStepsPage() {
-        if(begDate == null || endDate == null) {
-            begDate = LocalDate.now().minusDays(30);
-            endDate = LocalDate.now();
-        }
+        normalizeDateRange();
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
             return steps.data("model", createStepsViewModel(session.get()));
         } else {
             return steps.data("model", StepsViewModel.createError("You are not logged in."));
+        }
+    }
+
+    private void normalizeDateRange() {
+        LocalDate today = LocalDate.now();
+        if(begDate == null || endDate == null) {
+            endDate = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+            begDate = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        }
+        if(endDate.isAfter(today)) {
+            endDate = today;
+        }
+        if(begDate.isAfter(endDate)) {
+            begDate = endDate;
         }
     }
 

@@ -46,6 +46,25 @@
           <label for="refresh" class="form-check-label">Refresh</label>
         </div>
       </form>
+      <table class="mb-3">
+        <tbody>
+          <tr>
+            <td class="p-1"><a href="steps?begDate={model.prevWeekBeg}&endDate={model.prevWeekEnd}" class="btn btn-outline-secondary w-100">&#8592; Prev Week</a></td>
+            <td class="p-1"><a href="steps?begDate={model.curWeekBeg}&endDate={model.curWeekEnd}"   class="btn btn-outline-secondary w-100">Whole Week</a></td>
+            <td class="p-1"><a href="steps?begDate={model.nextWeekBeg}&endDate={model.nextWeekEnd}" class="btn btn-outline-secondary w-100">Next Week &#8594;</a></td>
+          </tr>
+          <tr>
+            <td class="p-1"><a href="steps?begDate={model.prevMonthBeg}&endDate={model.prevMonthEnd}" class="btn btn-outline-secondary w-100">&#8592; Prev Month</a></td>
+            <td class="p-1"><a href="steps?begDate={model.curMonthBeg}&endDate={model.curMonthEnd}"   class="btn btn-outline-secondary w-100">Whole Month</a></td>
+            <td class="p-1"><a href="steps?begDate={model.nextMonthBeg}&endDate={model.nextMonthEnd}" class="btn btn-outline-secondary w-100">Next Month &#8594;</a></td>
+          </tr>
+          <tr>
+            <td class="p-1"><a href="steps?begDate={model.prevYearBeg}&endDate={model.prevYearEnd}" class="btn btn-outline-secondary w-100">&#8592; Prev Year</a></td>
+            <td class="p-1"><a href="steps?begDate={model.curYearBeg}&endDate={model.curYearEnd}"   class="btn btn-outline-secondary w-100">Whole Year</a></td>
+            <td class="p-1"><a href="steps?begDate={model.nextYearBeg}&endDate={model.nextYearEnd}" class="btn btn-outline-secondary w-100">Next Year &#8594;</a></td>
+          </tr>
+        </tbody>
+      </table>
       {#if model.steps}
         <canvas id="stepsChart" class="mb-4"></canvas>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
