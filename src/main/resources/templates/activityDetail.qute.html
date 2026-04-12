@@ -26,7 +26,10 @@
     </nav>
     <div class="container py-4">
       <h1 class="h3 mb-3">Activity Detail</h1>
-      <p><a href="../activities?begDate={model.date}" class="btn btn-outline-secondary btn-sm">&larr; Back to Activities</a></p>
+      <p>
+        <a href="../activities?begDate={model.date}" class="btn btn-outline-secondary btn-sm">&larr; Back to Activities</a>
+        <a href="{model.logId}?refreshTcx=true" class="btn btn-outline-secondary btn-sm">Refresh TCX</a>
+      </p>
       {#if model.errorMessage}
         <div class="alert alert-danger">{model.errorMessage}</div>
       {/if}

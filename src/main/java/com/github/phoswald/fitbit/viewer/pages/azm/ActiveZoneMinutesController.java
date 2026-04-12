@@ -46,6 +46,9 @@ public class ActiveZoneMinutesController extends PageController {
     @QueryParam("endDate")
     private LocalDate endDate;
 
+    @QueryParam("refresh")
+    private boolean refresh;
+
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Transactional
@@ -67,7 +70,7 @@ public class ActiveZoneMinutesController extends PageController {
             log.info("Querying: begDate={}, endDate={}", begDate, endDate);
             var azms = azmRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate).stream()
                     .collect(toSortedMap(ActiveZoneMinutesEntity::getDate));
-            if (isComplete(azms, begDate, endDate)) {
+            if (!refresh && isComplete(azms, begDate, endDate)) {
                 log.debug("Found {} entities", azms.size());
             } else {
                 var response = azmClient.getAzm(

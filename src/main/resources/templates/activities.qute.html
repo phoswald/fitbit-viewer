@@ -49,6 +49,10 @@
           <input type="checkbox" name="excludeLowCal" id="excludeLowCal" value="true" {#if model.excludeLowCal}checked{/if} class="form-check-input">
           <label for="excludeLowCal" class="form-check-label">Exclude low calories</label>
         </div>
+        <div class="col-auto">
+          <input type="checkbox" name="refresh" id="refresh" value="true" class="form-check-input">
+          <label for="refresh" class="form-check-label">Refresh</label>
+        </div>
       </form>
       {#if model.activities}
         <table class="table table-sm table-hover">

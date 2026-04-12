@@ -46,6 +46,9 @@ public class CardioScoreController extends PageController {
     @QueryParam("endDate")
     private LocalDate endDate;
 
+    @QueryParam("refresh")
+    private boolean refresh;
+
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Transactional
@@ -67,7 +70,7 @@ public class CardioScoreController extends PageController {
             log.info("Querying: begDate={}, endDate={}", begDate, endDate);
             var cardioScores = cardioScoreRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate).stream()
                     .collect(toSortedMap(CardioScoreEntity::getDate));
-            if (isComplete(cardioScores, begDate, endDate)) {
+            if (!refresh && isComplete(cardioScores, begDate, endDate)) {
                 log.debug("Found {} entities", cardioScores.size());
             } else {
                 var response = cardioScoreClient.getCardioScore(

@@ -29,6 +29,9 @@
       {#if model.errorMessage}
         <div class="alert alert-danger">{model.errorMessage}</div>
       {/if}
+      <div class="mb-4">
+        <a href="profile?refresh=true" class="btn btn-outline-secondary btn-sm">Refresh</a>
+      </div>
       {#if model.profile}
         <div class="mb-3">
           <img src="{model.profile.avatarUrl}" alt="Avatar" width="64" height="64" class="rounded">

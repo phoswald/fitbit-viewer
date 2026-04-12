@@ -46,6 +46,9 @@ public class HeartRateController extends PageController {
     @QueryParam("endDate")
     private LocalDate endDate;
 
+    @QueryParam("refresh")
+    private boolean refresh;
+
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Transactional
@@ -67,7 +70,7 @@ public class HeartRateController extends PageController {
             log.info("Querying: begDate={}, endDate={}", begDate, endDate);
             var heartRates = heartRateRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate).stream()
                     .collect(toSortedMap(HeartRateEntity::getDate));
-            if(isComplete(heartRates, begDate, endDate)) {
+            if(!refresh && isComplete(heartRates, begDate, endDate)) {
                 log.debug("Found {} entities", heartRates.size());
             } else {
                 var response = heartRateApiClient.getHeartRate(

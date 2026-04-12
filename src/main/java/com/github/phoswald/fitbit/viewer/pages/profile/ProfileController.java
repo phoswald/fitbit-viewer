@@ -43,6 +43,9 @@ public class ProfileController extends PageController {
     @QueryParam("errorMessage")
     private String errorMessage;
 
+    @QueryParam("refresh")
+    private boolean refresh;
+
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Transactional
@@ -59,7 +62,7 @@ public class ProfileController extends PageController {
         try {
             log.info("Querying: userId={}", session.userId());
             var profile = profileRepository.loadByUserId(session.userId());
-            if(profile.isPresent()) {
+            if(!refresh && profile.isPresent()) {
                 log.debug("Found entity");
             } else {
                 var response = profileClient.getProfile("Bearer " + session.accessToken());

@@ -10,6 +10,7 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -50,6 +51,9 @@ public class ActivityDetailController extends PageController {
     @PathParam("logId")
     private Long logId;
 
+    @QueryParam("refreshTcx")
+    private boolean refreshTcx;
+
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Transactional
@@ -71,7 +75,7 @@ public class ActivityDetailController extends PageController {
             }
             log.debug("Found entity with {} activity levels and {} heartrate zones", entity.get().getActivityLevels().size(), entity.get().getHeartRateZones().size());
             var tcxEntity = tcxRepository.load(session.userId(), logId);
-            if(tcxEntity.isPresent()) {
+            if(!refreshTcx && tcxEntity.isPresent()) {
                 log.debug("Found TCX entity");
             } else {
                 String tcxXml = activityApiClient.getActivityTcx("Bearer " + session.accessToken(), logId);

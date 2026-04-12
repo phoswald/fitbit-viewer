@@ -57,6 +57,9 @@ public class ActivityController extends PageController {
     @QueryParam("excludeLowCal")
     private boolean excludeLowCal;
 
+    @QueryParam("refresh")
+    private boolean refresh;
+
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Transactional
@@ -82,7 +85,7 @@ public class ActivityController extends PageController {
                     .collect(toLinkedHashSet(ActivityEntity::getLogId));
             var days = activityRepository.loadDaysByUserIdAndDateRange(session.userId(), begDate, endDate).stream()
                     .collect(toSortedMap(ActivityDayEntity::getDate));
-            if(isComplete(days, begDate, endDate)) {
+            if(!refresh && isComplete(days, begDate, endDate)) {
                 log.debug("Found {} entities for {} days", activities.size(), days.size());
             } else {
                 activities.clear();

@@ -41,6 +41,10 @@
         <div class="col-auto">
           <button type="submit" class="btn btn-primary">Query</button>
         </div>
+        <div class="col-auto">
+          <input type="checkbox" name="refresh" id="refresh" value="true" class="form-check-input">
+          <label for="refresh" class="form-check-label">Refresh</label>
+        </div>
       </form>
       {#if model.azms}
         <canvas id="azmChart" class="mb-4"></canvas>

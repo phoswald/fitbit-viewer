@@ -46,6 +46,9 @@ public class StepsController extends PageController {
     @QueryParam("endDate")
     private LocalDate endDate;
 
+    @QueryParam("refresh")
+    private boolean refresh;
+
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Transactional
@@ -67,7 +70,7 @@ public class StepsController extends PageController {
             log.info("Querying: begDate={}, endDate={}", begDate, endDate);
             var steps = stepsRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate).stream()
                     .collect(toSortedMap(StepsEntity::getDate));
-            if(isComplete(steps, begDate, endDate)) {
+            if(!refresh && isComplete(steps, begDate, endDate)) {
                 log.debug("Found {} entities", steps.size());
             } else {
                 var response = stepsApiClient.getSteps(
