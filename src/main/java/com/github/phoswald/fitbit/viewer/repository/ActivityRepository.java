@@ -15,11 +15,11 @@ public class ActivityRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public List<ActivityEntity> loadByUserIdAndDateRange(String userId, LocalDate begDate, LocalDate endDate) {
+    public List<ActivityEntity> loadByUserIdAndDateRange(String userId, LocalDate dateBeg, LocalDate dateEnd) {
         return em.createNamedQuery("ActivityEntity.loadByUserIdAndDateRange", ActivityEntity.class)
                 .setParameter("userId", userId)
-                .setParameter("begDate", begDate)
-                .setParameter("endDate", endDate)
+                .setParameter("dateBeg", dateBeg)
+                .setParameter("dateEnd", dateEnd)
                 .getResultList();
     }
 
@@ -38,11 +38,11 @@ public class ActivityRepository {
         return Optional.ofNullable(em.find(ActivityEntity.class, new ActivityEntity.ActivityId(userId, logId)));
     }
 
-    public List<ActivityDayEntity> loadDaysByUserIdAndDateRange(String userId, LocalDate begDate, LocalDate endDate) {
+    public List<ActivityDayEntity> loadDaysByUserIdAndDateRange(String userId, LocalDate dateBeg, LocalDate dateEnd) {
         return em.createNamedQuery("ActivityDayEntity.loadByUserIdAndDateRange", ActivityDayEntity.class)
                 .setParameter("userId", userId)
-                .setParameter("begDate", begDate)
-                .setParameter("endDate", endDate)
+                .setParameter("dateBeg", dateBeg)
+                .setParameter("dateEnd", dateEnd)
                 .getResultList();
     }
 

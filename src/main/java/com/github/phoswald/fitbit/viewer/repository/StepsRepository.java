@@ -14,11 +14,11 @@ public class StepsRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public List<StepsEntity> loadByUserIdAndDateRange(String userId, LocalDate begDate, LocalDate endDate) {
+    public List<StepsEntity> loadByUserIdAndDateRange(String userId, LocalDate dateBeg, LocalDate dateEnd) {
         return em.createNamedQuery("StepsEntity.loadByUserIdAndDateRange", StepsEntity.class)
                 .setParameter("userId", userId)
-                .setParameter("begDate", begDate)
-                .setParameter("endDate", endDate)
+                .setParameter("dateBeg", dateBeg)
+                .setParameter("dateEnd", dateEnd)
                 .getResultList();
     }
 

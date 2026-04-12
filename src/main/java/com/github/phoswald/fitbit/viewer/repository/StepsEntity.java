@@ -18,7 +18,7 @@ import com.github.phoswald.fitbit.viewer.fitbitapi.StepsApiClient;
 @Table(name = "fitbit_steps_")
 @NamedQuery(
         name = "StepsEntity.loadByUserIdAndDateRange",
-        query = "SELECT s FROM StepsEntity s WHERE s.userId = :userId AND s.date >= :begDate AND s.date <= :endDate ORDER BY s.date"
+        query = "SELECT s FROM StepsEntity s WHERE s.userId = :userId AND s.date >= :dateBeg AND s.date <= :dateEnd ORDER BY s.date"
 )
 @IdClass(StepsEntity.StepsId.class)
 public class StepsEntity {

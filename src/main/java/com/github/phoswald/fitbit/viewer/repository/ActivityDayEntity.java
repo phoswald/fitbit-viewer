@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
 @Table(name = "fitbit_activity_day_")
 @NamedQuery(
         name = "ActivityDayEntity.loadByUserIdAndDateRange",
-        query = "SELECT a FROM ActivityDayEntity a WHERE a.userId = :userId AND a.date >= :begDate AND a.date <= :endDate ORDER BY a.date"
+        query = "SELECT a FROM ActivityDayEntity a WHERE a.userId = :userId AND a.date >= :dateBeg AND a.date <= :dateEnd ORDER BY a.date"
 )
 @IdClass(ActivityDayEntity.ActivityDayId.class)
 public class ActivityDayEntity {

@@ -1,7 +1,6 @@
 package com.github.phoswald.fitbit.viewer.pages;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.SortedMap;
@@ -15,17 +14,13 @@ import jakarta.ws.rs.CookieParam;
 
 import com.github.phoswald.fitbit.viewer.auth.SessionManager;
 
-public abstract class PageController {
+public abstract class BaseController {
 
     @Inject
     protected SessionManager sessionManager;
 
     @CookieParam(SessionManager.COOKIE_NAME)
     protected String sessionCookie;
-
-    protected boolean isComplete(SortedMap<LocalDate, ?> entities, LocalDate begDate, LocalDate endDate) {
-        return entities.size() == ChronoUnit.DAYS.between(begDate, endDate) + 1;
-    }
 
     protected <T> Collector<T, ?, SortedMap<LocalDate, T>> toSortedMap(Function<T, LocalDate> getKey) {
         return Collectors.toMap(

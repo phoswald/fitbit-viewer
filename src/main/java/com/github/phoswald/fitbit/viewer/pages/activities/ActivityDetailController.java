@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
 import com.github.phoswald.fitbit.viewer.fitbitapi.ActivityApiClient;
-import com.github.phoswald.fitbit.viewer.pages.PageController;
+import com.github.phoswald.fitbit.viewer.pages.BaseController;
 import com.github.phoswald.fitbit.viewer.repository.ActivityRepository;
 import com.github.phoswald.fitbit.viewer.repository.TcxEntity;
 import com.github.phoswald.fitbit.viewer.repository.TcxRepository;
@@ -31,7 +31,7 @@ import io.quarkus.qute.TemplateInstance;
 
 @RequestScoped
 @Path("/pages/activities/{logId}")
-public class ActivityDetailController extends PageController {
+public class ActivityDetailController extends BaseController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 

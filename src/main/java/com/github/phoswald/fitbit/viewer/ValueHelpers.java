@@ -23,7 +23,7 @@ public class ValueHelpers {
     }
 
     public static Double minutesBetween(OffsetDateTime beg, OffsetDateTime end) {
-        if(beg != null && end != null) {
+        if (beg != null && end != null) {
             return Duration.between(beg, end).toSeconds() / 60.0;
         } else {
             return null;
@@ -35,31 +35,39 @@ public class ValueHelpers {
     }
 
     public static Integer max(Integer value1, Integer value2) {
-        if(value1 != null && value2 != null) {
-            return  Math.max(value1, value2);
+        if (value1 != null && value2 != null) {
+            return Math.max(value1, value2);
         } else {
             return value1 != null ? value1 : value2;
         }
     }
 
     public static Double min(Double value1, Double value2) {
-        if(value1 != null && value2 != null) {
-            return  Math.min(value1, value2);
+        if (value1 != null && value2 != null) {
+            return Math.min(value1, value2);
         } else {
             return value1 != null ? value1 : value2;
         }
     }
 
     public static Double max(Double value1, Double value2) {
-        if(value1 != null && value2 != null) {
-            return  Math.max(value1, value2);
+        if (value1 != null && value2 != null) {
+            return Math.max(value1, value2);
+        } else {
+            return value1 != null ? value1 : value2;
+        }
+    }
+
+    public static LocalDate min(LocalDate value1, LocalDate value2) {
+        if (value1 != null && value2 != null) {
+            return value1.isBefore(value2) ? value1 : value2;
         } else {
             return value1 != null ? value1 : value2;
         }
     }
 
     public static OffsetDateTime min(OffsetDateTime value1, OffsetDateTime value2) {
-        if(value1 != null && value2 != null) {
+        if (value1 != null && value2 != null) {
             return value1.isBefore(value2) ? value1 : value2;
         } else {
             return value1 != null ? value1 : value2;
@@ -67,7 +75,7 @@ public class ValueHelpers {
     }
 
     public static OffsetDateTime max(OffsetDateTime value1, OffsetDateTime value2) {
-        if(value1 != null && value2 != null) {
+        if (value1 != null && value2 != null) {
             return value1.isAfter(value2) ? value1 : value2;
         } else {
             return value1 != null ? value1 : value2;

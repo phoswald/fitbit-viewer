@@ -30,7 +30,7 @@ import com.github.phoswald.fitbit.viewer.fitbitapi.ActivityApiClient;
 @Table(name = "fitbit_activity_")
 @NamedQuery(
         name = "ActivityEntity.loadByUserIdAndDateRange",
-        query = "SELECT a FROM ActivityEntity a WHERE a.userId = :userId AND a.date >= :begDate AND a.date <= :endDate ORDER BY a.date"
+        query = "SELECT a FROM ActivityEntity a WHERE a.userId = :userId AND a.date >= :dateBeg AND a.date <= :dateEnd ORDER BY a.date"
 )
 @IdClass(ActivityEntity.ActivityId.class)
 public class ActivityEntity {

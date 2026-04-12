@@ -5,25 +5,24 @@ import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
 
+import com.github.phoswald.fitbit.viewer.pages.DateRangeViewModel;
+import com.github.phoswald.fitbit.viewer.pages.DateRangeViewModelBuilder;
 import com.github.phoswald.fitbit.viewer.repository.ActiveZoneMinutesEntity;
 import com.github.phoswald.record.builder.RecordBuilder;
 
 @RecordBuilder
 public record ActiveZoneMinutesViewModel(
-        LocalDate begDate,
-        LocalDate endDate,
+        DateRangeViewModel dateRange,
         Collection<ActiveZoneMinutesEntity> azms,
         String errorMessage,
         ZonedDateTime now
 ) {
 
     static ActiveZoneMinutesViewModel create(
-            LocalDate begDate,
-            LocalDate endDate,
+            DateRangeViewModel dateRange,
             Collection<ActiveZoneMinutesEntity> azms) {
         return new ActiveZoneMinutesViewModelBuilder()
-                .begDate(begDate)
-                .endDate(endDate)
+                .dateRange(dateRange)
                 .azms(azms)
                 .now(ZonedDateTime.now())
                 .build();
@@ -31,6 +30,7 @@ public record ActiveZoneMinutesViewModel(
 
     static ActiveZoneMinutesViewModel createError(String errorMessage) {
         return new ActiveZoneMinutesViewModelBuilder()
+                .dateRange(new DateRangeViewModelBuilder().build())
                 .errorMessage(errorMessage)
                 .now(ZonedDateTime.now())
                 .build();

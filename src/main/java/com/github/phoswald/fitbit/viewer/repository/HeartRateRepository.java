@@ -14,11 +14,11 @@ public class HeartRateRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public List<HeartRateEntity> loadByUserIdAndDateRange(String userId, LocalDate begDate, LocalDate endDate) {
+    public List<HeartRateEntity> loadByUserIdAndDateRange(String userId, LocalDate dateBeg, LocalDate dateEnd) {
         return em.createNamedQuery("HeartRateEntity.loadByUserIdAndDateRange", HeartRateEntity.class)
                 .setParameter("userId", userId)
-                .setParameter("begDate", begDate)
-                .setParameter("endDate", endDate)
+                .setParameter("dateBeg", dateBeg)
+                .setParameter("dateEnd", dateEnd)
                 .getResultList();
     }
 

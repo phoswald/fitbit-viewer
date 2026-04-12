@@ -18,7 +18,7 @@ import com.github.phoswald.fitbit.viewer.fitbitapi.ActiveZoneMinutesApiClient;
 @Table(name = "fitbit_active_zone_minutes_")
 @NamedQuery(
         name = "ActiveZoneMinutesEntity.loadByUserIdAndDateRange",
-        query = "SELECT a FROM ActiveZoneMinutesEntity a WHERE a.userId = :userId AND a.date >= :begDate AND a.date <= :endDate ORDER BY a.date"
+        query = "SELECT a FROM ActiveZoneMinutesEntity a WHERE a.userId = :userId AND a.date >= :dateBeg AND a.date <= :dateEnd ORDER BY a.date"
 )
 @IdClass(ActiveZoneMinutesEntity.AzmId.class)
 public class ActiveZoneMinutesEntity {

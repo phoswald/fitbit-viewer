@@ -14,11 +14,11 @@ public class CardioScoreRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public List<CardioScoreEntity> loadByUserIdAndDateRange(String userId, LocalDate begDate, LocalDate endDate) {
+    public List<CardioScoreEntity> loadByUserIdAndDateRange(String userId, LocalDate dateBeg, LocalDate dateEnd) {
         return em.createNamedQuery("CardioScoreEntity.loadByUserIdAndDateRange", CardioScoreEntity.class)
                 .setParameter("userId", userId)
-                .setParameter("begDate", begDate)
-                .setParameter("endDate", endDate)
+                .setParameter("dateBeg", dateBeg)
+                .setParameter("dateEnd", dateEnd)
                 .getResultList();
     }
 

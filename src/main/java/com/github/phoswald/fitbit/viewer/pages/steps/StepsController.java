@@ -1,8 +1,6 @@
 package com.github.phoswald.fitbit.viewer.pages.steps;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -10,7 +8,6 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -19,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
 import com.github.phoswald.fitbit.viewer.fitbitapi.StepsApiClient;
-import com.github.phoswald.fitbit.viewer.pages.PageController;
+import com.github.phoswald.fitbit.viewer.pages.DateRangeController;
 import com.github.phoswald.fitbit.viewer.repository.StepsEntity;
 import com.github.phoswald.fitbit.viewer.repository.StepsRepository;
 
@@ -28,7 +25,7 @@ import io.quarkus.qute.TemplateInstance;
 
 @RequestScoped
 @Path("/pages/steps")
-public class StepsController extends PageController {
+public class StepsController extends DateRangeController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -41,15 +38,6 @@ public class StepsController extends PageController {
 
     @Inject
     private StepsRepository stepsRepository;
-
-    @QueryParam("begDate")
-    private LocalDate begDate;
-
-    @QueryParam("endDate")
-    private LocalDate endDate;
-
-    @QueryParam("refresh")
-    private boolean refresh;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
@@ -64,36 +52,22 @@ public class StepsController extends PageController {
         }
     }
 
-    private void normalizeDateRange() {
-        LocalDate today = LocalDate.now();
-        if(begDate == null || endDate == null) {
-            endDate = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
-            begDate = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-        }
-        if(endDate.isAfter(today)) {
-            endDate = today;
-        }
-        if(begDate.isAfter(endDate)) {
-            begDate = endDate;
-        }
-    }
-
     private StepsViewModel createStepsViewModel(SessionData session) {
         try {
-            log.info("Querying: begDate={}, endDate={}", begDate, endDate);
-            var steps = stepsRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate).stream()
+            log.info("Querying: dateBeg={}, dateEnd={}, datePeriod={}", dateBeg, dateEnd, datePeriod);
+            var steps = stepsRepository.loadByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
                     .collect(toSortedMap(StepsEntity::getDate));
-            if(!refresh && isComplete(steps, begDate, endDate)) {
+            if(!refresh && isComplete(steps)) {
                 log.debug("Found {} entities", steps.size());
             } else {
                 var response = stepsApiClient.getSteps(
                         "Bearer " + session.accessToken(),
-                        begDate.toString(),
-                        endDate.toString());
+                        dateBeg.toString(),
+                        dateEnd.toString());
                 steps = response.activitiesSteps().stream()
                         .map(entry -> StepsEntity.create(session.userId(), entry))
                         .collect(toSortedMap(StepsEntity::getDate));
-                for(LocalDate date = begDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+                for(LocalDate date = dateBeg; !date.isAfter(dateEnd); date = date.plusDays(1)) {
                     if(!steps.containsKey(date)) {
                         steps.put(date, createEmptyDay(session.userId(), date));
                     }
@@ -101,7 +75,7 @@ public class StepsController extends PageController {
                 log.info("Storing {} entities", steps.size());
                 stepsRepository.storeAll(steps.values());
             }
-            return StepsViewModel.create(begDate, endDate, steps.values());
+            return StepsViewModel.create(createDateRangeViewModel(), steps.values());
         } catch (Exception e) {
             log.warn("Failed", e);
             return StepsViewModel.createError(e.getMessage());

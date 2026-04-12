@@ -8,7 +8,6 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -17,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
 import com.github.phoswald.fitbit.viewer.fitbitapi.ActiveZoneMinutesApiClient;
-import com.github.phoswald.fitbit.viewer.pages.PageController;
+import com.github.phoswald.fitbit.viewer.pages.DateRangeController;
 import com.github.phoswald.fitbit.viewer.repository.ActiveZoneMinutesEntity;
 import com.github.phoswald.fitbit.viewer.repository.ActiveZoneMinutesRepository;
 
@@ -26,7 +25,7 @@ import io.quarkus.qute.TemplateInstance;
 
 @RequestScoped
 @Path("/pages/azm")
-public class ActiveZoneMinutesController extends PageController {
+public class ActiveZoneMinutesController extends DateRangeController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -40,23 +39,11 @@ public class ActiveZoneMinutesController extends PageController {
     @Inject
     private ActiveZoneMinutesRepository azmRepository;
 
-    @QueryParam("begDate")
-    private LocalDate begDate;
-
-    @QueryParam("endDate")
-    private LocalDate endDate;
-
-    @QueryParam("refresh")
-    private boolean refresh;
-
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Transactional
     public TemplateInstance getAzmPage() {
-        if (begDate == null || endDate == null) {
-            begDate = LocalDate.now().minusDays(30);
-            endDate = LocalDate.now();
-        }
+        normalizeDateRange();
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
             return activeZoneMinutes.data("model", createAzmViewModel(session.get()));
@@ -67,20 +54,20 @@ public class ActiveZoneMinutesController extends PageController {
 
     private ActiveZoneMinutesViewModel createAzmViewModel(SessionData session) {
         try {
-            log.info("Querying: begDate={}, endDate={}", begDate, endDate);
-            var azms = azmRepository.loadByUserIdAndDateRange(session.userId(), begDate, endDate).stream()
+            log.info("Querying: dateBeg={}, dateEnd={}, datePeriod={}", dateBeg, dateEnd, datePeriod);
+            var azms = azmRepository.loadByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
                     .collect(toSortedMap(ActiveZoneMinutesEntity::getDate));
-            if (!refresh && isComplete(azms, begDate, endDate)) {
+            if (!refresh && isComplete(azms)) {
                 log.debug("Found {} entities", azms.size());
             } else {
                 var response = azmClient.getAzm(
                         "Bearer " + session.accessToken(),
-                        begDate.toString(),
-                        endDate.toString());
+                        dateBeg.toString(),
+                        dateEnd.toString());
                 azms = response.activitiesActiveZoneMinutes().stream()
                         .map(entry -> ActiveZoneMinutesEntity.create(session.userId(), entry))
                         .collect(toSortedMap(ActiveZoneMinutesEntity::getDate));
-                for(LocalDate date = begDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+                for(LocalDate date = dateBeg; !date.isAfter(dateEnd); date = date.plusDays(1)) {
                     if(!azms.containsKey(date)) {
                         azms.put(date, createEmptyDay(session.userId(), date));
                     }
@@ -88,7 +75,7 @@ public class ActiveZoneMinutesController extends PageController {
                 log.info("Storing {} entities", azms.size());
                 azmRepository.storeAll(azms.values());
             }
-            return ActiveZoneMinutesViewModel.create(begDate, endDate, azms.values());
+            return ActiveZoneMinutesViewModel.create(createDateRangeViewModel(), azms.values());
         } catch (Exception e) {
             log.warn("Failed", e);
             return ActiveZoneMinutesViewModel.createError(e.getMessage());

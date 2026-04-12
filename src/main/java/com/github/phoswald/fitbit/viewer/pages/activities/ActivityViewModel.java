@@ -1,16 +1,16 @@
 package com.github.phoswald.fitbit.viewer.pages.activities;
 
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 
+import com.github.phoswald.fitbit.viewer.pages.DateRangeViewModel;
+import com.github.phoswald.fitbit.viewer.pages.DateRangeViewModelBuilder;
 import com.github.phoswald.fitbit.viewer.repository.ActivityEntity;
 import com.github.phoswald.record.builder.RecordBuilder;
 
 @RecordBuilder
 public record ActivityViewModel(
-        LocalDate begDate,
-        LocalDate endDate,
+        DateRangeViewModel dateRange,
         boolean excludeAuto,
         boolean excludeLowCal,
         Collection<ActivityEntity> activities,
@@ -19,14 +19,12 @@ public record ActivityViewModel(
 ) {
 
     static ActivityViewModel create(
-            LocalDate begDate,
-            LocalDate endDate,
+            DateRangeViewModel dateRange,
             boolean excludeAuto,
             boolean excludeLowCal,
             Collection<ActivityEntity> activities) {
         return new ActivityViewModelBuilder()
-                .begDate(begDate)
-                .endDate(endDate)
+                .dateRange(dateRange)
                 .excludeAuto(excludeAuto)
                 .excludeLowCal(excludeLowCal)
                 .activities(activities.stream()
@@ -39,6 +37,7 @@ public record ActivityViewModel(
 
     static ActivityViewModel createError(String errorMessage) {
         return new ActivityViewModelBuilder()
+                .dateRange(new DateRangeViewModelBuilder().build())
                 .errorMessage(errorMessage)
                 .now(ZonedDateTime.now())
                 .build();

@@ -20,7 +20,7 @@ import com.github.phoswald.fitbit.viewer.fitbitapi.CardioScoreApiClient;
 @Table(name = "fitbit_cardioscore_")
 @NamedQuery(
         name = "CardioScoreEntity.loadByUserIdAndDateRange",
-        query = "SELECT c FROM CardioScoreEntity c WHERE c.userId = :userId AND c.date >= :begDate AND c.date <= :endDate ORDER BY c.date"
+        query = "SELECT c FROM CardioScoreEntity c WHERE c.userId = :userId AND c.date >= :dateBeg AND c.date <= :dateEnd ORDER BY c.date"
 )
 @IdClass(CardioScoreEntity.CardioScoreId.class)
 public class CardioScoreEntity {

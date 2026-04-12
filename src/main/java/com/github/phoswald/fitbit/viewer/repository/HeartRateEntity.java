@@ -18,7 +18,7 @@ import com.github.phoswald.fitbit.viewer.fitbitapi.HeartRateApiClient;
 @Table(name = "fitbit_heartrate_")
 @NamedQuery(
         name = "HeartRateEntity.loadByUserIdAndDateRange",
-        query = "SELECT h FROM HeartRateEntity h WHERE h.userId = :userId AND h.date >= :begDate AND h.date <= :endDate ORDER BY h.date"
+        query = "SELECT h FROM HeartRateEntity h WHERE h.userId = :userId AND h.date >= :dateBeg AND h.date <= :dateEnd ORDER BY h.date"
 )
 @IdClass(HeartRateEntity.HeartRateId.class)
 public class HeartRateEntity {

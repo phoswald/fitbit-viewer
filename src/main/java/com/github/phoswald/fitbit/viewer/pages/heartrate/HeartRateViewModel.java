@@ -5,25 +5,24 @@ import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
 
+import com.github.phoswald.fitbit.viewer.pages.DateRangeViewModel;
+import com.github.phoswald.fitbit.viewer.pages.DateRangeViewModelBuilder;
 import com.github.phoswald.fitbit.viewer.repository.HeartRateEntity;
 import com.github.phoswald.record.builder.RecordBuilder;
 
 @RecordBuilder
 public record HeartRateViewModel(
-        LocalDate begDate,
-        LocalDate endDate,
+        DateRangeViewModel dateRange,
         Collection<HeartRateEntity> heartRates,
         String errorMessage,
         ZonedDateTime now
 ) {
 
     static HeartRateViewModel create(
-            LocalDate begDate,
-            LocalDate endDate,
+            DateRangeViewModel dateRange,
             Collection<HeartRateEntity> heartRates) {
         return new HeartRateViewModelBuilder()
-                .begDate(begDate)
-                .endDate(endDate)
+                .dateRange(dateRange)
                 .heartRates(heartRates)
                 .now(ZonedDateTime.now())
                 .build();
@@ -31,6 +30,7 @@ public record HeartRateViewModel(
 
     static HeartRateViewModel createError(String errorMessage) {
         return new HeartRateViewModelBuilder()
+                .dateRange(new DateRangeViewModelBuilder().build())
                 .errorMessage(errorMessage)
                 .now(ZonedDateTime.now())
                 .build();

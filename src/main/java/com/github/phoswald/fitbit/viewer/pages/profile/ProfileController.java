@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
 import com.github.phoswald.fitbit.viewer.fitbitapi.ProfileApiClient;
-import com.github.phoswald.fitbit.viewer.pages.PageController;
+import com.github.phoswald.fitbit.viewer.pages.BaseController;
 import com.github.phoswald.fitbit.viewer.repository.ProfileEntity;
 import com.github.phoswald.fitbit.viewer.repository.ProfileRepository;
 
@@ -26,7 +26,7 @@ import io.quarkus.qute.TemplateInstance;
 
 @RequestScoped
 @Path("/pages/profile")
-public class ProfileController extends PageController {
+public class ProfileController extends BaseController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
