@@ -1,376 +1,380 @@
 
-/* ****** Reset & variables ****** */
-
-*, *::before, *::after { box-sizing: border-box; }
+/* ****** Variables ****** */
 
 :root {
-    --violet-bg:     #f0ebf8;
-    --violet-border: #d8ceed;
-    --violet-active: #e2d5f5;
-    --sidebar-width: 210px;
-    --header-height: 44px;
-    --text:          #1c1a2e;
+    --nav-color:            #3a383f;
+    --nav-bgcolor:          #e9eaee; /* #f0ebf8; */
+    --nav-act-bgcolor:      #d9d9de; /* #e2d5f5; */
+    --nav-icon-color:       #9c9fa9; /* #c0aedd; */
+    --nav-icon-act-color:   #9c9fa9; /* #5b3fa0; */
+    --nav-hover-bgcolor:    #d9d9de; /* #d0dffe; */ /* #785ab41a; */ /* with transparency */
+
+    --text-color:           #000000; /* #1c1a2e; */
+    --text-bgcolor:         #ffffff;
+    --table-bgcolor:        #fbfafd;
+    --hover-bgcolor:        #f5f5f5;
+    --border-color:         #dcdcde;
+
+    --button-color:         #2563eb;
+    --button-hover-color:   #1d4ed8;
+    --button-outline-color: #cccccc;
+
+    --focus-border-color:   #93c5fd;
+    --focus-shadow-color:   #2563eb1f; /* --button-color with transparency */
+
+    --alert-color:          #58151c; /* #8b1c1c; */
+    --alert-border-color:   #f1aeb5; /* #f5c2c2; */
+    --alert-bgcolor:        #f8d7da; /* #fdeaea; */
+
     --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
 }
 
+/* ****** Reset ****** */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 body {
+    display: flex;
+    flex-direction: column;
     margin: 0;
+
+    color: var(--text-color);
+    background-color: var(--nav-bgcolor);
     font-family: var(--font);
     font-size: 14px;
     line-height: 1.5;
-    color: var(--text);
-    background: var(--violet-bg);
-    display: flex;
-    flex-direction: column;
     min-height: 100vh;
 }
 
-/* ****** Header (title bar) ****** */
+/* ****** Title Bar (header) ****** */
 
 header {
-    height: var(--header-height);
-    background: var(--violet-bg);
     display: flex;
+    flex-shrink: 0;
+    padding: 0 16px;
+    height: 44px;
     align-items: center;
     justify-content: space-between;
-    padding: 0 1rem;
-    flex-shrink: 0;
 }
 
-.header-brand {
+.my-titlebar-brand {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     text-decoration: none;
 }
 
-.header-logo {
+.my-titlebar-logo {
     height: 22px;
 }
 
-.header-title {
+.my-titlebar-title {
+    color: var(--text-color);
     font-size: 15px;
     font-weight: 600;
-    color: var(--text);
     letter-spacing: -0.01em;
 }
 
-/* ****** App layout (sidebar + content) ****** */
+/* ****** Sidebar (nav) ****** */
 
-.app-layout {
-    display: flex;
-    flex: 1;
-}
-
-/* ****** Sidebar navigation ****** */
-
-nav.sidebar {
-    width: var(--sidebar-width);
-    background: var(--violet-bg);
-    padding: 0.5rem 0;
+nav {
+    margin: 0 0 0 8px;
+    padding: 8px 0;
+    width: 200px;
     flex-shrink: 0;
 }
 
-.nav-item {
+nav > * {
     display: flex;
-    align-items: center;
-    gap: 0.625rem;
-    padding: 0.45rem 1rem;
-    color: #3a383f;
-    text-decoration: none;
+    padding: 8px 12px;
+    color: var(--nav-color);
     font-size: 13.5px;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
 }
 
-.nav-item:hover {
-    background: #785ab41a;
-    color: #3a383f;
-}
-
-.nav-item.active {
-    background: var(--violet-active);
-    color: #3a383f;
-    font-weight: 500;
+nav .my-active {
     border-radius: 6px;
-    margin: 0 0.5rem;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    color: var(--nav-color);
+    background-color: var(--nav-act-bgcolor);
+    font-weight: 600;
 }
 
-/* Icon placeholder: small rounded square */
-.nav-icon {
+nav > *:hover {
+    border-radius: 6px;
+    background-color: var(--nav-hover-bgcolor);
+}
+
+/* icon placeholder: small rounded square */
+.my-sidebar-icon {
     width: 17px;
     height: 17px;
-    border-radius: 4px;
-    background: #c0aedd;
     flex-shrink: 0;
+    border-radius: 4px;
+    background-color: var(--nav-icon-color);
 }
 
-.nav-item.active .nav-icon {
-    background: #5b3fa0;
+nav .my-active .my-sidebar-icon {
+    background-color: var(--nav-icon-act-color);
 }
 
-/* ****** Main content area ****** */
+/* ****** Main ****** */
 
 main {
+    margin: 8px; /* 0 8px 8px 0; */
     flex: 1;
-    background: #ffffff;
-    padding: 16px;
+    border-radius: 16px; /* 16px; */
+    padding: 16px; /* 16px; */
     min-width: 0;
-    border-radius: 16px;
-    margin: 8px;
+    background-color: var(--text-bgcolor);
 }
 
-/* ****** Typography ****** */
+/* ****** App layout (div for sidebar and main) ****** */
 
-h1, h2 {
-    font-weight: 600;
-    margin: 0 0 1.25rem;
-    color: var(--text);
-    letter-spacing: -0.01em;
-}
-
-h1 { font-size: 30px; }
-h2 { font-size: 20px; }
-
-h3 {
-    font-size: 15px;
-    font-weight: 600;
-    margin: 1rem 0 0.4rem;
-    color: var(--text);
-    letter-spacing: -0.01em;
+.my-app-layout {
+    display: flex;
+    flex: 1;
 }
 
 /* ****** Footer ****** */
 
 footer {
-    border-top: 1px solid #dddddd;
     margin-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
     padding-top: 0.5rem;
-    color: #000000;
+    color: var(--text-color);
     font-size: 12px;
+}
+
+/* ****** Typography ****** */
+
+h1, h2, h3 {
+    margin: 0 0 1.25rem;
+    color: var(--text-color);
+    letter-spacing: -0.01em;
+    font-weight: 600;
+}
+
+h1 {
+    font-size: 30px;
+}
+
+h2 {
+    font-size: 20px;
+}
+
+h3 {
+    margin: 1rem 0 0.4rem;
+    font-size: 15px;
 }
 
 /* ****** Error alert ****** */
 
-.error {
-    padding: 0.75rem 1rem;
+.my-alert {
     margin-bottom: 1rem;
-    background-color: #fdeaea;
-    color: #8b1c1c;
-    border: 1px solid #f5c2c2;
+    border: 1px solid var(--alert-border-color);
     border-radius: 6px;
-    font-size: 13px;
+    padding: 0.75rem 1rem;
+    color: var(--alert-color);
+    background-color: var(--alert-bgcolor);
 }
 
-/* ****** Buttons ****** */
-
-button, a.button {
-    display: inline-block;
-    padding: 0.3rem 0.875rem;
-    font-size: 13px;
-    font-weight: 500;
-    line-height: 1.5;
-    color: #ffffff;
-    background-color: #2563eb;
-    border: 1px solid #2563eb;
-    border-radius: 8px;
-    cursor: pointer;
-    text-decoration: none;
-    font-family: var(--font);
-}
-
-button:hover, a.button:hover {
-    background-color: #1d4ed8;
-    border-color: #1d4ed8;
-}
-
-a.button-outline {
-    display: inline-block;
-    padding: 0.25rem 0.7rem;
-    font-size: 13px;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #000000;
-    background-color: transparent;
-    border: 1px solid #cccccc;
-    border-radius: 8px;
-    text-decoration: none;
-}
-
-a.button-outline:hover {
-    background-color: #f5f5f5;
-    border-color: #aaaaaa;
-}
-
-/* ****** Forms ****** */
+/* ****** form, input, button and related stuff ****** */
 
 form {
     display: flex;
+    margin-bottom: 1.25rem;
     flex-wrap: wrap;
     align-items: flex-end;
     gap: 0.75rem;
-    margin-bottom: 1.25rem;
 }
 
 form label {
     display: block;
-    font-weight: 600;
     margin-bottom: 0.25rem;
+    color: var(--text-color);
     font-size: 14px;
-    color: #000000;
+    font-weight: 600;
 }
 
 form input[type="date"] {
     display: block;
-    padding: 0.3rem 0.6rem;
-    font-size: 13px;
-    color: var(--text);
-    background-color: #ffffff;
-    border: 1px solid var(--violet-border);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
+    padding: 0.3rem 0.6rem;
+    color: var(--text-color);
     font-family: var(--font);
+    font-size: 13px;
 }
 
+/* TODO enable border and shadow for all inputs */
 form input[type="date"]:focus {
+    border-color: var(--focus-border-color);
+    box-shadow: 0 0 0 3px var(--focus-shadow-color);
     outline: none;
-    border-color: #93c5fd;
-    box-shadow: 0 0 0 2px #2563eb1f;
 }
 
-form .check {
+form .my-check {
     display: flex;
+    margin-bottom: 0.15rem;
     align-items: center;
     gap: 0.375rem;
-    margin-bottom: 0.15rem;
 }
 
-form .check input[type="checkbox"] {
+form .my-check input[type="checkbox"] {
     width: 14px;
     height: 14px;
     cursor: pointer;
-    accent-color: #2563eb;
+    accent-color: var(--button-color);
 }
 
-form .check label {
-    font-weight: 400;
+form .my-check label {
     margin-bottom: 0;
+    color: var(--text-color);
+    font-weight: 400;
     font-size: 14px;
-    color: #000000;
 }
 
-/* ****** Date-range nav pill group ****** */
-
-ul.date-nav {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0;
-    margin: 0 0 0.75rem 0;
-}
-
-ul.date-nav li a {
+button, a.my-button {
     display: inline-block;
-    padding: 0.28rem 0.7rem;
+    border: 1px solid var(--button-color);
+    border-radius: 8px;
+    padding: 0.25rem 0.7rem;
+    color: var(--text-bgcolor);
+    background-color: var(--button-color);
     font-size: 13px;
-    color: #000000;
+    font-weight: 500;
+    cursor: pointer;
+    line-height: 1.5;
     text-decoration: none;
-    border: 1px solid #cccccc;
+}
+
+button:hover, a.my-button:hover {
+    border-color: var(--button-hover-color);
+    background-color: var(--button-hover-color);
+}
+
+a.my-button-outline {
+    display: inline-block;
+    border: 1px solid var(--button-outline-color);
+    border-radius: 8px;
+    padding: 0.25rem 0.7rem;
+    color: var(--text-color);
+    background-color: transparent;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.5;
+    text-decoration: none;
+}
+
+a.my-button-outline:hover {
+    background-color: var(--hover-bgcolor);
+}
+
+/* ****** Forms: input groups ****** */
+
+.my-inputgroup {
+    display: flex;
+    margin: 0 0 0.75rem 0;
+    padding: 0;
+    flex-wrap: wrap;
+    list-style: none;
+}
+
+.my-inputgroup > * a {
     margin-right: -1px;
-    background: #ffffff;
+    border: 1px solid var(--button-outline-color);
+    padding: 0.28rem 0.7rem;
+    display: inline-block;
+    color: var(--text-color);
+    font-size: 13px;
+    text-decoration: none;
 }
 
-ul.date-nav li:first-child a { border-radius: 5px 0 0 5px; }
-ul.date-nav li:last-child  a { border-radius: 0 5px 5px 0; }
-
-ul.date-nav li a:hover {
-    background-color: #f5f5f5;
+.my-inputgroup > :first-child a {
+    border-radius: 5px 0 0 5px;
 }
 
-/* ****** Tables ****** */
+.my-inputgroup > :last-child  a {
+    border-radius: 0 5px 5px 0;
+}
+
+.my-inputgroup > * a:hover {
+    background-color: var(--hover-bgcolor);
+}
+
+/* ****** table ****** */
 
 table {
-    border-collapse: separate;
+    margin-bottom: 1.25rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    border-collapse: separate; /* collapse does not work with radius */
     border-spacing: 0;
     font-size: 14px;
-    margin-bottom: 1.25rem;
     width: auto;
-    border: 1px solid #dcdcde;
-    border-radius: 8px;
     overflow: hidden;
 }
 
-table th, table td {
-    padding: 0.6rem 1.1rem;
+table th,
+table td {
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
     text-align: left;
     vertical-align: top;
-    border-bottom: 1px solid #dcdcde;
 }
 
-table thead th {
-    background-color: #fbfafd;
+table th {
+    background-color: var(--table-bgcolor);
     font-weight: 600;
-    color: #1a1a1a;
+}
+
+table tbody th {
+    border-right: 1px solid var(--border-color);
 }
 
 table tbody tr:hover {
-    background-color: #fafafa;
+    background-color: var(--hover-bgcolor);
 }
 
-/* Key-value detail table */
-table.detail th {
-    background-color: #fbfafd;
-    font-weight: 600;
-    color: #1a1a1a;
-    white-space: nowrap;
-    padding-right: 1.5rem;
-}
+/* ****** Chart (chart.js) ****** */
 
-/* ****** Chart.js canvas ****** */
-
-canvas {
+.my-chart {
     display: block;
     margin-bottom: 1.25rem;
     max-width: 100%;
 }
 
-/* ****** Leaflet map ****** */
+/* ****** Map (leaflet.js) ****** */
 
-#map {
-    aspect-ratio: 1 / 1;
+.my-map {
     margin-bottom: 1.25rem;
     border-radius: 6px;
-    border: 1px solid var(--violet-border);
+    border: 1px solid var(--border-color);
+    aspect-ratio: 1 / 1;
 }
 
-/* ****** Avatar (profile page) ****** */
+/* ****** Special stuff ****** */
 
-img.avatar {
+a.my-logo {
+    display: inline-flex;
+    line-height: 0;
+    text-decoration: none;
+}
+
+a.my-logo img {
+    height: 70px;
+}
+
+a.my-logo:hover {
+    background-color: var(--hover-bgcolor);
+}
+
+img.my-avatar {
     display: block;
     border-radius: 6px;
     margin-bottom: 1rem;
-}
-
-/* ****** Logo grid (home page) ****** */
-
-p.intro {
-    color: var(--text);
-    font-size: 13px;
-    margin-bottom: 0.75rem;
-}
-
-.logos {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem;
-    align-items: center;
-}
-
-.logos img {
-    height: 70px;
-    opacity: 0.85;
-    transition: opacity 0.15s;
-}
-
-.logos img:hover {
-    opacity: 1;
 }

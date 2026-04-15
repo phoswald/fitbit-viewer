@@ -10,47 +10,48 @@
   </head>
   <body>
     <header>
-      <div class="header-brand">
-        <img src="/images/fitbit-logo.svg" alt="Fitbit" class="header-logo">
-        <span class="header-title">Fitbit Viewer</span>
+      <div class="my-titlebar-brand">
+        <img src="/images/fitbit-logo.svg" alt="Fitbit" class="my-titlebar-logo">
+        <span class="my-titlebar-title">Fitbit Viewer</span>
       </div>
-      <a href="/app/oauth/login" class="button">Login</a>
+      <a href="/app/oauth/login" class="my-button">Login</a>
     </header>
-    <div class="app-layout">
-      <nav class="sidebar">
-        <a href="/" class="nav-item">
-          <span class="nav-icon"></span>Home
+    <div class="my-app-layout">
+      <nav>
+        <a href="/">
+          <span class="my-sidebar-icon"></span>Home
         </a>
-        <a href="profile" class="nav-item active">
-          <span class="nav-icon"></span>Profile
+        <a href="profile" class="my-active">
+          <span class="my-sidebar-icon"></span>Profile
         </a>
-        <a href="steps" class="nav-item">
-          <span class="nav-icon"></span>Steps
+        <a href="steps">
+          <span class="my-sidebar-icon"></span>Steps
         </a>
-        <a href="heartrate" class="nav-item">
-          <span class="nav-icon"></span>Heart Rate
+        <a href="heartrate">
+          <span class="my-sidebar-icon"></span>Heart Rate
         </a>
-        <a href="cardioscore" class="nav-item">
-          <span class="nav-icon"></span>Cardio Fitness
+        <a href="cardioscore">
+          <span class="my-sidebar-icon"></span>Cardio Fitness
         </a>
-        <a href="azm" class="nav-item">
-          <span class="nav-icon"></span>Active Zone Minutes
+        <a href="azm">
+          <span class="my-sidebar-icon"></span>Active Zone Minutes
         </a>
-        <a href="activities" class="nav-item">
-          <span class="nav-icon"></span>Activities
+        <a href="activities">
+          <span class="my-sidebar-icon"></span>Activities
         </a>
       </nav>
       <main>
         <h2>Profile</h2>
         {#if model.errorMessage}
-          <div class="error">{model.errorMessage}</div>
+          <div class="my-alert">{model.errorMessage}</div>
         {/if}
         {#if model.profile}
           <p>
-            <a href="profile?refresh=true" class="button-outline">Refresh</a>
+            <a href="profile?refresh=true" class="my-button-outline">Refresh</a>
           </p>
-          <img src="{model.profile.avatarUrl}" alt="Avatar" width="64" height="64" class="avatar">
-          <table class="detail">
+          <img src="{model.profile.avatarUrl}" alt="Avatar" width="64" height="64" class="my-avatar">
+          <table>
+            <tbody>
             <tr>
               <th>Name</th>
               <td><strong>{model.profile.displayName}</strong> ({model.profile.fullName})</td>
@@ -95,9 +96,10 @@
               <th>User ID</th>
               <td>{model.profile.userId}</td>
             </tr>
+            </tbody>
           </table>
         {#else}
-          <a href="../oauth/login" class="button">Login with Fitbit</a>
+          <a href="../oauth/login" class="my-button">Login with Fitbit</a>
         {/if}
         <footer>
           Generated: {model.now.format('yyyy-MM-dd HH:mm:ss')}

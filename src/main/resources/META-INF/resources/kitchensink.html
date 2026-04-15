@@ -11,64 +11,64 @@
 
 <body>
 <header>
-  <div class="header-brand">
-    <img src="/images/fitbit-logo.svg" alt="Fitbit" class="header-logo">
-    <span class="header-title">Kitchensink</span>
+  <div class="my-titlebar-brand">
+    <img src="/images/fitbit-logo.svg" alt="Fitbit" class="my-titlebar-logo">
+    <span class="my-titlebar-title">Kitchensink</span>
   </div>
-  <a href="" class="button">Login</a>
+  <a href="" class="my-button">Login</a>
 </header>
-<div class="app-layout">
-  <nav class="sidebar">
-    <a href="/" class="nav-item">
-      <span class="nav-icon"></span>Home
+<div class="my-app-layout">
+  <nav>
+    <a href="/">
+      <span class="my-sidebar-icon"></span>Home
     </a>
-    <a href="" class="nav-item active">
-      <span class="nav-icon"></span>Kitchen Sink
+    <a href="" class="my-active">
+      <span class="my-sidebar-icon"></span>Kitchen Sink
     </a>
-    <a href="" class="nav-item">
-      <span class="nav-icon"></span>Profile
+    <a href="">
+      <span class="my-sidebar-icon"></span>Profile
     </a>
-    <a href="" class="nav-item">
-      <span class="nav-icon"></span>Steps
+    <a href="">
+      <span class="my-sidebar-icon"></span>Steps
     </a>
-    <a href="" class="nav-item">
-      <span class="nav-icon"></span>Heart Rate
+    <a href="">
+      <span class="my-sidebar-icon"></span>Heart Rate
     </a>
-    <a href="" class="nav-item">
-      <span class="nav-icon"></span>Cardio Fitness
+    <a href="">
+      <span class="my-sidebar-icon"></span>Cardio Fitness
     </a>
-    <a href="" class="nav-item">
-      <span class="nav-icon"></span>Active Zone Minutes
+    <a href="">
+      <span class="my-sidebar-icon"></span>Active Zone Minutes
     </a>
-    <a href="" class="nav-item">
-      <span class="nav-icon"></span>Activities
+    <a href="">
+      <span class="my-sidebar-icon"></span>Activities
     </a>
   </nav>
   <main>
     <h1>Heading Level One</h1>
-    <div class="error">Some error occured.</div> <!-- TODO -->
+    <div class="my-alert">Some error occured.</div> <!-- TODO -->
     <h2>Heading Level Two</h2>
-    <p>
+    <p id="top">
       This is a paragraph with some text.
       This is <strong>strong</strong>.
       This is <small>small</small>.
-      This is a <a href="">link</a>.
+      This is a <a href="#bottom">link</a>.
     </p>
     <h3>Heading Level Three: A form</h3>
     <p>This is a link styled as a button:</p>
     <p>
-      <a href="" class="button-outline">Button (outlined)</a>
-      <a href="" class="button">Button (standard)</a>
+      <a href="" class="my-button-outline">Button (outlined)</a>
+      <a href="" class="my-button">Button (standard)</a>
     </p>
-    <p>This is sometines called a "pill", or just a button group:</p>
-    <ul class="date-nav">
-      <li><a href="">&#8592;</a></li>
-      <li><a href="">One</a></li>
-      <li><a href="">Two</a></li>
-      <li><a href="">Three</a></li>
-      <li><a href="">Four</a></li>
-      <li><a href="">&#8594;</a></li>
-    </ul>
+    <p>This is an input group, sometines called a "pill":</p>
+    <div class="my-inputgroup">
+      <div><a href="">&#8592;</a></div>
+      <div><a href="">One</a></div>
+      <div><a href="">Two</a></div>
+      <div><a href="">Three</a></div>
+      <div><a href="">Four</a></div>
+      <div><a href="">&#8594;</a></div>
+    </div>
     <p>Here comes a simple for with various kinds of inputs:</p>
     <form method="get" action="">
       <div>
@@ -92,11 +92,11 @@
         <input type="date" name="date2" value="2026-04-15">
       </div>
       <button type="submit">Query</button>
-      <span class="check">
+      <span class="my-check">
         <input type="checkbox" name="excludeAuto" id="checkbox1" checked>
         <label for="checkbox1">Exclude auto detected</label>
       </span>
-      <span class="check">
+      <span class="my-check">
         <input type="checkbox" name="excludeLowCal" id="checkbox2">
         <label for="checkbox2">Exclude low calories</label>
       </span>
@@ -178,7 +178,8 @@
       </tbody>
     </table>
     <h3>Heading Level Three: A table with headers on the left</h3>
-    <table class="detail">
+    <table>
+      <tbody>
       <tr>
         <th>Activity</th>
         <td><strong>Run</strong></td>
@@ -211,26 +212,27 @@
         <th>Source Features</th>
         <td>DISTANCE, STEPS, GPS, PACE, CALORIES, HEARTRATE</td>
       </tr>
+      </tbody>
     </table>
     <h3>Heading Level Three</h3>
     <p>This is a paragraph with some text. There come some icons:</p>
-    <div class="logos">
-      <a href="https://www.fitbit.com" target="_blank">
+    <p>
+      <a href="https://www.fitbit.com" target="_blank" class="my-logo">
         <img src="images/fitbit-logo.svg" title="FitBit" alt="FitBit">
       </a>
-      <a href="https://quarkus.io" target="_blank">
+      <a href="https://quarkus.io" target="_blank" class="my-logo">
         <img src="images/quarkus-logo.svg" title="Quarkus" alt="Quarkus">
       </a>
-      <a href="https://dev.java/" target="_blank">
+      <a href="https://dev.java/" target="_blank" class="my-logo">
         <img src="images/java-logo.svg" title="Java" alt="Java">
       </a>
-      <a href="https://www.linux.org" target="_blank">
+      <a href="https://www.linux.org" target="_blank" class="my-logo">
         <img src="images/linux-logo.svg" title="Linux" alt="Linux">
       </a>
-    </div>
+    </p>
     <p>This is a paragraph with some text.</p>
     <h3>Heading Level Three: A chart (chart.js)</h3>
-    <canvas id="stepsChart"></canvas>
+    <canvas id="stepsChart" class="my-chart"></canvas>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         new Chart(document.getElementById('stepsChart'), {
@@ -246,7 +248,7 @@
         });
     </script>
     <h3>Heading Level Three: A map (Leaflet, OpenStreetMap)</h3>
-    <div id="map"></div>
+    <div id="map" class="my-map"></div>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
@@ -265,8 +267,8 @@
         var polyline = L.polyline(coords, {color: '#6d4aaa', weight: 3}).addTo(map);
         map.fitBounds(polyline.getBounds());
     </script>
-    <p>This is a paragraph with some text.</p>
-    <footer>
+    <p>This is a paragraph with some text and a <a href="">link</a>.</p>
+    <footer id="bottom">
       Footer, ususally with a timestamp or copyright, version, etc.
     </footer>
   </main>
