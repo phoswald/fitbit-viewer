@@ -46,7 +46,7 @@
   </nav>
   <main>
     <h1>Heading Level One</h1>
-    <div class="my-alert">Some error occured.</div> <!-- TODO -->
+    <div class="my-alert">Some error occured.</div>
     <h2>Heading Level Two</h2>
     <p id="top">
       This is a paragraph with some text.
@@ -72,48 +72,62 @@
     <p>Here comes a simple for with various kinds of inputs:</p>
     <form method="get" action="">
       <div>
-        <label>Text</label>
-        <input type="text" name="text1" value="Hello, World!"> <!-- TODO -->
+        <label for="text1">Text</label>
+        <input type="text" name="text1" id="text1" value="Hello, World!">
       </div>
       <div>
-        <label>Password</label>
-        <input type="password" name="password1" value="Hello, World!"> <!-- TODO -->
+        <label for="password1">Password</label>
+        <input type="password" name="password1" id="password1" value="Hello, World!">
       </div>
       <div>
-        <label>Textarea</label>
-        <textarea rows="3"></textarea> <!-- TODO -->
+        <label for="textarea1">Textarea</label>
+        <textarea id="textarea1" rows="3"></textarea>
       </div>
       <div>
-        <label>Date (from)</label>
-        <input type="date" name="date1" value="2026-04-01">
+        <label for="date1">Date (from)</label>
+        <input type="date" name="date1" id="date1" value="2026-04-01">
       </div>
       <div>
-        <label>Date (to)</label>
-        <input type="date" name="date2" value="2026-04-15">
+        <label for="date2">Date (to)</label>
+        <input type="date" name="date2" id="date2" value="2026-04-15">
       </div>
-      <button type="submit">Query</button>
-      <span class="my-check">
+      <label>Some options:</label>
+      <div>
         <input type="checkbox" name="excludeAuto" id="checkbox1" checked>
         <label for="checkbox1">Exclude auto detected</label>
-      </span>
-      <span class="my-check">
+      </div>
+      <div>
         <input type="checkbox" name="excludeLowCal" id="checkbox2">
         <label for="checkbox2">Exclude low calories</label>
-      </span>
+      </div>
+      <label>Some radio group:</label>
       <div>
-        <input type="radio" name="radio1" id="radio1" checked> <!-- TODO -->
-        <label for="radio1">Radio One (checked)</label>
+        <input type="radio" name="radioA" id="radioA1" checked>
+        <label for="radioA1">Option A1</label>
       </div>
       <div>
-        <input type="radio" name="radio2" id="radio2"> <!-- TODO -->
-        <label for="radio2">Radio Two</label>
+        <input type="radio" name="radioA" id="radioA2">
+        <label for="radioA2">Option A2</label>
       </div>
-      <select> <!-- TODO -->
-        <option selected>Select an option</option>
-        <option value="1">Option One</option>
-        <option value="2">Option Two</option>
-        <option value="3">Option Three</option>
-      </select>
+      <label>Another radio group:</label>
+      <div>
+        <input type="radio" name="radioB" id="radioB1" checked>
+        <label for="radioB1">Option B1</label>
+      </div>
+      <div>
+        <input type="radio" name="radioB" id="radioB2">
+        <label for="radioB2">Option B2</label>
+      </div>
+      <div>
+        <label for="select1">Select</label>
+        <select id="select1">
+          <option selected>Select an option</option>
+          <option value="1">Option One</option>
+          <option value="2">Option Two</option>
+          <option value="3">Option Three</option>
+        </select>
+      </div>
+      <button type="submit">Query</button>
     </form>
     <h3>Heading Level Three: A table</h3>
     <table>

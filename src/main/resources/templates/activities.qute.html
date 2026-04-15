@@ -62,19 +62,20 @@
             <label>To</label>
             <input type="date" name="dateEnd" value="{model.dateRange.end}">
           </div>
-          <button type="submit">Query</button>
-          <span class="my-check">
+          <label>Options</label>
+          <div>
             <input type="checkbox" name="excludeAuto" id="excludeAuto" value="true" {#if model.excludeAuto}checked{/if}>
             <label for="excludeAuto">Exclude auto detected</label>
-          </span>
-          <span class="my-check">
+          </div>
+          <div>
             <input type="checkbox" name="excludeLowCal" id="excludeLowCal" value="true" {#if model.excludeLowCal}checked{/if}>
             <label for="excludeLowCal">Exclude low calories</label>
-          </span>
-          <span class="my-check">
+          </div>
+          <div>
             <input type="checkbox" name="refresh" id="refresh" value="true">
             <label for="refresh">Refresh</label>
-          </span>
+          </div>
+          <button type="submit">Query</button>
         </form>
         {#if model.activities}
           <table>

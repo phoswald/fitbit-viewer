@@ -62,11 +62,12 @@
             <label>To</label>
             <input type="date" name="dateEnd" value="{model.dateRange.end}">
           </div>
-          <button type="submit">Query</button>
-          <span class="my-check">
+          <label>Options</label>
+          <div>
             <input type="checkbox" name="refresh" id="refresh" value="true">
             <label for="refresh">Refresh</label>
-          </span>
+          </div>
+          <button type="submit">Query</button>
         </form>
         {#if model.heartRates}
           <canvas id="heartRateChart" class="my-chart"></canvas>
