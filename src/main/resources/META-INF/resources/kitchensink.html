@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kitchensink</title>
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+<header>
+  <div class="header-brand">
+    <img src="/images/fitbit-logo.svg" alt="Fitbit" class="header-logo">
+    <span class="header-title">Kitchensink</span>
+  </div>
+  <a href="" class="button">Login</a>
+</header>
+<div class="app-layout">
+  <nav class="sidebar">
+    <a href="/" class="nav-item">
+      <span class="nav-icon"></span>Home
+    </a>
+    <a href="" class="nav-item active">
+      <span class="nav-icon"></span>Kitchen Sink
+    </a>
+    <a href="" class="nav-item">
+      <span class="nav-icon"></span>Profile
+    </a>
+    <a href="" class="nav-item">
+      <span class="nav-icon"></span>Steps
+    </a>
+    <a href="" class="nav-item">
+      <span class="nav-icon"></span>Heart Rate
+    </a>
+    <a href="" class="nav-item">
+      <span class="nav-icon"></span>Cardio Fitness
+    </a>
+    <a href="" class="nav-item">
+      <span class="nav-icon"></span>Active Zone Minutes
+    </a>
+    <a href="" class="nav-item">
+      <span class="nav-icon"></span>Activities
+    </a>
+  </nav>
+  <main>
+    <h1>Heading Level One</h1>
+    <div class="error">Some error occured.</div> <!-- TODO -->
+    <h2>Heading Level Two</h2>
+    <p>
+      This is a paragraph with some text.
+      This is <strong>strong</strong>.
+      This is <small>small</small>.
+      This is a <a href="">link</a>.
+    </p>
+    <h3>Heading Level Three: A form</h3>
+    <p>This is a link styled as a button:</p>
+    <p>
+      <a href="" class="button-outline">Button (outlined)</a>
+      <a href="" class="button">Button (standard)</a>
+    </p>
+    <p>This is sometines called a "pill", or just a button group:</p>
+    <ul class="date-nav">
+      <li><a href="">&#8592;</a></li>
+      <li><a href="">One</a></li>
+      <li><a href="">Two</a></li>
+      <li><a href="">Three</a></li>
+      <li><a href="">Four</a></li>
+      <li><a href="">&#8594;</a></li>
+    </ul>
+    <p>Here comes a simple for with various kinds of inputs:</p>
+    <form method="get" action="">
+      <div>
+        <label>Text</label>
+        <input type="text" name="text1" value="Hello, World!"> <!-- TODO -->
+      </div>
+      <div>
+        <label>Password</label>
+        <input type="password" name="password1" value="Hello, World!"> <!-- TODO -->
+      </div>
+      <div>
+        <label>Textarea</label>
+        <textarea rows="3"></textarea> <!-- TODO -->
+      </div>
+      <div>
+        <label>Date (from)</label>
+        <input type="date" name="date1" value="2026-04-01">
+      </div>
+      <div>
+        <label>Date (to)</label>
+        <input type="date" name="date2" value="2026-04-15">
+      </div>
+      <button type="submit">Query</button>
+      <span class="check">
+        <input type="checkbox" name="excludeAuto" id="checkbox1" checked>
+        <label for="checkbox1">Exclude auto detected</label>
+      </span>
+      <span class="check">
+        <input type="checkbox" name="excludeLowCal" id="checkbox2">
+        <label for="checkbox2">Exclude low calories</label>
+      </span>
+      <div>
+        <input type="radio" name="radio1" id="radio1" checked> <!-- TODO -->
+        <label for="radio1">Radio One (checked)</label>
+      </div>
+      <div>
+        <input type="radio" name="radio2" id="radio2"> <!-- TODO -->
+        <label for="radio2">Radio Two</label>
+      </div>
+      <select> <!-- TODO -->
+        <option selected>Select an option</option>
+        <option value="1">Option One</option>
+        <option value="2">Option Two</option>
+        <option value="3">Option Three</option>
+      </select>
+    </form>
+    <h3>Heading Level Three: A table</h3>
+    <table>
+      <thead>
+      <tr>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Activity</th>
+        <th>Duration</th>
+        <th>Calories</th>
+        <th>Steps</th>
+        <th>Distance (km)</th>
+        <th>Avg Heart Rate (bpm)</th>
+        <th>Type</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>2026-04-02</td>
+        <td>15:48 - 16:25</td>
+        <td><a href="">Run</a></td>
+        <td>36:32</td>
+        <td>426</td>
+        <td>6201</td>
+        <td>6.46</td>
+        <td>144</td>
+        <td>mobile_run</td>
+      </tr>
+      <tr>
+        <td>2026-04-04</td>
+        <td>12:36 - 13:51</td>
+        <td><a href="">Run</a></td>
+        <td>1:14:58</td>
+        <td>696</td>
+        <td>10360</td>
+        <td>10.82</td>
+        <td>153</td>
+        <td>mobile_run</td>
+      </tr>
+      <tr>
+        <td>2026-04-08</td>
+        <td>15:28 - 16:21</td>
+        <td><a href="">Run</a></td>
+        <td>52:58</td>
+        <td>652</td>
+        <td>9257</td>
+        <td>9.65</td>
+        <td>162</td>
+        <td>mobile_run</td>
+      </tr>
+      <tr>
+        <td>2026-04-10</td>
+        <td>14:47 - 15:37</td>
+        <td><a href="">Run</a></td>
+        <td>50:09</td>
+        <td>655</td>
+        <td>9207</td>
+        <td>9.64</td>
+        <td>158</td>
+        <td>mobile_run</td>
+      </tr>
+      </tbody>
+    </table>
+    <h3>Heading Level Three: A table with headers on the left</h3>
+    <table class="detail">
+      <tr>
+        <th>Activity</th>
+        <td><strong>Run</strong></td>
+      </tr>
+      <tr>
+        <th>Date &amp; Time</th>
+        <td>2026-04-02 15:48 - 16:25</td>
+      </tr>
+      <tr>
+        <th>Duration</th>
+        <td>36:32</td>
+      </tr>
+      <tr>
+        <th>Active Duration</th>
+        <td>36:28</td>
+      </tr>
+      <tr>
+        <th>Calories</th>
+        <td>426</td>
+      </tr>
+      <tr>
+        <th>Steps</th>
+        <td>6201</td>
+      </tr>
+      <tr>
+        <th>Distance</th>
+        <td>6.46 km</td>
+      </tr>
+      <tr>
+        <th>Source Features</th>
+        <td>DISTANCE, STEPS, GPS, PACE, CALORIES, HEARTRATE</td>
+      </tr>
+    </table>
+    <h3>Heading Level Three</h3>
+    <p>This is a paragraph with some text. There come some icons:</p>
+    <div class="logos">
+      <a href="https://www.fitbit.com" target="_blank">
+        <img src="images/fitbit-logo.svg" title="FitBit" alt="FitBit">
+      </a>
+      <a href="https://quarkus.io" target="_blank">
+        <img src="images/quarkus-logo.svg" title="Quarkus" alt="Quarkus">
+      </a>
+      <a href="https://dev.java/" target="_blank">
+        <img src="images/java-logo.svg" title="Java" alt="Java">
+      </a>
+      <a href="https://www.linux.org" target="_blank">
+        <img src="images/linux-logo.svg" title="Linux" alt="Linux">
+      </a>
+    </div>
+    <p>This is a paragraph with some text.</p>
+    <h3>Heading Level Three: A chart (chart.js)</h3>
+    <canvas id="stepsChart"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        new Chart(document.getElementById('stepsChart'), {
+            type: 'bar',
+            data: {
+                labels: ["2026-04-13", "2026-04-14", "2026-04-15",],
+                datasets: [{
+                    label: 'Steps',
+                    data: [7528, 7384, 971]
+                }]
+            },
+            options: { scales: { y: { beginAtZero: true } } }
+        });
+    </script>
+    <h3>Heading Level Three: A map (Leaflet, OpenStreetMap)</h3>
+    <div id="map"></div>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        var coords = [
+            [47.02, 8.24],
+            [47.04, 8.24],
+            [47.04, 8.27],
+            [47.02, 8.27],
+            [47.02, 8.24]
+        ];
+        var map = L.map('map');
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        var polyline = L.polyline(coords, {color: '#6d4aaa', weight: 3}).addTo(map);
+        map.fitBounds(polyline.getBounds());
+    </script>
+    <p>This is a paragraph with some text.</p>
+    <footer>
+      Footer, ususally with a timestamp or copyright, version, etc.
+    </footer>
+  </main>
+</div>
+</body>
+
+</html>
