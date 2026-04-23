@@ -231,16 +231,16 @@
     <h3>Heading Level Three</h3>
     <p>This is a paragraph with some text. There come some icons:</p>
     <p>
-      <a href="https://www.fitbit.com" target="_blank" class="my-logo">
+      <a href="https://www.fitbit.com" target="_blank" rel="noopener noreferrer" class="my-logo">
         <img src="images/fitbit-logo.svg" title="FitBit" alt="FitBit">
       </a>
-      <a href="https://quarkus.io" target="_blank" class="my-logo">
+      <a href="https://quarkus.io" target="_blank" rel="noopener noreferrer" class="my-logo">
         <img src="images/quarkus-logo.svg" title="Quarkus" alt="Quarkus">
       </a>
-      <a href="https://dev.java/" target="_blank" class="my-logo">
+      <a href="https://dev.java/" target="_blank" rel="noopener noreferrer" class="my-logo">
         <img src="images/java-logo.svg" title="Java" alt="Java">
       </a>
-      <a href="https://www.linux.org" target="_blank" class="my-logo">
+      <a href="https://www.linux.org" target="_blank" rel="noopener noreferrer" class="my-logo">
         <img src="images/linux-logo.svg" title="Linux" alt="Linux">
       </a>
     </p>
@@ -249,7 +249,7 @@
     <canvas id="stepsChart" class="my-chart"></canvas>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        new Chart(document.getElementById('stepsChart'), {
+        var chart = {
             type: 'bar',
             data: {
                 labels: ["2026-04-13", "2026-04-14", "2026-04-15",],
@@ -259,7 +259,8 @@
                 }]
             },
             options: { scales: { y: { beginAtZero: true } } }
-        });
+        };
+        new Chart(document.getElementById('stepsChart'), chart);
     </script>
     <h3>Heading Level Three: A map (Leaflet, OpenStreetMap)</h3>
     <div id="map" class="my-map"></div>
