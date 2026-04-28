@@ -1,178 +1,175 @@
 {@com.github.phoswald.fitbit.viewer.pages.activities.ActivityDetailViewModel model}
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Fitbit Viewer - Activity Detail</title>
-    <link rel="icon" href="/favicon.ico">
-    <link rel="stylesheet" href="/styles.css">
-  </head>
-  <body>
-    <header>
-      <div class="my-titlebar-brand">
-        <img src="/images/fitbit-logo.svg" alt="Fitbit" class="my-titlebar-logo">
-        <span class="my-titlebar-title">Fitbit Viewer</span>
-      </div>
-      <a href="/app/oauth/login" class="my-button">Login</a>
-    </header>
-    <div class="my-app-layout">
-      <nav>
-        <a href="/">
-          <span class="my-sidebar-icon"></span>Home
-        </a>
-        <a href="../profile">
-          <span class="my-sidebar-icon"></span>Profile
-        </a>
-        <a href="../steps">
-          <span class="my-sidebar-icon"></span>Steps
-        </a>
-        <a href="../heartrate">
-          <span class="my-sidebar-icon"></span>Heart Rate
-        </a>
-        <a href="../cardioscore">
-          <span class="my-sidebar-icon"></span>Cardio Fitness
-        </a>
-        <a href="../azm">
-          <span class="my-sidebar-icon"></span>Active Zone Minutes
-        </a>
-        <a href="../activities" class="my-active">
-          <span class="my-sidebar-icon"></span>Activities
-        </a>
-      </nav>
-      <main>
-        <h2>Activity Detail</h2>
-        <p>
-          <a href="../activities?begDate={model.date}" class="my-button-outline">&larr; Back to Activities</a>
-          <a href="{model.logId}?refreshTcx=true" class="my-button-outline">Refresh TCX</a>
-        </p>
-        {#if model.errorMessage}
-          <div class="my-alert">{model.errorMessage}</div>
-        {/if}
-        {#if model.activity}
-          <table>
-            <tbody>
-            <tr>
-              <th>Activity</th>
-              <td><strong>{model.activity.activityName}</strong></td>
-            </tr>
-            <tr>
-              <th>Date &amp; Time</th>
-              <td>{model.activity.begDateTime.format('yyyy-MM-dd HH:mm')} - {model.activity.endDateTime.format('HH:mm')}</td>
-            </tr>
-            <tr>
-              <th>Duration</th>
-              <td>{#if model.activity.durationMinutes}{model.activity.durationMinutes.formatDuration}{/if}</td>
-            </tr>
-            <tr>
-              <th>Active Duration</th>
-              <td>{#if model.activity.durationActiveMinutes}{model.activity.durationActiveMinutes.formatDuration}{/if}</td>
-            </tr>
-            <tr>
-              <th>Calories</th>
-              <td>{model.activity.calories}</td>
-            </tr>
-            <tr>
-              <th>Steps</th>
-              <td>{model.activity.steps}</td>
-            </tr>
-            <tr>
-              <th>Distance</th>
-              <td>{#if model.activity.distance}{model.activity.distance.format('0.00')} km{/if}</td>
-            </tr>
-            <tr>
-              <th>Pace</th>
-              <td>{#if model.activity.pace}{model.activity.pace.formatPace} min/km{/if}</td>
-            </tr>
-            <tr>
-              <th>Speed</th>
-              <td>{#if model.activity.speed}{model.activity.speed.format('0.00')} km/h{/if}</td>
-            </tr>
-            <tr>
-              <th>Avg Heart Rate</th>
-              <td>{#if model.activity.averageHeartRate}{model.activity.averageHeartRate} bpm{/if}</td>
-            </tr>
-            <tr>
-              <th>Log Type</th>
-              <td>{model.activity.logType}</td>
-            </tr>
-            <tr>
-              <th>Source</th>
-              <td>{model.activity.sourceName}{#if model.activity.sourceType} ({model.activity.sourceType}){/if}</td>
-            </tr>
-            <tr>
-              <th>Source Features</th>
-              <td>{model.activity.sourceFeatures}</td>
-            </tr>
-            </tbody>
-          </table>
-
-          {#if model.activity.heartRateZones}
-          <h3>Heart Rate Zones</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Zone</th>
-                <th>Heart Rate (bpm)</th>
-                <th>Time (min)</th>
-                <th>Calories Out</th>
-              </tr>
-            </thead>
-            <tbody>
-              {#for zone in model.activity.heartRateZones}
-              <tr>
-                <td>{zone.zoneName}</td>
-                <td>{zone.heartRateMin} – {zone.heartRateMax}</td>
-                <td>{zone.zoneMinutes}</td>
-                <td>{#if zone.calories}{zone.calories.format('0.0')}{/if}</td>
-              </tr>
-              {/for}
-            </tbody>
-          </table>
-          {/if}
-
-          {#if model.activity.activityLevels}
-          <h3>Activity Levels</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Level</th>
-                <th>Time (min)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {#for level in model.activity.activityLevels}
-              <tr>
-                <td>{level.levelName}</td>
-                <td>{level.levelMinutes}</td>
-              </tr>
-              {/for}
-            </tbody>
-          </table>
-          {/if}
-        {/if}
-
-        {#if model.track}
-        <h3>Track</h3>
-        <div id="map" class="my-map"></div>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-        <script>
-          var coords = {model.track.formatJsGeoPoints};
-          var map = L.map('map');
-          L.tileLayer('https://tile.openstreetmap.org/\{z}/\{x}/\{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          }).addTo(map);
-          var polyline = L.polyline(coords, \{color: '#6d4aaa', weight: 3}).addTo(map);
-          map.fitBounds(polyline.getBounds());
-        </script>
-        {/if}
-
-        <footer>
-          Generated: {model.now.format('yyyy-MM-dd HH:mm:ss')}
-        </footer>
-      </main>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fitbit Viewer - Activity Detail</title>
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <div class="my-titlebar-brand">
+      <img src="/images/fitbit-logo.svg" alt="Fitbit" class="my-titlebar-logo">
+      <span class="my-titlebar-title">Fitbit Viewer</span>
     </div>
-  </body>
+    <a href="/app/oauth/login" class="my-button">Login</a>
+  </header>
+  <div class="my-app-layout">
+    <nav>
+      <a href="/">
+        <span class="my-sidebar-icon"></span>Home
+      </a>
+      <a href="../profile">
+        <span class="my-sidebar-icon"></span>Profile
+      </a>
+      <a href="../steps">
+        <span class="my-sidebar-icon"></span>Steps
+      </a>
+      <a href="../heartrate">
+        <span class="my-sidebar-icon"></span>Heart Rate
+      </a>
+      <a href="../cardioscore">
+        <span class="my-sidebar-icon"></span>Cardio Fitness
+      </a>
+      <a href="../azm">
+        <span class="my-sidebar-icon"></span>Active Zone Minutes
+      </a>
+      <a href="../activities" class="my-active">
+        <span class="my-sidebar-icon"></span>Activities
+      </a>
+    </nav>
+    <main>
+      <h2>Activity Detail</h2>
+      <p>
+        <a href="../activities?begDate={model.date}" class="my-button-outline">&larr; Back to Activities</a>
+        <a href="{model.logId}?refreshTcx=true" class="my-button-outline">Refresh TCX</a>
+      </p>
+      {#if model.errorMessage}
+      <div class="my-alert">{model.errorMessage}</div>
+      {/if}
+      {#if model.activity}
+      <table>
+        <tbody>
+          <tr>
+            <th>Activity</th>
+            <td><strong>{model.activity.activityName}</strong></td>
+          </tr>
+          <tr>
+            <th>Date &amp; Time</th>
+            <td>{model.activity.begDateTime.format('yyyy-MM-dd HH:mm')}
+              - {model.activity.endDateTime.format('HH:mm')}</td>
+          </tr>
+          <tr>
+            <th>Duration</th>
+            <td>{#if model.activity.durationMinutes}{model.activity.durationMinutes.formatDuration}{/if}</td>
+          </tr>
+          <tr>
+            <th>Active Duration</th>
+            <td>{#if model.activity.durationActiveMinutes}{model.activity.durationActiveMinutes.formatDuration}{/if}</td>
+          </tr>
+          <tr>
+            <th>Calories</th>
+            <td>{model.activity.calories}</td>
+          </tr>
+          <tr>
+            <th>Steps</th>
+            <td>{model.activity.steps}</td>
+          </tr>
+          <tr>
+            <th>Distance</th>
+            <td>{#if model.activity.distance}{model.activity.distance.format('0.00')} km{/if}</td>
+          </tr>
+          <tr>
+            <th>Pace</th>
+            <td>{#if model.activity.pace}{model.activity.pace.formatPace} min/km{/if}</td>
+          </tr>
+          <tr>
+            <th>Speed</th>
+            <td>{#if model.activity.speed}{model.activity.speed.format('0.00')} km/h{/if}</td>
+          </tr>
+          <tr>
+            <th>Avg Heart Rate</th>
+            <td>{#if model.activity.averageHeartRate}{model.activity.averageHeartRate} bpm{/if}</td>
+          </tr>
+          <tr>
+            <th>Log Type</th>
+            <td>{model.activity.logType}</td>
+          </tr>
+          <tr>
+            <th>Source</th>
+            <td>{model.activity.sourceName}{#if model.activity.sourceType} ({model.activity.sourceType}){/if}</td>
+          </tr>
+          <tr>
+            <th>Source Features</th>
+            <td>{model.activity.sourceFeatures}</td>
+          </tr>
+        </tbody>
+      </table>
+      {#if model.activity.heartRateZones}
+      <h3>Heart Rate Zones</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Zone</th>
+            <th>Heart Rate (bpm)</th>
+            <th>Time (min)</th>
+            <th>Calories Out</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#for zone in model.activity.heartRateZones}
+          <tr>
+            <td>{zone.zoneName}</td>
+            <td>{zone.heartRateMin} – {zone.heartRateMax}</td>
+            <td>{zone.zoneMinutes}</td>
+            <td>{#if zone.calories}{zone.calories.format('0.0')}{/if}</td>
+          </tr>
+          {/for}
+        </tbody>
+      </table>
+      {/if}
+      {#if model.activity.activityLevels}
+      <h3>Activity Levels</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Level</th>
+            <th>Time (min)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#for level in model.activity.activityLevels}
+          <tr>
+            <td>{level.levelName}</td>
+            <td>{level.levelMinutes}</td>
+          </tr>
+          {/for}
+        </tbody>
+      </table>
+      {/if}
+      {/if}
+      {#if model.track}
+      <h3>Track</h3>
+      <div id="map" class="my-map"></div>
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+      <script>
+        var coords = {model.track.formatJsGeoPoints};
+        var map = L.map('map');
+        L.tileLayer('https://tile.openstreetmap.org/\{z}/\{x}/\{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        var polyline = L.polyline(coords, \{ color: '#6d4aaa', weight : 3 }).addTo(map);
+        map.fitBounds(polyline.getBounds());
+      </script>
+      {/if}
+    </main>
+  </div>
+  <footer>
+    Generated: {model.now.format('yyyy-MM-dd HH:mm:ss')}
+  </footer>
+</body>
 </html>

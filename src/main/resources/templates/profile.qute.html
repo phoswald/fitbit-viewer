@@ -1,110 +1,110 @@
 {@com.github.phoswald.fitbit.viewer.pages.profile.ProfileViewModel model}
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Fitbit Viewer - Profile</title>
-    <link rel="icon" href="/favicon.ico">
-    <link rel="stylesheet" href="/styles.css">
-  </head>
-  <body>
-    <header>
-      <div class="my-titlebar-brand">
-        <img src="/images/fitbit-logo.svg" alt="Fitbit" class="my-titlebar-logo">
-        <span class="my-titlebar-title">Fitbit Viewer</span>
-      </div>
-      <a href="/app/oauth/login" class="my-button">Login</a>
-    </header>
-    <div class="my-app-layout">
-      <nav>
-        <a href="/">
-          <span class="my-sidebar-icon"></span>Home
-        </a>
-        <a href="profile" class="my-active">
-          <span class="my-sidebar-icon"></span>Profile
-        </a>
-        <a href="steps">
-          <span class="my-sidebar-icon"></span>Steps
-        </a>
-        <a href="heartrate">
-          <span class="my-sidebar-icon"></span>Heart Rate
-        </a>
-        <a href="cardioscore">
-          <span class="my-sidebar-icon"></span>Cardio Fitness
-        </a>
-        <a href="azm">
-          <span class="my-sidebar-icon"></span>Active Zone Minutes
-        </a>
-        <a href="activities">
-          <span class="my-sidebar-icon"></span>Activities
-        </a>
-      </nav>
-      <main>
-        <h2>Profile</h2>
-        {#if model.errorMessage}
-          <div class="my-alert">{model.errorMessage}</div>
-        {/if}
-        {#if model.profile}
-          <p>
-            <a href="profile?refresh=true" class="my-button-outline">Refresh</a>
-          </p>
-          <img src="{model.profile.avatarUrl}" alt="Avatar" width="64" height="64" class="my-avatar">
-          <table>
-            <tbody>
-            <tr>
-              <th>Name</th>
-              <td><strong>{model.profile.displayName}</strong> ({model.profile.fullName})</td>
-            </tr>
-            <tr>
-              <th>Date of Birth</th>
-              <td>{model.profile.dateOfBirth}</td>
-            </tr>
-            <tr>
-              <th>Age</th>
-              <td>{model.profile.age}</td>
-            </tr>
-            <tr>
-              <th>Gender</th>
-              <td>{model.profile.gender}</td>
-            </tr>
-            <tr>
-              <th>Member since</th>
-              <td>{model.profile.memberSince}</td>
-            </tr>
-            <tr>
-              <th>Height</th>
-              <td>{#if model.profile.height}{model.profile.height} cm{/if}</td>
-            </tr>
-            <tr>
-              <th>Weight</th>
-              <td>{#if model.profile.weight}{model.profile.weight} kg{/if}</td>
-            </tr>
-            <tr>
-              <th>Stride Length Walking</th>
-              <td>{#if model.profile.strideLengthWalking}{model.profile.strideLengthWalking} cm{/if}</td>
-            </tr>
-            <tr>
-              <th>Stride Length Running</th>
-              <td>{#if model.profile.strideLengthRunning}{model.profile.strideLengthRunning} cm{/if}</td>
-            </tr>
-            <tr>
-              <th>Steps</th>
-              <td>{#if model.profile.averageDailySteps}{model.profile.averageDailySteps} (daily average){/if}</td>
-            </tr>
-            <tr>
-              <th>User ID</th>
-              <td>{model.profile.userId}</td>
-            </tr>
-            </tbody>
-          </table>
-        {#else}
-          <a href="../oauth/login" class="my-button">Login with Fitbit</a>
-        {/if}
-        <footer>
-          Generated: {model.now.format('yyyy-MM-dd HH:mm:ss')}
-        </footer>
-      </main>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fitbit Viewer - Profile</title>
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <div class="my-titlebar-brand">
+      <img src="/images/fitbit-logo.svg" alt="Fitbit" class="my-titlebar-logo">
+      <span class="my-titlebar-title">Fitbit Viewer</span>
     </div>
-  </body>
+    <a href="/app/oauth/login" class="my-button">Login</a>
+  </header>
+  <div class="my-app-layout">
+    <nav>
+      <a href="/">
+        <span class="my-sidebar-icon"></span>Home
+      </a>
+      <a href="profile" class="my-active">
+        <span class="my-sidebar-icon"></span>Profile
+      </a>
+      <a href="steps">
+        <span class="my-sidebar-icon"></span>Steps
+      </a>
+      <a href="heartrate">
+        <span class="my-sidebar-icon"></span>Heart Rate
+      </a>
+      <a href="cardioscore">
+        <span class="my-sidebar-icon"></span>Cardio Fitness
+      </a>
+      <a href="azm">
+        <span class="my-sidebar-icon"></span>Active Zone Minutes
+      </a>
+      <a href="activities">
+        <span class="my-sidebar-icon"></span>Activities
+      </a>
+    </nav>
+    <main>
+      <h2>Profile</h2>
+      {#if model.errorMessage}
+      <div class="my-alert">{model.errorMessage}</div>
+      {/if}
+      {#if model.profile}
+      <p>
+        <a href="profile?refresh=true" class="my-button-outline">Refresh</a>
+      </p>
+      <img src="{model.profile.avatarUrl}" alt="Avatar" width="64" height="64" class="my-avatar">
+      <table>
+        <tbody>
+          <tr>
+            <th>Name</th>
+            <td><strong>{model.profile.displayName}</strong> ({model.profile.fullName})</td>
+          </tr>
+          <tr>
+            <th>Date of Birth</th>
+            <td>{model.profile.dateOfBirth}</td>
+          </tr>
+          <tr>
+            <th>Age</th>
+            <td>{model.profile.age}</td>
+          </tr>
+          <tr>
+            <th>Gender</th>
+            <td>{model.profile.gender}</td>
+          </tr>
+          <tr>
+            <th>Member since</th>
+            <td>{model.profile.memberSince}</td>
+          </tr>
+          <tr>
+            <th>Height</th>
+            <td>{#if model.profile.height}{model.profile.height} cm{/if}</td>
+          </tr>
+          <tr>
+            <th>Weight</th>
+            <td>{#if model.profile.weight}{model.profile.weight} kg{/if}</td>
+          </tr>
+          <tr>
+            <th>Stride Length Walking</th>
+            <td>{#if model.profile.strideLengthWalking}{model.profile.strideLengthWalking} cm{/if}</td>
+          </tr>
+          <tr>
+            <th>Stride Length Running</th>
+            <td>{#if model.profile.strideLengthRunning}{model.profile.strideLengthRunning} cm{/if}</td>
+          </tr>
+          <tr>
+            <th>Steps</th>
+            <td>{#if model.profile.averageDailySteps}{model.profile.averageDailySteps} (daily average){/if}</td>
+          </tr>
+          <tr>
+            <th>User ID</th>
+            <td>{model.profile.userId}</td>
+          </tr>
+        </tbody>
+      </table>
+      {#else}
+      <a href="../oauth/login" class="my-button">Login with Fitbit</a>
+      {/if}
+    </main>
+  </div>
+  <footer>
+    Generated: {model.now.format('yyyy-MM-dd HH:mm:ss')}
+  </footer>
+</body>
 </html>

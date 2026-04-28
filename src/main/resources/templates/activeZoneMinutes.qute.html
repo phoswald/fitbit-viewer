@@ -1,126 +1,135 @@
 {@com.github.phoswald.fitbit.viewer.pages.azm.ActiveZoneMinutesViewModel model}
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Fitbit Viewer - Active Zone Minutes</title>
-    <link rel="icon" href="/favicon.ico">
-    <link rel="stylesheet" href="/styles.css">
-  </head>
-  <body>
-    <header>
-      <div class="my-titlebar-brand">
-        <img src="/images/fitbit-logo.svg" alt="Fitbit" class="my-titlebar-logo">
-        <span class="my-titlebar-title">Fitbit Viewer</span>
-      </div>
-      <a href="/app/oauth/login" class="my-button">Login</a>
-    </header>
-    <div class="my-app-layout">
-      <nav>
-        <a href="/">
-          <span class="my-sidebar-icon"></span>Home
-        </a>
-        <a href="profile">
-          <span class="my-sidebar-icon"></span>Profile
-        </a>
-        <a href="steps">
-          <span class="my-sidebar-icon"></span>Steps
-        </a>
-        <a href="heartrate">
-          <span class="my-sidebar-icon"></span>Heart Rate
-        </a>
-        <a href="cardioscore">
-          <span class="my-sidebar-icon"></span>Cardio Fitness
-        </a>
-        <a href="azm" class="my-active">
-          <span class="my-sidebar-icon"></span>Active Zone Minutes
-        </a>
-        <a href="activities">
-          <span class="my-sidebar-icon"></span>Activities
-        </a>
-      </nav>
-      <main>
-        <h2>Active Zone Minutes</h2>
-        {#if model.errorMessage}
-          <div class="my-alert">{model.errorMessage}</div>
-        {/if}
-        <div class="my-inputgroup">
-          <div><a href="?dateBeg={model.dateRange.prevBeg}&dateEnd={model.dateRange.prevEnd}&datePeriod={model.dateRange.period}">&#8592;</a></div>
-          <div><a href="?dateBeg={model.dateRange.curDay}&dateEnd={model.dateRange.curDay}&datePeriod=DAY">Day</a></div>
-          <div><a href="?dateBeg={model.dateRange.curWeekBeg}&dateEnd={model.dateRange.curWeekEnd}&datePeriod=WEEK">Week</a></div>
-          <div><a href="?dateBeg={model.dateRange.curMonthBeg}&dateEnd={model.dateRange.curMonthEnd}&datePeriod=MONTH">Month</a></div>
-          <div><a href="?dateBeg={model.dateRange.curYearBeg}&dateEnd={model.dateRange.curYearEnd}&datePeriod=YEAR">Year</a></div>
-          <div><a href="?dateBeg={model.dateRange.nextBeg}&dateEnd={model.dateRange.nextEnd}&datePeriod={model.dateRange.period}">&#8594;</a></div>
-        </div>
-        <form method="get" action="">
-          <div>
-            <label>From</label>
-            <input type="date" name="dateBeg" value="{model.dateRange.beg}">
-          </div>
-          <div>
-            <label>To</label>
-            <input type="date" name="dateEnd" value="{model.dateRange.end}">
-          </div>
-          <label>Options</label>
-          <div>
-            <input type="checkbox" name="refresh" id="refresh" value="true">
-            <label for="refresh">Refresh</label>
-          </div>
-          <button type="submit">Query</button>
-        </form>
-        {#if model.azms}
-          <canvas id="azmChart" class="my-chart"></canvas>
-          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-          <script>
-            new Chart(document.getElementById('azmChart'), {
-              type: 'bar',
-              data: {
-                labels: {model.dates.formatJsArray},
-                datasets: [{
-                  label: 'Fat Burn',
-                  data: {model.fatBurnAzm.formatJsArray},
-                  stack: 'azm'
-                },{
-                  label: 'Cardio',
-                  data: {model.cardioAzm.formatJsArray},
-                  stack: 'azm'
-                },{
-                  label: 'Peak',
-                  data: {model.peakAzm.formatJsArray},
-                  stack: 'azm'
-                }]
-              },
-              options: { scales: { y: { beginAtZero: true } } }
-            });
-          </script>
-          <table>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Total (min)</th>
-                <th>Fat Burn (min)</th>
-                <th>Cardio (min)</th>
-                <th>Peak (min)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {#for azm in model.azms}
-                <tr>
-                  <td>{azm.date}</td>
-                  <td>{azm.totalAzm}</td>
-                  <td>{azm.fatBurnAzm}</td>
-                  <td>{azm.cardioAzm}</td>
-                  <td>{azm.peakAzm}</td>
-                </tr>
-              {/for}
-            </tbody>
-          </table>
-        {/if}
-        <footer>
-          Generated: {model.now.format('yyyy-MM-dd HH:mm:ss')}
-        </footer>
-      </main>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fitbit Viewer - Active Zone Minutes</title>
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <div class="my-titlebar-brand">
+      <img src="/images/fitbit-logo.svg" alt="Fitbit" class="my-titlebar-logo">
+      <span class="my-titlebar-title">Fitbit Viewer</span>
     </div>
-  </body>
+    <a href="/app/oauth/login" class="my-button">Login</a>
+  </header>
+  <div class="my-app-layout">
+    <nav>
+      <a href="/">
+        <span class="my-sidebar-icon"></span>Home
+      </a>
+      <a href="profile">
+        <span class="my-sidebar-icon"></span>Profile
+      </a>
+      <a href="steps">
+        <span class="my-sidebar-icon"></span>Steps
+      </a>
+      <a href="heartrate">
+        <span class="my-sidebar-icon"></span>Heart Rate
+      </a>
+      <a href="cardioscore">
+        <span class="my-sidebar-icon"></span>Cardio Fitness
+      </a>
+      <a href="azm" class="my-active">
+        <span class="my-sidebar-icon"></span>Active Zone Minutes
+      </a>
+      <a href="activities">
+        <span class="my-sidebar-icon"></span>Activities
+      </a>
+    </nav>
+    <main>
+      <h2>Active Zone Minutes</h2>
+      {#if model.errorMessage}
+      <div class="my-alert">{model.errorMessage}</div>
+      {/if}
+      <div class="my-inputgroup">
+        <div><a
+            href="?dateBeg={model.dateRange.prevBeg}&dateEnd={model.dateRange.prevEnd}&datePeriod={model.dateRange.period}">&#8592;</a>
+        </div>
+        <div><a href="?dateBeg={model.dateRange.curDay}&dateEnd={model.dateRange.curDay}&datePeriod=DAY">Day</a></div>
+        <div><a
+            href="?dateBeg={model.dateRange.curWeekBeg}&dateEnd={model.dateRange.curWeekEnd}&datePeriod=WEEK">Week</a>
+        </div>
+        <div><a href="?dateBeg={model.dateRange.curMonthBeg}&dateEnd={model.dateRange.curMonthEnd}&datePeriod=MONTH">Month</a>
+        </div>
+        <div><a
+            href="?dateBeg={model.dateRange.curYearBeg}&dateEnd={model.dateRange.curYearEnd}&datePeriod=YEAR">Year</a>
+        </div>
+        <div><a
+            href="?dateBeg={model.dateRange.nextBeg}&dateEnd={model.dateRange.nextEnd}&datePeriod={model.dateRange.period}">&#8594;</a>
+        </div>
+      </div>
+      <form method="get" action="">
+        <div>
+          <label>From</label>
+          <input type="date" name="dateBeg" value="{model.dateRange.beg}">
+        </div>
+        <div>
+          <label>To</label>
+          <input type="date" name="dateEnd" value="{model.dateRange.end}">
+        </div>
+        <label>Options</label>
+        <div>
+          <input type="checkbox" name="refresh" id="refresh" value="true">
+          <label for="refresh">Refresh</label>
+        </div>
+        <button type="submit">Query</button>
+      </form>
+      {#if model.azms}
+      <canvas id="azmChart" class="my-chart"></canvas>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+        new Chart(document.getElementById('azmChart'), {
+          type: 'bar',
+          data: {
+            labels: {model.dates.formatJsArray},
+            datasets: [{
+              label: 'Fat Burn',
+              data: {model.fatBurnAzm.formatJsArray},
+              stack: 'azm'
+            }, {
+              label: 'Cardio',
+              data: {model.cardioAzm.formatJsArray},
+              stack: 'azm'
+            }, {
+              label: 'Peak',
+              data: {model.peakAzm.formatJsArray},
+              stack: 'azm'
+            }]
+          },
+          options: { scales: { y: { beginAtZero: true } } }
+        });
+      </script>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Total (min)</th>
+            <th>Fat Burn (min)</th>
+            <th>Cardio (min)</th>
+            <th>Peak (min)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#for azm in model.azms}
+          <tr>
+            <td>{azm.date}</td>
+            <td>{azm.totalAzm}</td>
+            <td>{azm.fatBurnAzm}</td>
+            <td>{azm.cardioAzm}</td>
+            <td>{azm.peakAzm}</td>
+          </tr>
+          {/for}
+        </tbody>
+      </table>
+      {/if}
+    </main>
+  </div>
+  <footer>
+    Generated: {model.now.format('yyyy-MM-dd HH:mm:ss')}
+  </footer>
+</body>
 </html>
