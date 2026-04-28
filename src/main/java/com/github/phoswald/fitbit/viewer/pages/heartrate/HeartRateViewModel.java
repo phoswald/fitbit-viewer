@@ -1,6 +1,5 @@
 package com.github.phoswald.fitbit.viewer.pages.heartrate;
 
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -8,6 +7,12 @@ import java.util.List;
 import com.github.phoswald.fitbit.viewer.pages.DateRangeViewModel;
 import com.github.phoswald.fitbit.viewer.pages.DateRangeViewModelBuilder;
 import com.github.phoswald.fitbit.viewer.repository.HeartRateEntity;
+import com.github.phoswald.fitbit.viewer.widgets.Chart;
+import com.github.phoswald.fitbit.viewer.widgets.ChartBuilder;
+import com.github.phoswald.fitbit.viewer.widgets.ChartDataBuilder;
+import com.github.phoswald.fitbit.viewer.widgets.ChartOptionsAxisBuilder;
+import com.github.phoswald.fitbit.viewer.widgets.ChartOptionsBuilder;
+import com.github.phoswald.fitbit.viewer.widgets.ChartOptionsScalesBuilder;
 import com.github.phoswald.record.builder.RecordBuilder;
 
 @RecordBuilder
@@ -36,11 +41,21 @@ public record HeartRateViewModel(
                 .build();
     }
 
-    public List<LocalDate> heartRateDates() {
-        return heartRates.stream().map(HeartRateEntity::getDate).toList();
-    }
-
-    public List<Integer> restingHeartRates() {
-        return heartRates.stream().map(HeartRateEntity::getRestingHeartRate).toList();
+    public Chart heartRatesChart() {
+        return new ChartBuilder()
+                .type("line")
+                .data(new ChartDataBuilder()
+                        .labels(Chart.createLabels(heartRates, HeartRateEntity::getDate))
+                        .datasets(List.of(
+                                Chart.createDataset("Resting Heart Rate (bpm)", heartRates, HeartRateEntity::getRestingHeartRate)))
+                        .build())
+                .options(new ChartOptionsBuilder()
+                        .scales(new ChartOptionsScalesBuilder()
+                                .y(new ChartOptionsAxisBuilder()
+                                        .grace("50%")
+                                        .build())
+                                .build())
+                        .build())
+                .build();
     }
 }

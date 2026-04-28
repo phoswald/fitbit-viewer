@@ -82,17 +82,8 @@
       <canvas id="stepsChart" class="my-chart"></canvas>
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       <script>
-        new Chart(document.getElementById('stepsChart'), {
-          type: 'bar',
-          data: {
-            labels: {model.stepDates.formatJsArray},
-            datasets: [{
-              label: 'Steps',
-              data: {model.stepCounts.formatJsArray}
-            }]
-          },
-          options: { scales: { y: { beginAtZero: true } } }
-        });
+        var chart = {model.stepsChart.formatJson(8)};
+        new Chart(document.getElementById('stepsChart'), chart);
       </script>
       <table>
         <thead>

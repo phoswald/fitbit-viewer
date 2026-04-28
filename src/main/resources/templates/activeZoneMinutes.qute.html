@@ -82,26 +82,8 @@
       <canvas id="azmChart" class="my-chart"></canvas>
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       <script>
-        new Chart(document.getElementById('azmChart'), {
-          type: 'bar',
-          data: {
-            labels: {model.dates.formatJsArray},
-            datasets: [{
-              label: 'Fat Burn',
-              data: {model.fatBurnAzm.formatJsArray},
-              stack: 'azm'
-            }, {
-              label: 'Cardio',
-              data: {model.cardioAzm.formatJsArray},
-              stack: 'azm'
-            }, {
-              label: 'Peak',
-              data: {model.peakAzm.formatJsArray},
-              stack: 'azm'
-            }]
-          },
-          options: { scales: { y: { beginAtZero: true } } }
-        });
+        var chart = {model.azmChart.formatJson(8)};
+        new Chart(document.getElementById('azmChart'), chart);
       </script>
       <table>
         <thead>

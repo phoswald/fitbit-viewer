@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.github.phoswald.fitbit.viewer.repository.ActivityEntity;
 import com.github.phoswald.fitbit.viewer.tcx.GeoPoint;
+import com.github.phoswald.fitbit.viewer.widgets.Leaflet;
 import com.github.phoswald.record.builder.RecordBuilder;
 
 @RecordBuilder
@@ -32,5 +33,9 @@ public record ActivityDetailViewModel(
                 .errorMessage(errorMessage)
                 .now(ZonedDateTime.now())
                 .build();
+    }
+
+    public Leaflet trackMap() {
+        return Leaflet.createWithPolyLine(track.stream().map(GeoPoint::toVector).toList());
     }
 }

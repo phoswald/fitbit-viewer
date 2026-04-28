@@ -79,20 +79,11 @@
         <button type="submit">Query</button>
       </form>
       {#if model.heartRates}
-      <canvas id="heartRateChart" class="my-chart"></canvas>
+      <canvas id="heartRatesChart" class="my-chart"></canvas>
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       <script>
-        new Chart(document.getElementById('heartRateChart'), {
-          type: 'line',
-          data: {
-            labels: {model.heartRateDates.formatJsArray},
-            datasets: [{
-              label: 'Resting Heart Rate (bpm)',
-              data: {model.restingHeartRates.formatJsArray}
-            }]
-          },
-          options: { scales: { y: { grace: "50%" } } }
-        });
+        var chart = {model.heartRatesChart.formatJson(8)};
+        new Chart(document.getElementById('heartRatesChart'), chart);
       </script>
       <table>
         <thead>

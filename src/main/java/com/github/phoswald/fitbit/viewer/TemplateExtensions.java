@@ -5,9 +5,10 @@ import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
-import com.github.phoswald.fitbit.viewer.tcx.GeoPoint;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
+import jakarta.json.bind.JsonbConfig;
 
 import io.quarkus.qute.RawString;
 import io.quarkus.qute.TemplateExtension;
@@ -41,31 +42,17 @@ class TemplateExtensions {
         return String.format("%02d:%02d", d.toMinutesPart(), d.toSecondsPart());
     }
 
-    static RawString formatJsGeoPoints(List<GeoPoint> points) {
-        StringBuilder sb = new StringBuilder("[");
-        for (GeoPoint point : points) {
-            sb.append("[");
-            sb.append(point.latitude());
-            sb.append(",");
-            sb.append(point.longitude());
-            sb.append("],");
-        }
-        sb.append("]");
-        return new RawString(sb.toString());
-    }
-
-    static RawString formatJsArray(List<?> list) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("[");
-        for(Object element : list) {
-            if(element instanceof Number) {
-                builder.append(element);
-            } else {
-                builder.append("\"" + element + "\""); // TODO: escape correctly
+    static RawString formatJson(Object object, int indent) {
+        JsonbConfig config = new JsonbConfig().withFormatting(false);
+        try (Jsonb jsonb = JsonbBuilder.create(config)) {
+            String json = jsonb.toJson(object);
+            var spaces = new StringBuilder();
+            while(indent-- > 0) {
+                spaces.append(' ');
             }
-            builder.append(",");
+            return new RawString(json.replace("\n","\n" + spaces.toString()));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        builder.append("]");
-        return new RawString(builder.toString());
     }
 }

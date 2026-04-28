@@ -156,13 +156,10 @@
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
       <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
       <script>
-        var coords = {model.track.formatJsGeoPoints};
+        var mapData = {model.trackMap.formatJson(9)};
         var map = L.map('map');
-        L.tileLayer('https://tile.openstreetmap.org/\{z}/\{x}/\{y}.png', {
-          maxZoom: 19,
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-        var polyline = L.polyline(coords, \{ color: '#6d4aaa', weight : 3 }).addTo(map);
+        L.tileLayer(mapData.titleLayerUrlTemplate, mapData.titleLayerOptions).addTo(map);
+        var polyline = L.polyline(mapData.polyLineCoords, mapData.polyLineOptions).addTo(map);
         map.fitBounds(polyline.getBounds());
       </script>
       {/if}

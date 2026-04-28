@@ -79,23 +79,11 @@
         <button type="submit">Query</button>
       </form>
       {#if model.cardioScores}
-      <canvas id="cardioFitnessScoreChart" class="my-chart"></canvas>
+      <canvas id="cardioScoresChart" class="my-chart"></canvas>
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       <script>
-        new Chart(document.getElementById('cardioFitnessScoreChart'), {
-          type: 'line',
-          data: {
-            labels: {model.cardioScoreDates.formatJsArray},
-            datasets: [{
-              label: 'Score (Min)',
-              data: {model.cardioScoreMinValues.formatJsArray}
-            }, {
-              label: 'Score (Max)',
-              data: {model.cardioScoreMaxValues.formatJsArray}
-            }]
-          },
-          options: { scales: { y: { grace: "50%" } } }
-        });
+        var chart = {model.cardioScoresChart.formatJson(8)};
+        new Chart(document.getElementById('cardioScoresChart'), chart);
       </script>
       <table>
         <thead>
