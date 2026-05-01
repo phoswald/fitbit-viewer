@@ -42,7 +42,6 @@
     </nav>
     <main>
       <h1>Heading Level One</h1>
-      <div class="my-alert">Some error occured.</div>
       <h2>Heading Level Two</h2>
       <p id="top">
         This is a paragraph with some text.
@@ -284,6 +283,11 @@
           var polyline = L.polyline(coords, {color: '#6d4aaa', weight: 3}).addTo(map);
           map.fitBounds(polyline.getBounds());
       </script>
+      <h2>Alerts</h2>
+      <div class="my-alert-error">Something went wrong.</div>
+      <div class="my-alert-warning">Something went not quite right.</div>
+      <div class="my-alert-info">Something went well.</div>
+      <div class="my-alert-debug">Something produces some additional info.</div>
       <p id="bottom">This is a paragraph with some text and a <a href="">link</a>.</p>
     </main>
   </div>
