@@ -17,17 +17,19 @@ public record ActivityDetailViewModel(
         List<String> labels,
         List<String> allLabels,
         List<GeoPoint> track,
+        boolean editLabels,
         String errorMessage,
         ZonedDateTime now
 ) {
 
-    static ActivityDetailViewModel create(Long logId, ActivityEntity activity, List<String> allLabels, List<GeoPoint> track) {
+    static ActivityDetailViewModel create(Long logId, ActivityEntity activity, List<String> allLabels, List<GeoPoint> track, boolean editLabels) {
         return new ActivityDetailViewModelBuilder()
                 .logId(logId)
                 .activity(activity)
                 .labels(activity.getLabels())
                 .allLabels(allLabels)
                 .track(track)
+                .editLabels(editLabels)
                 .now(ZonedDateTime.now())
                 .build();
     }

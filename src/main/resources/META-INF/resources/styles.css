@@ -255,20 +255,6 @@ button.my-button-outline:hover {
     background-color: var(--hover-bgcolor);
 }
 
-.my-label-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 0.5rem;
-}
-
-.my-label-list li,
-.my-label-row {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.25rem;
-}
-
 /* ****** Forms: input groups ****** */
 
 .my-inputgroup {

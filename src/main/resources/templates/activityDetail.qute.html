@@ -7,6 +7,7 @@
   <title>Fitbit Viewer - Activity Detail</title>
   <link rel="icon" href="/favicon.ico">
   <link rel="stylesheet" href="/styles.css">
+  <script src="/activityDetail.js" defer></script>
 </head>
 <body>
   <header>
@@ -148,38 +149,57 @@
       </table>
       {/if}
       {/if}
+      {#if model.activity}
       <h3>Labels</h3>
+      {#if !model.editLabels}
       <ul>
         {#for label in model.labels}
         <li>{label}</li>
         {/for}
       </ul>
-      {#if model.activity}
-      <details>
-        <summary>Edit</summary>
-        <form method="post" action="/app/pages/activities/{model.logId}/labels">
-          <ul class="my-label-list" id="label-edit-list">
+      <a href="{model.logId}?editLabels=true" class="my-button-outline">Edit Labels</a>
+      {#else}
+      <form method="post" action="/app/pages/activities/{model.logId}/labels">
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <input type="text" list="allLabels">
+                <datalist id="allLabels">
+                  {#for label in model.allLabels}
+                  <option value="{label}">
+                  {/for}
+                </datalist>
+              </td>
+              <td>
+                <button type="button" class="my-button-outline" onclick="addLabel(this)">Add</button>
+              </td>
+            </tr>
             {#for label in model.labels}
-            <li>
-              <span>{label}</span>
-              <button type="button" class="my-button-outline" onclick="removeLabel(this)">Remove</button>
-              <input type="hidden" name="label" value="{label}">
-            </li>
+            <tr>
+              <td>
+                <input type="hidden" name="label" value="{label}">{label}
+              </td>
+              <td>
+                <button type="button" class="my-button-outline" onclick="removeLabel(this)">Remove</button>
+              </td>
+            </tr>
             {/for}
-          </ul>
-          <div class="my-label-row">
-            <input type="text" id="new-label" list="existing-labels">
-            <datalist id="existing-labels">
-              {#for label in model.allLabels}
-              <option value="{label}">
-              {/for}
-            </datalist>
-            <button type="button" class="my-button-outline" onclick="addLabel()">Add</button>
-          </div>
-          <button type="submit">Save</button>
-        </form>
-      </details>
-      <script src="/labels.js"></script>
+          </tbody>
+        </table>
+        <button type="submit">Save</button>
+      </form>
+      <script id="template-label" type="text/html">
+        <tr>
+          <td>
+            <input type="hidden" name="label" value="\{label}">\{label}
+          </td>
+          <td>
+            <button type="button" class="my-button-outline" onclick="removeLabel(this)">Remove</button>
+          </td>
+        </tr>
+      </script>
+      {/if}
       {/if}
       {#if model.track}
       <h3>Track</h3>

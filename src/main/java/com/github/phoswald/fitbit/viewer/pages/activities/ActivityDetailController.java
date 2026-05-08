@@ -62,6 +62,9 @@ public class ActivityDetailController extends BaseController {
     @QueryParam("refreshTcx")
     private boolean refreshTcx;
 
+    @QueryParam("editLabels")
+    private boolean editLabels;
+
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Transactional
@@ -97,7 +100,7 @@ public class ActivityDetailController extends BaseController {
                     .orElse(List.of());
             log.debug("Found TCX track with {} points", track.size());
             List<String> allLabels = activityRepository.loadAllLabels(session.userId());
-            return ActivityDetailViewModel.create(logId, entity.get(), allLabels, track);
+            return ActivityDetailViewModel.create(logId, entity.get(), allLabels, track, editLabels);
         } catch (Exception e) {
             log.warn("Failed", e);
             return ActivityDetailViewModel.createError(e.getMessage());
