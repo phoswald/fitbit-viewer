@@ -7,6 +7,8 @@
   <title>Fitbit Viewer - Heart Rate</title>
   <link rel="icon" href="/favicon.ico">
   <link rel="stylesheet" href="/styles.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <header>
@@ -81,7 +83,6 @@
       </form>
       {#if model.heartRates}
       <canvas id="heartRatesChart" class="my-chart"></canvas>
-      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       <script>
         var chart = {model.heartRatesChart.formatJson(8)};
         new Chart(document.getElementById('heartRatesChart'), chart);

@@ -4,10 +4,17 @@ import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 
 import com.github.phoswald.fitbit.viewer.pages.DateRangeViewModel;
 import com.github.phoswald.fitbit.viewer.pages.DateRangeViewModelBuilder;
 import com.github.phoswald.fitbit.viewer.repository.ActivityEntity;
+import com.github.phoswald.fitbit.viewer.widgets.Chart;
+import com.github.phoswald.fitbit.viewer.widgets.ChartBuilder;
+import com.github.phoswald.fitbit.viewer.widgets.ChartDataBuilder;
+import com.github.phoswald.fitbit.viewer.widgets.ChartOptionsAxisBuilder;
+import com.github.phoswald.fitbit.viewer.widgets.ChartOptionsBuilder;
+import com.github.phoswald.fitbit.viewer.widgets.ChartOptionsScalesBuilder;
 import com.github.phoswald.record.builder.RecordBuilder;
 
 @RecordBuilder
@@ -51,5 +58,53 @@ public record ActivityViewModel(
                 .errorMessage(errorMessage)
                 .now(ZonedDateTime.now())
                 .build();
+    }
+
+    public Chart activitiesChart() {
+        return lineChart("Duration (min)", activities, round(ActivityEntity::getDurationMinutes));
+    }
+
+    public Chart activitiesStepsChart() {
+        return lineChart("Steps", activities, ActivityEntity::getSteps);
+    }
+
+    public Chart activitiesDistanceChart() {
+        return lineChart("Distance (m)", activities, round(multiply(ActivityEntity::getDistance, 1000)));
+    }
+
+    public Chart activitiesHeartRateChart() {
+        return lineChart("Heart Rate (avg. bpm)", activities, ActivityEntity::getAverageHeartRate);
+    }
+
+    private static Chart lineChart(String label, Collection<ActivityEntity> data, Function<ActivityEntity, Integer> field) {
+        return new ChartBuilder()
+                .type("line")
+                .data(new ChartDataBuilder()
+                        .labels(Chart.createLabels(data, a -> a.getBegDateTime().toLocalDate()))
+                        .datasets(List.of(Chart.createDataset(label, data, field)))
+                        .build())
+                .options(new ChartOptionsBuilder()
+                        .scales(new ChartOptionsScalesBuilder()
+                                .y(new ChartOptionsAxisBuilder()
+                                        .beginAtZero(true)
+//                                      .grace("50%")
+                                        .build())
+                                .build())
+                        .build())
+                .build();
+    }
+
+    private static Function<ActivityEntity, Integer> round(Function<ActivityEntity, Double> function) {
+        return activity -> {
+            Double value = function.apply(activity);
+            return value == null ? null : (int) Math.round(value);
+        };
+    }
+
+    private static Function<ActivityEntity, Double> multiply(Function<ActivityEntity, Double> function, int factor) {
+        return activity -> {
+            Double value = function.apply(activity);
+            return value == null ? null : value * factor;
+        };
     }
 }

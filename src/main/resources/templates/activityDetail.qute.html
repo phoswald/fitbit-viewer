@@ -8,6 +8,9 @@
   <link rel="icon" href="/favicon.ico">
   <link rel="stylesheet" href="/styles.css">
   <script src="/activityDetail.js" defer></script>
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
   <header>
@@ -207,8 +210,6 @@
       {#if model.track}
       <h3>Track</h3>
       <div id="map" class="my-map"></div>
-      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
       <script>
         var mapData = {model.trackMap.formatJson(9)};
         var map = L.map('map');

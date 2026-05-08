@@ -6,6 +6,11 @@
   <title>Kitchensink</title>
   <link rel="icon" href="/favicon.ico">
   <link rel="stylesheet" href="/styles.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
   <header>
@@ -248,7 +253,6 @@
       <p>This is a paragraph with some text.</p>
       <h3>Heading Level Three: A chart (chart.js)</h3>
       <canvas id="stepsChart" class="my-chart"></canvas>
-      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       <script>
           var chart = {
               type: 'bar',
@@ -265,8 +269,6 @@
       </script>
       <h3>Heading Level Three: A map (Leaflet, OpenStreetMap)</h3>
       <div id="map" class="my-map"></div>
-      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
       <script>
           var coords = [
               [47.02, 8.24],
