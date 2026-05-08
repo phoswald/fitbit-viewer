@@ -37,6 +37,9 @@
       <a href="activities">
         <span class="my-sidebar-icon"></span>Activities
       </a>
+      <a href="labels">
+        <span class="my-sidebar-icon"></span>Labels
+      </a>
     </nav>
     <main>
       <h2>Cardio Fitness Score (VO2 max)</h2>
@@ -87,16 +90,14 @@
         <thead>
           <tr>
             <th>Date</th>
-            <th>Score (Min)</th>
-            <th>Score (Max)</th>
+            <th>Score</th>
           </tr>
         </thead>
         <tbody>
           {#for entry in model.cardioScores}
           <tr>
             <td>{entry.date}</td>
-            <td>{entry.scoreMin}</td>
-            <td>{entry.scoreMax}</td>
+            <td>{entry.scoreMin} - {entry.scoreMax}</td>
           </tr>
           {/for}
         </tbody>

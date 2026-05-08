@@ -169,3 +169,26 @@ create table fitbit_tcx_ (
 
 alter table fitbit_tcx_
     add constraint fitbit_tcx_pk_ primary key (user_id_, log_id_);
+
+-- Label Summary
+
+create view fitbit_label_summary_ as
+select
+    a.user_id_,
+    l.label_,
+    count(*)                        as count_,
+    min(a.date_)                    as date_min_,
+    max(a.date_)                    as date_max_,
+    min(a.duration_minutes_)        as duration_minutes_min_,
+    max(a.duration_minutes_)        as duration_minutes_max_,
+    min(a.calories_)                as calories_min_,
+    max(a.calories_)                as calories_max_,
+    min(a.steps_)                   as steps_min_,
+    max(a.steps_)                   as steps_max_,
+    min(a.distance_)                as distance_min_,
+    max(a.distance_)                as distance_max_,
+    min(a.average_heart_rate_)      as heart_rate_min_,
+    max(a.average_heart_rate_)      as heart_rate_max_
+from fitbit_activity_ a
+join fitbit_activity_label_ l on l.user_id_ = a.user_id_ and l.log_id_ = a.log_id_
+group by a.user_id_, l.label_;

@@ -51,8 +51,14 @@ public class ActivityRepository {
                 .getResultList();
     }
 
-    public List<String> loadAllLabels(String userId) {
+    public List<String> loadLabelsByUserId(String userId) {
         return em.createNamedQuery("ActivityEntity.loadAllLabels", String.class)
+                .setParameter("userId", userId)
+                .getResultList();
+    }
+
+    public List<LabelSummaryEntity> loadLabelSummariesByUserId(String userId) {
+        return em.createNamedQuery("LabelSummaryEntity.loadByUserId", LabelSummaryEntity.class)
                 .setParameter("userId", userId)
                 .getResultList();
     }

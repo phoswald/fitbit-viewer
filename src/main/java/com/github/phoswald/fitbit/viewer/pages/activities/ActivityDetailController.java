@@ -99,7 +99,7 @@ public class ActivityDetailController extends BaseController {
                     .map(TcxDatabase::collectGeoPoints)
                     .orElse(List.of());
             log.debug("Found TCX track with {} points", track.size());
-            List<String> allLabels = activityRepository.loadAllLabels(session.userId());
+            List<String> allLabels = activityRepository.loadLabelsByUserId(session.userId());
             return ActivityDetailViewModel.create(logId, entity.get(), allLabels, track, editLabels);
         } catch (Exception e) {
             log.warn("Failed", e);
