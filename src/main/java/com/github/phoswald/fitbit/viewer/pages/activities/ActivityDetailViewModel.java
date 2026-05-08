@@ -14,15 +14,19 @@ public record ActivityDetailViewModel(
         Long logId,
         LocalDate date,
         ActivityEntity activity,
+        List<String> labels,
+        List<String> allLabels,
         List<GeoPoint> track,
         String errorMessage,
         ZonedDateTime now
 ) {
 
-    static ActivityDetailViewModel create(Long logId, ActivityEntity activity, List<GeoPoint> track) {
+    static ActivityDetailViewModel create(Long logId, ActivityEntity activity, List<String> allLabels, List<GeoPoint> track) {
         return new ActivityDetailViewModelBuilder()
                 .logId(logId)
                 .activity(activity)
+                .labels(activity.getLabels())
+                .allLabels(allLabels)
                 .track(track)
                 .now(ZonedDateTime.now())
                 .build();

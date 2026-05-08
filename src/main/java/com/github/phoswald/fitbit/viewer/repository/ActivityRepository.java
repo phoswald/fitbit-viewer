@@ -35,6 +35,11 @@ public class ActivityRepository {
                 .setParameter("logId", logId)
                 .getResultStream()
                 .findFirst();
+        em.createQuery("SELECT a FROM ActivityEntity a LEFT JOIN FETCH a.labels WHERE a.userId = :userId AND a.logId = :logId")
+                .setParameter("userId", userId)
+                .setParameter("logId", logId)
+                .getResultStream()
+                .findFirst();
         return Optional.ofNullable(em.find(ActivityEntity.class, new ActivityEntity.ActivityId(userId, logId)));
     }
 
@@ -43,6 +48,12 @@ public class ActivityRepository {
                 .setParameter("userId", userId)
                 .setParameter("dateBeg", dateBeg)
                 .setParameter("dateEnd", dateEnd)
+                .getResultList();
+    }
+
+    public List<String> loadAllLabels(String userId) {
+        return em.createQuery("SELECT DISTINCT label FROM ActivityEntity a JOIN a.labels label WHERE a.userId = :userId ORDER BY label", String.class)
+                .setParameter("userId", userId)
                 .getResultList();
     }
 

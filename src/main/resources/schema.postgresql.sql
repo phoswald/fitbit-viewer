@@ -135,6 +135,18 @@ create table fitbit_activity_day_ (
 alter table fitbit_activity_day_
     add constraint fitbit_activity_day_pk_ primary key (user_id_, date_);
 
+create table fitbit_activity_label_ (
+    user_id_                varchar(32) not null,
+    log_id_                 bigint not null,
+    label_                  varchar(64) not null
+);
+
+alter table fitbit_activity_label_
+    add constraint fitbit_activity_label_pk_ primary key (user_id_, log_id_, label_);
+
+alter table fitbit_activity_label_
+    add constraint fitbit_activity_label_activity_fk_ foreign key (user_id_, log_id_) references fitbit_activity_ (user_id_, log_id_);
+
 -- Activities - TCX
 
 create table fitbit_tcx_ (

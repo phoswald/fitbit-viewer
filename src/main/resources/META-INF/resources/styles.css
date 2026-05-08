@@ -236,7 +236,8 @@ a.my-button:hover {
     background-color: var(--button-hover-color);
 }
 
-a.my-button-outline {
+a.my-button-outline,
+button.my-button-outline {
     display: inline-block;
     border: 1px solid var(--button-outline-color);
     border-radius: 8px;
@@ -246,10 +247,26 @@ a.my-button-outline {
     font-size: 13px;
     line-height: 1.5;
     text-decoration: none;
+    cursor: pointer;
 }
 
-a.my-button-outline:hover {
+a.my-button-outline:hover,
+button.my-button-outline:hover {
     background-color: var(--hover-bgcolor);
+}
+
+.my-label-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.5rem;
+}
+
+.my-label-list li,
+.my-label-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
 }
 
 /* ****** Forms: input groups ****** */

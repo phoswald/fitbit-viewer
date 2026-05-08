@@ -1,17 +1,25 @@
 package com.github.phoswald.fitbit.viewer.pages.activities;
 
+import static java.util.function.Predicate.not;
+
+import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
@@ -73,7 +81,7 @@ public class ActivityDetailController extends BaseController {
             if (entity.isEmpty()) {
                 return ActivityDetailViewModel.createError("Activity not found");
             }
-            log.debug("Found entity with {} activity levels and {} heartrate zones", entity.get().getActivityLevels().size(), entity.get().getHeartRateZones().size());
+            log.debug("Found entity with {} activity levels, {} heartrate zones, {} labels", entity.get().getActivityLevels().size(), entity.get().getHeartRateZones().size(), entity.get().getLabels().size());
             var tcxEntity = tcxRepository.load(session.userId(), logId);
             if(!refreshTcx && tcxEntity.isPresent()) {
                 log.debug("Found TCX entity");
@@ -88,10 +96,36 @@ public class ActivityDetailController extends BaseController {
                     .map(TcxDatabase::collectGeoPoints)
                     .orElse(List.of());
             log.debug("Found TCX track with {} points", track.size());
-            return ActivityDetailViewModel.create(logId, entity.get(), track);
+            List<String> allLabels = activityRepository.loadAllLabels(session.userId());
+            return ActivityDetailViewModel.create(logId, entity.get(), allLabels, track);
         } catch (Exception e) {
             log.warn("Failed", e);
             return ActivityDetailViewModel.createError(e.getMessage());
         }
+    }
+
+    @POST
+    @Path("/labels")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Transactional
+    public Response postLabels(@FormParam("label") List<String> labels) {
+        var session = sessionManager.parseAndVerifyCookie(sessionCookie);
+        if (session.isPresent()) {
+            var entity = activityRepository.loadByUserIdAndLogId(session.get().userId(), logId);
+            if(entity.isPresent()) {
+                log.info("Updating labels for logId={}: {}", logId, labels);
+                entity.get().setLabels(normalizeLabels(labels));
+            }
+        }
+        return Response.seeOther(URI.create("pages/activities/" + logId)).build();
+    }
+
+    private static List<String> normalizeLabels(List<String> labels) {
+        return labels.stream()
+                .filter(not(Objects::isNull))
+                .filter(not(String::isBlank))
+                .map(String::trim)
+                .distinct()
+                .toList();
     }
 }

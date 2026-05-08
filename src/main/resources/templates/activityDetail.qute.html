@@ -148,6 +148,39 @@
       </table>
       {/if}
       {/if}
+      <h3>Labels</h3>
+      <ul>
+        {#for label in model.labels}
+        <li>{label}</li>
+        {/for}
+      </ul>
+      {#if model.activity}
+      <details>
+        <summary>Edit</summary>
+        <form method="post" action="/app/pages/activities/{model.logId}/labels">
+          <ul class="my-label-list" id="label-edit-list">
+            {#for label in model.labels}
+            <li>
+              <span>{label}</span>
+              <button type="button" class="my-button-outline" onclick="removeLabel(this)">Remove</button>
+              <input type="hidden" name="label" value="{label}">
+            </li>
+            {/for}
+          </ul>
+          <div class="my-label-row">
+            <input type="text" id="new-label" list="existing-labels">
+            <datalist id="existing-labels">
+              {#for label in model.allLabels}
+              <option value="{label}">
+              {/for}
+            </datalist>
+            <button type="button" class="my-button-outline" onclick="addLabel()">Add</button>
+          </div>
+          <button type="submit">Save</button>
+        </form>
+      </details>
+      <script src="/labels.js"></script>
+      {/if}
       {#if model.track}
       <h3>Track</h3>
       <div id="map" class="my-map"></div>

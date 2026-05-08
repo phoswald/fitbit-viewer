@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
@@ -115,6 +117,18 @@ public class ActivityEntity {
     })
     @OrderBy("heartRateMin ASC")
     private List<ActivityHeartRateZoneEntity> heartRateZones;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(
+        name = "fitbit_activity_label_",
+        joinColumns = {
+            @JoinColumn(name = "user_id_", referencedColumnName = "user_id_"),
+            @JoinColumn(name = "log_id_", referencedColumnName = "log_id_")
+        }
+    )
+    @Column(name = "label_", length = 64, nullable = false)
+    @OrderBy
+    private List<String> labels;
 
     public static ActivityEntity create(String userId, ActivityApiClient.ActivityEntry entry) {
         ActivityEntity entity = new ActivityEntity();
@@ -348,6 +362,14 @@ public class ActivityEntity {
 
     public void setHeartRateZones(List<ActivityHeartRateZoneEntity> heartRateZones) {
         this.heartRateZones = heartRateZones;
+    }
+
+    public List<String> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<String> labels) {
+        this.labels = labels;
     }
 
     public boolean isAutoDetected() {
