@@ -52,7 +52,7 @@ public class ActivityRepository {
     }
 
     public List<String> loadAllLabels(String userId) {
-        return em.createQuery("SELECT DISTINCT label FROM ActivityEntity a JOIN a.labels label WHERE a.userId = :userId ORDER BY label", String.class)
+        return em.createNamedQuery("ActivityEntity.loadAllLabels", String.class)
                 .setParameter("userId", userId)
                 .getResultList();
     }

@@ -53,11 +53,9 @@
         </div>
         <div><a href="?dateBeg={model.dateRange.curMonthBeg}&dateEnd={model.dateRange.curMonthEnd}&datePeriod=MONTH">Month</a>
         </div>
-        <div><a
-            href="?dateBeg={model.dateRange.curYearBeg}&dateEnd={model.dateRange.curYearEnd}&datePeriod=YEAR">Year</a>
+        <div><a href="?dateBeg={model.dateRange.curYearBeg}&dateEnd={model.dateRange.curYearEnd}&datePeriod=YEAR">Year</a>
         </div>
-        <div><a
-            href="?dateBeg={model.dateRange.nextBeg}&dateEnd={model.dateRange.nextEnd}&datePeriod={model.dateRange.period}">&#8594;</a>
+        <div><a href="?dateBeg={model.dateRange.nextBeg}&dateEnd={model.dateRange.nextEnd}&datePeriod={model.dateRange.period}">&#8594;</a>
         </div>
       </div>
       <form method="get" action="">
@@ -68,6 +66,16 @@
         <div>
           <label>To</label>
           <input type="date" name="dateEnd" value="{model.dateRange.end}">
+        </div>
+        <div>
+          <label>Label</label>
+          <select name="label">
+            <option value="" {#if !model.label}selected{/if}>(all)</option>
+            <option value="(none)" {#if model.label == "(none)"}selected{/if}>(none)</option>
+            {#for l in model.allLabels}
+            <option value="{l}" {#if model.label == l}selected{/if}>{l}</option>
+            {/for}
+          </select>
         </div>
         <label>Options</label>
         <div>
@@ -116,6 +124,7 @@
         </tbody>
       </table>
       {/if}
+      <p>{model.activities.size} result(s)</p>
     </main>
   </div>
   <footer>

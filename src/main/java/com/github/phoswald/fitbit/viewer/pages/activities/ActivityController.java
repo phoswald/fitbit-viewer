@@ -51,6 +51,9 @@ public class ActivityController extends DateRangeController {
     @QueryParam("excludeLowCal")
     private boolean excludeLowCal;
 
+    @QueryParam("label")
+    private String label;
+
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Transactional
@@ -106,7 +109,8 @@ public class ActivityController extends DateRangeController {
                 activityRepository.storeAll(activities.values());
                 activityRepository.storeAllDays(days.values());
             }
-            return ActivityViewModel.create(createDateRangeViewModel(), excludeAuto, excludeLowCal, activities.values());
+            var allLabels = activityRepository.loadAllLabels(session.userId());
+            return ActivityViewModel.create(createDateRangeViewModel(), label, excludeAuto, excludeLowCal, activities.values(), allLabels);
         } catch (Exception e) {
             log.warn("Failed", e);
             return ActivityViewModel.createError(e.getMessage());
