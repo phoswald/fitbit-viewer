@@ -78,7 +78,9 @@
         </tbody>
       </table>
       {/if}
+      {#if model.labels != null}
       <p>{model.labels.size} label(s)</p>
+      {/if}
     </main>
   </div>
   <footer>

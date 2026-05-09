@@ -53,8 +53,10 @@ public class ProfileController extends BaseController {
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
             return profile.data("model", createProfileViewModel(session.get()));
-        } else {
+        } else if(errorMessage != null) {
             return profile.data("model", ProfileViewModel.createError(errorMessage));
+        } else {
+            return profile.data("model", ProfileViewModel.createError("You are not logged in."));
         }
     }
 

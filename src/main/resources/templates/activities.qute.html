@@ -135,7 +135,9 @@
         </tbody>
       </table>
       {/if}
+      {#if model.activities != null}
       <p>{model.activities.size} result(s)</p>
+      {/if}
       {#if model.activities && model.label && model.label != "(none)" }
       <h2>Duration</h2>
       <canvas id="activitiesChart" class="my-chart"></canvas>
