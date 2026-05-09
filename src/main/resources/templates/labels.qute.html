@@ -55,8 +55,9 @@
             <th>Date</th>
             <th>Duration</th>
             <!--<th>Calories</th>-->
-            <th>Steps</th>
+            <!--<th>Steps</th>-->
             <th>Distance<br>(km)</th>
+            <th>Pace<br>(min/km)</th>
             <th>Heart Rate<br>(avg. bpm)</th>
           </tr>
         </thead>
@@ -68,8 +69,9 @@
             <td>{summary.dateMin} - {summary.dateMax}</td>
             <td>{#if summary.durationMinutesMin and summary.durationMinutesMax}{summary.durationMinutesMin.formatDuration} - {summary.durationMinutesMax.formatDuration}{/if}</td>
             <!--<td>{summary.caloriesMin} - {summary.caloriesMax}</td>-->
-            <td>{summary.stepsMin} - {summary.stepsMax}</td>
+            <!--<td>{summary.stepsMin} - {summary.stepsMax}</td>-->
             <td>{#if summary.distanceMin and summary.distanceMax}{summary.distanceMin.format('0.00')} - {summary.distanceMax.format('0.00')}{/if}</td>
+            <td>{#if summary.paceMin and summary.paceMax}{summary.paceMin.formatPace} - {summary.paceMax.formatPace}{/if}</td>
             <td>{summary.heartRateMin} - {summary.heartRateMax}</td>
           </tr>
           {/for}

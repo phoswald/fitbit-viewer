@@ -13,11 +13,11 @@ public record Chart(String type, ChartData data, ChartOptions options) {
         return data.stream().map(field).map(Object::toString).toList();
     }
 
-    public static <T> ChartDataset createDataset(String label, Collection<T> data, Function<T, Integer> field) {
+    public static <T> ChartDataset createDataset(String label, Collection<T> data, Function<T, ? extends Number> field) {
         return createDataset(label, null, data, field);
     }
 
-    public static <T> ChartDataset createDataset(String label, String stack, Collection<T> data, Function<T, Integer> field) {
+    public static <T> ChartDataset createDataset(String label, String stack, Collection<T> data, Function<T, ? extends Number> field) {
         return new ChartDatasetBuilder()
                 .label(label)
                 .stack(stack)
@@ -29,7 +29,7 @@ public record Chart(String type, ChartData data, ChartOptions options) {
     public record ChartData(List<String> labels, List<ChartDataset> datasets) { }
 
     @RecordBuilder
-    public record ChartDataset(String label, String stack, List<Integer> data) { }
+    public record ChartDataset(String label, String stack, List<? extends Number> data) { }
 
     @RecordBuilder
     public record ChartOptions(ChartOptionsScales scales) { }

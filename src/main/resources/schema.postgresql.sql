@@ -187,6 +187,8 @@ select
     max(a.steps_)                   as steps_max_,
     min(a.distance_)                as distance_min_,
     max(a.distance_)                as distance_max_,
+    min(a.pace_)                    as pace_min_,
+    max(a.pace_)                    as pace_max_,
     min(a.average_heart_rate_)      as heart_rate_min_,
     max(a.average_heart_rate_)      as heart_rate_max_
 from fitbit_activity_ a

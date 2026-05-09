@@ -112,6 +112,7 @@
             <th>Calories</th>
             <th>Steps</th>
             <th>Distance<br>(km)</th>
+            <th>Pace<br>(min/km)</th>
             <th>Heart Rate<br>(avg. bpm)</th>
             <th>Type</th>
           </tr>
@@ -126,6 +127,7 @@
             <td>{activity.calories}</td>
             <td>{activity.steps}</td>
             <td>{#if activity.distance}{activity.distance.format('0.00')}{/if}</td>
+            <td>{#if activity.pace}{activity.pace.formatPace}{/if}</td>
             <td>{activity.averageHeartRate}</td>
             <td>{activity.logType}</td>
           </tr>
@@ -134,7 +136,7 @@
       </table>
       {/if}
       <p>{model.activities.size} result(s)</p>
-      {#if model.label && model.activities}
+      {#if model.activities && model.label && model.label != "(none)" }
       <h2>Duration</h2>
       <canvas id="activitiesChart" class="my-chart"></canvas>
       <script>
@@ -152,6 +154,12 @@
       <script>
         var chart = {model.activitiesDistanceChart.formatJson(8)};
         new Chart(document.getElementById('activitiesDistanceChart'), chart);
+      </script>
+      <h2>Pace</h2>
+      <canvas id="activitiesPaceChart" class="my-chart"></canvas>
+      <script>
+        var chart = {model.activitiesPaceChart.formatJson(8)};
+        new Chart(document.getElementById('activitiesPaceChart'), chart);
       </script>
       <h2>Heart Rate</h2>
       <canvas id="activitiesHeartRateChart" class="my-chart"></canvas>

@@ -69,14 +69,18 @@ public record ActivityViewModel(
     }
 
     public Chart activitiesDistanceChart() {
-        return lineChart("Distance (m)", activities, round(multiply(ActivityEntity::getDistance, 1000)));
+        return lineChart("Distance (km)", activities, ActivityEntity::getDistance);
+    }
+
+    public Chart activitiesPaceChart() {
+        return lineChart("Pace (min/km)", activities, multiply(ActivityEntity::getPace, 1.0/60.0));
     }
 
     public Chart activitiesHeartRateChart() {
         return lineChart("Heart Rate (avg. bpm)", activities, ActivityEntity::getAverageHeartRate);
     }
 
-    private static Chart lineChart(String label, Collection<ActivityEntity> data, Function<ActivityEntity, Integer> field) {
+    private static Chart lineChart(String label, Collection<ActivityEntity> data, Function<ActivityEntity, ? extends Number> field) {
         return new ChartBuilder()
                 .type("line")
                 .data(new ChartDataBuilder()
@@ -87,7 +91,6 @@ public record ActivityViewModel(
                         .scales(new ChartOptionsScalesBuilder()
                                 .y(new ChartOptionsAxisBuilder()
                                         .beginAtZero(true)
-//                                      .grace("50%")
                                         .build())
                                 .build())
                         .build())
@@ -101,7 +104,7 @@ public record ActivityViewModel(
         };
     }
 
-    private static Function<ActivityEntity, Double> multiply(Function<ActivityEntity, Double> function, int factor) {
+    private static Function<ActivityEntity, Double> multiply(Function<ActivityEntity, Double> function, double factor) {
         return activity -> {
             Double value = function.apply(activity);
             return value == null ? null : value * factor;
