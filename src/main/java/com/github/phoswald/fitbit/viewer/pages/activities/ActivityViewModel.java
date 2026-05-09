@@ -1,5 +1,7 @@
 package com.github.phoswald.fitbit.viewer.pages.activities;
 
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.divideBy;
+
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -61,7 +63,7 @@ public record ActivityViewModel(
     }
 
     public Chart activitiesChart() {
-        return lineChart("Duration (min)", activities, round(ActivityEntity::getDurationMinutes));
+        return lineChart("Duration (min)", activities, ActivityEntity::getDurationMinutes);
     }
 
     public Chart activitiesStepsChart() {
@@ -73,7 +75,7 @@ public record ActivityViewModel(
     }
 
     public Chart activitiesPaceChart() {
-        return lineChart("Pace (min/km)", activities, multiply(ActivityEntity::getPace, 1.0/60.0));
+        return lineChart("Pace (min/km)", activities, divideBy(ActivityEntity::getPace, 60));
     }
 
     public Chart activitiesHeartRateChart() {
@@ -95,19 +97,5 @@ public record ActivityViewModel(
                                 .build())
                         .build())
                 .build();
-    }
-
-    private static Function<ActivityEntity, Integer> round(Function<ActivityEntity, Double> function) {
-        return activity -> {
-            Double value = function.apply(activity);
-            return value == null ? null : (int) Math.round(value);
-        };
-    }
-
-    private static Function<ActivityEntity, Double> multiply(Function<ActivityEntity, Double> function, double factor) {
-        return activity -> {
-            Double value = function.apply(activity);
-            return value == null ? null : value * factor;
-        };
     }
 }

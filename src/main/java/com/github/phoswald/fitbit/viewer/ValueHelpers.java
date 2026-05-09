@@ -3,6 +3,7 @@ package com.github.phoswald.fitbit.viewer;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.function.Function;
 
 public class ValueHelpers {
 
@@ -32,6 +33,13 @@ public class ValueHelpers {
 
     public static Double divideBy(Long value, int divisor) {
         return value == null ? null : value.doubleValue() / divisor;
+    }
+
+    public static <T> Function<T, Double> divideBy(Function<T, Double> function, int divisor) {
+        return object -> {
+            Double value = function.apply(object);
+            return value == null ? null : value / divisor;
+        };
     }
 
     public static Integer max(Integer value1, Integer value2) {
