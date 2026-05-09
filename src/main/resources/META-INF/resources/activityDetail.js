@@ -17,6 +17,15 @@ function removeLabel(btn) {
 function renderTemplate(id, label) {
     var template = document.getElementById(id);
     var container = document.createElement('template');
-    container.innerHTML = template.innerHTML.trim().replaceAll("{label}", label);
+    container.innerHTML = template.innerHTML.trim().replaceAll("{label}", escapeHtml(label));
     return container.content.firstChild;
+}
+
+function escapeHtml(str) {
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
 }
