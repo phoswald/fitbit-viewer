@@ -11,6 +11,7 @@ $ export FITBIT_DATASOURCE_USERNAME=
 $ export FITBIT_DATASOURCE_PASSWORD=
 $ export FITBIT_CLIENT_ID=
 $ export FITBIT_CLIENT_SECRET=
+$ export FITBIT_REDIRECT_URI=
 $ export FITBIT_COOKIE_SECRET=
 $ java -jar target/quarkus-app/quarkus-run.jar
 ~~~
@@ -27,6 +28,7 @@ $ docker run -it --name fitbit-viewer --rm \
   -e FITBIT_DATASOURCE_PASSWORD \
   -e FITBIT_CLIENT_ID \
   -e FITBIT_CLIENT_SECRET \
+  -e FITBIT_REDIRECT_URI \
   -e FITBIT_COOKIE_SECRET \
   philip/fitbit-viewer:0.1.0-SNAPSHOT
 ~~~

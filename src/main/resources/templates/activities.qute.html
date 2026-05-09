@@ -5,20 +5,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Fitbit Viewer - Activities</title>
-  <link rel="icon" href="/favicon.ico">
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="icon" href="../../favicon.ico">
+  <link rel="stylesheet" href="../../styles.css">
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <header>
-    <img src="/images/fitbit-logo.svg" alt="Fitbit">
+    <img src="../../images/fitbit-logo.svg" alt="Fitbit">
     <span>Fitbit Viewer</span>
-    <a href="/app/oauth/login" class="my-button">Login</a>
+    <a href="../../app/oauth/login" class="my-button">Login</a>
   </header>
   <div class="my-app-layout">
     <nav>
-      <a href="/">
+      <a href="../../">
         <span class="my-sidebar-icon"></span>Home
       </a>
       <a href="profile">
@@ -53,7 +53,8 @@
           <a href="?dateBeg={model.dateRange.prevBeg}&dateEnd={model.dateRange.prevEnd}&datePeriod={model.dateRange.period}">&#8592;</a>
         </div>
         <div>
-          <a href="?dateBeg={model.dateRange.curDay}&dateEnd={model.dateRange.curDay}&datePeriod=DAY">Day</a></div>
+          <a href="?dateBeg={model.dateRange.curDay}&dateEnd={model.dateRange.curDay}&datePeriod=DAY">Day</a>
+        </div>
         <div>
           <a href="?dateBeg={model.dateRange.curWeekBeg}&dateEnd={model.dateRange.curWeekEnd}&datePeriod=WEEK">Week</a>
         </div>
