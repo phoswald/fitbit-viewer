@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 @RequestScoped
 public class SessionManager {
 
-    public static final String COOKIE_NAME = "fibtitSession";
+    public static final String COOKIE_NAME = "fitbitSession";
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 

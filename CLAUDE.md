@@ -73,7 +73,7 @@ Each page follows the same pattern:
 ## Authentication
 
 - OAuth2 with Fitbit (`/app/oauth/login` → `/app/oauth/callback`)
-- After token exchange, `SessionData` (userId + access token + expiry) is JSON-serialized, signed as a JWT, and stored as an HTTP-only cookie named `fibtitSession`
+- After token exchange, `SessionData` (userId + access token + expiry) is JSON-serialized, signed as a JWT, and stored as an HTTP-only cookie named `fitbitSession`
 - `SessionManager` signs/verifies the cookie using `app.fitbit.cookie.secret`
 
 ## Database
