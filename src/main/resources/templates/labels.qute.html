@@ -64,7 +64,7 @@
         <tbody>
           {#for summary in model.labels}
           <tr>
-            <td><a href="activities?label={summary.label}&dateBeg={summary.dateMin}&dateEnd={summary.dateMax}">{summary.label}</a></td>
+            <td><a href="activities?label={summary.label.urlEncode}&dateBeg={summary.dateMin}&dateEnd={summary.dateMax}">{summary.label}</a></td>
             <td>{summary.count}</td>
             <td>{summary.dateMin} - {summary.dateMax}</td>
             <td>{#if summary.durationMinutesMin and summary.durationMinutesMax}{summary.durationMinutesMin.formatDuration} - {summary.durationMinutesMax.formatDuration}{/if}</td>

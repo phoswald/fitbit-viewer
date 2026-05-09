@@ -1,5 +1,7 @@
 package com.github.phoswald.fitbit.viewer;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.OffsetDateTime;
@@ -54,5 +56,9 @@ class TemplateExtensions {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    static String urlEncode(String value) {
+        return URLEncoder.encode(value, StandardCharsets.UTF_8);
     }
 }
