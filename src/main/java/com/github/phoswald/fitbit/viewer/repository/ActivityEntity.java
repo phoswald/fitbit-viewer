@@ -134,7 +134,7 @@ public class ActivityEntity {
     @OrderBy
     private List<String> labels;
 
-    public static ActivityEntity create(String userId, ActivityApiClient.ActivityEntry entry) {
+    public static ActivityEntity create(String userId, ActivityApiClient.ActivityEntry entry, List<String> labels) {
         ActivityEntity entity = new ActivityEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
         entity.setLogId(requireNonNull(entry.logId(), "logId"));
@@ -181,6 +181,7 @@ public class ActivityEntity {
                         userId, entity.getLogId(), heartRateZone));
             }
         }
+        entity.setLabels(labels);
         return entity;
     }
 

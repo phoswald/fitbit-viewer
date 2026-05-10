@@ -30,7 +30,7 @@ public abstract class BaseController {
                 TreeMap::new);
     }
 
-    protected <K, T> Collector<T, ?, Map<K, T>> toLinkedHashSet(Function<T, K> getKey) {
+    protected <K, T> Collector<T, ?, Map<K, T>> toLinkedHashMap(Function<T, K> getKey) {
         return Collectors.toMap(
                 getKey,
                 Function.identity(),

@@ -1,6 +1,8 @@
 package com.github.phoswald.fitbit.viewer.pages.activities;
 
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,14 +73,14 @@ public class ActivityController extends DateRangeController {
         try {
             log.info("Querying: dateBeg={}, dateEnd={}, datePeriod={}", dateBeg, dateEnd, datePeriod);
             var activities = activityRepository.loadByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
-                    .collect(toLinkedHashSet(ActivityEntity::getLogId));
+                    .collect(toLinkedHashMap(ActivityEntity::getLogId));
             var days = activityRepository.loadDaysByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
                     .collect(toSortedMap(ActivityDayEntity::getDate));
             if(!refresh && isComplete(days)) {
                 log.debug("Found {} entities for {} days", activities.size(), days.size());
             } else {
-                activities.clear();
-                // days.clear();
+                var oldActivities = activities;
+                activities = new LinkedHashMap<>();
                 LocalDate currentDateBeg = dateBeg;
                 while (!currentDateBeg.isAfter(dateEnd)) {
                     log.debug("Querying (current): dateBeg={}, limit={}", currentDateBeg, PAGE_SIZE);
@@ -88,7 +90,8 @@ public class ActivityController extends DateRangeController {
                             null, "asc",
                             PAGE_SIZE, 0);
                     var entitiesNew = response.activities().stream()
-                            .map(entry -> ActivityEntity.create(session.userId(), entry))
+                            .map(entry -> ActivityEntity.create(
+                                    session.userId(), entry, getLabels(oldActivities, entry.logId())))
                             .filter(e -> !e.getDate().isAfter(dateEnd))
                             .toList();
                     log.debug("Found: {}", entitiesNew.size());
@@ -102,7 +105,8 @@ public class ActivityController extends DateRangeController {
                 }
                 for(LocalDate date = dateBeg; !date.isAfter(dateEnd); date = date.plusDays(1)) {
                     if(!days.containsKey(date)) {
-                        days.put(date, createEmptyDay(session.userId(), date));
+                        log.debug("Filling gap: {}", date);
+                        days.put(date, ActivityDayEntity.create(session.userId(), date));
                     }
                 }
                 log.info("Storing {} entities for {} days", activities.size(), days.size());
@@ -117,7 +121,7 @@ public class ActivityController extends DateRangeController {
         }
     }
 
-    private int addAll(Map<Long, ActivityEntity> activities, List<ActivityEntity> activitiesNew) {
+    private static int addAll(Map<Long, ActivityEntity> activities, List<ActivityEntity> activitiesNew) {
         int oldSize = activities.size();
         for(ActivityEntity activity : activitiesNew) {
             if(!activities.containsKey(activity.getLogId())) {
@@ -127,11 +131,12 @@ public class ActivityController extends DateRangeController {
         return activities.size() - oldSize;
     }
 
-    private ActivityDayEntity createEmptyDay(String userId, LocalDate date) {
-        log.debug("Filling gap: {}", date);
-        ActivityDayEntity entity = new ActivityDayEntity();
-        entity.setUserId(userId);
-        entity.setDate(date);
-        return entity;
+    private static List<String> getLabels(Map<Long, ActivityEntity> activities, Long logId) {
+        ActivityEntity activity = activities.get(logId);
+        if(activity != null) {
+            return activity.getLabels();
+        } else {
+            return Collections.emptyList();
+        }
     }
 }
