@@ -56,7 +56,7 @@ public class OAuthController {
                 + "?response_type=code"
                 + "&client_id=" + URLEncoder.encode(clientId, UTF_8)
                 + "&redirect_uri=" + URLEncoder.encode(redirectUri, UTF_8)
-                + "&scope=profile+activity+heartrate+cardio_fitness+location";
+                + "&scope=profile+activity+heartrate+cardio_fitness+location+sleep";
         return Response.seeOther(URI.create(url)).build();
     }
 
