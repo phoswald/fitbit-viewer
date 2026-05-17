@@ -68,6 +68,23 @@ create table fitbit_active_zone_minutes_ (
 alter table fitbit_active_zone_minutes_
     add constraint fitbit_active_zone_minutes_pk_ primary key (user_id_, date_);
 
+-- Sleep
+
+create table fitbit_sleep_ (
+    user_id_                varchar(32) not null,
+    date_                   date not null,
+    minutes_asleep_         integer null,
+    minutes_restless_       integer null,
+    minutes_awake_          integer null,
+    minutes_deep_           integer null,
+    minutes_light_          integer null,
+    minutes_rem_            integer null,
+    minutes_wake_           integer null
+);
+
+alter table fitbit_sleep_
+    add constraint fitbit_sleep_pk_ primary key (user_id_, date_);
+
 -- Activities
 
 create table fitbit_activity_ (

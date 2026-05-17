@@ -1,10 +1,10 @@
-{@com.github.phoswald.fitbit.viewer.pages.steps.StepsViewModel model}
+{@com.github.phoswald.fitbit.viewer.pages.sleep.SleepViewModel model}
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Fitbit Viewer - Steps</title>
+  <title>Fitbit Viewer - Sleep</title>
   <link rel="icon" href="../../favicon.ico">
   <link rel="stylesheet" href="../../styles.css">
   <!-- Chart.js -->
@@ -24,7 +24,7 @@
       <a href="profile">
         <span class="my-sidebar-icon"></span>Profile
       </a>
-      <a href="steps" class="my-active">
+      <a href="steps">
         <span class="my-sidebar-icon"></span>Steps
       </a>
       <a href="heartrate">
@@ -36,7 +36,7 @@
       <a href="azm">
         <span class="my-sidebar-icon"></span>Active Zone Minutes
       </a>
-      <a href="sleep">
+      <a href="sleep" class="my-active">
         <span class="my-sidebar-icon"></span>Sleep
       </a>
       <a href="activities">
@@ -47,7 +47,7 @@
       </a>
     </nav>
     <main>
-      <h2>Steps</h2>
+      <h2>Sleep</h2>
       {#if model.errorMessage}
       <div class="my-alert-error">{model.errorMessage}</div>
       {/if}
@@ -87,24 +87,43 @@
         </div>
         <button type="submit">Query</button>
       </form>
-      {#if model.steps}
-      <canvas id="stepsChart" class="my-chart"></canvas>
+      {#if model.sleeps}
+      <h3>Classic Sleep</h3>
+      <canvas id="classicSleepChart" class="my-chart"></canvas>
       <script>
-        var chart = {model.stepsChart.formatJson(8)};
-        new Chart(document.getElementById('stepsChart'), chart);
+        let classicChart = {model.classicSleepChart.formatJson(8)};
+        new Chart(document.getElementById('classicSleepChart'), classicChart);
+      </script>
+      <h3>Sleep Stages</h3>
+      <canvas id="stagesSleepChart" class="my-chart"></canvas>
+      <script>
+        let stagesChart = {model.stagesSleepChart.formatJson(8)};
+        new Chart(document.getElementById('stagesSleepChart'), stagesChart);
       </script>
       <table>
         <thead>
           <tr>
             <th>Date</th>
-            <th>Steps</th>
+            <th>Asleep (min)</th>
+            <th>Restless (min)</th>
+            <th>Awake (min)</th>
+            <th>Deep (min)</th>
+            <th>Light (min)</th>
+            <th>REM (min)</th>
+            <th>Wake (min)</th>
           </tr>
         </thead>
         <tbody>
-          {#for entry in model.steps}
+          {#for entry in model.sleeps}
           <tr>
             <td>{entry.date}</td>
-            <td>{entry.stepCount}</td>
+            <td>{entry.minutesAsleep}</td>
+            <td>{entry.minutesRestless}</td>
+            <td>{entry.minutesAwake}</td>
+            <td>{entry.minutesDeep}</td>
+            <td>{entry.minutesLight}</td>
+            <td>{entry.minutesRem}</td>
+            <td>{entry.minutesWake}</td>
           </tr>
           {/for}
         </tbody>
