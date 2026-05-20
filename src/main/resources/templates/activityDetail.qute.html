@@ -15,7 +15,7 @@
 <body>
   {#include header.qute.html /}
   <div class="my-app-layout">
-    {#include nav.qute.html /}
+    {#let activePage="activities"}{#include nav.qute.html /}{/let}
     <main>
       <h2>Activity Detail</h2>
       <p>

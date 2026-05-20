@@ -13,7 +13,7 @@
 <body>
   {#include header.qute.html /}
   <div class="my-app-layout">
-    {#include nav.qute.html /}
+    {#let activePage="steps"}{#include nav.qute.html /}{/let}
     <main>
       <h2>Steps</h2>
       {#if model.errorMessage}

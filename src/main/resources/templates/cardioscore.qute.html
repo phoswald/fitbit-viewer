@@ -13,7 +13,7 @@
 <body>
   {#include header.qute.html /}
   <div class="my-app-layout">
-    {#include nav.qute.html /}
+    {#let activePage="cardioscore"}{#include nav.qute.html /}{/let}
     <main>
       <h2>Cardio Fitness Score (VO2 max)</h2>
       {#if model.errorMessage}

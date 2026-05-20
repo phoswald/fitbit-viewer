@@ -22,6 +22,6 @@ class HomeController extends BaseController {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance getHomePage() {
-        return home.data("activePage", "home");
+        return home.instance();
     }
 }

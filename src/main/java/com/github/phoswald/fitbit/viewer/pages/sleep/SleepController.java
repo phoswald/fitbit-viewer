@@ -47,9 +47,9 @@ public class SleepController extends DateRangeController {
         normalizeDateRange();
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            return sleep.data("model", createSleepViewModel(session.get())).data("activePage", "sleep");
+            return sleep.data("model", createSleepViewModel(session.get()));
         } else {
-            return sleep.data("model", SleepViewModel.createError("You are not logged in.")).data("activePage", "sleep");
+            return sleep.data("model", SleepViewModel.createError("You are not logged in."));
         }
     }
 

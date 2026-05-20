@@ -46,9 +46,9 @@ public class HeartRateController extends DateRangeController {
         normalizeDateRange();
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            return heartrate.data("model", createHeartRateViewModel(session.get())).data("activePage", "heartrate");
+            return heartrate.data("model", createHeartRateViewModel(session.get()));
         } else {
-            return heartrate.data("model", HeartRateViewModel.createError("You are not logged in.")).data("activePage", "heartrate");
+            return heartrate.data("model", HeartRateViewModel.createError("You are not logged in."));
         }
     }
 

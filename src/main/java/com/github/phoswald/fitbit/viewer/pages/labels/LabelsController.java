@@ -36,9 +36,9 @@ class LabelsController extends BaseController {
     public TemplateInstance getLabelsPage() {
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            return labels.data("model", createLabelsViewModel(session.get())).data("activePage", "labels");
+            return labels.data("model", createLabelsViewModel(session.get()));
         } else {
-            return labels.data("model", LabelsViewModel.createError("You are not logged in.")).data("activePage", "labels");
+            return labels.data("model", LabelsViewModel.createError("You are not logged in."));
         }
     }
 
