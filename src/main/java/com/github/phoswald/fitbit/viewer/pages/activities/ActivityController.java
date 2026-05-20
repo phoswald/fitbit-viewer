@@ -63,9 +63,9 @@ public class ActivityController extends DateRangeController {
         normalizeDateRange();
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            return activities.data("model", createActivityViewModel(session.get()));
+            return activities.data("model", createActivityViewModel(session.get())).data("activePage", "activities");
         } else {
-            return activities.data("model", ActivityViewModel.createError("You are not logged in."));
+            return activities.data("model", ActivityViewModel.createError("You are not logged in.")).data("activePage", "activities");
         }
     }
 

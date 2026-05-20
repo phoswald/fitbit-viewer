@@ -17,35 +17,7 @@
     <a href="../../app/oauth/login" class="my-button">Login</a>
   </header>
   <div class="my-app-layout">
-    <nav>
-      <a href="../../">
-        <span class="my-sidebar-icon"></span>Home
-      </a>
-      <a href="profile">
-        <span class="my-sidebar-icon"></span>Profile
-      </a>
-      <a href="steps">
-        <span class="my-sidebar-icon"></span>Steps
-      </a>
-      <a href="heartrate">
-        <span class="my-sidebar-icon"></span>Heart Rate
-      </a>
-      <a href="cardioscore">
-        <span class="my-sidebar-icon"></span>Cardio Fitness
-      </a>
-      <a href="azm">
-        <span class="my-sidebar-icon"></span>Active Zone Minutes
-      </a>
-      <a href="sleep">
-        <span class="my-sidebar-icon"></span>Sleep
-      </a>
-      <a href="activities" class="my-active">
-        <span class="my-sidebar-icon"></span>Activities
-      </a>
-      <a href="labels">
-        <span class="my-sidebar-icon"></span>Labels
-      </a>
-    </nav>
+    {#include nav.qute.html /}
     <main>
       <h2>Activities</h2>
       {#if model.errorMessage}

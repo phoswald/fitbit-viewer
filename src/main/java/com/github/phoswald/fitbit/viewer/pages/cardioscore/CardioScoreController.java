@@ -50,9 +50,9 @@ public class CardioScoreController extends DateRangeController {
         normalizeDateRange();
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            return cardioscore.data("model", createCardioScoreViewModel(session.get()));
+            return cardioscore.data("model", createCardioScoreViewModel(session.get())).data("activePage", "cardioscore");
         } else {
-            return cardioscore.data("model", CardioScoreViewModel.createError("You are not logged in."));
+            return cardioscore.data("model", CardioScoreViewModel.createError("You are not logged in.")).data("activePage", "cardioscore");
         }
     }
 

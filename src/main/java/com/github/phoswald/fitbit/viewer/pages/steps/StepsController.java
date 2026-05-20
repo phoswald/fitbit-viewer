@@ -46,9 +46,9 @@ public class StepsController extends DateRangeController {
         normalizeDateRange();
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            return steps.data("model", createStepsViewModel(session.get()));
+            return steps.data("model", createStepsViewModel(session.get())).data("activePage", "steps");
         } else {
-            return steps.data("model", StepsViewModel.createError("You are not logged in."));
+            return steps.data("model", StepsViewModel.createError("You are not logged in.")).data("activePage", "steps");
         }
     }
 

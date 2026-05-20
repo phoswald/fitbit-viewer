@@ -46,9 +46,9 @@ public class ActiveZoneMinutesController extends DateRangeController {
         normalizeDateRange();
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            return activeZoneMinutes.data("model", createAzmViewModel(session.get()));
+            return activeZoneMinutes.data("model", createAzmViewModel(session.get())).data("activePage", "azm");
         } else {
-            return activeZoneMinutes.data("model", ActiveZoneMinutesViewModel.createError("You are not logged in."));
+            return activeZoneMinutes.data("model", ActiveZoneMinutesViewModel.createError("You are not logged in.")).data("activePage", "azm");
         }
     }
 

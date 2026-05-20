@@ -71,9 +71,9 @@ public class ActivityDetailController extends BaseController {
     public TemplateInstance getActivityDetailPage() {
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            return activityDetail.data("model", createActivityDetailViewModel(session.get()));
+            return activityDetail.data("model", createActivityDetailViewModel(session.get())).data("activePage", "activities");
         } else {
-            return activityDetail.data("model", ActivityDetailViewModel.createError("You are not logged in."));
+            return activityDetail.data("model", ActivityDetailViewModel.createError("You are not logged in.")).data("activePage", "activities");
         }
     }
 

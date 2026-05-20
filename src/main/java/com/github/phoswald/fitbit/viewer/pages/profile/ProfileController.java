@@ -52,11 +52,11 @@ public class ProfileController extends BaseController {
     public TemplateInstance getProfilePage() {
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            return profile.data("model", createProfileViewModel(session.get()));
+            return profile.data("model", createProfileViewModel(session.get())).data("activePage", "profile");
         } else if(errorMessage != null) {
-            return profile.data("model", ProfileViewModel.createError(errorMessage));
+            return profile.data("model", ProfileViewModel.createError(errorMessage)).data("activePage", "profile");
         } else {
-            return profile.data("model", ProfileViewModel.createError("You are not logged in."));
+            return profile.data("model", ProfileViewModel.createError("You are not logged in.")).data("activePage", "profile");
         }
     }
 

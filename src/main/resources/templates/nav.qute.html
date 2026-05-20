@@ -1,0 +1,30 @@
+{@String activePage}
+<nav>
+  <a href="{basePath}/">
+    <span class="my-sidebar-icon"></span>Home
+  </a>
+  <a href="{basePath}/app/pages/profile" {#if activePage == "profile"}class="my-active"{/if}>
+    <span class="my-sidebar-icon"></span>Profile
+  </a>
+  <a href="{basePath}/app/pages/steps" {#if activePage == "steps"}class="my-active"{/if}>
+    <span class="my-sidebar-icon"></span>Steps
+  </a>
+  <a href="{basePath}/app/pages/heartrate" {#if activePage == "heartrate"}class="my-active"{/if}>
+    <span class="my-sidebar-icon"></span>Heart Rate
+  </a>
+  <a href="{basePath}/app/pages/cardioscore" {#if activePage == "cardioscore"}class="my-active"{/if}>
+    <span class="my-sidebar-icon"></span>Cardio Fitness
+  </a>
+  <a href="{basePath}/app/pages/azm" {#if activePage == "azm"}class="my-active"{/if}>
+    <span class="my-sidebar-icon"></span>Active Zone Minutes
+  </a>
+  <a href="{basePath}/app/pages/sleep" {#if activePage == "sleep"}class="my-active"{/if}>
+    <span class="my-sidebar-icon"></span>Sleep
+  </a>
+  <a href="{basePath}/app/pages/activities" {#if activePage == "activities"}class="my-active"{/if}>
+    <span class="my-sidebar-icon"></span>Activities
+  </a>
+  <a href="{basePath}/app/pages/labels" {#if activePage == "labels"}class="my-active"{/if}>
+    <span class="my-sidebar-icon"></span>Labels
+  </a>
+</nav>
