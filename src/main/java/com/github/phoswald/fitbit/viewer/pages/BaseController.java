@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -23,19 +24,19 @@ public abstract class BaseController {
     protected String sessionCookie;
 
     protected <T> Collector<T, ?, SortedMap<LocalDate, T>> toSortedMap(Function<T, LocalDate> getKey) {
-        return Collectors.toMap(
-                getKey,
-                Function.identity(),
-                this::rejectDuplicates,
-                TreeMap::new);
+        return toSortedMap(getKey, this::rejectDuplicates);
+    }
+
+    protected <T> Collector<T, ?, SortedMap<LocalDate, T>> toSortedMap(Function<T, LocalDate> getKey, BinaryOperator<T> handleDuplicates) {
+        return Collectors.toMap(getKey, Function.identity(), handleDuplicates, TreeMap::new);
     }
 
     protected <K, T> Collector<T, ?, Map<K, T>> toLinkedHashMap(Function<T, K> getKey) {
-        return Collectors.toMap(
-                getKey,
-                Function.identity(),
-                this::rejectDuplicates,
-                LinkedHashMap::new);
+        return toLinkedHashMap(getKey, this::rejectDuplicates);
+    }
+
+    protected <K, T> Collector<T, ?, Map<K, T>> toLinkedHashMap(Function<T, K> getKey, BinaryOperator<T> handleDuplicates) {
+        return Collectors.toMap(getKey, Function.identity(), handleDuplicates, LinkedHashMap::new);
     }
 
     private <T> T rejectDuplicates(T value1, T value2) {

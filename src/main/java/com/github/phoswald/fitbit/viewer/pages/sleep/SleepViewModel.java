@@ -45,9 +45,9 @@ public record SleepViewModel(
                 .data(new ChartDataBuilder()
                         .labels(Chart.createLabels(sleeps, SleepEntity::getDate))
                         .datasets(List.of(
-                                Chart.createDataset("Asleep",   "classic", sleeps, SleepEntity::getMinutesAsleep),
+                                Chart.createDataset("Asleep", "classic", sleeps, SleepEntity::getMinutesAsleep),
                                 Chart.createDataset("Restless", "classic", sleeps, SleepEntity::getMinutesRestless),
-                                Chart.createDataset("Awake",    "classic", sleeps, SleepEntity::getMinutesAwake)))
+                                Chart.createDataset("Awake", "classic", sleeps, SleepEntity::getMinutesAwake)))
                         .build())
                 .options(new ChartOptionsBuilder()
                         .scales(new ChartOptionsScalesBuilder()
@@ -65,10 +65,10 @@ public record SleepViewModel(
                 .data(new ChartDataBuilder()
                         .labels(Chart.createLabels(sleeps, SleepEntity::getDate))
                         .datasets(List.of(
-                                Chart.createDataset("Deep",  "stages", sleeps, SleepEntity::getMinutesDeep),
+                                Chart.createDataset("Deep", "stages", sleeps, SleepEntity::getMinutesDeep),
                                 Chart.createDataset("Light", "stages", sleeps, SleepEntity::getMinutesLight),
-                                Chart.createDataset("REM",   "stages", sleeps, SleepEntity::getMinutesRem),
-                                Chart.createDataset("Wake",  "stages", sleeps, SleepEntity::getMinutesWake)))
+                                Chart.createDataset("REM", "stages", sleeps, SleepEntity::getMinutesRem),
+                                Chart.createDataset("Wake", "stages", sleeps, SleepEntity::getMinutesWake)))
                         .build())
                 .options(new ChartOptionsBuilder()
                         .scales(new ChartOptionsScalesBuilder()

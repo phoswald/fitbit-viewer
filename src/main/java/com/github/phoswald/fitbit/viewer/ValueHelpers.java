@@ -31,6 +31,14 @@ public class ValueHelpers {
         }
     }
 
+    public static Integer add(Integer value1, Integer value2) {
+        if (value1 != null || value2 != null) {
+            return (value1 == null ? 0 : value1.intValue()) + (value2 == null ? 0 : value2.intValue());
+        } else {
+            return null;
+        }
+    }
+
     public static Double divideBy(Long value, int divisor) {
         return value == null ? null : value.doubleValue() / divisor;
     }

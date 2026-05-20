@@ -1,10 +1,6 @@
 package com.github.phoswald.fitbit.viewer.pages.sleep;
 
-import static com.github.phoswald.fitbit.viewer.ValueHelpers.min;
-
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.TreeMap;
 
 import jakarta.enterprise.context.RequestScoped;
@@ -66,19 +62,14 @@ public class SleepController extends DateRangeController {
                 log.debug("Found {} entities", sleeps.size());
             } else {
                 sleeps = new TreeMap<>();
-                for (var dateRange : getQueryDateRanges()) {
-                    log.debug("Querying (API): dateBeg={}, dateEnd={}", dateRange.beg(), dateRange.end());
-                    var response = sleepClient.getSleep(
-                            "Bearer " + session.accessToken(),
-                            dateRange.beg().toString(),
-                            dateRange.end().toString());
-                    for (var entry : response.sleep()) {
-                        LocalDate date = LocalDate.parse(entry.dateOfSleep());
-                        sleeps.merge(date,
-                                SleepEntity.create(session.userId(), entry),
-                                (existing, ignored) -> { existing.addEntry(entry); return existing; });
-                    }
-                }
+                log.info("Querying: dateBeg={}, dateEnd={}, datePeriod={}", dateBeg, dateEnd, datePeriod);
+                var response = sleepClient.getSleep(
+                        "Bearer " + session.accessToken(),
+                        dateBeg.toString(),
+                        dateEnd.toString());
+                sleeps = response.sleep().stream()
+                        .map(entry -> SleepEntity.create(session.userId(), entry))
+                        .collect(toSortedMap(SleepEntity::getDate, SleepEntity::merge));
                 for (LocalDate date = dateBeg; !date.isAfter(dateEnd); date = date.plusDays(1)) {
                     if (!sleeps.containsKey(date)) {
                         sleeps.put(date, createEmptyDay(session.userId(), date));
@@ -94,17 +85,6 @@ public class SleepController extends DateRangeController {
         }
     }
 
-    private List<DateRange> getQueryDateRanges() {
-        var result = new ArrayList<DateRange>();
-        LocalDate curBeg = dateBeg;
-        while (!curBeg.isAfter(dateEnd)) {
-            LocalDate curEnd = min(dateEnd, curBeg.plusDays(89));
-            result.add(new DateRange(curBeg, curEnd));
-            curBeg = curEnd.plusDays(1);
-        }
-        return result;
-    }
-
     private SleepEntity createEmptyDay(String userId, LocalDate date) {
         log.debug("Filling gap: {}", date);
         SleepEntity entity = new SleepEntity();
@@ -112,6 +92,4 @@ public class SleepController extends DateRangeController {
         entity.setDate(date);
         return entity;
     }
-
-    private record DateRange(LocalDate beg, LocalDate end) { }
 }
