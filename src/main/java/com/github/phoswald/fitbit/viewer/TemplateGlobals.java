@@ -10,7 +10,6 @@ class TemplateGlobals {
     static String basePath() {
         return ConfigProvider.getConfig()
                 .getOptionalValue("quarkus.http.root-path", String.class)
-                .map(p -> "/".equals(p) ? "" : p)
                 .orElse("");
     }
 }
