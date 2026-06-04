@@ -15,11 +15,9 @@ jobs:
             maven-
       - run: mkdir -p ~/.m2 &&  echo "${{ secrets.M2_SETTINGS }}" > ~/.m2/settings.xml
       - run: |
-          BRANCH="${{ github.ref_name }}"
-          if [ "$BRANCH" = "master" ]; then
-            CHANGELIST="-SNAPSHOT"
-          else
-            SUFFIX=$(echo "$BRANCH" | sed 's/[^a-zA-Z0-9._-]/-/g')
-            CHANGELIST="-${SUFFIX}-SNAPSHOT"
+          GIT_BRANCH="${{ forgejo.ref_name }}"
+          MAVEN_CHANGELIST=-$(date "+%Y%m%d-%H%M")
+          if [ "${GIT_BRANCH}" != "master" ]; then
+            MAVEN_CHANGELIST="${MAVEN_CHANGELIST}"-$(echo "${GIT_BRANCH}" | sed 's/[^a-zA-Z0-9._-]/-/g')
           fi
-          mvn -B clean deploy -P docker -Dchangelist=$CHANGELIST
+          mvn -B clean deploy -P docker -Dchangelist="${MAVEN_CHANGELIST}" 
