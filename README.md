@@ -41,5 +41,5 @@ $ mvn quarkus:dev
 
 ## URLs
 
-- http://localhost:8080/
-- http://localhost:8080/kitchensink.html
+- http://localhost:8080/fitbit
+- http://localhost:8080/fitbit/kitchensink.html
