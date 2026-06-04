@@ -14,5 +14,12 @@ jobs:
           restore-keys: |
             maven-
       - run: mkdir -p ~/.m2 &&  echo "${{ secrets.M2_SETTINGS }}" > ~/.m2/settings.xml
-      - run: mvn -B clean deploy -P docker
-      # - run: JAVA_HOME=/usr/lib/jvm/java-21-openjdk/ mvn -B clean deploy -P docker
+      - run: |
+          BRANCH="${{ github.ref_name }}"
+          if [ "$BRANCH" = "master" ]; then
+            CHANGELIST="-SNAPSHOT"
+          else
+            SUFFIX=$(echo "$BRANCH" | sed 's/[^a-zA-Z0-9._-]/-/g')
+            CHANGELIST="-${SUFFIX}-SNAPSHOT"
+          fi
+          mvn -B clean deploy -P docker -Dchangelist=$CHANGELIST

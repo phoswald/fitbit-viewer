@@ -6,9 +6,13 @@
 
   <groupId>com.github.phoswald</groupId>
   <artifactId>fitbit-viewer</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>${revision}${changelist}</version>
 
   <properties>
+    <revision>0.1.0</revision>
+    <changelist>-SNAPSHOT</changelist>
+    <maven.install.skip>true</maven.install.skip>
+    <maven.deploy.skip>true</maven.deploy.skip>
     <maven.compiler.release>25</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
