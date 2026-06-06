@@ -114,7 +114,7 @@ public class ActivityController extends DateRangeController {
                 activityRepository.storeAllDays(days.values());
             }
             var allLabels = activityRepository.loadLabelsByUserId(session.userId());
-            return ActivityViewModel.create(createDateRangeViewModel(), label, excludeAuto, excludeLowCal, activities.values(), allLabels);
+            return ActivityViewModel.create(createDateRangeViewModel(), label, excludeAuto, excludeLowCal, activities.values(), allLabels, session.userId());
         } catch (Exception e) {
             log.warn("Failed", e);
             return ActivityViewModel.createError(e.getMessage());

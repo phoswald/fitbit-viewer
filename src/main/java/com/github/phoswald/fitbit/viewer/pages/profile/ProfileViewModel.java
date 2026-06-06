@@ -8,13 +8,15 @@ import com.github.phoswald.record.builder.RecordBuilder;
 @RecordBuilder
 record ProfileViewModel(
         ProfileEntity profile,
+        String userId,
         String errorMessage,
         ZonedDateTime now
 ) {
 
-    static ProfileViewModel create(ProfileEntity profile) {
+    static ProfileViewModel create(ProfileEntity profile, String userId) {
         return new ProfileViewModelBuilder()
                 .profile(profile)
+                .userId(userId)
                 .now(ZonedDateTime.now())
                 .build();
     }

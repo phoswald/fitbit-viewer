@@ -19,16 +19,19 @@ import com.github.phoswald.record.builder.RecordBuilder;
 public record ActiveZoneMinutesViewModel(
         DateRangeViewModel dateRange,
         Collection<ActiveZoneMinutesEntity> azms,
+        String userId,
         String errorMessage,
         ZonedDateTime now
 ) {
 
     static ActiveZoneMinutesViewModel create(
             DateRangeViewModel dateRange,
-            Collection<ActiveZoneMinutesEntity> azms) {
+            Collection<ActiveZoneMinutesEntity> azms,
+            String userId) {
         return new ActiveZoneMinutesViewModelBuilder()
                 .dateRange(dateRange)
                 .azms(azms)
+                .userId(userId)
                 .now(ZonedDateTime.now())
                 .build();
     }

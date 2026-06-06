@@ -75,7 +75,7 @@ public class HeartRateController extends DateRangeController {
                 log.info("Storing {} entities", heartRates.size());
                 heartRateRepository.storeAll(heartRates.values());
             }
-            return HeartRateViewModel.create(createDateRangeViewModel(), heartRates.values());
+            return HeartRateViewModel.create(createDateRangeViewModel(), heartRates.values(), session.userId());
         } catch (Exception e) {
             log.warn("Failed", e);
             return HeartRateViewModel.createError(e.getMessage());

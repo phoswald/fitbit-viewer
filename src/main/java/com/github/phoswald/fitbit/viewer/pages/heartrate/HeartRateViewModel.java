@@ -19,16 +19,19 @@ import com.github.phoswald.record.builder.RecordBuilder;
 public record HeartRateViewModel(
         DateRangeViewModel dateRange,
         Collection<HeartRateEntity> heartRates,
+        String userId,
         String errorMessage,
         ZonedDateTime now
 ) {
 
     static HeartRateViewModel create(
             DateRangeViewModel dateRange,
-            Collection<HeartRateEntity> heartRates) {
+            Collection<HeartRateEntity> heartRates,
+            String userId) {
         return new HeartRateViewModelBuilder()
                 .dateRange(dateRange)
                 .heartRates(heartRates)
+                .userId(userId)
                 .now(ZonedDateTime.now())
                 .build();
     }

@@ -19,16 +19,19 @@ import com.github.phoswald.record.builder.RecordBuilder;
 public record CardioScoreViewModel(
         DateRangeViewModel dateRange,
         Collection<CardioScoreEntity> cardioScores,
+        String userId,
         String errorMessage,
         ZonedDateTime now
 ) {
 
     static CardioScoreViewModel create(
             DateRangeViewModel dateRange,
-            Collection<CardioScoreEntity> cardioScores) {
+            Collection<CardioScoreEntity> cardioScores,
+            String userId) {
         return new CardioScoreViewModelBuilder()
                 .dateRange(dateRange)
                 .cardioScores(cardioScores)
+                .userId(userId)
                 .now(ZonedDateTime.now())
                 .build();
     }

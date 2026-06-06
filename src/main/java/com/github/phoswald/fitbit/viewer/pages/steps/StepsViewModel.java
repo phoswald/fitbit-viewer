@@ -19,16 +19,19 @@ import com.github.phoswald.record.builder.RecordBuilder;
 public record StepsViewModel(
         DateRangeViewModel dateRange,
         Collection<StepsEntity> steps,
+        String userId,
         String errorMessage,
         ZonedDateTime now
 ) {
 
     static StepsViewModel create(
             DateRangeViewModel dateRange,
-            Collection<StepsEntity> steps) {
+            Collection<StepsEntity> steps,
+            String userId) {
         return new StepsViewModelBuilder()
                 .dateRange(dateRange)
                 .steps(steps)
+                .userId(userId)
                 .now(ZonedDateTime.now())
                 .build();
     }

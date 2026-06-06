@@ -22,14 +22,16 @@ import com.github.phoswald.record.builder.RecordBuilder;
 public record SleepViewModel(
         DateRangeViewModel dateRange,
         Collection<SleepEntity> sleeps,
+        String userId,
         String errorMessage,
         ZonedDateTime now
 ) {
 
-    static SleepViewModel create(DateRangeViewModel dateRange, Collection<SleepEntity> sleeps) {
+    static SleepViewModel create(DateRangeViewModel dateRange, Collection<SleepEntity> sleeps, String userId) {
         return new SleepViewModelBuilder()
                 .dateRange(dateRange)
                 .sleeps(sleeps)
+                .userId(userId)
                 .now(ZonedDateTime.now())
                 .build();
     }

@@ -63,8 +63,9 @@ header span {
     letter-spacing: -0.01em;
 }
 
-header a {
-    margin-left: auto; /* can only have one <a> in <header> */
+header a,
+header svg {
+    margin-left: auto;
 }
 
 /* ****** Sidebar (nav) ****** */

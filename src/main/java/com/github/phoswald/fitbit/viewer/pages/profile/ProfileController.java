@@ -72,7 +72,7 @@ public class ProfileController extends BaseController {
                 log.info("Storing entity");
                 profileRepository.store(profile.get());
             }
-            return ProfileViewModel.create(profile.get());
+            return ProfileViewModel.create(profile.get(), session.userId());
         } catch (Exception e) {
             log.warn("Failed", e);
             return ProfileViewModel.createError(e.getMessage());

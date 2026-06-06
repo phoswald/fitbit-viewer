@@ -80,7 +80,7 @@ public class SleepController extends DateRangeController {
                 log.info("Storing {} entities", sleeps.size());
                 sleepRepository.storeAll(sleeps.values());
             }
-            return SleepViewModel.create(createDateRangeViewModel(), sleeps.values());
+            return SleepViewModel.create(createDateRangeViewModel(), sleeps.values(), session.userId());
         } catch (Exception e) {
             log.warn("Failed", e);
             return SleepViewModel.createError(e.getMessage());

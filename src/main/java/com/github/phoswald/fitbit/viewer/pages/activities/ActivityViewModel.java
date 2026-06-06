@@ -27,6 +27,7 @@ public record ActivityViewModel(
         boolean excludeLowCal,
         Collection<ActivityEntity> activities,
         List<String> allLabels,
+        String userId,
         String errorMessage,
         ZonedDateTime now
 ) {
@@ -37,7 +38,8 @@ public record ActivityViewModel(
             boolean excludeAuto,
             boolean excludeLowCal,
             Collection<ActivityEntity> activities,
-            List<String> allLabels) {
+            List<String> allLabels,
+            String userId) {
         return new ActivityViewModelBuilder()
                 .dateRange(dateRange)
                 .label(label)
@@ -50,6 +52,7 @@ public record ActivityViewModel(
                         .filter(a -> !excludeLowCal || !a.isLowCal())
                         .toList())
                 .allLabels(allLabels)
+                .userId(userId)
                 .now(ZonedDateTime.now())
                 .build();
     }

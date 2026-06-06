@@ -75,7 +75,7 @@ public class ActiveZoneMinutesController extends DateRangeController {
                 log.info("Storing {} entities", azms.size());
                 azmRepository.storeAll(azms.values());
             }
-            return ActiveZoneMinutesViewModel.create(createDateRangeViewModel(), azms.values());
+            return ActiveZoneMinutesViewModel.create(createDateRangeViewModel(), azms.values(), session.userId());
         } catch (Exception e) {
             log.warn("Failed", e);
             return ActiveZoneMinutesViewModel.createError(e.getMessage());

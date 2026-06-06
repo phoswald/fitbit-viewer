@@ -79,7 +79,7 @@ public class CardioScoreController extends DateRangeController {
                 log.info("Storing {} entities", cardioScores.size());
                 cardioScoreRepository.storeAll(cardioScores.values());
             }
-            return CardioScoreViewModel.create(createDateRangeViewModel(), cardioScores.values());
+            return CardioScoreViewModel.create(createDateRangeViewModel(), cardioScores.values(), session.userId());
         } catch (Exception e) {
             log.warn("Failed", e);
             return CardioScoreViewModel.createError(e.getMessage());

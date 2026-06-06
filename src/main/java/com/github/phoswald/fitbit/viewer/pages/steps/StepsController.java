@@ -75,7 +75,7 @@ public class StepsController extends DateRangeController {
                 log.info("Storing {} entities", steps.size());
                 stepsRepository.storeAll(steps.values());
             }
-            return StepsViewModel.create(createDateRangeViewModel(), steps.values());
+            return StepsViewModel.create(createDateRangeViewModel(), steps.values(), session.userId());
         } catch (Exception e) {
             log.warn("Failed", e);
             return StepsViewModel.createError(e.getMessage());
