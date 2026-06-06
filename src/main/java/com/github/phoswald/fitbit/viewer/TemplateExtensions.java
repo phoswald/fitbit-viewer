@@ -39,16 +39,14 @@ class TemplateExtensions {
         }
     }
 
-    static String formatDuration(Integer minutes) {
-        if (minutes == null) {
-            return "";
-        }
-        return formatDuration(minutes.doubleValue());
+    static String formatSleep(Integer minutes) {
+        var duration = Duration.ofMinutes(minutes);
+        return String.format("%d:%02d", duration.toHours(), duration.toMinutesPart());
     }
 
     static String formatPace(Double seconds) {
-        var d = Duration.ofSeconds(seconds.longValue());
-        return String.format("%02d:%02d", d.toMinutesPart(), d.toSecondsPart());
+        var duration = Duration.ofSeconds(seconds.longValue());
+        return String.format("%02d:%02d", duration.toMinutes(), duration.toSecondsPart());
     }
 
     static RawString formatJson(Object object, int indent) {

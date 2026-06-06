@@ -7,6 +7,13 @@ import java.util.function.Function;
 
 public class ValueHelpers {
 
+    public static <T> Function<T, Double> toDouble(Function<T, Integer> function) {
+        return object -> {
+            Integer value = function.apply(object);
+            return value == null ? null : value.doubleValue();
+        };
+    }
+
     public static LocalDate parseDate(String value) {
         return value == null ? null : LocalDate.parse(value);
     }
@@ -15,12 +22,12 @@ public class ValueHelpers {
         return value == null ? null : OffsetDateTime.parse(value);
     }
 
-    public static OffsetDateTime plusMillis(OffsetDateTime value, Long delta) {
-        return value == null || delta == null ? null : value.plusSeconds(delta / 1000);
-    }
-
     public static LocalDate dateOf(OffsetDateTime value) {
         return value == null ? null : value.toLocalDate();
+    }
+
+    public static OffsetDateTime plusMillis(OffsetDateTime value, Long delta) {
+        return value == null || delta == null ? null : value.plusSeconds(delta / 1000);
     }
 
     public static Double minutesBetween(OffsetDateTime beg, OffsetDateTime end) {
@@ -41,13 +48,6 @@ public class ValueHelpers {
 
     public static Double divideBy(Long value, int divisor) {
         return value == null ? null : value.doubleValue() / divisor;
-    }
-
-    public static <T> Function<T, Double> toDouble(Function<T, Integer> function) {
-        return object -> {
-            Integer value = function.apply(object);
-            return value == null ? null : value.doubleValue();
-        };
     }
 
     public static <T> Function<T, Double> divideBy(Function<T, Double> function, int divisor) {

@@ -72,9 +72,9 @@
         <thead>
           <tr>
             <th>Date</th>
-            <!--<th>Asleep</th>
-            <th>Restless</th>
-            <th>Awake</th>-->
+            <!--<th>Asleep</th>-->
+            <!--<th>Restless</th>-->
+            <!--<th>Awake</th>-->
             <th>Total</th>
             <th>Deep</th>
             <th>Light</th>
@@ -86,14 +86,14 @@
           {#for entry in model.sleeps}
           <tr>
             <td>{entry.date}</td>
-            <!--<td>{#if entry.minutesAsleep}{entry.minutesAsleep.formatDuration}{/if}</td>
-            <td>{#if entry.minutesRestless}{entry.minutesRestless.formatDuration}{/if}</td>
-            <td>{#if entry.minutesAwake}{entry.minutesAwake.formatDuration}{/if}</td>-->
-            <td>{#if entry.minutesTotal}{entry.minutesTotal.formatDuration}{/if}</td>
-            <td>{#if entry.minutesDeep}{entry.minutesDeep.formatDuration}{/if}</td>
-            <td>{#if entry.minutesLight}{entry.minutesLight.formatDuration}{/if}</td>
-            <td>{#if entry.minutesRem}{entry.minutesRem.formatDuration}{/if}</td>
-            <td>{#if entry.minutesWake}{entry.minutesWake.formatDuration}{/if}</td>
+            <!--<td>{#if entry.minutesAsleep}{entry.minutesAsleep.formatSleep}{/if}</td>-->
+            <!--<td>{#if entry.minutesRestless}{entry.minutesRestless.formatSleep}{/if}</td>-->
+            <!--<td>{#if entry.minutesAwake}{entry.minutesAwake.formatSleep}{/if}</td>-->
+            <td>{#if entry.minutesTotal}{entry.minutesTotal.formatSleep}{/if}</td>
+            <td>{#if entry.minutesDeep}{entry.minutesDeep.formatSleep}{/if}</td>
+            <td>{#if entry.minutesLight}{entry.minutesLight.formatSleep}{/if}</td>
+            <td>{#if entry.minutesRem}{entry.minutesRem.formatSleep}{/if}</td>
+            <td>{#if entry.minutesWake}{entry.minutesWake.formatSleep}{/if}</td>
           </tr>
           {/for}
         </tbody>
