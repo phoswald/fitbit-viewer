@@ -63,9 +63,8 @@ header span {
     letter-spacing: -0.01em;
 }
 
-header a,
-header svg {
-    margin-left: auto;
+header .my-left {
+    margin-left: auto; /* to be used on first left-aligned child of <header> */
 }
 
 /* ****** Sidebar (nav) ****** */
