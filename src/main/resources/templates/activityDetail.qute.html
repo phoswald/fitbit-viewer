@@ -145,11 +145,32 @@
                 <datalist id="allLabels">
                   {#for label in model.allLabels}
                   <option value="{label}">
-                  {/for}
+                    {/for}
                 </datalist>
               </td>
               <td>
                 <button type="button" class="my-button-outline" onclick="addLabel(this)">Add</button>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="text">
+              </td>
+              <td>
+                <button type="button" class="my-button-outline" onclick="addLabel(this)">Add New</button>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <select>
+                  <option></option>
+                  {#for label in model.allLabels}
+                  <option value="{label}">{label}</option>
+                  {/for}
+                </select>
+              </td>
+              <td>
+                <button type="button" class="my-button-outline" onclick="addLabel(this)">Add Existing</button>
               </td>
             </tr>
             {#for label in model.labels}

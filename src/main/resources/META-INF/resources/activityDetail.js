@@ -1,6 +1,6 @@
 
 function addLabel(btn) {
-    const input= btn.closest('tr').querySelector('input[type="text"]');
+    const input= btn.closest('tr').querySelector('input[type="text"], select');
     const value = input.value.trim();
     if (value) {
         var tr = renderTemplate('template-label', value);
