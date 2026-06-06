@@ -45,7 +45,7 @@ class LabelsController extends BaseController {
     private LabelsViewModel createLabelsViewModel(SessionData session) {
         try {
             var summaries = activityRepository.loadLabelSummariesByUserId(session.userId());
-            return LabelsViewModel.create(summaries);
+            return LabelsViewModel.create(summaries, session.userId());
         } catch (Exception e) {
             log.warn("Failed", e);
             return LabelsViewModel.createError(e.getMessage());

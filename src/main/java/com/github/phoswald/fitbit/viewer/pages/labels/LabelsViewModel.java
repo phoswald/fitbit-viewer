@@ -9,13 +9,15 @@ import com.github.phoswald.record.builder.RecordBuilder;
 @RecordBuilder
 public record LabelsViewModel(
         List<LabelSummaryEntity> labels,
+        String userId,
         String errorMessage,
         ZonedDateTime now
 ) {
 
-    static LabelsViewModel create(List<LabelSummaryEntity> labels) {
+    static LabelsViewModel create(List<LabelSummaryEntity> labels, String userId) {
         return new LabelsViewModelBuilder()
                 .labels(labels)
+                .userId(userId)
                 .now(ZonedDateTime.now())
                 .build();
     }

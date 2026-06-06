@@ -7,6 +7,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
+import com.github.phoswald.fitbit.viewer.auth.SessionData;
 import com.github.phoswald.fitbit.viewer.pages.BaseController;
 
 import io.quarkus.qute.Template;
@@ -22,6 +23,8 @@ class HomeController extends BaseController {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance getHomePage() {
-        return home.instance();
+        var session = sessionManager.parseAndVerifyCookie(sessionCookie);
+        String userId = session.map(SessionData::userId).orElse(null);
+        return home.data("model", HomeViewModel.create(userId));
     }
 }
