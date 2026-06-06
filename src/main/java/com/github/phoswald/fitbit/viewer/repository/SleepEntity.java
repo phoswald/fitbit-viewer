@@ -165,5 +165,9 @@ public class SleepEntity {
         this.minutesWake = minutesWake;
     }
 
+    public Integer getMinutesTotal() {
+        return add(add(add(minutesDeep, minutesLight), minutesRem), minutesWake);
+    }
+
     public record SleepId(String userId, LocalDate date) implements Serializable { }
 }
