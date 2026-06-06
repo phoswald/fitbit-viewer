@@ -18,11 +18,12 @@ public record ActivityDetailViewModel(
         List<String> allLabels,
         List<GeoPoint> track,
         boolean editLabels,
+        String userId,
         String errorMessage,
         ZonedDateTime now
 ) {
 
-    static ActivityDetailViewModel create(Long logId, ActivityEntity activity, List<String> allLabels, List<GeoPoint> track, boolean editLabels) {
+    static ActivityDetailViewModel create(Long logId, ActivityEntity activity, List<String> allLabels, List<GeoPoint> track, boolean editLabels, String userId) {
         return new ActivityDetailViewModelBuilder()
                 .logId(logId)
                 .activity(activity)
@@ -30,6 +31,7 @@ public record ActivityDetailViewModel(
                 .allLabels(allLabels)
                 .track(track)
                 .editLabels(editLabels)
+                .userId(userId)
                 .now(ZonedDateTime.now())
                 .build();
     }

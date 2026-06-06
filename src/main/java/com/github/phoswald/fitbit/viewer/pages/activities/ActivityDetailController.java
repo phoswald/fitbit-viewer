@@ -100,7 +100,7 @@ public class ActivityDetailController extends BaseController {
                     .orElse(List.of());
             log.debug("Found TCX track with {} points", track.size());
             List<String> allLabels = activityRepository.loadLabelsByUserId(session.userId());
-            return ActivityDetailViewModel.create(logId, entity.get(), allLabels, track, editLabels);
+            return ActivityDetailViewModel.create(logId, entity.get(), allLabels, track, editLabels, session.userId());
         } catch (Exception e) {
             log.warn("Failed", e);
             return ActivityDetailViewModel.createError(e.getMessage());
