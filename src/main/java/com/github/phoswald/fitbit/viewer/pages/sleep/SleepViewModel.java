@@ -4,6 +4,9 @@ import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
 
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.divideBy;
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.toDouble;
+
 import com.github.phoswald.fitbit.viewer.pages.DateRangeViewModel;
 import com.github.phoswald.fitbit.viewer.pages.DateRangeViewModelBuilder;
 import com.github.phoswald.fitbit.viewer.repository.SleepEntity;
@@ -45,9 +48,9 @@ public record SleepViewModel(
                 .data(new ChartDataBuilder()
                         .labels(Chart.createLabels(sleeps, SleepEntity::getDate))
                         .datasets(List.of(
-                                Chart.createDataset("Asleep", "classic", sleeps, SleepEntity::getMinutesAsleep),
-                                Chart.createDataset("Restless", "classic", sleeps, SleepEntity::getMinutesRestless),
-                                Chart.createDataset("Awake", "classic", sleeps, SleepEntity::getMinutesAwake)))
+                                Chart.createDataset("Asleep",   "classic", sleeps, divideBy(toDouble(SleepEntity::getMinutesAsleep),   60)),
+                                Chart.createDataset("Restless", "classic", sleeps, divideBy(toDouble(SleepEntity::getMinutesRestless), 60)),
+                                Chart.createDataset("Awake",    "classic", sleeps, divideBy(toDouble(SleepEntity::getMinutesAwake),    60))))
                         .build())
                 .options(new ChartOptionsBuilder()
                         .scales(new ChartOptionsScalesBuilder()
@@ -65,10 +68,10 @@ public record SleepViewModel(
                 .data(new ChartDataBuilder()
                         .labels(Chart.createLabels(sleeps, SleepEntity::getDate))
                         .datasets(List.of(
-                                Chart.createDataset("Deep", "stages", sleeps, SleepEntity::getMinutesDeep),
-                                Chart.createDataset("Light", "stages", sleeps, SleepEntity::getMinutesLight),
-                                Chart.createDataset("REM", "stages", sleeps, SleepEntity::getMinutesRem),
-                                Chart.createDataset("Wake", "stages", sleeps, SleepEntity::getMinutesWake)))
+                                Chart.createDataset("Deep",  "stages", sleeps, divideBy(toDouble(SleepEntity::getMinutesDeep),  60)),
+                                Chart.createDataset("Light", "stages", sleeps, divideBy(toDouble(SleepEntity::getMinutesLight), 60)),
+                                Chart.createDataset("REM",   "stages", sleeps, divideBy(toDouble(SleepEntity::getMinutesRem),   60)),
+                                Chart.createDataset("Wake",  "stages", sleeps, divideBy(toDouble(SleepEntity::getMinutesWake),  60))))
                         .build())
                 .options(new ChartOptionsBuilder()
                         .scales(new ChartOptionsScalesBuilder()

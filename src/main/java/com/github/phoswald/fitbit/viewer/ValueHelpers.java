@@ -43,6 +43,13 @@ public class ValueHelpers {
         return value == null ? null : value.doubleValue() / divisor;
     }
 
+    public static <T> Function<T, Double> toDouble(Function<T, Integer> function) {
+        return object -> {
+            Integer value = function.apply(object);
+            return value == null ? null : value.doubleValue();
+        };
+    }
+
     public static <T> Function<T, Double> divideBy(Function<T, Double> function, int divisor) {
         return object -> {
             Double value = function.apply(object);
