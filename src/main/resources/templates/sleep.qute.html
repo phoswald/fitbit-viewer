@@ -75,10 +75,10 @@
             <!--<th>Asleep (min)</th>
             <th>Restless (min)</th>
             <th>Awake (min)</th>-->
-            <th>Deep (min)</th>
-            <th>Light (min)</th>
-            <th>REM (min)</th>
-            <th>Wake (min)</th>
+            <th>Deep</th>
+            <th>Light</th>
+            <th>REM</th>
+            <th>Wake</th>
           </tr>
         </thead>
         <tbody>
@@ -88,10 +88,10 @@
             <!--<td>{entry.minutesAsleep}</td>
             <td>{entry.minutesRestless}</td>
             <td>{entry.minutesAwake}</td>-->
-            <td>{entry.minutesDeep}</td>
-            <td>{entry.minutesLight}</td>
-            <td>{entry.minutesRem}</td>
-            <td>{entry.minutesWake}</td>
+            <td>{#if entry.minutesDeep}{entry.minutesDeep.formatDuration}{/if}</td>
+            <td>{#if entry.minutesLight}{entry.minutesLight.formatDuration}{/if}</td>
+            <td>{#if entry.minutesRem}{entry.minutesRem.formatDuration}{/if}</td>
+            <td>{#if entry.minutesWake}{entry.minutesWake.formatDuration}{/if}</td>
           </tr>
           {/for}
         </tbody>

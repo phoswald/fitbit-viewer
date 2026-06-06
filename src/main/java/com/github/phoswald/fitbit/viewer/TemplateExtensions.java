@@ -39,6 +39,13 @@ class TemplateExtensions {
         }
     }
 
+    static String formatDuration(Integer minutes) {
+        if (minutes == null) {
+            return "";
+        }
+        return formatDuration(minutes.doubleValue());
+    }
+
     static String formatPace(Double seconds) {
         var d = Duration.ofSeconds(seconds.longValue());
         return String.format("%02d:%02d", d.toMinutesPart(), d.toSecondsPart());
