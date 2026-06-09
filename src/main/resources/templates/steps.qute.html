@@ -6,80 +6,65 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Fitbit Viewer - Steps</title>
   <link rel="icon" href="{basePath}/favicon.ico">
-  <link rel="stylesheet" href="{basePath}/styles.css">
+  <link rel="stylesheet" href="{basePath}/rstm.css">
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   {#include header.qute.html /}
-  <div class="my-app-layout">
-    {#let activePage="steps"}{#include nav.qute.html /}{/let}
-    <main>
-      <h2>Steps</h2>
-      {#if model.errorMessage}
-      <div class="my-alert-error">{model.errorMessage}</div>
-      {/if}
-      <div class="my-inputgroup">
-        <div>
-          <a href="?dateBeg={model.dateRange.prevBeg}&dateEnd={model.dateRange.prevEnd}&datePeriod={model.dateRange.period}">&#8592;</a>
-        </div>
-        <div>
-          <a href="?dateBeg={model.dateRange.curDay}&dateEnd={model.dateRange.curDay}&datePeriod=DAY">Day</a>
-        </div>
-        <div>
-          <a href="?dateBeg={model.dateRange.curWeekBeg}&dateEnd={model.dateRange.curWeekEnd}&datePeriod=WEEK">Week</a>
-        </div>
-        <div>
-          <a href="?dateBeg={model.dateRange.curMonthBeg}&dateEnd={model.dateRange.curMonthEnd}&datePeriod=MONTH">Month</a>
-        </div>
-        <div>
-          <a href="?dateBeg={model.dateRange.curYearBeg}&dateEnd={model.dateRange.curYearEnd}&datePeriod=YEAR">Year</a>
-        </div>
-        <div>
-          <a href="?dateBeg={model.dateRange.nextBeg}&dateEnd={model.dateRange.nextEnd}&datePeriod={model.dateRange.period}">&#8594;</a>
-        </div>
-      </div>
-      <form method="get" action="">
-        <div>
-          <label>From</label>
-          <input type="date" name="dateBeg" value="{model.dateRange.beg}">
-        </div>
-        <div>
-          <label>To</label>
-          <input type="date" name="dateEnd" value="{model.dateRange.end}">
-        </div>
-        <label>Options</label>
-        <div>
-          <input type="checkbox" name="refresh" id="refresh" value="true">
-          <label for="refresh">Refresh</label>
-        </div>
-        <button type="submit">Query</button>
-      </form>
-      {#if model.steps}
-      <canvas id="stepsChart" class="my-chart"></canvas>
-      <script>
-        var chart = {model.stepsChart.formatJson(8)};
-        new Chart(document.getElementById('stepsChart'), chart);
-      </script>
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Steps</th>
-          </tr>
-        </thead>
-        <tbody>
-          {#for entry in model.steps}
-          <tr>
-            <td>{entry.date}</td>
-            <td>{entry.stepCount}</td>
-          </tr>
-          {/for}
-        </tbody>
-      </table>
-      {/if}
-    </main>
-  </div>
+  {#let activePage="steps"}{#include nav.qute.html /}{/let}
+  <main>
+    <h2>Steps</h2>
+    {#if model.errorMessage}
+    <div class="rstm-alert-error">{model.errorMessage}</div>
+    {/if}
+    <form method="get" action="" class="rstm-form-grid">
+      <label>Quick Navigation</label>
+      <span class="rstm-inputgroup">
+        <a href="?dateBeg={model.dateRange.prevBeg}&dateEnd={model.dateRange.prevEnd}&datePeriod={model.dateRange.period}">&#8592;</a>
+        <a href="?dateBeg={model.dateRange.curDay}&dateEnd={model.dateRange.curDay}&datePeriod=DAY">Day</a>
+        <a href="?dateBeg={model.dateRange.curWeekBeg}&dateEnd={model.dateRange.curWeekEnd}&datePeriod=WEEK">Week</a>
+        <a href="?dateBeg={model.dateRange.curMonthBeg}&dateEnd={model.dateRange.curMonthEnd}&datePeriod=MONTH">Month</a>
+        <a href="?dateBeg={model.dateRange.curYearBeg}&dateEnd={model.dateRange.curYearEnd}&datePeriod=YEAR">Year</a>
+        <a href="?dateBeg={model.dateRange.nextBeg}&dateEnd={model.dateRange.nextEnd}&datePeriod={model.dateRange.period}">&#8594;</a>
+      </span>
+      <label>Date</label>
+      <span class="rstm-inputgroup">
+        <input type="date" name="dateBeg" value="{model.dateRange.beg}">
+        <span>-</span>
+        <input type="date" name="dateEnd" value="{model.dateRange.end}">
+      </span>
+      <label>Options</label>
+      <span>
+        <input type="checkbox" name="refresh" id="refresh" value="true">
+        <label for="refresh">Refresh</label>
+      </span>
+      <button type="submit">Query</button>
+    </form>
+    {#if model.steps}
+    <canvas id="stepsChart" class="rstm-chart"></canvas>
+    <script>
+      var chart = {model.stepsChart.formatJson(8)};
+      new Chart(document.getElementById('stepsChart'), chart);
+    </script>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Steps</th>
+        </tr>
+      </thead>
+      <tbody>
+        {#for entry in model.steps}
+        <tr>
+          <td>{entry.date}</td>
+          <td>{entry.stepCount}</td>
+        </tr>
+        {/for}
+      </tbody>
+    </table>
+    {/if}
+  </main>
   <footer>
     Generated: {model.now.format('yyyy-MM-dd HH:mm:ss')}
   </footer>

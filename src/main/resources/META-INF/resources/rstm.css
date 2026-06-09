@@ -29,26 +29,52 @@
 }
 
 body {
-    display: flex;
-    flex-direction: column;
     margin: 0;
-
     color: var(--text-color);
     background-color: var(--nav-bgcolor);
     font-family: var(--font);
     font-size: 14px;
     line-height: 1.5;
-    min-height: 100vh;
 }
 
-/* ****** Title Bar (header) ****** */
+/* ****** Page Layout ****** */
+
+body {
+    display: grid;
+    min-height: 100vh;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-areas:
+        "header"
+        "nav"
+        "main"
+        "footer";
+}
+
+/* two-column layout not effective on tablets */
+@media (min-width: 769px) {
+    body {
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto 1fr auto;
+        grid-template-areas:
+            "header header"
+            "nav    main"
+            "footer footer";
+
+    }
+}
+
+header { grid-area: header; }
+nav    { grid-area: nav; }
+main   { grid-area: main; }
+footer { grid-area: footer; }
+
+/* ****** Header (Title Bar) ****** */
 
 header {
     display: flex;
-    /* flex-shrink: 0; */
     padding: 8px 16px 0 16px;
     align-items: center; /* vertically */
-    /* justify-content: space-between; */
 }
 
 header img {
@@ -63,17 +89,23 @@ header span {
     letter-spacing: -0.01em;
 }
 
-header .my-left {
+header .rstm-left {
     margin-left: auto; /* to be used on first left-aligned child of <header> */
 }
 
-/* ****** Sidebar (nav) ****** */
+/* ****** Navigation (Sidebar) ****** */
 
 nav {
-    margin: 0 0 0 8px;
+    margin: 0 8px 0 8px;
     padding: 8px 0;
-    width: 200px;
-    flex-shrink: 0;
+}
+
+/* two-column layout not effective on tablets */
+@media (min-width: 769px) {
+    nav {
+        margin: 0 0 0 8px;
+        width: 200px;
+    }
 }
 
 nav a {
@@ -91,25 +123,24 @@ nav a:hover {
     background-color: var(--nav-hover-bgcolor);
 }
 
-nav a.my-active {
+nav a.rstm-active {
     color: var(--text-bgcolor);
     background-color: var(--button-color);
 }
 
-nav a.my-active:hover {
+nav a.rstm-active:hover {
     background-color: var(--button-hover-color);
 }
 
 /* icon placeholder: small rounded square */
-nav a span.my-sidebar-icon {
+nav a span.rstm-sidebar-icon {
     width: 17px;
     height: 17px;
-    flex-shrink: 0;
     border-radius: 4px;
     background-color: var(--nav-icon-color);
 }
 
-nav a.my-active span.my-sidebar-icon {
+nav a.rstm-active span.rstm-sidebar-icon {
     background-color: var(--text-bgcolor);
 }
 
@@ -124,27 +155,9 @@ main {
     background-color: var(--text-bgcolor);
 }
 
-/* ****** App layout (div for sidebar and main) ****** */
-
-.my-app-layout {
-    display: flex;
-    flex: 1; /* fill available space, vertically */
-}
-
-@media (max-width: 768px) {
-    nav {
-        width: auto;
-        margin: 0 8px 0 8px;
-    }
-    .my-app-layout {
-        flex-direction: column;
-    }
-}
-
 /* ****** Footer ****** */
 
 footer {
-    /* flex-shrink: 0; */
     padding: 0 16px 8px 16px;
     color: var(--text-color);
     font-size: 12px;
@@ -172,122 +185,7 @@ h3 {
     font-size: 15px;
 }
 
-/* ****** form, input, button and related stuff ****** */
-
-form {
-    margin-bottom: 1.25rem;
-}
-
-form > label,
-form > button,
-form > div > label:first-child {
-    display: block;
-    margin: 0.8rem 0 0.3rem;
-    font-weight: 600;
-}
-
-form input[type="date"],
-form input[type="text"],
-form input[type="password"],
-form textarea,
-form select {
-    width: 16rem;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 0.3rem 0.6rem;
-    color: var(--text-color);
-    background-color: var(--text-bgcolor); /* for select */
-    font-family: var(--font);
-    font-size: 13px;
-}
-
-form input[type="date"]:focus,
-form input[type="text"]:focus,
-form input[type="password"]:focus,
-form textarea:focus,
-form select:focus {
-    border-color: var(--focus-border-color);
-    box-shadow: 0 0 0 3px var(--focus-shadow-color);
-    outline: none;
-}
-
-form input[type="checkbox"],
-form input[type="radio"] {
-    accent-color: var(--button-color);
-}
-
-button,
-a.my-button {
-    display: inline-block;
-    border: 1px solid var(--button-color);
-    border-radius: 8px;
-    padding: 0.25rem 0.7rem;
-    color: var(--text-bgcolor);
-    background-color: var(--button-color);
-    font-size: 13px;
-    cursor: pointer;
-    line-height: 1.5;
-    text-decoration: none;
-}
-
-button:hover,
-a.my-button:hover {
-    border-color: var(--button-hover-color);
-    background-color: var(--button-hover-color);
-}
-
-a.my-button-outline,
-button.my-button-outline {
-    display: inline-block;
-    border: 1px solid var(--button-outline-color);
-    border-radius: 8px;
-    padding: 0.25rem 0.7rem;
-    color: var(--text-color);
-    background-color: transparent;
-    font-size: 13px;
-    line-height: 1.5;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-a.my-button-outline:hover,
-button.my-button-outline:hover {
-    background-color: var(--hover-bgcolor);
-}
-
-/* ****** Forms: input groups ****** */
-
-.my-inputgroup {
-    display: flex;
-    margin: 0 0 0.75rem 0;
-    padding: 0;
-    flex-wrap: wrap;
-    list-style: none;
-}
-
-.my-inputgroup > * a {
-    margin-right: -1px;
-    border: 1px solid var(--button-outline-color);
-    padding: 0.28rem 0.7rem;
-    display: inline-block;
-    color: var(--text-color);
-    font-size: 13px;
-    text-decoration: none;
-}
-
-.my-inputgroup > :first-child a {
-    border-radius: 5px 0 0 5px;
-}
-
-.my-inputgroup > :last-child a {
-    border-radius: 0 5px 5px 0;
-}
-
-.my-inputgroup > * a:hover {
-    background-color: var(--hover-bgcolor);
-}
-
-/* ****** Tables ****** */
+/* ****** Table ****** */
 
 table {
     margin-bottom: 1.25rem;
@@ -320,9 +218,225 @@ table tbody tr:hover {
     background-color: var(--hover-bgcolor);
 }
 
+/* ****** Form Layout ****** */
+
+form.rstm-form,
+form.rstm-form-grid {
+    display: grid;
+    margin-bottom: 1.25rem;
+    grid-template-columns: max-content;
+    gap: 0.3rem 1rem;
+}
+
+form.rstm-form > label,
+form.rstm-form-grid > label {
+    font-weight: 600;
+}
+
+/* two-column layout not effective on phones */
+@media (min-width: 481px) {
+
+    form.rstm-form-grid {
+        grid-template-columns: max-content max-content;
+    }
+
+    form.rstm-form-grid > label {
+        grid-column: 1;
+    }
+
+    form.rstm-form-grid > input,
+    form.rstm-form-grid > textarea,
+    form.rstm-form-grid > select,
+    form.rstm-form-grid > button,
+    form.rstm-form-grid > span {
+        grid-column: 2;
+    }
+}
+
+/* ****** Form: Input, Textarea, Select ****** */
+
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="time"],
+textarea,
+select {
+    width: 16rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.3rem 0.6rem;
+    color: var(--text-color);
+    background-color: var(--text-bgcolor); /* for select */
+    font-family: var(--font);
+    font-size: 13px;
+}
+
+input[type="date"],
+input[type="time"] {
+    width: 8rem;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--focus-border-color);
+    box-shadow: 0 0 0 3px var(--focus-shadow-color);
+    outline: none;
+}
+
+input[type="checkbox"],
+input[type="radio"],
+input[type="range"] {
+    accent-color: var(--button-color);
+}
+
+/* File inputs are notoriously hard to style. Hide input and style label as outlined button. */
+/* Clicking the label triggers the hidden file input when their for and id are matching. */
+input[type="file"] {
+    display: none;
+}
+
+/* ****** Form or Link: Button ****** */
+
+button,
+a.rstm-button {
+    display: inline-block;
+    border: 1px solid var(--button-color);
+    border-radius: 8px;
+    padding: 0.25rem 0.7rem;
+    color: var(--text-bgcolor);
+    background-color: var(--button-color);
+    font-size: 13px;
+    cursor: pointer;
+    line-height: 1.5;
+    text-decoration: none;
+    align-self: start;   /* don't stretch vertically */
+    justify-self: start; /* don't stretch horizontally */
+}
+
+button:hover,
+a.rstm-button:hover {
+    border-color: var(--button-hover-color);
+    background-color: var(--button-hover-color);
+}
+
+a.rstm-button-outline,
+button.rstm-button-outline,
+label.rstm-button-outline {
+    display: inline-block;
+    border: 1px solid var(--button-outline-color);
+    border-radius: 8px;
+    padding: 0.25rem 0.7rem;
+    color: var(--text-color);
+    background-color: transparent;
+    font-size: 13px;
+    line-height: 1.5;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a.rstm-button-outline:hover,
+button.rstm-button-outline:hover,
+label.rstm-button-outline:hover {
+    background-color: var(--hover-bgcolor);
+}
+
+/* ****** Link: Inputgroup ****** */
+
+.rstm-inputgroup {
+    display: flex;
+    padding: 0;
+}
+
+.rstm-inputgroup > a,
+.rstm-inputgroup > span,
+.rstm-inputgroup > input {
+    display: inline-block;
+    margin-right: -1px;
+    border: 1px solid var(--button-outline-color);
+    border-radius: 0;
+    padding: 0.28rem 0.7rem;
+    color: var(--text-color);
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.rstm-inputgroup > :first-child {
+    border-radius: 8px 0 0 8px;
+}
+
+.rstm-inputgroup > :last-child {
+    border-radius: 0 8px 8px 0;
+}
+
+.rstm-inputgroup > :hover {
+    background-color: var(--hover-bgcolor);
+}
+
+/* ****** Icon, Avatar ****** */
+
+a.rstm-icon {
+    display: inline-flex; /* TODO */
+    line-height: 0;
+    text-decoration: none;
+}
+
+a.rstm-icon img {
+    height: 70px;
+}
+
+a.rstm-icon:hover {
+    background-color: var(--hover-bgcolor);
+}
+
+img.rstm-avatar {
+    display: block;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+/* ****** Alert ****** */
+
+.rstm-alert-error,
+.rstm-alert-warning,
+.rstm-alert-info,
+.rstm-alert-debug {
+    margin-bottom: 1rem;
+    border: 1px solid;
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+}
+
+.rstm-alert-error {
+    color: #58151c;
+    border-color: #f1aeb5;
+    background-color: #f8d7da;
+}
+
+.rstm-alert-warning {
+    color: #664d03;
+    border-color: #ffecb5;
+    background-color: #fff3cd;
+}
+
+.rstm-alert-info {
+    color: #0a3622;
+    border-color: #a3cfbb;
+    background-color: #d1e7dd;
+}
+
+.rstm-alert-debug {
+    color: #41464b;
+    border-color: #d3d6d8;
+    background-color: #e2e3e5;
+}
+
 /* ****** Chart (chart.js) ****** */
 
-.my-chart {
+.rstm-chart {
     display: block;
     margin-bottom: 1.25rem;
     max-width: 100%;
@@ -330,67 +444,9 @@ table tbody tr:hover {
 
 /* ****** Map (leaflet.js) ****** */
 
-.my-map {
+.rstm-map {
     margin-bottom: 1.25rem;
     border-radius: 6px;
     border: 1px solid var(--border-color);
     aspect-ratio: 1 / 1;
-}
-
-/* ****** Alerts ****** */
-
-.my-alert-error,
-.my-alert-warning,
-.my-alert-info,
-.my-alert-debug {
-    margin-bottom: 1rem;
-    border: 1px solid;
-    border-radius: 6px;
-    padding: 0.75rem 1rem;
-}
-
-.my-alert-error {
-    color: #58151c;
-    border-color: #f1aeb5;
-    background-color: #f8d7da;
-}
-
-.my-alert-warning {
-    color: #664d03;
-    border-color: #ffecb5;
-    background-color: #fff3cd;
-}
-
-.my-alert-info {
-    color: #0a3622;
-    border-color: #a3cfbb;
-    background-color: #d1e7dd;
-}
-
-.my-alert-debug {
-    color: #41464b;
-    border-color: #d3d6d8;
-    background-color: #e2e3e5;
-}
-
-/* ****** Special stuff ****** */
-
-a.my-logo {
-    display: inline-flex;
-    line-height: 0;
-    text-decoration: none;
-}
-
-a.my-logo img {
-    height: 70px;
-}
-
-a.my-logo:hover {
-    background-color: var(--hover-bgcolor);
-}
-
-img.my-avatar {
-    display: block;
-    border-radius: 6px;
-    margin-bottom: 1rem;
 }

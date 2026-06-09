@@ -6,144 +6,127 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Fitbit Viewer - Activities</title>
   <link rel="icon" href="{basePath}/favicon.ico">
-  <link rel="stylesheet" href="{basePath}/styles.css">
+  <link rel="stylesheet" href="{basePath}/rstm.css">
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   {#include header.qute.html /}
-  <div class="my-app-layout">
-    {#let activePage="activities"}{#include nav.qute.html /}{/let}
-    <main>
-      <h2>Activities</h2>
-      {#if model.errorMessage}
-      <div class="my-alert-error">{model.errorMessage}</div>
-      {/if}
-      <div class="my-inputgroup">
-        <div>
-          <a href="?dateBeg={model.dateRange.prevBeg}&dateEnd={model.dateRange.prevEnd}&datePeriod={model.dateRange.period}">&#8592;</a>
-        </div>
-        <div>
-          <a href="?dateBeg={model.dateRange.curDay}&dateEnd={model.dateRange.curDay}&datePeriod=DAY">Day</a>
-        </div>
-        <div>
-          <a href="?dateBeg={model.dateRange.curWeekBeg}&dateEnd={model.dateRange.curWeekEnd}&datePeriod=WEEK">Week</a>
-        </div>
-        <div>
-          <a href="?dateBeg={model.dateRange.curMonthBeg}&dateEnd={model.dateRange.curMonthEnd}&datePeriod=MONTH">Month</a>
-        </div>
-        <div>
-          <a href="?dateBeg={model.dateRange.curYearBeg}&dateEnd={model.dateRange.curYearEnd}&datePeriod=YEAR">Year</a>
-        </div>
-        <div>
-          <a href="?dateBeg={model.dateRange.nextBeg}&dateEnd={model.dateRange.nextEnd}&datePeriod={model.dateRange.period}">&#8594;</a>
-        </div>
-      </div>
-      <form method="get" action="">
-        <div>
-          <label>From</label>
-          <input type="date" name="dateBeg" value="{model.dateRange.beg}">
-        </div>
-        <div>
-          <label>To</label>
-          <input type="date" name="dateEnd" value="{model.dateRange.end}">
-        </div>
-        <div>
-          <label>Label</label>
-          <select name="label">
-            <option value="" {#if !model.label}selected{/if}>(all)</option>
-            <option value="(none)" {#if model.label == "(none)"}selected{/if}>(none)</option>
-            {#for l in model.allLabels}
-            <option value="{l}" {#if model.label == l}selected{/if}>{l}</option>
-            {/for}
-          </select>
-        </div>
-        <label>Options</label>
-        <div>
-          <input type="checkbox" name="excludeAuto" id="excludeAuto" value="true" {#if model.excludeAuto}checked{/if}>
-          <label for="excludeAuto">Exclude auto detected</label>
-        </div>
-        <div>
-          <input type="checkbox" name="excludeLowCal" id="excludeLowCal" value="true" {#if model.excludeLowCal}checked{/if}>
-          <label for="excludeLowCal">Exclude low calories</label>
-        </div>
-        <div>
-          <input type="checkbox" name="refresh" id="refresh" value="true">
-          <label for="refresh">Refresh</label>
-        </div>
-        <button type="submit">Query</button>
-      </form>
-      {#if model.activities}
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Activity</th>
-            <th>Duration</th>
-            <th>Calories</th>
-            <th>Steps</th>
-            <th>Distance<br>(km)</th>
-            <th>Pace<br>(min/km)</th>
-            <th>Heart Rate<br>(avg. bpm)</th>
-            <th>Type</th>
-          </tr>
-        </thead>
-        <tbody>
-          {#for activity in model.activities}
-          <tr>
-            <td>{activity.begDateTime.format('yyyy-MM-dd')}</td>
-            <td>{activity.begDateTime.format('HH:mm')} - {activity.endDateTime.format('HH:mm')}</td>
-            <td><a href="activities/{activity.logId}">{activity.activityName}</a></td>
-            <td>{activity.durationMinutes.formatDuration}</td>
-            <td>{activity.calories}</td>
-            <td>{activity.steps}</td>
-            <td>{#if activity.distance}{activity.distance.format('0.00')}{/if}</td>
-            <td>{#if activity.pace}{activity.pace.formatPace}{/if}</td>
-            <td>{activity.averageHeartRate}</td>
-            <td>{activity.logType}</td>
-          </tr>
-          {/for}
-        </tbody>
-      </table>
-      {/if}
-      {#if model.activities != null}
-      <p>{model.activities.size} result(s)</p>
-      {/if}
-      {#if model.activities && model.label && model.label != "(none)" }
-      <h2>Duration</h2>
-      <canvas id="activitiesChart" class="my-chart"></canvas>
-      <script>
-        var chart = {model.activitiesChart.formatJson(8)};
-        new Chart(document.getElementById('activitiesChart'), chart);
-      </script>
-      <h2>Steps</h2>
-      <canvas id="activitiesStepsChart" class="my-chart"></canvas>
-      <script>
-        var chart = {model.activitiesStepsChart.formatJson(8)};
-        new Chart(document.getElementById('activitiesStepsChart'), chart);
-      </script>
-      <h2>Distance</h2>
-      <canvas id="activitiesDistanceChart" class="my-chart"></canvas>
-      <script>
-        var chart = {model.activitiesDistanceChart.formatJson(8)};
-        new Chart(document.getElementById('activitiesDistanceChart'), chart);
-      </script>
-      <h2>Pace</h2>
-      <canvas id="activitiesPaceChart" class="my-chart"></canvas>
-      <script>
-        var chart = {model.activitiesPaceChart.formatJson(8)};
-        new Chart(document.getElementById('activitiesPaceChart'), chart);
-      </script>
-      <h2>Heart Rate</h2>
-      <canvas id="activitiesHeartRateChart" class="my-chart"></canvas>
-      <script>
-        var chart = {model.activitiesHeartRateChart.formatJson(8)};
-        new Chart(document.getElementById('activitiesHeartRateChart'), chart);
-      </script>
-      {/if}
-    </main>
-  </div>
+  {#let activePage="activities"}{#include nav.qute.html /}{/let}
+  <main>
+    <h2>Activities</h2>
+    {#if model.errorMessage}
+    <div class="rstm-alert-error">{model.errorMessage}</div>
+    {/if}
+    <form method="get" action="" class="rstm-form-grid">
+      <label>Quick Navigation</label>
+      <span class="rstm-inputgroup">
+        <a href="?dateBeg={model.dateRange.prevBeg}&dateEnd={model.dateRange.prevEnd}&datePeriod={model.dateRange.period}">&#8592;</a>
+        <a href="?dateBeg={model.dateRange.curDay}&dateEnd={model.dateRange.curDay}&datePeriod=DAY">Day</a>
+        <a href="?dateBeg={model.dateRange.curWeekBeg}&dateEnd={model.dateRange.curWeekEnd}&datePeriod=WEEK">Week</a>
+        <a href="?dateBeg={model.dateRange.curMonthBeg}&dateEnd={model.dateRange.curMonthEnd}&datePeriod=MONTH">Month</a>
+        <a href="?dateBeg={model.dateRange.curYearBeg}&dateEnd={model.dateRange.curYearEnd}&datePeriod=YEAR">Year</a>
+        <a href="?dateBeg={model.dateRange.nextBeg}&dateEnd={model.dateRange.nextEnd}&datePeriod={model.dateRange.period}">&#8594;</a>
+      </span>
+      <label>Date</label>
+      <span class="rstm-inputgroup">
+        <input type="date" name="dateBeg" value="{model.dateRange.beg}">
+        <span>-</span>
+        <input type="date" name="dateEnd" value="{model.dateRange.end}">
+      </span>
+      <label>Label</label>
+      <select name="label">
+        <option value="" {#if !model.label}selected{/if}>(all)</option>
+        <option value="(none)" {#if model.label == "(none)"}selected{/if}>(none)</option>
+        {#for l in model.allLabels}
+        <option value="{l}" {#if model.label == l}selected{/if}>{l}</option>
+        {/for}
+      </select>
+      <label>Options</label>
+      <span>
+        <input type="checkbox" name="excludeAuto" id="excludeAuto" value="true" {#if model.excludeAuto}checked{/if}>
+        <label for="excludeAuto">Exclude auto detected</label>
+      </span>
+      <span>
+        <input type="checkbox" name="excludeLowCal" id="excludeLowCal" value="true" {#if model.excludeLowCal}checked{/if}>
+        <label for="excludeLowCal">Exclude low calories</label>
+      </span>
+      <span>
+        <input type="checkbox" name="refresh" id="refresh" value="true">
+        <label for="refresh">Refresh</label>
+      </span>
+      <button type="submit">Query</button>
+    </form>
+    {#if model.activities}
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Activity</th>
+          <th>Duration</th>
+          <th>Calories</th>
+          <th>Steps</th>
+          <th>Distance<br>(km)</th>
+          <th>Pace<br>(min/km)</th>
+          <th>Heart Rate<br>(avg. bpm)</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        {#for activity in model.activities}
+        <tr>
+          <td>{activity.begDateTime.format('yyyy-MM-dd')}</td>
+          <td>{activity.begDateTime.format('HH:mm')} - {activity.endDateTime.format('HH:mm')}</td>
+          <td><a href="activities/{activity.logId}">{activity.activityName}</a></td>
+          <td>{activity.durationMinutes.formatDuration}</td>
+          <td>{activity.calories}</td>
+          <td>{activity.steps}</td>
+          <td>{#if activity.distance}{activity.distance.format('0.00')}{/if}</td>
+          <td>{#if activity.pace}{activity.pace.formatPace}{/if}</td>
+          <td>{activity.averageHeartRate}</td>
+          <td>{activity.logType}</td>
+        </tr>
+        {/for}
+      </tbody>
+    </table>
+    {/if}
+    {#if model.activities != null}
+    <p>{model.activities.size} result(s)</p>
+    {/if}
+    {#if model.activities && model.label && model.label != "(none)" }
+    <h2>Duration</h2>
+    <canvas id="activitiesChart" class="rstm-chart"></canvas>
+    <script>
+      var chart = {model.activitiesChart.formatJson(8)};
+      new Chart(document.getElementById('activitiesChart'), chart);
+    </script>
+    <h2>Steps</h2>
+    <canvas id="activitiesStepsChart" class="rstm-chart"></canvas>
+    <script>
+      var chart = {model.activitiesStepsChart.formatJson(8)};
+      new Chart(document.getElementById('activitiesStepsChart'), chart);
+    </script>
+    <h2>Distance</h2>
+    <canvas id="activitiesDistanceChart" class="rstm-chart"></canvas>
+    <script>
+      var chart = {model.activitiesDistanceChart.formatJson(8)};
+      new Chart(document.getElementById('activitiesDistanceChart'), chart);
+    </script>
+    <h2>Pace</h2>
+    <canvas id="activitiesPaceChart" class="rstm-chart"></canvas>
+    <script>
+      var chart = {model.activitiesPaceChart.formatJson(8)};
+      new Chart(document.getElementById('activitiesPaceChart'), chart);
+    </script>
+    <h2>Heart Rate</h2>
+    <canvas id="activitiesHeartRateChart" class="rstm-chart"></canvas>
+    <script>
+      var chart = {model.activitiesHeartRateChart.formatJson(8)};
+      new Chart(document.getElementById('activitiesHeartRateChart'), chart);
+    </script>
+    {/if}
+  </main>
   <footer>
     Generated: {model.now.format('yyyy-MM-dd HH:mm:ss')}
   </footer>

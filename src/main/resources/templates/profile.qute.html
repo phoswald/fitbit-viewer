@@ -6,73 +6,71 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Fitbit Viewer - Profile</title>
   <link rel="icon" href="{basePath}/favicon.ico">
-  <link rel="stylesheet" href="{basePath}/styles.css">
+  <link rel="stylesheet" href="{basePath}/rstm.css">
 </head>
 <body>
   {#include header.qute.html /}
-  <div class="my-app-layout">
-    {#let activePage="profile"}{#include nav.qute.html /}{/let}
-    <main>
-      <h2>Profile</h2>
-      {#if model.errorMessage}
-      <div class="my-alert-error">{model.errorMessage}</div>
-      {/if}
-      {#if model.profile}
-      <p>
-        <a href="profile?refresh=true" class="my-button-outline">Refresh</a>
-      </p>
-      <img src="{model.profile.avatarUrl}" alt="Avatar" width="64" height="64" class="my-avatar">
-      <table>
-        <tbody>
-          <tr>
-            <th>Name</th>
-            <td><strong>{model.profile.displayName}</strong> ({model.profile.fullName})</td>
-          </tr>
-          <tr>
-            <th>Date of Birth</th>
-            <td>{model.profile.dateOfBirth}</td>
-          </tr>
-          <tr>
-            <th>Age</th>
-            <td>{model.profile.age}</td>
-          </tr>
-          <tr>
-            <th>Gender</th>
-            <td>{model.profile.gender}</td>
-          </tr>
-          <tr>
-            <th>Member since</th>
-            <td>{model.profile.memberSince}</td>
-          </tr>
-          <tr>
-            <th>Height</th>
-            <td>{#if model.profile.height}{model.profile.height} cm{/if}</td>
-          </tr>
-          <tr>
-            <th>Weight</th>
-            <td>{#if model.profile.weight}{model.profile.weight} kg{/if}</td>
-          </tr>
-          <tr>
-            <th>Stride Length Walking</th>
-            <td>{#if model.profile.strideLengthWalking}{model.profile.strideLengthWalking} cm{/if}</td>
-          </tr>
-          <tr>
-            <th>Stride Length Running</th>
-            <td>{#if model.profile.strideLengthRunning}{model.profile.strideLengthRunning} cm{/if}</td>
-          </tr>
-          <tr>
-            <th>Steps</th>
-            <td>{#if model.profile.averageDailySteps}{model.profile.averageDailySteps} (daily average){/if}</td>
-          </tr>
-          <tr>
-            <th>User ID</th>
-            <td>{model.profile.userId}</td>
-          </tr>
-        </tbody>
-      </table>
-      {/if}
-    </main>
-  </div>
+  {#let activePage="profile"}{#include nav.qute.html /}{/let}
+  <main>
+    <h2>Profile</h2>
+    {#if model.errorMessage}
+    <div class="rstm-alert-error">{model.errorMessage}</div>
+    {/if}
+    {#if model.profile}
+    <p>
+      <a href="profile?refresh=true" class="rstm-button-outline">Refresh</a>
+    </p>
+    <img src="{model.profile.avatarUrl}" alt="Avatar" width="64" height="64" class="rstm-avatar">
+    <table>
+      <tbody>
+        <tr>
+          <th>Name</th>
+          <td><strong>{model.profile.displayName}</strong> ({model.profile.fullName})</td>
+        </tr>
+        <tr>
+          <th>Date of Birth</th>
+          <td>{model.profile.dateOfBirth}</td>
+        </tr>
+        <tr>
+          <th>Age</th>
+          <td>{model.profile.age}</td>
+        </tr>
+        <tr>
+          <th>Gender</th>
+          <td>{model.profile.gender}</td>
+        </tr>
+        <tr>
+          <th>Member since</th>
+          <td>{model.profile.memberSince}</td>
+        </tr>
+        <tr>
+          <th>Height</th>
+          <td>{#if model.profile.height}{model.profile.height} cm{/if}</td>
+        </tr>
+        <tr>
+          <th>Weight</th>
+          <td>{#if model.profile.weight}{model.profile.weight} kg{/if}</td>
+        </tr>
+        <tr>
+          <th>Stride Length Walking</th>
+          <td>{#if model.profile.strideLengthWalking}{model.profile.strideLengthWalking} cm{/if}</td>
+        </tr>
+        <tr>
+          <th>Stride Length Running</th>
+          <td>{#if model.profile.strideLengthRunning}{model.profile.strideLengthRunning} cm{/if}</td>
+        </tr>
+        <tr>
+          <th>Steps</th>
+          <td>{#if model.profile.averageDailySteps}{model.profile.averageDailySteps} (daily average){/if}</td>
+        </tr>
+        <tr>
+          <th>User ID</th>
+          <td>{model.profile.userId}</td>
+        </tr>
+      </tbody>
+    </table>
+    {/if}
+  </main>
   <footer>
     Generated: {model.now.format('yyyy-MM-dd HH:mm:ss')}
   </footer>

@@ -6,54 +6,52 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Fitbit Viewer - Labels</title>
   <link rel="icon" href="{basePath}/favicon.ico">
-  <link rel="stylesheet" href="{basePath}/styles.css">
+  <link rel="stylesheet" href="{basePath}/rstm.css">
 </head>
 <body>
   {#include header.qute.html /}
-  <div class="my-app-layout">
-    {#let activePage="labels"}{#include nav.qute.html /}{/let}
-    <main>
-      <h2>Labels</h2>
-      {#if model.errorMessage}
-      <div class="my-alert-error">{model.errorMessage}</div>
-      {/if}
-      {#if model.labels}
-      <table>
-        <thead>
-          <tr>
-            <th>Label</th>
-            <th>#</th>
-            <th>Date</th>
-            <th>Duration</th>
-            <!--<th>Calories</th>-->
-            <!--<th>Steps</th>-->
-            <th>Distance<br>(km)</th>
-            <th>Pace<br>(min/km)</th>
-            <th>Heart Rate<br>(avg. bpm)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {#for summary in model.labels}
-          <tr>
-            <td><a href="activities?label={summary.label.urlEncode}&dateBeg={summary.dateMin}&dateEnd={summary.dateMax}">{summary.label}</a></td>
-            <td>{summary.count}</td>
-            <td>{summary.dateMin} - {summary.dateMax}</td>
-            <td>{#if summary.durationMinutesMin and summary.durationMinutesMax}{summary.durationMinutesMin.formatDuration} - {summary.durationMinutesMax.formatDuration}{/if}</td>
-            <!--<td>{summary.caloriesMin} - {summary.caloriesMax}</td>-->
-            <!--<td>{summary.stepsMin} - {summary.stepsMax}</td>-->
-            <td>{#if summary.distanceMin and summary.distanceMax}{summary.distanceMin.format('0.00')} - {summary.distanceMax.format('0.00')}{/if}</td>
-            <td>{#if summary.paceMin and summary.paceMax}{summary.paceMin.formatPace} - {summary.paceMax.formatPace}{/if}</td>
-            <td>{summary.heartRateMin} - {summary.heartRateMax}</td>
-          </tr>
-          {/for}
-        </tbody>
-      </table>
-      {/if}
-      {#if model.labels != null}
-      <p>{model.labels.size} label(s)</p>
-      {/if}
-    </main>
-  </div>
+  {#let activePage="labels"}{#include nav.qute.html /}{/let}
+  <main>
+    <h2>Labels</h2>
+    {#if model.errorMessage}
+    <div class="rstm-alert-error">{model.errorMessage}</div>
+    {/if}
+    {#if model.labels}
+    <table>
+      <thead>
+        <tr>
+          <th>Label</th>
+          <th>#</th>
+          <th>Date</th>
+          <th>Duration</th>
+          <!--<th>Calories</th>-->
+          <!--<th>Steps</th>-->
+          <th>Distance<br>(km)</th>
+          <th>Pace<br>(min/km)</th>
+          <th>Heart Rate<br>(avg. bpm)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {#for summary in model.labels}
+        <tr>
+          <td><a href="activities?label={summary.label.urlEncode}&dateBeg={summary.dateMin}&dateEnd={summary.dateMax}">{summary.label}</a></td>
+          <td>{summary.count}</td>
+          <td>{summary.dateMin} - {summary.dateMax}</td>
+          <td>{#if summary.durationMinutesMin and summary.durationMinutesMax}{summary.durationMinutesMin.formatDuration} - {summary.durationMinutesMax.formatDuration}{/if}</td>
+          <!--<td>{summary.caloriesMin} - {summary.caloriesMax}</td>-->
+          <!--<td>{summary.stepsMin} - {summary.stepsMax}</td>-->
+          <td>{#if summary.distanceMin and summary.distanceMax}{summary.distanceMin.format('0.00')} - {summary.distanceMax.format('0.00')}{/if}</td>
+          <td>{#if summary.paceMin and summary.paceMax}{summary.paceMin.formatPace} - {summary.paceMax.formatPace}{/if}</td>
+          <td>{summary.heartRateMin} - {summary.heartRateMax}</td>
+        </tr>
+        {/for}
+      </tbody>
+    </table>
+    {/if}
+    {#if model.labels != null}
+    <p>{model.labels.size} label(s)</p>
+    {/if}
+  </main>
   <footer>
     Generated: {model.now.format('yyyy-MM-dd HH:mm:ss')}
   </footer>

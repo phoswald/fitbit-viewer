@@ -6,50 +6,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Fitbit Viewer</title>
   <link rel="icon" href="{basePath}/favicon.ico">
-  <link rel="stylesheet" href="{basePath}/styles.css">
+  <link rel="stylesheet" href="{basePath}/rstm.css">
 </head>
 <body>
   {#include header.qute.html /}
-  <div class="my-app-layout">
-    {#let activePage="home"}{#include nav.qute.html /}{/let}
-    <main>
-      <h1>Fitbit Viewer</h1>
-      <p>Powered by:</p>
-      <p>
-        <a href="https://www.fitbit.com" target="_blank" rel="noopener noreferrer" class="my-logo">
-          <img src="{basePath}/images/fitbit-logo.svg" title="FitBit" alt="FitBit">
-        </a>
-        <a href="https://quarkus.io" target="_blank" rel="noopener noreferrer" class="my-logo">
-          <img src="{basePath}/images/quarkus-logo.svg" title="Quarkus" alt="Quarkus">
-        </a>
-        <a href="https://dev.java/" target="_blank" rel="noopener noreferrer" class="my-logo">
-          <img src="{basePath}/images/java-logo.svg" title="Java" alt="Java">
-        </a>
-        <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener noreferrer" class="my-logo">
-          <img src="{basePath}/images/openstreetmap-logo.svg" title="OpenStreetMap" alt="OpenStreetMap">
-        </a>
-        <a href="https://leafletjs.com/" target="_blank" rel="noopener noreferrer" class="my-logo">
-          <img src="{basePath}/images/leafletjs-logo.png" title="Leaflet" alt="Leaflet">
-        </a>
-        <a href="https://www.docker.com" target="_blank" rel="noopener noreferrer" class="my-logo">
-          <img src="{basePath}/images/docker-logo.svg" title="Docker" alt="Docker">
-        </a>
-        <a href="https://www.linux.org" target="_blank" rel="noopener noreferrer" class="my-logo">
-          <img src="{basePath}/images/linux-logo.svg" title="Linux" alt="Linux">
-        </a>
-        <a href="https://code.phoswald.ch/philip/fitbit-viewer" target="_blank" rel="noopener noreferrer"
-           class="my-logo">
-          <img src="{basePath}/images/forgejo-logo.svg" title="Forgejo" alt="Forgejo">
-        </a>
-        <a href="https://github.com/phoswald/fitbit-viewer" target="_blank" rel="noopener noreferrer" class="my-logo">
-          <img src="{basePath}/images/github-logo.svg" title="GitHub" alt="GitHub">
-        </a>
-        <a href="https://claude.ai/" target="_blank" rel="noopener noreferrer" class="my-logo">
-          <img src="{basePath}/images/claude-logo.svg" title="Claude" alt="Claude">
-        </a>
-      </p>
-    </main>
-  </div>
+  {#let activePage="home"}{#include nav.qute.html /}{/let}
+  <main>
+    <h1>Fitbit Viewer</h1>
+    <p>Powered by:</p>
+    <p>
+      <a href="https://www.fitbit.com" target="_blank" rel="noopener noreferrer" class="rstm-icon">
+        <img src="{basePath}/images/fitbit-logo.svg" title="FitBit" alt="FitBit">
+      </a>
+      <a href="https://quarkus.io" target="_blank" rel="noopener noreferrer" class="rstm-icon">
+        <img src="{basePath}/images/quarkus-logo.svg" title="Quarkus" alt="Quarkus">
+      </a>
+      <a href="https://dev.java/" target="_blank" rel="noopener noreferrer" class="rstm-icon">
+        <img src="{basePath}/images/java-logo.svg" title="Java" alt="Java">
+      </a>
+      <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener noreferrer" class="rstm-icon">
+        <img src="{basePath}/images/openstreetmap-logo.svg" title="OpenStreetMap" alt="OpenStreetMap">
+      </a>
+      <a href="https://leafletjs.com/" target="_blank" rel="noopener noreferrer" class="rstm-icon">
+        <img src="{basePath}/images/leafletjs-logo.png" title="Leaflet" alt="Leaflet">
+      </a>
+      <a href="https://www.docker.com" target="_blank" rel="noopener noreferrer" class="rstm-icon">
+        <img src="{basePath}/images/docker-logo.svg" title="Docker" alt="Docker">
+      </a>
+      <a href="https://www.linux.org" target="_blank" rel="noopener noreferrer" class="rstm-icon">
+        <img src="{basePath}/images/linux-logo.svg" title="Linux" alt="Linux">
+      </a>
+      <a href="https://code.phoswald.ch/philip/fitbit-viewer" target="_blank" rel="noopener noreferrer"
+         class="rstm-icon">
+        <img src="{basePath}/images/forgejo-logo.svg" title="Forgejo" alt="Forgejo">
+      </a>
+      <a href="https://github.com/phoswald/fitbit-viewer" target="_blank" rel="noopener noreferrer" class="rstm-icon">
+        <img src="{basePath}/images/github-logo.svg" title="GitHub" alt="GitHub">
+      </a>
+      <a href="https://claude.ai/" target="_blank" rel="noopener noreferrer" class="rstm-icon">
+        <img src="{basePath}/images/claude-logo.svg" title="Claude" alt="Claude">
+      </a>
+    </p>
+  </main>
   <footer>
     Generated: {model.now.format('yyyy-MM-dd HH:mm:ss')}
   </footer>
