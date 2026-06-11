@@ -16,8 +16,10 @@ jobs:
       - run: mkdir -p ~/.m2 &&  echo "${{ secrets.M2_SETTINGS }}" > ~/.m2/settings.xml
       - run: |
           GIT_BRANCH="${{ forgejo.ref_name }}"
-          MAVEN_CHANGELIST=-$(date "+%Y%m%d-%H%M")
-          if [ "${GIT_BRANCH}" != "master" ]; then
-            MAVEN_CHANGELIST="${MAVEN_CHANGELIST}"-$(echo "${GIT_BRANCH}" | sed 's/[^a-zA-Z0-9._-]/-/g')
+          if [[ "${GIT_BRANCH}" == "master" || "${GIT_BRANCH}" == release/* ]]; then
+            MAVEN_CHANGELIST=""
+          else
+            MAVEN_CHANGELIST="-$(echo "${GIT_BRANCH}" | sed 's/[^a-zA-Z0-9._-]/-/g')"
           fi
-          mvn -B clean deploy -P docker -Dchangelist="${MAVEN_CHANGELIST}" 
+          # if desired, prepend "-$(date "+%Y%m%d-%H%M")"
+          mvn -B clean deploy -P docker -Dchangelist="${MAVEN_CHANGELIST}"
