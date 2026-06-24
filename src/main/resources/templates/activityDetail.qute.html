@@ -222,8 +222,7 @@
       <thead>
         <tr>
           <th>Lap</th>
-          <th>Start<br>(km)</th>
-          <th>End<br>(km)</th>
+          <th>Distance<br>(km)</th>
           <th>Time</th>
           <th>Pace<br>(min/km)</th>
         </tr>
@@ -232,9 +231,8 @@
         {#for lap in model.laps}
         <tr>
           <td>{lap.number}</td>
-          <td>{#if lap.startKm}{lap.startKm.format('0.00')}{/if}</td>
-          <td>{#if lap.endKm}{lap.endKm.format('0.00')}{/if}</td>
-          <td>{#if lap.timeMinutes}{lap.timeMinutes.formatDuration}{/if}</td>
+          <td>{#if lap.distance}{lap.distance.format('0.00')}{/if}</td>
+          <td>{#if lap.durationMinutes}{lap.durationMinutes.formatDuration}{/if}</td>
           <td>{#if lap.pace}{lap.pace.formatPace}{/if}</td>
         </tr>
         {/for}

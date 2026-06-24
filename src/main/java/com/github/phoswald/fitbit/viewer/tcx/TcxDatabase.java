@@ -1,9 +1,9 @@
 package com.github.phoswald.fitbit.viewer.tcx;
 
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.divideBy;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.github.phoswald.fitbit.viewer.ValueHelpers;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -53,12 +53,12 @@ public class TcxDatabase {
                 .flatMap(activity -> activity.getLaps().stream())
                 .toList();
         var result = new ArrayList<GeoLap>();
-        Double cumulative = 0.0;
         int number = 1;
         for (var lap : laps) {
-            Double end = ValueHelpers.add(cumulative, lap.getDistanceMeters());
-            result.add(new GeoLap(number++, cumulative, end, lap.getTotalTimeSeconds()));
-            cumulative = end;
+            Double distance = divideBy(lap.getDistanceMeters(), 1000);
+            Double durationMinutes = divideBy(lap.getTotalTimeSeconds(), 60);
+            Double pace = divideBy(lap.getTotalTimeSeconds(), distance);
+            result.add(new GeoLap(number++, distance, durationMinutes, pace));
         }
         return result;
     }
