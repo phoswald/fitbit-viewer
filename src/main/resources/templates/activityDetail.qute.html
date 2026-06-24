@@ -11,6 +11,8 @@
   <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   {#include header.qute.html /}
@@ -208,6 +210,36 @@
       var polyline = L.polyline(mapData.polyLineCoords, mapData.polyLineOptions).addTo(map);
       map.fitBounds(polyline.getBounds());
     </script>
+    {/if}
+    {#if model.laps}
+    <h3>Laps</h3>
+    <canvas id="lapsPaceChart" class="rstm-chart"></canvas>
+    <script>
+      var lapsChart = {model.lapsChart.formatJson(8)};
+      new Chart(document.getElementById('lapsPaceChart'), lapsChart);
+    </script>
+    <table>
+      <thead>
+        <tr>
+          <th>Lap</th>
+          <th>Start<br>(km)</th>
+          <th>End<br>(km)</th>
+          <th>Time</th>
+          <th>Pace<br>(min/km)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {#for lap in model.laps}
+        <tr>
+          <td>{lap.number}</td>
+          <td>{#if lap.startKm}{lap.startKm.format('0.00')}{/if}</td>
+          <td>{#if lap.endKm}{lap.endKm.format('0.00')}{/if}</td>
+          <td>{#if lap.timeMinutes}{lap.timeMinutes.formatDuration}{/if}</td>
+          <td>{#if lap.pace}{lap.pace.formatPace}{/if}</td>
+        </tr>
+        {/for}
+      </tbody>
+    </table>
     {/if}
   </main>
   <footer>

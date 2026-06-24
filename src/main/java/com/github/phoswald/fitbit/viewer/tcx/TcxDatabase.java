@@ -1,6 +1,9 @@
 package com.github.phoswald.fitbit.viewer.tcx;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.github.phoswald.fitbit.viewer.ValueHelpers;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -39,5 +42,24 @@ public class TcxDatabase {
                 .filter(trackpoint -> trackpoint.getPosition() != null && trackpoint.getPosition().getLatitudeDegrees() != null && trackpoint.getPosition().getLongitudeDegrees() != null)
                 .map(trackpoint -> new GeoPoint(trackpoint.getPosition().getLatitudeDegrees(), trackpoint.getPosition().getLongitudeDegrees()))
                 .toList();
+    }
+
+    public List<GeoLap> collectGeoLaps() {
+        if (activities == null) {
+            return List.of();
+        }
+        var laps = activities.stream()
+                .filter(activity -> activity.getLaps() != null)
+                .flatMap(activity -> activity.getLaps().stream())
+                .toList();
+        var result = new ArrayList<GeoLap>();
+        Double cumulative = 0.0;
+        int number = 1;
+        for (var lap : laps) {
+            Double end = ValueHelpers.add(cumulative, lap.getDistanceMeters());
+            result.add(new GeoLap(number++, cumulative, end, lap.getTotalTimeSeconds()));
+            cumulative = end;
+        }
+        return result;
     }
 }

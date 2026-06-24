@@ -46,8 +46,28 @@ public class ValueHelpers {
         }
     }
 
+    public static Double add(Double value1, Double value2) {
+        if (value1 != null || value2 != null) {
+            return (value1 == null ? 0 : value1.doubleValue()) + (value2 == null ? 0 : value2.doubleValue());
+        } else {
+            return null;
+        }
+    }
+
+    public static Double subtract(Double value1, Double value2) {
+        return value1 == null || value2 == null ? null : value1 - value2;
+    }
+
+    public static Double divide(Double value, Double divisor) {
+        return value == null || divisor == null || divisor == 0 ? null : value / divisor;
+    }
+
     public static Double divideBy(Long value, int divisor) {
         return value == null ? null : value.doubleValue() / divisor;
+    }
+
+    public static Double divideBy(Double value, int divisor) {
+        return value == null ? null : value / divisor;
     }
 
     public static <T> Function<T, Double> divideBy(Function<T, Double> function, int divisor) {
