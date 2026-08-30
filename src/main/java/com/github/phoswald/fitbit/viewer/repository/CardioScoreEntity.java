@@ -25,8 +25,9 @@ import com.github.phoswald.fitbit.viewer.fitbitapi.CardioScoreApiClient;
 @IdClass(CardioScoreEntity.CardioScoreId.class)
 public class CardioScoreEntity {
 
-    private static final Pattern PATTERN_RANGE = Pattern.compile("([0-9]+)-([0-9]+)");
-    private static final Pattern PATTERN_SINGLE = Pattern.compile("[0-9]+(\\.[0-9]+)?");
+    private static final String NUMBER = "[0-9]+(?:\\.[0-9]+)?";
+    private static final Pattern PATTERN_RANGE = Pattern.compile("(" + NUMBER + ")-(" + NUMBER + ")");
+    private static final Pattern PATTERN_SINGLE = Pattern.compile(NUMBER);
 
     @Id
     @Column(name = "user_id_", length = 32, nullable = false)

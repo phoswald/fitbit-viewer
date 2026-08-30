@@ -60,7 +60,7 @@
         <tr>
           <td>{entry.date}</td>
           <td>{#if entry.scoreMin and entry.scoreMax}{entry.scoreMin.format('0.#')} - {entry.scoreMax.format('0.#')}{/if}</td>
-          <td>{#if entry.scoreEstimated}{entry.scoreEstimated.format('0.0')}{/if}</td>
+          <td>{#if entry.scoreEstimated}{entry.scoreEstimated.format('0.#')}{/if}</td>
         </tr>
         {/for}
       </tbody>
