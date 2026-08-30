@@ -48,7 +48,8 @@ create table fitbit_cardioscore_ (
     user_id_                varchar(32) not null,
     date_                   date not null,
     score_min_              integer null,
-    score_max_              integer null
+    score_max_              integer null,
+    score_estimated_        double precision null
 );
 
 alter table fitbit_cardioscore_

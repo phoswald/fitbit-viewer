@@ -50,8 +50,9 @@ public record CardioScoreViewModel(
                 .data(new ChartDataBuilder()
                         .labels(Chart.createLabels(cardioScores, CardioScoreEntity::getDate))
                         .datasets(List.of(
-                                Chart.createDataset("Score (Min)", cardioScores, CardioScoreEntity::getScoreMin),
-                                Chart.createDataset("Score (Max)", cardioScores, CardioScoreEntity::getScoreMax)))
+                                Chart.createDataset("Score (min)", cardioScores, CardioScoreEntity::getScoreMin),
+                                Chart.createDataset("Score (max)", cardioScores, CardioScoreEntity::getScoreMax),
+                                Chart.createDataset("Score (estimated)", cardioScores, CardioScoreEntity::getScoreEstimated)))
                         .build())
                 .options(new ChartOptionsBuilder()
                         .scales(new ChartOptionsScalesBuilder()

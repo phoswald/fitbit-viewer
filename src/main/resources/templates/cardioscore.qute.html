@@ -51,14 +51,16 @@
       <thead>
         <tr>
           <th>Date</th>
-          <th>Score</th>
+          <th>Score (min, max)</th>
+          <th>Score (estimated)</th>
         </tr>
       </thead>
       <tbody>
         {#for entry in model.cardioScores}
         <tr>
           <td>{entry.date}</td>
-          <td>{entry.scoreMin} - {entry.scoreMax}</td>
+          <td>{#if entry.scoreMin and entry.scoreMax}{entry.scoreMin} - {entry.scoreMax}{/if}</td>
+          <td>{#if entry.scoreEstimated}{entry.scoreEstimated.format('0.0')}{/if}</td>
         </tr>
         {/for}
       </tbody>

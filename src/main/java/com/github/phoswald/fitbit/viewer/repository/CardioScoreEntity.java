@@ -42,6 +42,9 @@ public class CardioScoreEntity {
     @Column(name = "score_max_")
     private Integer scoreMax;
 
+    @Column(name = "score_estimated_")
+    private Double scoreEstimated;
+
     public static CardioScoreEntity create(String userId, CardioScoreApiClient.CardioScoreEntry entry) {
         CardioScoreEntity entity = new CardioScoreEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
@@ -52,9 +55,7 @@ public class CardioScoreEntity {
             entity.setScoreMin(Integer.parseInt(rangeMatcher.group(1)));
             entity.setScoreMax(Integer.parseInt(rangeMatcher.group(2)));
         } else if(PATTERN_SINGLE.matcher(vo2Max).matches()) {
-            int score = (int) Math.round(Double.parseDouble(vo2Max));
-            entity.setScoreMin(score);
-            entity.setScoreMax(score);
+            entity.setScoreEstimated(Double.parseDouble(vo2Max));
         }
         return entity;
     }
@@ -89,6 +90,14 @@ public class CardioScoreEntity {
 
     public void setScoreMax(Integer scoreMax) {
         this.scoreMax = scoreMax;
+    }
+
+    public Double getScoreEstimated() {
+        return scoreEstimated;
+    }
+
+    public void setScoreEstimated(Double scoreEstimated) {
+        this.scoreEstimated = scoreEstimated;
     }
 
     public record CardioScoreId(String userId, LocalDate date) implements java.io.Serializable { }
