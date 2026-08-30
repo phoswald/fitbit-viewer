@@ -26,6 +26,7 @@ import com.github.phoswald.fitbit.viewer.fitbitapi.CardioScoreApiClient;
 public class CardioScoreEntity {
 
     private static final Pattern PATTERN_RANGE = Pattern.compile("([0-9]+)-([0-9]+)");
+    private static final Pattern PATTERN_SINGLE = Pattern.compile("[0-9]+(\\.[0-9]+)?");
 
     @Id
     @Column(name = "user_id_", length = 32, nullable = false)
@@ -45,10 +46,15 @@ public class CardioScoreEntity {
         CardioScoreEntity entity = new CardioScoreEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
         entity.setDate(parseDate(requireNonNull(entry.dateTime(), "date")));
-        Matcher matcher = PATTERN_RANGE.matcher(entry.value() == null ? "" : entry.value().vo2Max());
-        if(matcher.matches()) {
-            entity.setScoreMin(Integer.parseInt(matcher.group(1)));
-            entity.setScoreMax(Integer.parseInt(matcher.group(2)));
+        String vo2Max = entry.value() == null || entry.value().vo2Max() == null ? "" : entry.value().vo2Max();
+        Matcher rangeMatcher = PATTERN_RANGE.matcher(vo2Max);
+        if(rangeMatcher.matches()) {
+            entity.setScoreMin(Integer.parseInt(rangeMatcher.group(1)));
+            entity.setScoreMax(Integer.parseInt(rangeMatcher.group(2)));
+        } else if(PATTERN_SINGLE.matcher(vo2Max).matches()) {
+            int score = (int) Math.round(Double.parseDouble(vo2Max));
+            entity.setScoreMin(score);
+            entity.setScoreMax(score);
         }
         return entity;
     }
