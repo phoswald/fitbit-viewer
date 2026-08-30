@@ -37,10 +37,10 @@ public class CardioScoreEntity {
     private LocalDate date;
 
     @Column(name = "score_min_")
-    private Integer scoreMin;
+    private Double scoreMin;
 
     @Column(name = "score_max_")
-    private Integer scoreMax;
+    private Double scoreMax;
 
     @Column(name = "score_estimated_")
     private Double scoreEstimated;
@@ -52,8 +52,8 @@ public class CardioScoreEntity {
         String vo2Max = entry.value() == null || entry.value().vo2Max() == null ? "" : entry.value().vo2Max();
         Matcher rangeMatcher = PATTERN_RANGE.matcher(vo2Max);
         if(rangeMatcher.matches()) {
-            entity.setScoreMin(Integer.parseInt(rangeMatcher.group(1)));
-            entity.setScoreMax(Integer.parseInt(rangeMatcher.group(2)));
+            entity.setScoreMin(Double.parseDouble(rangeMatcher.group(1)));
+            entity.setScoreMax(Double.parseDouble(rangeMatcher.group(2)));
         } else if(PATTERN_SINGLE.matcher(vo2Max).matches()) {
             entity.setScoreEstimated(Double.parseDouble(vo2Max));
         }
@@ -76,19 +76,19 @@ public class CardioScoreEntity {
         this.date = date;
     }
 
-    public Integer getScoreMin() {
+    public Double getScoreMin() {
         return scoreMin;
     }
 
-    public void setScoreMin(Integer scoreMin) {
+    public void setScoreMin(Double scoreMin) {
         this.scoreMin = scoreMin;
     }
 
-    public Integer getScoreMax() {
+    public Double getScoreMax() {
         return scoreMax;
     }
 
-    public void setScoreMax(Integer scoreMax) {
+    public void setScoreMax(Double scoreMax) {
         this.scoreMax = scoreMax;
     }
 
