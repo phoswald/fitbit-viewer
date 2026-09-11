@@ -133,10 +133,6 @@ public class SleepEntity {
         this.minutesAwake = minutesAwake;
     }
 
-    public Integer getMinutesTotal() {
-        return add(add(add(minutesDeep, minutesLight), minutesRem), minutesWake);
-    }
-
     public Integer getMinutesDeep() {
         return minutesDeep;
     }
@@ -167,6 +163,14 @@ public class SleepEntity {
 
     public void setMinutesWake(Integer minutesWake) {
         this.minutesWake = minutesWake;
+    }
+
+    public Integer getMinutesTotal() {
+        return add(add(add(minutesDeep, minutesLight), minutesRem), minutesWake);
+    }
+
+    public Integer getMinutesSleep() {
+        return add(add(minutesDeep, minutesLight), minutesRem);
     }
 
     public record SleepId(String userId, LocalDate date) implements Serializable { }
