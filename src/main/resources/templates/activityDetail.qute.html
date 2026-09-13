@@ -132,7 +132,7 @@
     {#if !model.editLabels}
     <ul>
       {#for label in model.labels}
-      <li>{label}</li>
+      <li><a href="../activities?label={label.urlEncode}">{label}</a></li>
       {/for}
     </ul>
     <a href="{model.logId}?editLabels=true" class="rstm-button-outline">Edit Labels</a>
@@ -146,7 +146,7 @@
               <datalist id="allLabels">
                 {#for label in model.allLabels}
                 <option value="{label}">
-                  {/for}
+                {/for}
               </datalist>
             </td>
             <td>

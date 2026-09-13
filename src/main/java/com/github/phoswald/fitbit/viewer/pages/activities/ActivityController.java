@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -60,7 +61,9 @@ public class ActivityController extends DateRangeController {
     @Produces(MediaType.TEXT_HTML)
     @Transactional
     public TemplateInstance getActivitiesPage() {
-        normalizeDateRange();
+        if(!isQueryByLabelOnly()) {
+            normalizeDateRange();
+        }
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
             return activities.data("model", createActivityViewModel(session.get()));
@@ -71,47 +74,54 @@ public class ActivityController extends DateRangeController {
 
     private ActivityViewModel createActivityViewModel(SessionData session) {
         try {
-            log.info("Querying: dateBeg={}, dateEnd={}, datePeriod={}", dateBeg, dateEnd, datePeriod);
-            var activities = activityRepository.loadByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
-                    .collect(toLinkedHashMap(ActivityEntity::getLogId));
-            var days = activityRepository.loadDaysByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
-                    .collect(toSortedMap(ActivityDayEntity::getDate));
-            if(!refresh && isComplete(days)) {
-                log.debug("Found {} entities for {} days", activities.size(), days.size());
+            log.info("Querying: dateBeg={}, dateEnd={}, datePeriod={}, label={}", dateBeg, dateEnd, datePeriod, label);
+            Map<Long, ActivityEntity> activities;
+            if(isQueryByLabelOnly()) {
+                activities = activityRepository.loadByUserIdAndLabel(session.userId(), label).stream()
+                        .collect(toLinkedHashMap(ActivityEntity::getLogId));
+                log.debug("Found {} entities for label={}", activities.size(), label);
             } else {
-                var oldActivities = activities;
-                activities = new LinkedHashMap<>();
-                LocalDate currentDateBeg = dateBeg;
-                while (!currentDateBeg.isAfter(dateEnd)) {
-                    log.debug("Querying (current): dateBeg={}, limit={}", currentDateBeg, PAGE_SIZE);
-                    var response = activityClient.getActivities(
-                            "Bearer " + session.accessToken(),
-                            currentDateBeg.toString(),
-                            null, "asc",
-                            PAGE_SIZE, 0);
-                    var entitiesNew = response.activities().stream()
-                            .map(entry -> ActivityEntity.create(
-                                    session.userId(), entry, getLabels(oldActivities, entry.logId())))
-                            .filter(e -> !e.getDate().isAfter(dateEnd))
-                            .toList();
-                    log.debug("Found: {}", entitiesNew.size());
-                    if (addAll(activities, entitiesNew) == 0) {
-                        break;
+                activities = activityRepository.loadByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
+                        .collect(toLinkedHashMap(ActivityEntity::getLogId));
+                var days = activityRepository.loadDaysByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
+                        .collect(toSortedMap(ActivityDayEntity::getDate));
+                if(!refresh && isComplete(days)) {
+                    log.debug("Found {} entities for {} days", activities.size(), days.size());
+                } else {
+                    var oldActivities = activities;
+                    activities = new LinkedHashMap<>();
+                    LocalDate currentDateBeg = dateBeg;
+                    while (!currentDateBeg.isAfter(dateEnd)) {
+                        log.debug("Querying (current): dateBeg={}, limit={}", currentDateBeg, PAGE_SIZE);
+                        var response = activityClient.getActivities(
+                                "Bearer " + session.accessToken(),
+                                currentDateBeg.toString(),
+                                null, "asc",
+                                PAGE_SIZE, 0);
+                        var entitiesNew = response.activities().stream()
+                                .map(entry -> ActivityEntity.create(
+                                        session.userId(), entry, getLabels(oldActivities, entry.logId())))
+                                .filter(e -> !e.getDate().isAfter(dateEnd))
+                                .toList();
+                        log.debug("Found: {}", entitiesNew.size());
+                        if (addAll(activities, entitiesNew) == 0) {
+                            break;
+                        }
+                        currentDateBeg = entitiesNew.getLast().getDate();
+                        if (response.activities().size() < PAGE_SIZE) {
+                            break;
+                        }
                     }
-                    currentDateBeg = entitiesNew.getLast().getDate();
-                    if (response.activities().size() < PAGE_SIZE) {
-                        break;
+                    for(LocalDate date = dateBeg; !date.isAfter(dateEnd); date = date.plusDays(1)) {
+                        if(!days.containsKey(date)) {
+                            log.debug("Filling gap: {}", date);
+                            days.put(date, ActivityDayEntity.create(session.userId(), date));
+                        }
                     }
+                    log.info("Storing {} entities for {} days", activities.size(), days.size());
+                    activityRepository.storeAll(activities.values());
+                    activityRepository.storeAllDays(days.values());
                 }
-                for(LocalDate date = dateBeg; !date.isAfter(dateEnd); date = date.plusDays(1)) {
-                    if(!days.containsKey(date)) {
-                        log.debug("Filling gap: {}", date);
-                        days.put(date, ActivityDayEntity.create(session.userId(), date));
-                    }
-                }
-                log.info("Storing {} entities for {} days", activities.size(), days.size());
-                activityRepository.storeAll(activities.values());
-                activityRepository.storeAllDays(days.values());
             }
             var allLabels = activityRepository.loadLabelsByUserId(session.userId());
             return ActivityViewModel.create(createDateRangeViewModel(), label, excludeAuto, excludeLowCal, activities.values(), allLabels, session.userId());
@@ -119,6 +129,12 @@ public class ActivityController extends DateRangeController {
             log.warn("Failed", e);
             return ActivityViewModel.createError(e.getMessage());
         }
+    }
+
+    private boolean isQueryByLabelOnly() {
+        return dateBeg == null && dateEnd == null
+                && label != null && !Objects.equals(label, "(none)")
+                && !refresh;
     }
 
     private static int addAll(Map<Long, ActivityEntity> activities, List<ActivityEntity> activitiesNew) {

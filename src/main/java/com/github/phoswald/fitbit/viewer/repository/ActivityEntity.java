@@ -35,6 +35,10 @@ import com.github.phoswald.fitbit.viewer.fitbitapi.ActivityApiClient;
         query = "SELECT a FROM ActivityEntity a LEFT JOIN FETCH a.labels WHERE a.userId = :userId AND a.date >= :dateBeg AND a.date <= :dateEnd ORDER BY a.date"
 )
 @NamedQuery(
+        name = "ActivityEntity.loadByUserIdAndLabel",
+        query = "SELECT a FROM ActivityEntity a LEFT JOIN FETCH a.labels WHERE a.userId = :userId AND :label MEMBER OF a.labels ORDER BY a.date"
+)
+@NamedQuery(
         name = "ActivityEntity.loadAllLabels",
         query = "SELECT DISTINCT label FROM ActivityEntity a JOIN a.labels label WHERE a.userId = :userId ORDER BY label"
 )

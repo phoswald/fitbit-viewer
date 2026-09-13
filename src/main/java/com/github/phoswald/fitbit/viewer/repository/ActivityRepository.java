@@ -23,6 +23,13 @@ public class ActivityRepository {
                 .getResultList();
     }
 
+    public List<ActivityEntity> loadByUserIdAndLabel(String userId, String label) {
+        return em.createNamedQuery("ActivityEntity.loadByUserIdAndLabel", ActivityEntity.class)
+                .setParameter("userId", userId)
+                .setParameter("label", label)
+                .getResultList();
+    }
+
     public Optional<ActivityEntity> loadByUserIdAndLogId(String userId, long logId) {
         // TODO: why are other solutions not working (lazy init, fetch mode SUBSELECT)?
         em.createQuery("SELECT a FROM ActivityEntity a LEFT JOIN FETCH a.activityLevels WHERE a.userId = :userId AND a.logId = :logId")
