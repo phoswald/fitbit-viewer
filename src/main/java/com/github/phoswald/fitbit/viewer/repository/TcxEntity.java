@@ -23,7 +23,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.xml.bind.JAXB;
 
@@ -31,10 +30,10 @@ import com.github.phoswald.fitbit.viewer.tcx.TcxDatabase;
 
 @Entity
 @Table(name = "fitbit_tcx_")
-@NamedQuery(
-        name = "TcxEntity.loadUpgradeRequiredByUserId",
-        query = "SELECT t FROM TcxEntity t WHERE t.userId = :userId AND t.tcxXmlGz IS NULL AND t.tcxXml IS NOT NULL"
-)
+//@NamedQuery(
+//        name = "TcxEntity.loadUpgradeRequiredByUserId",
+//        query = "SELECT t FROM TcxEntity t WHERE t.userId = :userId AND t.tcxXmlGz IS NULL AND t.tcxXml IS NOT NULL"
+//)
 @IdClass(TcxEntity.TcxId.class)
 public class TcxEntity {
 
@@ -46,8 +45,8 @@ public class TcxEntity {
     @Column(name = "log_id_", nullable = false)
     private long logId;
 
-    @Column(name = "tcx_xml_" /*, nullable = false */)
-    private String tcxXml;
+//    @Column(name = "tcx_xml_" /*, nullable = false */)
+//    private String tcxXml;
 
     @Column(name = "tcx_xml_gz_" /*, nullable = false */)
     private byte[] tcxXmlGz;
@@ -136,29 +135,40 @@ public class TcxEntity {
     }
 
     public String getTcxXml() {
-        if(tcxXmlGz != null) {
-            return uncompress(tcxXmlGz);
-        } else {
-            return tcxXml;
-        }
+        return uncompress(tcxXmlGz);
     }
+
+//    public String getTcxXml() {
+//        if(tcxXmlGz != null) {
+//            return uncompress(tcxXmlGz);
+//        } else {
+//            return tcxXml;
+//        }
+//    }
 
     public void setTcxXml(String tcxXml) {
         this.tcxDatabase = null;
-        this.tcxXml = tcxXml;
+//        this.tcxXml = tcxXml;
         this.tcxXmlGz = compress(tcxXml);
     }
 
     public Optional<TcxDatabase> getTcxDatabase() {
-        if(tcxDatabase == null) {
-            if(tcxXmlGz != null) {
-                tcxDatabase = JAXB.unmarshal(new StringReader(uncompress(tcxXmlGz)), TcxDatabase.class);
-            } else if(tcxXml != null){
-                tcxDatabase = JAXB.unmarshal(new StringReader(tcxXml), TcxDatabase.class);
-            }
+        if(tcxDatabase == null && tcxXmlGz != null) {
+            tcxDatabase = JAXB.unmarshal(new StringReader(uncompress(tcxXmlGz)), TcxDatabase.class);
         }
         return Optional.ofNullable(tcxDatabase);
     }
+
+//    public Optional<TcxDatabase> getTcxDatabase() {
+//        if(tcxDatabase == null) {
+//            if(tcxXmlGz != null) {
+//                tcxDatabase = JAXB.unmarshal(new StringReader(uncompress(tcxXmlGz)), TcxDatabase.class);
+//            } else if(tcxXml != null){
+//                tcxDatabase = JAXB.unmarshal(new StringReader(tcxXml), TcxDatabase.class);
+//            }
+//        }
+//        return Optional.ofNullable(tcxDatabase);
+//    }
 
     private static byte[] compress(String text) {
         if(text == null) {

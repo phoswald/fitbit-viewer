@@ -170,7 +170,7 @@ alter table fitbit_activity_label_
 create table fitbit_tcx_ (
     user_id_                varchar(32) not null,
     log_id_                 bigint not null,
-    tcx_xml_                varchar null,
+--  tcx_xml_                varchar null,
     tcx_xml_gz_             bytea null,
     date_                   date null,
     beg_date_time_          timestamptz null,
