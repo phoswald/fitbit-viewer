@@ -13,6 +13,7 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 </head>
 <body>
   {#include header.qute.html /}
@@ -239,6 +240,14 @@
         {/for}
       </tbody>
     </table>
+    {/if}
+    {#if model.altitudes}
+    <h3>Altitude</h3>
+    <canvas id="altitudesChart" class="rstm-chart"></canvas>
+    <script>
+      var altitudesChart = {model.altitudesChart.formatJson(8)};
+      new Chart(document.getElementById('altitudesChart'), altitudesChart);
+    </script>
     {/if}
   </main>
   <footer>

@@ -7,6 +7,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 import com.github.phoswald.fitbit.viewer.repository.ActivityEntity;
+import com.github.phoswald.fitbit.viewer.tcx.GeoAltitude;
 import com.github.phoswald.fitbit.viewer.tcx.GeoLap;
 import com.github.phoswald.fitbit.viewer.tcx.GeoPoint;
 import com.github.phoswald.fitbit.viewer.widgets.Chart;
@@ -27,13 +28,14 @@ public record ActivityDetailViewModel(
         List<String> allLabels,
         List<GeoPoint> track,
         List<GeoLap> laps,
+        List<GeoAltitude> altitudes,
         boolean editLabels,
         String userId,
         String errorMessage,
         ZonedDateTime now
 ) {
 
-    static ActivityDetailViewModel create(Long logId, ActivityEntity activity, List<String> allLabels, List<GeoPoint> track, List<GeoLap> laps, boolean editLabels, String userId) {
+    static ActivityDetailViewModel create(Long logId, ActivityEntity activity, List<String> allLabels, List<GeoPoint> track, List<GeoLap> laps, List<GeoAltitude> altitudes, boolean editLabels, String userId) {
         return new ActivityDetailViewModelBuilder()
                 .logId(logId)
                 .activity(activity)
@@ -41,6 +43,7 @@ public record ActivityDetailViewModel(
                 .allLabels(allLabels)
                 .track(track)
                 .laps(laps)
+                .altitudes(altitudes)
                 .editLabels(editLabels)
                 .userId(userId)
                 .now(ZonedDateTime.now())
@@ -70,6 +73,20 @@ public record ActivityDetailViewModel(
                                 .y(new ChartOptionsAxisBuilder()
                                         .beginAtZero(true)
                                         .build())
+                                .build())
+                        .build())
+                .build();
+    }
+
+    public Chart altitudesChart() {
+        return new ChartBuilder()
+                .type("line")
+                .data(new ChartDataBuilder()
+                        .datasets(List.of(Chart.createDatasetOfPoints("Altitude (m)", 0, altitudes, GeoAltitude::toVector)))
+                        .build())
+                .options(new ChartOptionsBuilder()
+                        .scales(new ChartOptionsScalesBuilder()
+                                .x(Chart.createTimeAxis())
                                 .build())
                         .build())
                 .build();

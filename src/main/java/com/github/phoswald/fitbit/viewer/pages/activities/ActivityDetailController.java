@@ -31,6 +31,7 @@ import com.github.phoswald.fitbit.viewer.pages.BaseController;
 import com.github.phoswald.fitbit.viewer.repository.ActivityRepository;
 import com.github.phoswald.fitbit.viewer.repository.TcxEntity;
 import com.github.phoswald.fitbit.viewer.repository.TcxRepository;
+import com.github.phoswald.fitbit.viewer.tcx.GeoAltitude;
 import com.github.phoswald.fitbit.viewer.tcx.GeoLap;
 import com.github.phoswald.fitbit.viewer.tcx.GeoPoint;
 import com.github.phoswald.fitbit.viewer.tcx.TcxDatabase;
@@ -99,14 +100,17 @@ public class ActivityDetailController extends BaseController {
                     .flatMap(TcxEntity::getTcxDatabase)
                     .map(TcxDatabase::collectGeoPoints)
                     .orElse(List.of());
-            log.debug("Found TCX track with {} points", track.size());
             List<GeoLap> laps = tcxEntity
                     .flatMap(TcxEntity::getTcxDatabase)
                     .map(TcxDatabase::collectGeoLaps)
                     .orElse(List.of());
-            log.debug("Found TCX track with {} laps", laps.size());
+            List<GeoAltitude> altitudes = tcxEntity
+                    .flatMap(TcxEntity::getTcxDatabase)
+                    .map(TcxDatabase::collectGeoAltitudes)
+                    .orElse(List.of());
+            log.debug("Found TCX track with {} points, {} laps, {} altitudes", track.size(), laps.size(), altitudes.size());
             List<String> allLabels = activityRepository.loadLabelsByUserId(session.userId());
-            return ActivityDetailViewModel.create(logId, entity.get(), allLabels, track, laps, editLabels, session.userId());
+            return ActivityDetailViewModel.create(logId, entity.get(), allLabels, track, laps, altitudes, editLabels, session.userId());
         } catch (Exception e) {
             log.warn("Failed", e);
             return ActivityDetailViewModel.createError(e.getMessage());

@@ -50,9 +50,9 @@ public record ActiveZoneMinutesViewModel(
                 .data(new ChartDataBuilder()
                         .labels(Chart.createLabels(azms, ActiveZoneMinutesEntity::getDate))
                         .datasets(List.of(
-                                Chart.createDataset("Fat Burn", "azm", azms, ActiveZoneMinutesEntity::getFatBurnAzm),
-                                Chart.createDataset("Cardio", "azm", azms, ActiveZoneMinutesEntity::getCardioAzm),
-                                Chart.createDataset("Peak", "azm", azms, ActiveZoneMinutesEntity::getPeakAzm)))
+                                Chart.createDatasetStacked("Fat Burn", "azm", azms, ActiveZoneMinutesEntity::getFatBurnAzm),
+                                Chart.createDatasetStacked("Cardio", "azm", azms, ActiveZoneMinutesEntity::getCardioAzm),
+                                Chart.createDatasetStacked("Peak", "azm", azms, ActiveZoneMinutesEntity::getPeakAzm)))
                         .build())
                 .options(new ChartOptionsBuilder()
                         .scales(new ChartOptionsScalesBuilder()

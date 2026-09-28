@@ -62,4 +62,11 @@ public class TcxDatabase {
         }
         return result;
     }
+
+    public List<GeoAltitude> collectGeoAltitudes() {
+        return collectTrackPoints().stream()
+                .filter(trackpoint -> trackpoint.getAltitudeMeters() != null)
+                .map(trackpoint -> new GeoAltitude(trackpoint.getTime(), trackpoint.getAltitudeMeters()))
+                .toList();
+    }
 }

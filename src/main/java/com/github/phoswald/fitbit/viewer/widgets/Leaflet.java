@@ -8,11 +8,11 @@ import com.github.phoswald.record.builder.RecordBuilder;
 public record Leaflet(
         String titleLayerUrlTemplate,
         LeafletTitleLayerOptions titleLayerOptions,
-        List<Double[]> polyLineCoords,
+        List<double[]> polyLineCoords,
         LeafletPolyLineOptions polyLineOptions
 ) {
 
-    public static Leaflet createWithPolyLine(List<Double[]> polyLineCoords) {
+    public static Leaflet createWithPolyLine(List<double[]> polyLineCoords) {
         return new LeafletBuilder()
                 .titleLayerUrlTemplate("https://tile.openstreetmap.org/{z}/{x}/{y}.png")
                 .titleLayerOptions(new LeafletTitleLayerOptionsBuilder()
