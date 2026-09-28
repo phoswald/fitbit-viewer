@@ -4,17 +4,26 @@ import static com.github.phoswald.fitbit.viewer.ValueHelpers.dateOf;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.max;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.min;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.minutesBetween;
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.round;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.StringReader;
+import java.io.UncheckedIOException;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Optional;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.xml.bind.JAXB;
 
@@ -22,6 +31,10 @@ import com.github.phoswald.fitbit.viewer.tcx.TcxDatabase;
 
 @Entity
 @Table(name = "fitbit_tcx_")
+@NamedQuery(
+        name = "TcxEntity.loadUpgradeRequiredByUserId",
+        query = "SELECT t FROM TcxEntity t WHERE t.userId = :userId AND t.tcxXmlGz IS NULL AND t.tcxXml IS NOT NULL"
+)
 @IdClass(TcxEntity.TcxId.class)
 public class TcxEntity {
 
@@ -33,8 +46,11 @@ public class TcxEntity {
     @Column(name = "log_id_", nullable = false)
     private long logId;
 
-    @Column(name = "tcx_xml_", nullable = false)
+    @Column(name = "tcx_xml_" /*, nullable = false */)
     private String tcxXml;
+
+    @Column(name = "tcx_xml_gz_" /*, nullable = false */)
+    private byte[] tcxXmlGz;
 
     private transient TcxDatabase tcxDatabase;
 
@@ -66,10 +82,10 @@ public class TcxEntity {
     private Double longitudeMax;
 
     @Column(name = "altitude_min_")
-    private Double altitudeMin;
+    private Integer altitudeMin;
 
     @Column(name = "altitude_max_")
-    private Double altitudeMax;
+    private Integer altitudeMax;
 
     @Column(name = "heart_rate_max_")
     private Integer heartRateMax;
@@ -83,15 +99,15 @@ public class TcxEntity {
         if(tcxDatabase != null) {
             for(var tp : tcxDatabase.collectTrackPoints()) {
                 entity.setBegDateTime(min(entity.getBegDateTime(), tp.getTime()));
-                entity.setEndDateTime(max(entity.getBegDateTime(), tp.getTime()));
+                entity.setEndDateTime(max(entity.getEndDateTime(), tp.getTime())); // was wrong
                 if(tp.getPosition() != null) {
                     entity.setLatitudeMin(min(entity.getLatitudeMin(), tp.getPosition().getLatitudeDegrees()));
                     entity.setLatitudeMax(max(entity.getLatitudeMax(), tp.getPosition().getLatitudeDegrees()));
                     entity.setLongitudeMin(min(entity.getLongitudeMin(), tp.getPosition().getLongitudeDegrees()));
                     entity.setLongitudeMax(max(entity.getLongitudeMax(), tp.getPosition().getLongitudeDegrees()));
                 }
-                entity.setAltitudeMin(min(entity.getAltitudeMin(), tp.getAltitudeMeters()));
-                entity.setAltitudeMax(max(entity.getAltitudeMin(), tp.getAltitudeMeters()));
+                entity.setAltitudeMin(min(entity.getAltitudeMin(), round(tp.getAltitudeMeters())));
+                entity.setAltitudeMax(max(entity.getAltitudeMax(), round(tp.getAltitudeMeters()))); // was wrong
                 entity.setDistance(max(entity.getDistance(), tp.getDistanceMeters())); // use max() because because last point is 0.0
                 if(tp.getHeartRateBpm() != null) {
                     entity.setHeartRateMax(max(entity.getHeartRateMax(), tp.getHeartRateBpm().getValue()));
@@ -120,19 +136,52 @@ public class TcxEntity {
     }
 
     public String getTcxXml() {
-        return tcxXml;
+        if(tcxXmlGz != null) {
+            return uncompress(tcxXmlGz);
+        } else {
+            return tcxXml;
+        }
     }
 
     public void setTcxXml(String tcxXml) {
-        this.tcxXml = tcxXml;
         this.tcxDatabase = null;
+        this.tcxXml = tcxXml;
+        this.tcxXmlGz = compress(tcxXml);
     }
 
     public Optional<TcxDatabase> getTcxDatabase() {
-        if(tcxDatabase == null && tcxXml != null) {
-            tcxDatabase = JAXB.unmarshal(new StringReader(tcxXml), TcxDatabase.class);
+        if(tcxDatabase == null) {
+            if(tcxXmlGz != null) {
+                tcxDatabase = JAXB.unmarshal(new StringReader(uncompress(tcxXmlGz)), TcxDatabase.class);
+            } else if(tcxXml != null){
+                tcxDatabase = JAXB.unmarshal(new StringReader(tcxXml), TcxDatabase.class);
+            }
         }
         return Optional.ofNullable(tcxDatabase);
+    }
+
+    private static byte[] compress(String text) {
+        if(text == null) {
+            return null;
+        }
+        var buffer = new ByteArrayOutputStream();
+        try (var stream = new GZIPOutputStream(buffer)) {
+            stream.write(text.getBytes(UTF_8));
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+        return buffer.toByteArray();
+    }
+
+    private static String uncompress(byte[] binary) {
+        if(binary == null) {
+            return null;
+        }
+        try (var stream = new GZIPInputStream(new ByteArrayInputStream(binary))) {
+            return new String(stream.readAllBytes(), UTF_8);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
     public LocalDate getDate() {
@@ -207,19 +256,19 @@ public class TcxEntity {
         this.longitudeMax = longitudeMax;
     }
 
-    public Double getAltitudeMin() {
+    public Integer getAltitudeMin() {
         return altitudeMin;
     }
 
-    public void setAltitudeMin(Double altitudeMin) {
+    public void setAltitudeMin(Integer altitudeMin) {
         this.altitudeMin = altitudeMin;
     }
 
-    public Double getAltitudeMax() {
+    public Integer getAltitudeMax() {
         return altitudeMax;
     }
 
-    public void setAltitudeMax(Double altitudeMax) {
+    public void setAltitudeMax(Integer altitudeMax) {
         this.altitudeMax = altitudeMax;
     }
 

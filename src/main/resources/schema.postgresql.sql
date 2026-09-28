@@ -171,6 +171,7 @@ create table fitbit_tcx_ (
     user_id_                varchar(32) not null,
     log_id_                 bigint not null,
     tcx_xml_                varchar null,
+    tcx_xml_gz_             bytea null,
     date_                   date null,
     beg_date_time_          timestamptz null,
     end_date_time_          timestamptz null,
@@ -180,8 +181,8 @@ create table fitbit_tcx_ (
     latitude_max_           double precision null,
     longitude_min_          double precision null,
     longitude_max_          double precision null,
-    altitude_min_           double precision null,
-    altitude_max_           double precision null,
+    altitude_min_           integer null,
+    altitude_max_           integer null,
     heart_rate_max_         integer null
 );
 

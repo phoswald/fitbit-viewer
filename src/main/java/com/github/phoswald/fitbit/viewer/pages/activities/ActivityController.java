@@ -11,10 +11,12 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
@@ -26,6 +28,8 @@ import com.github.phoswald.fitbit.viewer.pages.DateRangeController;
 import com.github.phoswald.fitbit.viewer.repository.ActivityDayEntity;
 import com.github.phoswald.fitbit.viewer.repository.ActivityEntity;
 import com.github.phoswald.fitbit.viewer.repository.ActivityRepository;
+import com.github.phoswald.fitbit.viewer.repository.TcxEntity;
+import com.github.phoswald.fitbit.viewer.repository.TcxRepository;
 
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
@@ -47,6 +51,9 @@ public class ActivityController extends DateRangeController {
 
     @Inject
     private ActivityRepository activityRepository;
+
+    @Inject
+    private TcxRepository tcxRepository;
 
     @QueryParam("excludeAuto")
     private boolean excludeAuto;
@@ -153,6 +160,27 @@ public class ActivityController extends DateRangeController {
             return activity.getLabels();
         } else {
             return Collections.emptyList();
+        }
+    }
+
+    @POST
+    @Path("/upgrade")
+    @Transactional
+    public Response upgrade() {
+        var session = sessionManager.parseAndVerifyCookie(sessionCookie);
+        if (session.isPresent()) {
+            List<TcxEntity> entities = tcxRepository.loadUpgradeRequiredByUserId(session.get().userId(), 10);
+            for(TcxEntity entity : entities) {
+                log.info("Processing userId={}, logId={}", entity.getUserId(), entity.getLogId());
+                tcxRepository.store(TcxEntity.create(entity.getUserId(), entity.getLogId(), entity.getTcxXml()));
+            }
+            if(entities.isEmpty()) {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            } else {
+                return Response.ok().build();
+            }
+        } else {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
         }
     }
 }

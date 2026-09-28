@@ -49,10 +49,10 @@ public class ActivityDetailController extends BaseController {
     private ActivityApiClient activityApiClient;
 
     @Inject
-    private TcxRepository tcxRepository;
+    private ActivityRepository activityRepository;
 
     @Inject
-    private ActivityRepository activityRepository;
+    private TcxRepository tcxRepository;
 
     @PathParam("logId")
     private Long logId;

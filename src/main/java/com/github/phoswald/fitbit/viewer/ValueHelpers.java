@@ -65,6 +65,14 @@ public class ValueHelpers {
         };
     }
 
+    public static Integer min(Integer value1, Integer value2) {
+        if (value1 != null && value2 != null) {
+            return Math.min(value1, value2);
+        } else {
+            return value1 != null ? value1 : value2;
+        }
+    }
+
     public static Integer max(Integer value1, Integer value2) {
         if (value1 != null && value2 != null) {
             return Math.max(value1, value2);
@@ -111,6 +119,10 @@ public class ValueHelpers {
         } else {
             return value1 != null ? value1 : value2;
         }
+    }
+
+    public static Integer round(Double value) {
+        return value == null ? null : (int) Math.round(value);
     }
 
     public static Integer maskZero(Integer value) {
