@@ -22,6 +22,7 @@
     <p>
       <a href="../activities?begDate={model.date}" class="rstm-button-outline">&larr; Back to Activities</a>
       <a href="{model.logId}?refreshTcx=true" class="rstm-button-outline">Refresh TCX</a>
+      <a href="{model.logId}/tcx" class="rstm-button-outline" target="_blank">Download TCX</a>
     </p>
     {#if model.errorMessage}
     <div class="rstm-alert-error">{model.errorMessage}</div>

@@ -137,4 +137,27 @@ public class ActivityDetailController extends BaseController {
                 .distinct()
                 .toList();
     }
+
+    @GET
+    @Path("/tcx")
+    @Produces(MediaType.TEXT_XML)
+    @Transactional
+    public Response getTcx() {
+        var session = sessionManager.parseAndVerifyCookie(sessionCookie);
+        if (session.isPresent()) {
+            var tcxEntity = tcxRepository.load(session.get().userId(), logId);
+            if(tcxEntity.isPresent()) {
+                var tcxXml = tcxEntity.get().getTcxXml();
+                var tcxFile = "tcx-" + tcxEntity.get().getLogId() + ".xml";
+                return Response
+                        .ok(tcxXml, MediaType.APPLICATION_XML)
+                        .header("Content-Disposition", "attachment; filename=\"" + tcxFile + "\"")
+                        .build();
+            } else {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+        } else {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+    }
 }
