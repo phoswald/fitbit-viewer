@@ -11,6 +11,8 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+import com.github.phoswald.fitbit.viewer.TimedValue;
+
 @XmlRootElement(name = "TrainingCenterDatabase", namespace = TcxDatabase.NS)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TcxDatabase {
@@ -63,10 +65,17 @@ public class TcxDatabase {
         return result;
     }
 
-    public List<GeoAltitude> collectGeoAltitudes() {
+    public List<TimedValue> collectAltitudes() {
         return collectTrackPoints().stream()
                 .filter(trackpoint -> trackpoint.getAltitudeMeters() != null)
-                .map(trackpoint -> new GeoAltitude(trackpoint.getTime(), trackpoint.getAltitudeMeters()))
+                .map(trackpoint -> new TimedValue(trackpoint.getTime().toInstant(), trackpoint.getAltitudeMeters()))
+                .toList();
+    }
+
+    public List<TimedValue> collectHeartRates() {
+        return collectTrackPoints().stream()
+                .filter(trackpoint -> trackpoint.getHeartRateBpm() != null && trackpoint.getHeartRateBpm().getValue() != null)
+                .map(trackpoint -> new TimedValue(trackpoint.getTime().toInstant(), trackpoint.getHeartRateBpm().getValue()))
                 .toList();
     }
 }

@@ -249,6 +249,14 @@
       new Chart(document.getElementById('altitudesChart'), altitudesChart);
     </script>
     {/if}
+    {#if model.heartRates}
+    <h3>Heart Rates</h3>
+    <canvas id="heartRatesChart" class="rstm-chart"></canvas>
+    <script>
+      var heartRatesChart = {model.heartRatesChart.formatJson(8)};
+      new Chart(document.getElementById('heartRatesChart'), heartRatesChart);
+    </script>
+    {/if}
   </main>
   <footer>
     Generated: {model.now.format('yyyy-MM-dd HH:mm:ss')}

@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 
+import com.github.phoswald.fitbit.viewer.TimedValue;
 import com.github.phoswald.record.builder.RecordBuilder;
 
 @RecordBuilder
@@ -28,10 +29,10 @@ public record Chart(String type, ChartData data, ChartOptions options) {
                 .build();
     }
 
-    public static <T> ChartDataset createDatasetOfPoints(String label, Integer pointRadius, Collection<T> data, Function<T, double[]> accessor) {
+    public static <T> ChartDataset createDatasetOfTimeSeries(String label, Integer pointRadius, Collection<TimedValue> timeSeries) {
         return new ChartDatasetBuilder()
                 .label(label)
-                .data(toPoints(data, accessor))
+                .data(toVectors(timeSeries, TimedValue::toVector))
                 .pointRadius(pointRadius)
                 .build();
     }
@@ -40,7 +41,7 @@ public record Chart(String type, ChartData data, ChartOptions options) {
         return data.stream().map(accessor).toList();
     }
 
-    private static <T> List<double[]> toPoints(Collection<T> data, Function<T, double[]> accessor) {
+    private static <T> List<double[]> toVectors(Collection<T> data, Function<T, double[]> accessor) {
         return data.stream().map(accessor).toList();
     }
 

@@ -5,11 +5,14 @@ import static com.github.phoswald.fitbit.viewer.ValueHelpers.divideBy;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 
+import com.github.phoswald.fitbit.viewer.TimedValue;
 import com.github.phoswald.fitbit.viewer.repository.ActivityEntity;
-import com.github.phoswald.fitbit.viewer.tcx.GeoAltitude;
+import com.github.phoswald.fitbit.viewer.repository.TcxEntity;
 import com.github.phoswald.fitbit.viewer.tcx.GeoLap;
 import com.github.phoswald.fitbit.viewer.tcx.GeoPoint;
+import com.github.phoswald.fitbit.viewer.tcx.TcxDatabase;
 import com.github.phoswald.fitbit.viewer.widgets.Chart;
 import com.github.phoswald.fitbit.viewer.widgets.ChartBuilder;
 import com.github.phoswald.fitbit.viewer.widgets.ChartDataBuilder;
@@ -26,25 +29,28 @@ public record ActivityDetailViewModel(
         ActivityEntity activity,
         List<String> labels,
         List<String> allLabels,
+        boolean editLabels,
         List<GeoPoint> track,
         List<GeoLap> laps,
-        List<GeoAltitude> altitudes,
-        boolean editLabels,
+        List<TimedValue> altitudes,
+        List<TimedValue> heartRates,
         String userId,
         String errorMessage,
         ZonedDateTime now
 ) {
 
-    static ActivityDetailViewModel create(Long logId, ActivityEntity activity, List<String> allLabels, List<GeoPoint> track, List<GeoLap> laps, List<GeoAltitude> altitudes, boolean editLabels, String userId) {
+    static ActivityDetailViewModel create(Long logId, ActivityEntity activity, Optional<TcxEntity> tcx, List<String> allLabels, boolean editLabels, String userId) {
+        var tcxDb = tcx.flatMap(TcxEntity::getTcxDatabase);
         return new ActivityDetailViewModelBuilder()
                 .logId(logId)
                 .activity(activity)
                 .labels(activity.getLabels())
                 .allLabels(allLabels)
-                .track(track)
-                .laps(laps)
-                .altitudes(altitudes)
                 .editLabels(editLabels)
+                .track(tcxDb.map(TcxDatabase::collectGeoPoints).orElse(List.of()))
+                .laps(tcxDb.map(TcxDatabase::collectGeoLaps).orElse(List.of()))
+                .altitudes(tcxDb.map(TcxDatabase::collectAltitudes).orElse(List.of()))
+                .heartRates(tcxDb.map(TcxDatabase::collectHeartRates).orElse(List.of()))
                 .userId(userId)
                 .now(ZonedDateTime.now())
                 .build();
@@ -82,11 +88,28 @@ public record ActivityDetailViewModel(
         return new ChartBuilder()
                 .type("line")
                 .data(new ChartDataBuilder()
-                        .datasets(List.of(Chart.createDatasetOfPoints("Altitude (m)", 0, altitudes, GeoAltitude::toVector)))
+                        .datasets(List.of(Chart.createDatasetOfTimeSeries("Altitude (m)", 0, altitudes)))
                         .build())
                 .options(new ChartOptionsBuilder()
                         .scales(new ChartOptionsScalesBuilder()
                                 .x(Chart.createTimeAxis())
+                                .build())
+                        .build())
+                .build();
+    }
+
+    public Chart heartRatesChart() {
+        return new ChartBuilder()
+                .type("line")
+                .data(new ChartDataBuilder()
+                        .datasets(List.of(Chart.createDatasetOfTimeSeries("Heart Rate (bpm)", 0, heartRates)))
+                        .build())
+                .options(new ChartOptionsBuilder()
+                        .scales(new ChartOptionsScalesBuilder()
+                                .x(Chart.createTimeAxis())
+                                .y(new ChartOptionsAxisBuilder()
+                                        .beginAtZero(true)
+                                        .build())
                                 .build())
                         .build())
                 .build();
