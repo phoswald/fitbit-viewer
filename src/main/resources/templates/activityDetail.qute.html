@@ -248,6 +248,11 @@
       var altitudesChart = {model.altitudesChart.formatJson(8)};
       new Chart(document.getElementById('altitudesChart'), altitudesChart);
     </script>
+    <form method="post" action="{model.logId}/altitude">
+      <label for="altitudeCorrection">Altitude correction (m):</label>
+      <input type="number" name="altitudeCorrection" id="altitudeCorrection" value="{model.tcx.altitudeCorrection}">
+      <button type="submit">Save</button>
+    </form>
     {/if}
     {#if model.heartRates}
     <h3>Heart Rates</h3>

@@ -171,8 +171,8 @@ public class ActivityController extends DateRangeController {
         if (session.isPresent()) {
             List<TcxEntity> entities = tcxRepository.loadUpgradeRequiredByUserId(session.get().userId(), 10);
             for(TcxEntity entity : entities) {
-                log.info("Processing userId={}, logId={}", entity.getUserId(), entity.getLogId());
-                tcxRepository.store(TcxEntity.create(entity.getUserId(), entity.getLogId(), entity.getTcxXml()));
+                log.info("Processing logId={}", entity.getLogId());
+                tcxRepository.store(TcxEntity.create(entity.getUserId(), entity.getLogId(), entity.getTcxXml(), entity.getAltitudeCorrection()));
             }
             if(entities.isEmpty()) {
                 return Response.status(Response.Status.NOT_FOUND).build();

@@ -1,5 +1,6 @@
 package com.github.phoswald.fitbit.viewer.pages.activities;
 
+import static com.github.phoswald.fitbit.viewer.TimedValue.add;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.divideBy;
 
 import java.time.LocalDate;
@@ -27,6 +28,7 @@ public record ActivityDetailViewModel(
         Long logId,
         LocalDate date,
         ActivityEntity activity,
+        TcxEntity tcx,
         List<String> labels,
         List<String> allLabels,
         boolean editLabels,
@@ -44,6 +46,7 @@ public record ActivityDetailViewModel(
         return new ActivityDetailViewModelBuilder()
                 .logId(logId)
                 .activity(activity)
+                .tcx(tcx.orElse(null))
                 .labels(activity.getLabels())
                 .allLabels(allLabels)
                 .editLabels(editLabels)
@@ -88,7 +91,7 @@ public record ActivityDetailViewModel(
         return new ChartBuilder()
                 .type("line")
                 .data(new ChartDataBuilder()
-                        .datasets(List.of(Chart.createDatasetOfTimeSeries("Altitude (m)", 0, altitudes)))
+                        .datasets(List.of(Chart.createDatasetOfTimeSeries("Altitude (m)", 0, add(altitudes, tcx.getAltitudeCorrection()))))
                         .build())
                 .options(new ChartOptionsBuilder()
                         .scales(new ChartOptionsScalesBuilder()

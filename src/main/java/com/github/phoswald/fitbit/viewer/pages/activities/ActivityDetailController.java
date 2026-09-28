@@ -88,7 +88,8 @@ public class ActivityDetailController extends BaseController {
                 log.debug("Found TCX entity");
             } else {
                 String tcxXml = activityApiClient.getActivityTcx("Bearer " + session.accessToken(), logId);
-                tcxEntity = Optional.of(TcxEntity.create(session.userId(), logId, tcxXml));
+                Integer altitudeCorrection = tcxEntity.map(TcxEntity::getAltitudeCorrection).orElse(null);
+                tcxEntity = Optional.of(TcxEntity.create(session.userId(), logId, tcxXml, altitudeCorrection));
                 log.info("Storing TCX entity");
                 tcxRepository.store(tcxEntity.get());
             }
@@ -123,6 +124,22 @@ public class ActivityDetailController extends BaseController {
                 .map(String::trim)
                 .distinct()
                 .toList();
+    }
+
+    @POST
+    @Path("/altitude")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Transactional
+    public Response postAltitude(@FormParam("altitudeCorrection") Integer correction) {
+        var session = sessionManager.parseAndVerifyCookie(sessionCookie);
+        if (session.isPresent()) {
+            var tcxEntity = tcxRepository.load(session.get().userId(), logId);
+            if(tcxEntity.isPresent()) {
+                log.info("Updating altitude correction for logId={}", tcxEntity.get().getLogId());
+                tcxEntity.get().setAltitudeCorrection(correction);
+            }
+        }
+        return Response.seeOther(URI.create("pages/activities/" + logId)).build();
     }
 
     @GET

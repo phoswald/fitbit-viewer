@@ -183,6 +183,7 @@ create table fitbit_tcx_ (
     longitude_max_          double precision null,
     altitude_min_           integer null,
     altitude_max_           integer null,
+    altitude_correction_    integer null,
     heart_rate_max_         integer null
 );
 

@@ -86,14 +86,18 @@ public class TcxEntity {
     @Column(name = "altitude_max_")
     private Integer altitudeMax;
 
+    @Column(name = "altitude_correction_")
+    private Integer altitudeCorrection;
+
     @Column(name = "heart_rate_max_")
     private Integer heartRateMax;
 
-    public static TcxEntity create(String userId, long logId, String tcxXml) {
+    public static TcxEntity create(String userId, long logId, String tcxXml, Integer altitudeCorrection) {
         TcxEntity entity = new TcxEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
         entity.setLogId(requireNonNull(logId, "logId"));
         entity.setTcxXml(tcxXml);
+        entity.setAltitudeCorrection(altitudeCorrection);
         TcxDatabase tcxDatabase = entity.getTcxDatabase().orElse(null);
         if(tcxDatabase != null) {
             for(var tp : tcxDatabase.collectTrackPoints()) {
@@ -280,6 +284,14 @@ public class TcxEntity {
 
     public void setAltitudeMax(Integer altitudeMax) {
         this.altitudeMax = altitudeMax;
+    }
+
+    public Integer getAltitudeCorrection() {
+        return altitudeCorrection;
+    }
+
+    public void setAltitudeCorrection(Integer altitudeCorrection) {
+        this.altitudeCorrection = altitudeCorrection;
     }
 
     public Integer getHeartRateMax() {
