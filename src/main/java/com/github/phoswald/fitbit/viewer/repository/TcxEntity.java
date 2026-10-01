@@ -100,21 +100,17 @@ public class TcxEntity {
         entity.setAltitudeCorrection(altitudeCorrection);
         TcxDatabase tcxDatabase = entity.getTcxDatabase().orElse(null);
         if(tcxDatabase != null) {
-            for(var tp : tcxDatabase.collectTrackPoints()) {
+            for(var tp : tcxDatabase.getAllTrackpoints()) {
                 entity.setBegDateTime(min(entity.getBegDateTime(), tp.getTime()));
                 entity.setEndDateTime(max(entity.getEndDateTime(), tp.getTime())); // was wrong
-                if(tp.getPosition() != null) {
-                    entity.setLatitudeMin(min(entity.getLatitudeMin(), tp.getPosition().getLatitudeDegrees()));
-                    entity.setLatitudeMax(max(entity.getLatitudeMax(), tp.getPosition().getLatitudeDegrees()));
-                    entity.setLongitudeMin(min(entity.getLongitudeMin(), tp.getPosition().getLongitudeDegrees()));
-                    entity.setLongitudeMax(max(entity.getLongitudeMax(), tp.getPosition().getLongitudeDegrees()));
-                }
+                entity.setLatitudeMin(min(entity.getLatitudeMin(), tp.getLatitude()));
+                entity.setLatitudeMax(max(entity.getLatitudeMax(), tp.getLatitude()));
+                entity.setLongitudeMin(min(entity.getLongitudeMin(), tp.getLongitude()));
+                entity.setLongitudeMax(max(entity.getLongitudeMax(), tp.getLongitude()));
                 entity.setAltitudeMin(min(entity.getAltitudeMin(), round(tp.getAltitudeMeters())));
                 entity.setAltitudeMax(max(entity.getAltitudeMax(), round(tp.getAltitudeMeters()))); // was wrong
                 entity.setDistance(max(entity.getDistance(), tp.getDistanceMeters())); // use max() because because last point is 0.0
-                if(tp.getHeartRateBpm() != null) {
-                    entity.setHeartRateMax(max(entity.getHeartRateMax(), tp.getHeartRateBpm().getValue()));
-                }
+                entity.setHeartRateMax(max(entity.getHeartRateMax(), tp.getHeartRateBpm()));
             }
             entity.setDate(dateOf(entity.getBegDateTime()));
             entity.setDurationMinutes(minutesBetween(entity.getBegDateTime(), entity.getEndDateTime()));

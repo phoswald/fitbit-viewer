@@ -46,6 +46,18 @@ public class ValueHelpers {
         }
     }
 
+    public static Double add(Double value1, Integer value2) {
+        if (value1 != null || value2 != null) {
+            return (value1 == null ? 0 : value1.doubleValue()) + (value2 == null ? 0 : value2.intValue());
+        } else {
+            return null;
+        }
+    }
+
+    public static <T> Function<T, Double> add(Function<T, Double> accessor1, Integer value2) {
+        return obj -> add(accessor1.apply(obj), value2);
+    }
+
     public static Double divideBy(Long value, int divisor) {
         return value == null ? null : value.doubleValue() / divisor;
     }

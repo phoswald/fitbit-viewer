@@ -1,48 +1,54 @@
 package com.github.phoswald.fitbit.viewer.widgets;
 
+import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 
-import com.github.phoswald.fitbit.viewer.TimedValue;
 import com.github.phoswald.record.builder.RecordBuilder;
 
 @RecordBuilder
 public record Chart(String type, ChartData data, ChartOptions options) {
 
+    public record Point(double x, double y) { }
+
     public static <T> List<String> createLabels(Collection<T> data, Function<T, Object> accessor) {
         return data.stream().map(accessor).map(Object::toString).toList();
     }
 
-    public static <T> ChartDataset createDataset(String label, Collection<T> data, Function<T, ? extends Number> accessor) {
+    public static <T> ChartDataset createDataset(String label, Collection<T> data, Function<T, ? extends Number> value) {
         return new ChartDatasetBuilder()
                 .label(label)
-                .data(toNumbers(data, accessor))
+                .data(toNumbers(data, value))
                 .build();
     }
 
-    public static <T> ChartDataset createDatasetStacked(String label, String stack, Collection<T> data, Function<T, ? extends Number> accessor) {
+    public static <T> ChartDataset createDatasetStacked(String label, String stack, Collection<T> data, Function<T, ? extends Number> value) {
         return new ChartDatasetBuilder()
                 .label(label)
                 .stack(stack)
-                .data(toNumbers(data, accessor))
+                .data(toNumbers(data, value))
                 .build();
     }
 
-    public static <T> ChartDataset createDatasetOfTimeSeries(String label, Integer pointRadius, Collection<TimedValue> timeSeries) {
+    public static <T> ChartDataset createDatasetOfTimeSeries(String label, Integer pointRadius, Collection<T> data, Function<T, OffsetDateTime> time, Function<T, ? extends Number> value) {
+        return createDatasetXY(label, pointRadius, data, e -> time.apply(e).toInstant().toEpochMilli(), value);
+    }
+
+    public static <T> ChartDataset createDatasetXY(String label, Integer pointRadius, Collection<T> data, Function<T, ? extends Number> x, Function<T, ? extends Number> y) {
         return new ChartDatasetBuilder()
                 .label(label)
-                .data(toVectors(timeSeries, TimedValue::toVector))
+                .data(toPoints(data, e -> new Point(x.apply(e).doubleValue(), y.apply(e).doubleValue())))
                 .pointRadius(pointRadius)
                 .build();
     }
 
-    private static <T> List<? extends Number> toNumbers(Collection<T> data, Function<T, ? extends Number> accessor) {
-        return data.stream().map(accessor).toList();
+    private static <T> List<? extends Number> toNumbers(Collection<T> data, Function<T, ? extends Number> value) {
+        return data.stream().map(value).toList();
     }
 
-    private static <T> List<double[]> toVectors(Collection<T> data, Function<T, double[]> accessor) {
-        return data.stream().map(accessor).toList();
+    private static <T> List<Point> toPoints(Collection<T> data, Function<T, Point> point) {
+        return data.stream().map(point).toList();
     }
 
     public static ChartOptionsAxis createTimeAxis() {
@@ -76,7 +82,7 @@ public record Chart(String type, ChartData data, ChartOptions options) {
     public record ChartOptionsScales(ChartOptionsAxis x, ChartOptionsAxis y) { }
 
     @RecordBuilder
-    public record ChartOptionsAxis(String type, Boolean beginAtZero, String grace, ChartOptionsAxisTime time) { }
+    public record ChartOptionsAxis(String type, Boolean beginAtZero, String grace, ChartOptionsAxisTime time, ChartOptionsAxisTitle title) { }
 
     // Valid units are millisecond, second, minute, hour, day, week, month, quarter, year.
     // All of them can be used both for ChartOptionsAxisTime.unit
@@ -86,4 +92,7 @@ public record Chart(String type, ChartData data, ChartOptions options) {
 
     @RecordBuilder
     public record ChartOptionsAxisTimeDisplayFormats(String minute) { }
+
+    @RecordBuilder
+    public record ChartOptionsAxisTitle(String text, Boolean display) { }
 }

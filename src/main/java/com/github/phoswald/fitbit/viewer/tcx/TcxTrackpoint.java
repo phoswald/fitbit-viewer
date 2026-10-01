@@ -1,5 +1,7 @@
 package com.github.phoswald.fitbit.viewer.tcx;
 
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.divideBy;
+
 import java.time.OffsetDateTime;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -30,8 +32,16 @@ public class TcxTrackpoint {
         return time;
     }
 
-    public TcxPosition getPosition() {
-        return position;
+    public Double getLatitude() {
+        return position == null ? null : position.getLatitudeDegrees();
+    }
+
+    public Double getLongitude() {
+        return position == null ? null : position.getLongitudeDegrees();
+    }
+
+    public boolean hasAltitude() {
+        return altitudeMeters != null;
     }
 
     public Double getAltitudeMeters() {
@@ -42,7 +52,15 @@ public class TcxTrackpoint {
         return distanceMeters;
     }
 
-    public TcxHeartRateBpm getHeartRateBpm() {
-        return heartRateBpm;
+    public Double getDistanceKm() {
+        return divideBy(distanceMeters, 1000);
+    }
+
+    public boolean hasHeartRate() {
+        return heartRateBpm != null && heartRateBpm.getValue() != null;
+    }
+
+    public Integer getHeartRateBpm() {
+        return heartRateBpm == null || heartRateBpm.getValue() == null ? null : heartRateBpm.getValue();
     }
 }

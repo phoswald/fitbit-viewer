@@ -233,7 +233,7 @@
         {#for lap in model.laps}
         <tr>
           <td>{lap.number}</td>
-          <td>{#if lap.distance}{lap.distance.format('0.00')}{/if}</td>
+          <td>{#if lap.distanceKm}{lap.distanceKm.format('0.00')}{/if}</td>
           <td>{#if lap.durationMinutes}{lap.durationMinutes.formatDuration}{/if}</td>
           <td>{#if lap.pace}{lap.pace.formatPace}{/if}</td>
         </tr>
@@ -247,6 +247,11 @@
     <script>
       var altitudesChart = {model.altitudesChart.formatJson(8)};
       new Chart(document.getElementById('altitudesChart'), altitudesChart);
+    </script>
+    <canvas id="altitudeByDistanceChart" class="rstm-chart"></canvas>
+    <script>
+      var altitudeByDistanceChart = {model.altitudeByDistanceChart.formatJson(8)};
+      new Chart(document.getElementById('altitudeByDistanceChart'), altitudeByDistanceChart);
     </script>
     <form method="post" action="{model.logId}/altitude">
       <label for="altitudeCorrection">Altitude correction (m):</label>
