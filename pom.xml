@@ -9,7 +9,7 @@
   <version>${revision}${changelist}</version>
 
   <properties>
-    <revision>0.1.0</revision>
+    <revision>0.2.0</revision>
     <changelist>-SNAPSHOT</changelist>
     <maven.install.skip>true</maven.install.skip>
     <maven.deploy.skip>true</maven.deploy.skip>

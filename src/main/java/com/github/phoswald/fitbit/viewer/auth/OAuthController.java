@@ -5,7 +5,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.time.Instant;
-import java.util.Base64;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -24,7 +23,7 @@ import org.slf4j.LoggerFactory;
 @Path("/oauth")
 public class OAuthController {
 
-    private static final String AUTHORIZE_URL = "https://www.fitbit.com/oauth2/authorize";
+    private static final String AUTHORIZE_URL = "https://accounts.google.com/o/oauth2/v2/auth";
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -56,7 +55,7 @@ public class OAuthController {
                 + "?response_type=code"
                 + "&client_id=" + URLEncoder.encode(clientId, UTF_8)
                 + "&redirect_uri=" + URLEncoder.encode(redirectUri, UTF_8)
-                + "&scope=profile+activity+heartrate+cardio_fitness+location+sleep";
+                + "&scope=openid+profile+email"; // TODO (review scopes): profile+activity+heartrate+cardio_fitness+location+sleep
         return Response.seeOther(URI.create(url)).build();
     }
 
@@ -69,26 +68,21 @@ public class OAuthController {
         } else {
             log.info("callback(): code={} (length)", lengthOf(code));
 
-            var tokenResponse = tokenClient.exchangeCode(
-                    createAuthorizationHeader(clientId, clientSecret),
-                    "authorization_code", code, redirectUri);
-            log.info("callback(): exchanged access_token={} (length), refresh_token={} (length), expires_in={}",
-                    lengthOf(tokenResponse.accessToken()), lengthOf(tokenResponse.refreshToken()), tokenResponse.expiresIn());
+            var tokenResponse = tokenClient.exchangeCode(clientId, clientSecret, "authorization_code", code, redirectUri);
+            log.info("callback(): exchanged id_token={} (length) access_token={} (length), refresh_token={} (length), expires_in={}",
+                    lengthOf(tokenResponse.idToken()), lengthOf(tokenResponse.accessToken()),
+                    lengthOf(tokenResponse.refreshToken()), tokenResponse.expiresIn());
 
             SessionData sessionData = new SessionDataBuilder()
                     .accessToken(tokenResponse.accessToken())
                     .expiresAt(Instant.now().plusSeconds(tokenResponse.expiresIn()).toEpochMilli())
-                    .userId(JwtUtil.getSubject(tokenResponse.accessToken()))
+                    .userId(JwtUtil.getEMail(tokenResponse.idToken()))
                     .build();
             return Response
                     .seeOther(URI.create("pages/profile"))
                     .cookie(createCookie(sessionManager.createAndSignCookie(sessionData)))
                     .build();
         }
-    }
-
-    private static String createAuthorizationHeader(String clientId, String clientSecret) {
-        return "Basic " + Base64.getEncoder().encodeToString((clientId + ":" + clientSecret).getBytes(UTF_8));
     }
 
     private static NewCookie createCookie(String sessionCookie) {

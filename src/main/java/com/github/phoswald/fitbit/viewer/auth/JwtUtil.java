@@ -49,10 +49,10 @@ class JwtUtil {
         }
     }
 
-    static String getSubject(String token) {
+    static String getEMail(String token) {
         JwtToken parsed = parse(token);
         try (var reader = Json.createReader(new StringReader(parsed.payload()))) {
-            return reader.readObject().getString("sub");
+            return reader.readObject().getString("email"); // TODO: also extract "name" (full name) and "picture" (URL)
         }
     }
 
