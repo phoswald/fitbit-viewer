@@ -47,7 +47,7 @@ public class StepsEntity {
     public static StepsEntity create(String userId, DailyRollUpDataPointsResponseRollupDataPointsInner entry) {
         StepsEntity entity = new StepsEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
-        entity.setDate(HealthApiHelpers.dateOf(entry));
+        entity.setDate(requireNonNull(HealthApiHelpers.dateOf(entry), "date"));
         entity.setStepCount(HealthApiHelpers.stepCountOf(entry));
         return entity;
     }
