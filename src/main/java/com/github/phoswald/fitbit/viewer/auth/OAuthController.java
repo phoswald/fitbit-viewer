@@ -25,6 +25,10 @@ public class OAuthController {
 
     private static final String AUTHORIZE_URL = "https://accounts.google.com/o/oauth2/v2/auth";
 
+    private static final String SCOPES = String.join(" ",
+            "openid", "profile", "email",
+            "https://www.googleapis.com/auth/googlehealth.activity_and_fitness.readonly");
+
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Inject
@@ -55,7 +59,7 @@ public class OAuthController {
                 + "?response_type=code"
                 + "&client_id=" + URLEncoder.encode(clientId, UTF_8)
                 + "&redirect_uri=" + URLEncoder.encode(redirectUri, UTF_8)
-                + "&scope=openid+profile+email"; // TODO (review scopes): profile+activity+heartrate+cardio_fitness+location+sleep
+                + "&scope=" + URLEncoder.encode(SCOPES, UTF_8);
         return Response.seeOther(URI.create(url)).build();
     }
 

@@ -12,7 +12,9 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
+import com.github.phoswald.fitbit.viewer.HealthApiHelpers;
 import com.github.phoswald.fitbit.viewer.fitbitapi.StepsApiClient;
+import com.google.api.health.v4.model.DailyRollUpDataPointsResponseRollupDataPointsInner;
 
 @Entity
 @Table(name = "fitbit_steps_")
@@ -39,6 +41,14 @@ public class StepsEntity {
         entity.setUserId(requireNonNull(userId, "userId"));
         entity.setDate(parseDate(requireNonNull(entry.dateTime(), "date")));
         entity.setStepCount(entry.value() == null ? null : Integer.parseInt(entry.value()));
+        return entity;
+    }
+
+    public static StepsEntity create(String userId, DailyRollUpDataPointsResponseRollupDataPointsInner entry) {
+        StepsEntity entity = new StepsEntity();
+        entity.setUserId(requireNonNull(userId, "userId"));
+        entity.setDate(HealthApiHelpers.dateOf(entry));
+        entity.setStepCount(HealthApiHelpers.stepCountOf(entry));
         return entity;
     }
 
