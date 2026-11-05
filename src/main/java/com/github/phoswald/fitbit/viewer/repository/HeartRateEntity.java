@@ -1,6 +1,7 @@
 package com.github.phoswald.fitbit.viewer.repository;
 
-import static com.github.phoswald.fitbit.viewer.ValueHelpers.parseDate;
+import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.dateOf;
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.parseInteger;
 import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;
@@ -12,7 +13,7 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
-import com.github.phoswald.fitbit.viewer.fitbitapi.HeartRateApiClient;
+import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerDailyRestingHeartRate;
 
 @Entity
 @Table(name = "fitbit_heartrate_")
@@ -34,11 +35,11 @@ public class HeartRateEntity {
     @Column(name = "resting_heart_rate_")
     private Integer restingHeartRate;
 
-    public static HeartRateEntity create(String userId, HeartRateApiClient.HeartRateEntry entry) {
+    public static HeartRateEntity create(String userId, ReconcileDataPointsResponseDataPointsInnerDailyRestingHeartRate value) {
         HeartRateEntity entity = new HeartRateEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
-        entity.setDate(parseDate(requireNonNull(entry.dateTime(), "date")));
-        entity.setRestingHeartRate(entry.value() == null ? null : entry.value().restingHeartRate());
+        entity.setDate(requireNonNull(dateOf(value.getDate()), "date"));
+        entity.setRestingHeartRate(parseInteger(value.getBeatsPerMinute()));
         return entity;
     }
 

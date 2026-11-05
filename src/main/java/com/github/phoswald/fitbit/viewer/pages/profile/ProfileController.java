@@ -66,7 +66,7 @@ public class ProfileController extends BaseController {
     private ProfileViewModel createProfileViewModel(SessionData session) {
         try {
             log.info("Querying: userId={}", session.userId());
-            var profile = profileRepository.loadByUserId(session.userId());
+            Optional<ProfileEntity> profile = profileRepository.loadByUserId(session.userId());
             if(!refresh && profile.isPresent()) {
                 log.debug("Found entity");
             } else {

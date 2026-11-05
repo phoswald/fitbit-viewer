@@ -1,11 +1,16 @@
 package com.github.phoswald.fitbit.viewer;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.function.Function;
 
 public class ValueHelpers {
+
+    public static Double toDouble(BigDecimal value) {
+        return value == null ? null : value.doubleValue();
+    }
 
     public static <T> Function<T, Double> toDouble(Function<T, Integer> function) {
         return object -> {

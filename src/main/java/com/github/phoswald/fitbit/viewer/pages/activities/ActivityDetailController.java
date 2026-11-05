@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
 import com.github.phoswald.fitbit.viewer.fitbitapi.ActivityApiClient;
 import com.github.phoswald.fitbit.viewer.pages.BaseController;
+import com.github.phoswald.fitbit.viewer.repository.ActivityEntity;
 import com.github.phoswald.fitbit.viewer.repository.ActivityRepository;
 import com.github.phoswald.fitbit.viewer.repository.TcxEntity;
 import com.github.phoswald.fitbit.viewer.repository.TcxRepository;
@@ -78,12 +79,12 @@ public class ActivityDetailController extends BaseController {
     private ActivityDetailViewModel createActivityDetailViewModel(SessionData session) {
         try {
             log.info("Querying: logId={}", logId);
-            var entity = activityRepository.loadByUserIdAndLogId(session.userId(), logId);
+            Optional<ActivityEntity> entity = activityRepository.loadByUserIdAndLogId(session.userId(), logId);
             if (entity.isEmpty()) {
                 return ActivityDetailViewModel.createError("Activity not found");
             }
             log.debug("Found entity with {} activity levels, {} heartrate zones, {} labels", entity.get().getActivityLevels().size(), entity.get().getHeartRateZones().size(), entity.get().getLabels().size());
-            var tcxEntity = tcxRepository.load(session.userId(), logId);
+            Optional<TcxEntity> tcxEntity = tcxRepository.load(session.userId(), logId);
             if(!refreshTcx && tcxEntity.isPresent()) {
                 log.debug("Found TCX entity");
             } else {
@@ -108,7 +109,7 @@ public class ActivityDetailController extends BaseController {
     public Response postLabels(@FormParam("label") List<String> labels) {
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            var entity = activityRepository.loadByUserIdAndLogId(session.get().userId(), logId);
+            Optional<ActivityEntity> entity = activityRepository.loadByUserIdAndLogId(session.get().userId(), logId);
             if(entity.isPresent()) {
                 log.info("Updating labels for logId={}: {}", logId, labels);
                 entity.get().setLabels(normalizeLabels(labels));
@@ -133,7 +134,7 @@ public class ActivityDetailController extends BaseController {
     public Response postAltitude(@FormParam("altitudeCorrection") Integer correction) {
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            var tcxEntity = tcxRepository.load(session.get().userId(), logId);
+            Optional<TcxEntity> tcxEntity = tcxRepository.load(session.get().userId(), logId);
             if(tcxEntity.isPresent()) {
                 log.info("Updating altitude correction for logId={}", tcxEntity.get().getLogId());
                 tcxEntity.get().setAltitudeCorrection(correction);
@@ -149,10 +150,10 @@ public class ActivityDetailController extends BaseController {
     public Response getTcx() {
         var session = sessionManager.parseAndVerifyCookie(sessionCookie);
         if (session.isPresent()) {
-            var tcxEntity = tcxRepository.load(session.get().userId(), logId);
+            Optional<TcxEntity> tcxEntity = tcxRepository.load(session.get().userId(), logId);
             if(tcxEntity.isPresent()) {
-                var tcxXml = tcxEntity.get().getTcxXml();
-                var tcxFile = "tcx-" + tcxEntity.get().getLogId() + ".xml";
+                String tcxXml = tcxEntity.get().getTcxXml();
+                String tcxFile = "tcx-" + tcxEntity.get().getLogId() + ".xml";
                 return Response
                         .ok(tcxXml, MediaType.APPLICATION_XML)
                         .header("Content-Disposition", "attachment; filename=\"" + tcxFile + "\"")

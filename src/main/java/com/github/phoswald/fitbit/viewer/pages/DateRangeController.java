@@ -2,6 +2,7 @@ package com.github.phoswald.fitbit.viewer.pages;
 
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.min;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -55,12 +56,11 @@ public abstract class DateRangeController extends BaseController {
                 .build();
     }
 
-    protected List<DateRange> getQueryDateRanges() {
+    protected List<DateRange> getQueryDateRanges(Duration maxLength) {
         var result = new ArrayList<DateRange>();
         LocalDate curBeg = dateBeg;
         while (!curBeg.isAfter(dateEnd)) {
-            // TODO: review interval size, seems to be 90 days for steps on Google Health API
-            LocalDate curEnd = min(dateEnd, curBeg.plusMonths(1).minusDays(1));
+            LocalDate curEnd = min(dateEnd, curBeg.plusDays(maxLength.toDays() - 1));
             result.add(new DateRange(curBeg, curEnd));
             curBeg = curEnd.plusDays(1);
         }

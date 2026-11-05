@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.SortedMap;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -90,7 +91,7 @@ public class ActivityController extends DateRangeController {
             } else {
                 activities = activityRepository.loadByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
                         .collect(toLinkedHashMap(ActivityEntity::getLogId));
-                var days = activityRepository.loadDaysByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
+                SortedMap<LocalDate, ActivityDayEntity> days = activityRepository.loadDaysByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
                         .collect(toSortedMap(ActivityDayEntity::getDate));
                 if(!refresh && isComplete(days)) {
                     log.debug("Found {} entities for {} days", activities.size(), days.size());

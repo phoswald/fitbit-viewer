@@ -1,6 +1,8 @@
 package com.github.phoswald.fitbit.viewer.repository;
 
-import static com.github.phoswald.fitbit.viewer.ValueHelpers.parseDate;
+import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.dateOf;
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.add;
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.parseInteger;
 import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;
@@ -12,7 +14,8 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
-import com.github.phoswald.fitbit.viewer.fitbitapi.ActiveZoneMinutesApiClient;
+import com.google.api.health.v4.model.DailyRollUpDataPointsResponseRollupDataPointsInner;
+import com.google.api.health.v4.model.DailyRollUpDataPointsResponseRollupDataPointsInnerActiveZoneMinutes;
 
 @Entity
 @Table(name = "fitbit_active_zone_minutes_")
@@ -43,15 +46,18 @@ public class ActiveZoneMinutesEntity {
     @Column(name = "peak_azm_")
     private Integer peakAzm;
 
-    public static ActiveZoneMinutesEntity create(String userId, ActiveZoneMinutesApiClient.AzmEntry entry) {
-        ActiveZoneMinutesApiClient.AzmValue value = entry.value();
+    public static ActiveZoneMinutesEntity create(String userId, DailyRollUpDataPointsResponseRollupDataPointsInner entry) {
         ActiveZoneMinutesEntity entity = new ActiveZoneMinutesEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
-        entity.setDate(parseDate(requireNonNull(entry.dateTime(), "date")));
-        entity.setTotalAzm(value == null ? null : value.activeZoneMinutes());
-        entity.setFatBurnAzm(value == null ? null : value.fatBurnActiveZoneMinutes());
-        entity.setCardioAzm(value == null ? null : value.cardioActiveZoneMinutes());
-        entity.setPeakAzm(value == null ? null : value.peakActiveZoneMinutes());
+        entity.setDate(requireNonNull(dateOf(entry), "date"));
+        DailyRollUpDataPointsResponseRollupDataPointsInnerActiveZoneMinutes value = entry.getActiveZoneMinutes();
+        if(value != null) {
+            entity.setFatBurnAzm(parseInteger(value.getSumInFatBurnHeartZone()));
+            entity.setCardioAzm(parseInteger(value.getSumInCardioHeartZone()));
+            entity.setPeakAzm(parseInteger(value.getSumInPeakHeartZone()));
+            // The Google Health API has no total
+            entity.setTotalAzm(add(add(entity.getFatBurnAzm(), entity.getCardioAzm()), entity.getPeakAzm()));
+        }
         return entity;
     }
 

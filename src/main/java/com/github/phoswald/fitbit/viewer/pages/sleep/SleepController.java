@@ -1,7 +1,12 @@
 package com.github.phoswald.fitbit.viewer.pages.sleep;
 
+import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.dateFilter;
+import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.reconcile;
+
+import java.time.Duration;
 import java.time.LocalDate;
-import java.util.TreeMap;
+import java.util.Objects;
+import java.util.SortedMap;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -16,10 +21,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
-import com.github.phoswald.fitbit.viewer.fitbitapi.SleepApiClient;
 import com.github.phoswald.fitbit.viewer.pages.DateRangeController;
 import com.github.phoswald.fitbit.viewer.repository.SleepEntity;
 import com.github.phoswald.fitbit.viewer.repository.SleepRepository;
+import com.google.api.health.v4.api.DefaultApi;
+import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInner;
 
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
@@ -35,7 +41,7 @@ public class SleepController extends DateRangeController {
 
     @Inject
     @RestClient
-    private SleepApiClient sleepClient;
+    private DefaultApi healthApiClient;
 
     @Inject
     private SleepRepository sleepRepository;
@@ -56,20 +62,24 @@ public class SleepController extends DateRangeController {
     private SleepViewModel createSleepViewModel(SessionData session) {
         try {
             log.info("Querying: dateBeg={}, dateEnd={}, datePeriod={}", dateBeg, dateEnd, datePeriod);
-            var sleeps = sleepRepository.loadByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
+            SortedMap<LocalDate, SleepEntity> sleeps = sleepRepository.loadByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
                     .collect(toSortedMap(SleepEntity::getDate));
             if (!refresh && isComplete(sleeps)) {
                 log.debug("Found {} entities", sleeps.size());
             } else {
-                sleeps = new TreeMap<>();
-                for (var dateRange : getQueryDateRanges()) {
+                sleeps.clear();
+                // The API returns at most 25 sleep sessions per page and paging is not implemented, so 10 days leave room for naps
+                for (var dateRange : getQueryDateRanges(Duration.ofDays(10))) {
                     log.debug("Querying (current): dateBeg={}, dateEnd={}", dateRange.beg(), dateRange.end());
-                    var response = sleepClient.getSleep(
+                    var dataPoints = reconcile(
+                            healthApiClient,
                             "Bearer " + session.accessToken(),
-                            dateRange.beg().toString(),
-                            dateRange.end().toString());
-                    sleeps.putAll(response.sleep().stream()
-                            .map(entry -> SleepEntity.create(session.userId(), entry))
+                            "users/me/dataTypes/sleep",
+                            dateFilter("sleep.interval.civil_end_time", dateRange.beg(), dateRange.end()));
+                    sleeps.putAll(dataPoints.stream()
+                            .map(ReconcileDataPointsResponseDataPointsInner::getSleep)
+                            .filter(Objects::nonNull)
+                            .map(value -> SleepEntity.create(session.userId(), value))
                             .collect(toSortedMap(SleepEntity::getDate, SleepEntity::merge)));
                 }
                 for (LocalDate date = dateBeg; !date.isAfter(dateEnd); date = date.plusDays(1)) {

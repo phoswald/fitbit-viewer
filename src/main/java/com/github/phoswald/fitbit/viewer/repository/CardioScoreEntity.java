@@ -1,11 +1,10 @@
 package com.github.phoswald.fitbit.viewer.repository;
 
-import static com.github.phoswald.fitbit.viewer.ValueHelpers.parseDate;
+import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.dateOf;
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.toDouble;
 import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,7 +13,7 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
-import com.github.phoswald.fitbit.viewer.fitbitapi.CardioScoreApiClient;
+import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerDailyVo2Max;
 
 @Entity
 @Table(name = "fitbit_cardioscore_")
@@ -24,10 +23,6 @@ import com.github.phoswald.fitbit.viewer.fitbitapi.CardioScoreApiClient;
 )
 @IdClass(CardioScoreEntity.CardioScoreId.class)
 public class CardioScoreEntity {
-
-    private static final String NUMBER = "[0-9]+(?:\\.[0-9]+)?";
-    private static final Pattern PATTERN_RANGE = Pattern.compile("(" + NUMBER + ")-(" + NUMBER + ")");
-    private static final Pattern PATTERN_SINGLE = Pattern.compile(NUMBER);
 
     @Id
     @Column(name = "user_id_", length = 32, nullable = false)
@@ -46,18 +41,15 @@ public class CardioScoreEntity {
     @Column(name = "score_estimated_")
     private Double scoreEstimated;
 
-    public static CardioScoreEntity create(String userId, CardioScoreApiClient.CardioScoreEntry entry) {
+    /**
+     * The Google Health API returns a single value, never a range: scoreMin and scoreMax are only set on rows
+     * cached from the Fitbit API. The value's "estimated" flag is not related to the scoreEstimated field.
+     */
+    public static CardioScoreEntity create(String userId, ReconcileDataPointsResponseDataPointsInnerDailyVo2Max value) {
         CardioScoreEntity entity = new CardioScoreEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
-        entity.setDate(parseDate(requireNonNull(entry.dateTime(), "date")));
-        String vo2Max = entry.value() == null || entry.value().vo2Max() == null ? "" : entry.value().vo2Max();
-        Matcher rangeMatcher = PATTERN_RANGE.matcher(vo2Max);
-        if(rangeMatcher.matches()) {
-            entity.setScoreMin(Double.parseDouble(rangeMatcher.group(1)));
-            entity.setScoreMax(Double.parseDouble(rangeMatcher.group(2)));
-        } else if(PATTERN_SINGLE.matcher(vo2Max).matches()) {
-            entity.setScoreEstimated(Double.parseDouble(vo2Max));
-        }
+        entity.setDate(requireNonNull(dateOf(value.getDate()), "date"));
+        entity.setScoreEstimated(toDouble(value.getVo2Max()));
         return entity;
     }
 

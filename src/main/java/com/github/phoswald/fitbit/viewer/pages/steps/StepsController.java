@@ -2,9 +2,9 @@ package com.github.phoswald.fitbit.viewer.pages.steps;
 
 import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.dateRange;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.SortedMap;
-import java.util.TreeMap;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -65,8 +65,8 @@ public class StepsController extends DateRangeController {
             if(!refresh && isComplete(steps)) {
                 log.debug("Found {} entities", steps.size());
             } else {
-                steps = new TreeMap<>();
-                for (var dateRange : getQueryDateRanges()) {
+                steps.clear();
+                for (var dateRange : getQueryDateRanges(Duration.ofDays(90))) {
                     log.debug("Querying (current): dateBeg={}, dateEnd={}", dateRange.beg(), dateRange.end());
                     var request = new DailyRollUpDataPointsRequest()
                             .range(dateRange(dateRange.beg(), dateRange.end()))

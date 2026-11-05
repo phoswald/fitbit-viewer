@@ -1,6 +1,12 @@
 package com.github.phoswald.fitbit.viewer.pages.cardioscore;
 
+import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.dateFilter;
+import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.reconcile;
+
+import java.time.Duration;
 import java.time.LocalDate;
+import java.util.Objects;
+import java.util.SortedMap;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -15,10 +21,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
-import com.github.phoswald.fitbit.viewer.fitbitapi.CardioScoreApiClient;
 import com.github.phoswald.fitbit.viewer.pages.DateRangeController;
 import com.github.phoswald.fitbit.viewer.repository.CardioScoreEntity;
 import com.github.phoswald.fitbit.viewer.repository.CardioScoreRepository;
+import com.google.api.health.v4.api.DefaultApi;
+import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInner;
 
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
@@ -34,7 +41,7 @@ public class CardioScoreController extends DateRangeController {
 
     @Inject
     @RestClient
-    private CardioScoreApiClient cardioScoreClient;
+    private DefaultApi healthApiClient;
 
     @Inject
     private CardioScoreRepository cardioScoreRepository;
@@ -55,20 +62,23 @@ public class CardioScoreController extends DateRangeController {
     private CardioScoreViewModel createCardioScoreViewModel(SessionData session) {
         try {
             log.info("Querying: dateBeg={}, dateEnd={}, datePeriod={}", dateBeg, dateEnd, datePeriod);
-            var cardioScores = cardioScoreRepository.loadByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
+            SortedMap<LocalDate, CardioScoreEntity> cardioScores = cardioScoreRepository.loadByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
                     .collect(toSortedMap(CardioScoreEntity::getDate));
             if (!refresh && isComplete(cardioScores)) {
                 log.debug("Found {} entities", cardioScores.size());
             } else {
                 cardioScores.clear();
-                for(var dateRange : getQueryDateRanges()) {
+                for(var dateRange : getQueryDateRanges(Duration.ofDays(90))) {
                     log.debug("Querying (current): dateBeg={}, dateEnd={}", dateRange.beg(), dateRange.end());
-                    var response = cardioScoreClient.getCardioScore(
+                    var dataPoints = reconcile(
+                            healthApiClient,
                             "Bearer " + session.accessToken(),
-                            dateRange.beg().toString(),
-                            dateRange.end().toString());
-                    cardioScores.putAll(response.cardioScore().stream()
-                            .map(entry -> CardioScoreEntity.create(session.userId(), entry))
+                            "users/me/dataTypes/daily-vo2-max",
+                            dateFilter("daily_vo2_max.date", dateRange.beg(), dateRange.end()));
+                    cardioScores.putAll(dataPoints.stream()
+                            .map(ReconcileDataPointsResponseDataPointsInner::getDailyVo2Max)
+                            .filter(Objects::nonNull)
+                            .map(value -> CardioScoreEntity.create(session.userId(), value))
                             .collect(toSortedMap(CardioScoreEntity::getDate)));
                 }
                 for(LocalDate date = dateBeg; !date.isAfter(dateEnd); date = date.plusDays(1)) {

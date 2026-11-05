@@ -1,6 +1,12 @@
 package com.github.phoswald.fitbit.viewer.pages.heartrate;
 
+import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.dateFilter;
+import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.reconcile;
+
+import java.time.Duration;
 import java.time.LocalDate;
+import java.util.Objects;
+import java.util.SortedMap;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -15,10 +21,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
-import com.github.phoswald.fitbit.viewer.fitbitapi.HeartRateApiClient;
 import com.github.phoswald.fitbit.viewer.pages.DateRangeController;
 import com.github.phoswald.fitbit.viewer.repository.HeartRateEntity;
 import com.github.phoswald.fitbit.viewer.repository.HeartRateRepository;
+import com.google.api.health.v4.api.DefaultApi;
+import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInner;
 
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
@@ -34,7 +41,7 @@ public class HeartRateController extends DateRangeController {
 
     @Inject
     @RestClient
-    private HeartRateApiClient heartRateApiClient;
+    private DefaultApi healthApiClient;
 
     @Inject
     private HeartRateRepository heartRateRepository;
@@ -55,18 +62,25 @@ public class HeartRateController extends DateRangeController {
     private HeartRateViewModel createHeartRateViewModel(SessionData session) {
         try {
             log.info("Querying: dateBeg={}, dateEnd={}, datePeriod={}", dateBeg, dateEnd, datePeriod);
-            var heartRates = heartRateRepository.loadByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
+            SortedMap<LocalDate, HeartRateEntity> heartRates = heartRateRepository.loadByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
                     .collect(toSortedMap(HeartRateEntity::getDate));
             if(!refresh && isComplete(heartRates)) {
                 log.debug("Found {} entities", heartRates.size());
             } else {
-                var response = heartRateApiClient.getHeartRate(
-                        "Bearer " + session.accessToken(),
-                        dateBeg.toString(),
-                        dateEnd.toString());
-                heartRates = response.activitiesHeart().stream()
-                        .map(entry -> HeartRateEntity.create(session.userId(), entry))
-                        .collect(toSortedMap(HeartRateEntity::getDate));
+                heartRates.clear();
+                for (var dateRange : getQueryDateRanges(Duration.ofDays(30))) {
+                    log.debug("Querying (current): dateBeg={}, dateEnd={}", dateRange.beg(), dateRange.end());
+                    var dataPoints = reconcile(
+                            healthApiClient,
+                            "Bearer " + session.accessToken(),
+                            "users/me/dataTypes/daily-resting-heart-rate",
+                            dateFilter("daily_resting_heart_rate.date", dateRange.beg(), dateRange.end()));
+                    heartRates.putAll(dataPoints.stream()
+                            .map(ReconcileDataPointsResponseDataPointsInner::getDailyRestingHeartRate)
+                            .filter(Objects::nonNull)
+                            .map(value -> HeartRateEntity.create(session.userId(), value))
+                            .collect(toSortedMap(HeartRateEntity::getDate)));
+                }
                 for(LocalDate date = dateBeg; !date.isAfter(dateEnd); date = date.plusDays(1)) {
                     if(!heartRates.containsKey(date)) {
                         heartRates.put(date, createEmptyDay(session.userId(), date));

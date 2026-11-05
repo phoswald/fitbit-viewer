@@ -1,12 +1,12 @@
 package com.github.phoswald.fitbit.viewer.repository;
 
+import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.dateOf;
+import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.stageMinutesOf;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.add;
-import static com.github.phoswald.fitbit.viewer.ValueHelpers.parseDate;
 import static java.util.Objects.requireNonNull;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,7 +15,8 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
-import com.github.phoswald.fitbit.viewer.fitbitapi.SleepApiClient;
+import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerSleep;
+import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerSleepSummaryStagesSummaryInner.TypeEnum;
 
 @Entity
 @Table(name = "fitbit_sleep_")
@@ -55,28 +56,22 @@ public class SleepEntity {
     @Column(name = "minutes_wake_")
     private Integer minutesWake;
 
-    public static SleepEntity create(String userId, SleepApiClient.SleepEntry entry) {
+    public static SleepEntity create(String userId, ReconcileDataPointsResponseDataPointsInnerSleep sleep) {
         SleepEntity entity = new SleepEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
-        entity.setDate(parseDate(requireNonNull(entry.dateOfSleep(), "dateOfSleep")));
-        if(entry.levels() != null && entry.levels().summary() != null) {
-            if(Objects.equals(entry.type(), "classic")) {
-                entity.setMinutesAsleep(getMinutes(entry.levels().summary().asleep()));
-                entity.setMinutesRestless(getMinutes(entry.levels().summary().restless()));
-                entity.setMinutesAwake(getMinutes(entry.levels().summary().awake()));
-            }
-            if(Objects.equals(entry.type(), "stages")) {
-                entity.setMinutesDeep(getMinutes(entry.levels().summary().deep()));
-                entity.setMinutesLight(getMinutes(entry.levels().summary().light()));
-                entity.setMinutesRem(getMinutes(entry.levels().summary().rem()));
-                entity.setMinutesWake(getMinutes(entry.levels().summary().wake()));
-            }
+        entity.setDate(requireNonNull(dateOf(sleep), "date"));
+        if(sleep.getType() == ReconcileDataPointsResponseDataPointsInnerSleep.TypeEnum.CLASSIC) {
+            entity.setMinutesAsleep(stageMinutesOf(sleep, TypeEnum.ASLEEP));
+            entity.setMinutesRestless(stageMinutesOf(sleep, TypeEnum.RESTLESS));
+            entity.setMinutesAwake(stageMinutesOf(sleep, TypeEnum.AWAKE));
+        }
+        if(sleep.getType() == ReconcileDataPointsResponseDataPointsInnerSleep.TypeEnum.STAGES) {
+            entity.setMinutesDeep(stageMinutesOf(sleep, TypeEnum.DEEP));
+            entity.setMinutesLight(stageMinutesOf(sleep, TypeEnum.LIGHT));
+            entity.setMinutesRem(stageMinutesOf(sleep, TypeEnum.REM));
+            entity.setMinutesWake(stageMinutesOf(sleep, TypeEnum.AWAKE));
         }
         return entity;
-    }
-
-    private static Integer getMinutes(SleepApiClient.SleepLevelDetail detail) {
-        return detail == null ? null : detail.minutes();
     }
 
     public static SleepEntity merge(SleepEntity entity1, SleepEntity entity2) {
