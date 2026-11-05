@@ -1,8 +1,8 @@
 package com.github.phoswald.fitbit.viewer.pages.steps;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 
 import com.github.phoswald.fitbit.viewer.HealthApiHelpers;
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
-import com.github.phoswald.fitbit.viewer.fitbitapi.StepsApiClient;
 import com.github.phoswald.fitbit.viewer.pages.DateRangeController;
 import com.github.phoswald.fitbit.viewer.repository.StepsEntity;
 import com.github.phoswald.fitbit.viewer.repository.StepsRepository;
@@ -36,10 +35,6 @@ public class StepsController extends DateRangeController {
 
     @Inject
     private Template steps;
-
-    @Inject
-    @RestClient
-    private StepsApiClient stepsApiClient;
 
     @Inject
     @RestClient
@@ -64,24 +59,27 @@ public class StepsController extends DateRangeController {
     private StepsViewModel createStepsViewModel(SessionData session) {
         try {
             log.info("Querying: dateBeg={}, dateEnd={}, datePeriod={}", dateBeg, dateEnd, datePeriod);
-            var steps = stepsRepository.loadByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
+            SortedMap<LocalDate, StepsEntity> steps = stepsRepository.loadByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
                     .collect(toSortedMap(StepsEntity::getDate));
             if(!refresh && isComplete(steps)) {
                 log.debug("Found {} entities", steps.size());
             } else {
-                log.debug("User: {}", session.userId()); // TODO (cleanup): remove
-                log.debug("Access token: {}", session.accessToken()); // TODO (cleanup): remove
-                // TODO: implement pagination
-                var request = new DailyRollUpDataPointsRequest()
-                        .range(HealthApiHelpers.dateRange(dateBeg, dateEnd))
-                        .windowSizeDays(1);
-                var response = healthApiClient.healthUsersDataTypesDataPointsDailyRollUp(
-                        "Bearer " + session.accessToken(),
-                        "users/me/dataTypes/steps",
-                        request);
-                steps = Optional.ofNullable(response.getRollupDataPoints()).orElse(List.of()).stream()
-                        .map(entry -> StepsEntity.create(session.userId(), entry))
-                        .collect(toSortedMap(StepsEntity::getDate));
+                steps = new TreeMap<>();
+                for (var dateRange : getQueryDateRanges()) {
+                    log.debug("Querying (current): dateBeg={}, dateEnd={}", dateRange.beg(), dateRange.end());
+                    var request = new DailyRollUpDataPointsRequest()
+                            .range(HealthApiHelpers.dateRange(dateRange.beg(), dateRange.end()))
+                            .windowSizeDays(1);
+                    var response = healthApiClient.healthUsersDataTypesDataPointsDailyRollUp(
+                            "Bearer " + session.accessToken(),
+                            "users/me/dataTypes/steps",
+                            request);
+                    if(response.getRollupDataPoints() != null) {
+                        steps.putAll(response.getRollupDataPoints().stream()
+                                .map(entry -> StepsEntity.create(session.userId(), entry))
+                                .collect(toSortedMap(StepsEntity::getDate)));
+                    }
+                }
                 for(LocalDate date = dateBeg; !date.isAfter(dateEnd); date = date.plusDays(1)) {
                     if(!steps.containsKey(date)) {
                         steps.put(date, createEmptyDay(session.userId(), date));

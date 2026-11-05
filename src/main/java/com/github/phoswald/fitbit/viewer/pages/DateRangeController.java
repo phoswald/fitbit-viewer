@@ -59,6 +59,7 @@ public abstract class DateRangeController extends BaseController {
         var result = new ArrayList<DateRange>();
         LocalDate curBeg = dateBeg;
         while (!curBeg.isAfter(dateEnd)) {
+            // TODO: review interval size, seems to be 90 days for steps on Google Health API
             LocalDate curEnd = min(dateEnd, curBeg.plusMonths(1).minusDays(1));
             result.add(new DateRange(curBeg, curEnd));
             curBeg = curEnd.plusDays(1);
