@@ -21,12 +21,11 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
-import com.github.phoswald.fitbit.viewer.fitbitapi.ActivityApiClient;
+import com.github.phoswald.fitbit.viewer.healthapi.HealthApiClient;
 import com.github.phoswald.fitbit.viewer.pages.BaseController;
 import com.github.phoswald.fitbit.viewer.repository.ActivityEntity;
 import com.github.phoswald.fitbit.viewer.repository.ActivityRepository;
@@ -46,8 +45,7 @@ public class ActivityDetailController extends BaseController {
     private Template activityDetail;
 
     @Inject
-    @RestClient
-    private ActivityApiClient activityApiClient;
+    private HealthApiClient healthApiClient;
 
     @Inject
     private ActivityRepository activityRepository;
@@ -88,7 +86,7 @@ public class ActivityDetailController extends BaseController {
             if(!refreshTcx && tcxEntity.isPresent()) {
                 log.debug("Found TCX entity");
             } else {
-                String tcxXml = activityApiClient.getActivityTcx("Bearer " + session.accessToken(), logId);
+                String tcxXml = healthApiClient.getExportExerciseTcx(session, logId);
                 Integer altitudeCorrection = tcxEntity.map(TcxEntity::getAltitudeCorrection).orElse(null);
                 tcxEntity = Optional.of(TcxEntity.create(session.userId(), logId, tcxXml, altitudeCorrection));
                 log.info("Storing TCX entity");

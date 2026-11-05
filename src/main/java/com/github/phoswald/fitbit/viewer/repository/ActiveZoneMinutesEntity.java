@@ -46,15 +46,15 @@ public class ActiveZoneMinutesEntity {
     @Column(name = "peak_azm_")
     private Integer peakAzm;
 
-    public static ActiveZoneMinutesEntity create(String userId, DailyRollUpDataPointsResponseRollupDataPointsInner entry) {
+    public static ActiveZoneMinutesEntity create(String userId, DailyRollUpDataPointsResponseRollupDataPointsInner dataPoint) {
         ActiveZoneMinutesEntity entity = new ActiveZoneMinutesEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
-        entity.setDate(requireNonNull(dateOf(entry), "date"));
-        DailyRollUpDataPointsResponseRollupDataPointsInnerActiveZoneMinutes value = entry.getActiveZoneMinutes();
-        if(value != null) {
-            entity.setFatBurnAzm(parseInteger(value.getSumInFatBurnHeartZone()));
-            entity.setCardioAzm(parseInteger(value.getSumInCardioHeartZone()));
-            entity.setPeakAzm(parseInteger(value.getSumInPeakHeartZone()));
+        entity.setDate(requireNonNull(dateOf(dataPoint), "date"));
+        DailyRollUpDataPointsResponseRollupDataPointsInnerActiveZoneMinutes activeZoneMinutes = dataPoint.getActiveZoneMinutes();
+        if(activeZoneMinutes != null) {
+            entity.setFatBurnAzm(parseInteger(activeZoneMinutes.getSumInFatBurnHeartZone()));
+            entity.setCardioAzm(parseInteger(activeZoneMinutes.getSumInCardioHeartZone()));
+            entity.setPeakAzm(parseInteger(activeZoneMinutes.getSumInPeakHeartZone()));
             // The Google Health API has no total
             entity.setTotalAzm(add(add(entity.getFatBurnAzm(), entity.getCardioAzm()), entity.getPeakAzm()));
         }

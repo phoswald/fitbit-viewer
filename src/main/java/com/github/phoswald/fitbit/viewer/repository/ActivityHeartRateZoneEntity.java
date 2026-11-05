@@ -6,8 +6,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 
-import com.github.phoswald.fitbit.viewer.fitbitapi.ActivityApiClient;
-
 @Entity
 @Table(name = "fitbit_activity_heartrate_zone_")
 @IdClass(ActivityHeartRateZoneEntity.ActivityHeartRateZoneId.class)
@@ -37,15 +35,14 @@ public class ActivityHeartRateZoneEntity {
     @Column(name = "heartrate_max_")
     private Integer heartRateMax;
 
-    public static ActivityHeartRateZoneEntity create(String userId, long logId, ActivityApiClient.HeartRateZone entry) {
+    static ActivityHeartRateZoneEntity create(String userId, long logId, String zoneName, Integer zoneMinutes, Integer heartRateMin, Integer heartRateMax) {
         ActivityHeartRateZoneEntity entity = new ActivityHeartRateZoneEntity();
         entity.setUserId(userId);
         entity.setLogId(logId);
-        entity.setZoneName(entry.name());
-        entity.setZoneMinutes(entry.minutes());
-        entity.setCalories(entry.caloriesOut());
-        entity.setHeartRateMin(entry.min());
-        entity.setHeartRateMax(entry.max());
+        entity.setZoneName(zoneName);
+        entity.setZoneMinutes(zoneMinutes);
+        entity.setHeartRateMin(heartRateMin);
+        entity.setHeartRateMax(heartRateMax);
         return entity;
     }
 

@@ -1,7 +1,5 @@
 package com.github.phoswald.fitbit.viewer.pages.azm;
 
-import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.dateRange;
-
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.SortedMap;
@@ -14,16 +12,14 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
+import com.github.phoswald.fitbit.viewer.healthapi.HealthApiClient;
 import com.github.phoswald.fitbit.viewer.pages.DateRangeController;
 import com.github.phoswald.fitbit.viewer.repository.ActiveZoneMinutesEntity;
 import com.github.phoswald.fitbit.viewer.repository.ActiveZoneMinutesRepository;
-import com.google.api.health.v4.api.DefaultApi;
-import com.google.api.health.v4.model.DailyRollUpDataPointsRequest;
 
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
@@ -38,8 +34,7 @@ public class ActiveZoneMinutesController extends DateRangeController {
     private Template activeZoneMinutes;
 
     @Inject
-    @RestClient
-    private DefaultApi healthApiClient;
+    private HealthApiClient healthApiClient;
 
     @Inject
     private ActiveZoneMinutesRepository azmRepository;
@@ -67,19 +62,10 @@ public class ActiveZoneMinutesController extends DateRangeController {
             } else {
                 azms.clear();
                 for (var dateRange : getQueryDateRanges(Duration.ofDays(90))) {
-                    log.debug("Querying (current): dateBeg={}, dateEnd={}", dateRange.beg(), dateRange.end());
-                    var request = new DailyRollUpDataPointsRequest()
-                            .range(dateRange(dateRange.beg(), dateRange.end()))
-                            .windowSizeDays(1);
-                    var response = healthApiClient.healthUsersDataTypesDataPointsDailyRollUp(
-                            "Bearer " + session.accessToken(),
-                            "users/me/dataTypes/active-zone-minutes",
-                            request);
-                    if(response.getRollupDataPoints() != null) {
-                        azms.putAll(response.getRollupDataPoints().stream()
-                                .map(entry -> ActiveZoneMinutesEntity.create(session.userId(), entry))
-                                .collect(toSortedMap(ActiveZoneMinutesEntity::getDate)));
-                    }
+                    var dataPoints = healthApiClient.getDailyRollup(session, "active-zone-minutes", dateRange.beg(), dateRange.end());
+                    azms.putAll(dataPoints.stream()
+                            .map(dataPoint -> ActiveZoneMinutesEntity.create(session.userId(), dataPoint))
+                            .collect(toSortedMap(ActiveZoneMinutesEntity::getDate)));
                 }
                 for(LocalDate date = dateBeg; !date.isAfter(dateEnd); date = date.plusDays(1)) {
                     if(!azms.containsKey(date)) {

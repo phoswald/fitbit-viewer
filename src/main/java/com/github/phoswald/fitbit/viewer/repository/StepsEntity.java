@@ -35,11 +35,11 @@ public class StepsEntity {
     @Column(name = "step_count_")
     private Integer stepCount;
 
-    public static StepsEntity create(String userId, DailyRollUpDataPointsResponseRollupDataPointsInner entry) {
+    public static StepsEntity create(String userId, DailyRollUpDataPointsResponseRollupDataPointsInner dataPoint) {
         StepsEntity entity = new StepsEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
-        entity.setDate(requireNonNull(dateOf(entry), "date"));
-        entity.setStepCount(stepCountOf(entry));
+        entity.setDate(requireNonNull(dateOf(dataPoint), "date"));
+        entity.setStepCount(stepCountOf(dataPoint));
         return entity;
     }
 

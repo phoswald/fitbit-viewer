@@ -43,7 +43,7 @@ This is a **Quarkus 3.x (latest)** Java application targeting Java 25. It uses:
 - **Qute** (`quarkus-rest-qute`) for server-side HTML templating — templates live in `src/main/resources/templates/` and are injected via `@Inject Template <name>`
 - **CDI** for dependency injection; page controllers are `@RequestScoped`
 - **Hibernate ORM** with PostgreSQL in production; H2 in tests
-- **MicroProfile REST Client** for the Fitbit API and OAuth token exchange
+- **MicroProfile REST Client** for the OAuth token exchange, and for the Google Health API with `DefaultApi`, which `quarkus-openapi-generator` generates from `src/main/openapi/health-v4.json`
 
 Make classes package level visible and fields private by default.
 
@@ -53,7 +53,6 @@ For plain DTOs, use Java records and the `@RecordBuilder` annotation, which gene
 
 ```
 auth/          OAuth2 flow (login, callback, token exchange) + JWT-signed session cookie
-fitbitapi/     MicroProfile REST client interfaces for each Fitbit API endpoint
 pages/         One subpackage per page (steps, heartrate, cardioscore, azm, activities, profile)
 repository/    JPA entities and repositories for each data type
 tcx/           JAXB model for parsing TCX (GPS workout) XML files
@@ -66,7 +65,7 @@ Each page follows the same pattern:
 
 1. **Controller** (`@RequestScoped`, `@Path("/pages/<name>")`) extends `DateRangeController` (or `BaseController`)
 2. Controller reads `sessionCookie`, calls `SessionManager.parseAndVerifyCookie()` to get `SessionData` (userId + access token)
-3. Controller checks the repository for cached data; if missing or `refresh=true`, calls the Fitbit API client, stores results, returns them
+3. Controller checks the repository for cached data; if missing or `refresh=true`, calls the Google Health API client, stores results, returns them
 4. Controller builds a **ViewModel** (a `@RecordBuilder` record) and passes it to the Qute template via `template.data("model", vm)`
 5. **Qute template** renders the page; charts use Chart.js via `{model.stepsChart.formatJson(8)}` — the `TemplateExtensions` class provides `.format()`, `.formatDuration()`, `.formatPace()`, and `.formatJson()` methods callable in templates
 

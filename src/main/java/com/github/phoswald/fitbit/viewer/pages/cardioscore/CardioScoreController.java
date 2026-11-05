@@ -1,8 +1,5 @@
 package com.github.phoswald.fitbit.viewer.pages.cardioscore;
 
-import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.dateFilter;
-import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.reconcile;
-
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -16,15 +13,14 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
+import com.github.phoswald.fitbit.viewer.healthapi.HealthApiClient;
 import com.github.phoswald.fitbit.viewer.pages.DateRangeController;
 import com.github.phoswald.fitbit.viewer.repository.CardioScoreEntity;
 import com.github.phoswald.fitbit.viewer.repository.CardioScoreRepository;
-import com.google.api.health.v4.api.DefaultApi;
 import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInner;
 
 import io.quarkus.qute.Template;
@@ -40,8 +36,7 @@ public class CardioScoreController extends DateRangeController {
     private Template cardioscore;
 
     @Inject
-    @RestClient
-    private DefaultApi healthApiClient;
+    private HealthApiClient healthApiClient;
 
     @Inject
     private CardioScoreRepository cardioScoreRepository;
@@ -69,12 +64,7 @@ public class CardioScoreController extends DateRangeController {
             } else {
                 cardioScores.clear();
                 for(var dateRange : getQueryDateRanges(Duration.ofDays(90))) {
-                    log.debug("Querying (current): dateBeg={}, dateEnd={}", dateRange.beg(), dateRange.end());
-                    var dataPoints = reconcile(
-                            healthApiClient,
-                            "Bearer " + session.accessToken(),
-                            "users/me/dataTypes/daily-vo2-max",
-                            dateFilter("daily_vo2_max.date", dateRange.beg(), dateRange.end()));
+                    var dataPoints = healthApiClient.getReconcile(session, "daily-vo2-max", "daily_vo2_max.date", dateRange.beg(), dateRange.end());
                     cardioScores.putAll(dataPoints.stream()
                             .map(ReconcileDataPointsResponseDataPointsInner::getDailyVo2Max)
                             .filter(Objects::nonNull)

@@ -3,16 +3,12 @@ package com.github.phoswald.fitbit.viewer;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.divideBy;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.parseInteger;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.round;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
-import java.net.URLEncoder;
 import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.util.List;
 
-import com.google.api.health.v4.api.DefaultApi;
 import com.google.api.health.v4.model.DailyRollUpDataPointsRequestRange;
 import com.google.api.health.v4.model.DailyRollUpDataPointsRequestRangeEnd;
 import com.google.api.health.v4.model.DailyRollUpDataPointsRequestRangeEndDate;
@@ -22,44 +18,13 @@ import com.google.api.health.v4.model.DailyRollUpDataPointsResponseRollupDataPoi
 import com.google.api.health.v4.model.ListDataPointsResponse;
 import com.google.api.health.v4.model.ListDataPointsResponseDataPointsInner;
 import com.google.api.health.v4.model.ProfileMembershipStartDate;
-import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInner;
 import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerDailyRestingHeartRateDate;
 import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerDailyVo2MaxDate;
 import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerSleep;
 import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerSleepInterval;
 import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerSleepSummaryStagesSummaryInner;
 
-public class HealthApiHelpers {
-
-    /**
-     * Queries reconciled data points, which must fit on a single page, as paging is not implemented.
-     *
-     * @throws IllegalStateException if the response has further pages
-     */
-    public static List<ReconcileDataPointsResponseDataPointsInner> reconcile(
-            DefaultApi client, String authorization, String parent, String filter) {
-        var response = client.healthUsersDataTypesDataPointsReconcile(
-                authorization, parent, null, null, null, encodeQueryParam(filter));
-        if(response.getNextPageToken() != null && !response.getNextPageToken().isEmpty()) {
-            throw new IllegalStateException("Too many data points for a single page: parent=" + parent + ", filter=" + filter);
-        }
-        return response.getDataPoints() == null ? List.of() : response.getDataPoints();
-    }
-
-    /**
-     * Creates a civil date filter for the inclusive range from dateBeg to dateEnd.
-     */
-    public static String dateFilter(String field, LocalDate dateBeg, LocalDate dateEnd) {
-        return field + " >= \"" + dateBeg + "\" AND " + field + " < \"" + dateEnd.plusDays(1) + "\"";
-    }
-
-    /**
-     * Encodes a query parameter, as the Encoded annotation on the generated API (see application.properties)
-     * turns off encoding by the client.
-     */
-    static String encodeQueryParam(String value) {
-        return URLEncoder.encode(value, UTF_8).replace("+", "%20");
-    }
+public class HealthApiHelpers { // TODO: review methods usages
 
     public static DailyRollUpDataPointsRequestRange dateRange(LocalDate dateBeg, LocalDate dateEnd) {
         return new DailyRollUpDataPointsRequestRange()
@@ -79,6 +44,15 @@ public class HealthApiHelpers {
                 .year(date.getYear())
                 .month(date.getMonthValue())
                 .day(date.getDayOfMonth());
+    }
+
+    /**
+     * Returns the numeric ID at the end of a data point name (users/{user}/dataTypes/exercise/dataPoints/{id}).
+     *
+     * @throws NumberFormatException if the ID is not numeric
+     */
+    public static long logIdOf(String dataPointName) {
+        return Long.parseLong(dataPointName.substring(dataPointName.lastIndexOf('/') + 1));
     }
 
     public static LocalDate dateOf(DailyRollUpDataPointsResponseRollupDataPointsInner entry) {
@@ -103,12 +77,31 @@ public class HealthApiHelpers {
      */
     public static LocalDate dateOf(ReconcileDataPointsResponseDataPointsInnerSleep sleep) {
         ReconcileDataPointsResponseDataPointsInnerSleepInterval interval = sleep.getInterval();
-        if(interval == null || interval.getEndTime() == null || interval.getEndUtcOffset() == null) {
+        if(interval == null) {
             return null;
         }
-        Instant endTime = Instant.parse(interval.getEndTime());
-        Duration endUtcOffset = Duration.parse("PT" + interval.getEndUtcOffset());
-        return LocalDate.ofInstant(endTime.plus(endUtcOffset), ZoneOffset.UTC);
+        return ValueHelpers.dateOf(offsetDateTimeOf(interval.getEndTime(), interval.getEndUtcOffset()));
+    }
+
+    /**
+     * Combines a timestamp ("2026-11-05T10:18:00Z") and an offset from UTC ("3600s").
+     */
+    public static OffsetDateTime offsetDateTimeOf(String time, String utcOffset) { // TODO (cleanup): move to value helpers
+        if(time == null || utcOffset == null) {
+            return null;
+        }
+        return OffsetDateTime.parse(time).withOffsetSameInstant(ZoneOffset.ofTotalSeconds((int) durationOf(utcOffset).toSeconds()));
+    }
+
+    /**
+     * Returns the minutes of a duration ("1800s" or "3.5s").
+     */
+    public static Double minutesOf(String duration) { // TODO (cleanup): move to value helpers
+        return duration == null ? null : durationOf(duration).toMillis() / 60_000.0;
+    }
+
+    private static Duration durationOf(String value) { // TODO (cleanup): move to value helpers
+        return Duration.parse("PT" + value);
     }
 
     public static Integer stageMinutesOf(

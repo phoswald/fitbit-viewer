@@ -45,11 +45,11 @@ public class CardioScoreEntity {
      * The Google Health API returns a single value, never a range: scoreMin and scoreMax are only set on rows
      * cached from the Fitbit API. The value's "estimated" flag is not related to the scoreEstimated field.
      */
-    public static CardioScoreEntity create(String userId, ReconcileDataPointsResponseDataPointsInnerDailyVo2Max value) {
+    public static CardioScoreEntity create(String userId, ReconcileDataPointsResponseDataPointsInnerDailyVo2Max dailyVo2Max) {
         CardioScoreEntity entity = new CardioScoreEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
-        entity.setDate(requireNonNull(dateOf(value.getDate()), "date"));
-        entity.setScoreEstimated(toDouble(value.getVo2Max()));
+        entity.setDate(requireNonNull(dateOf(dailyVo2Max.getDate()), "date"));
+        entity.setScoreEstimated(toDouble(dailyVo2Max.getVo2Max()));
         return entity;
     }
 

@@ -1,8 +1,5 @@
 package com.github.phoswald.fitbit.viewer.pages.sleep;
 
-import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.dateFilter;
-import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.reconcile;
-
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -16,15 +13,14 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
+import com.github.phoswald.fitbit.viewer.healthapi.HealthApiClient;
 import com.github.phoswald.fitbit.viewer.pages.DateRangeController;
 import com.github.phoswald.fitbit.viewer.repository.SleepEntity;
 import com.github.phoswald.fitbit.viewer.repository.SleepRepository;
-import com.google.api.health.v4.api.DefaultApi;
 import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInner;
 
 import io.quarkus.qute.Template;
@@ -40,8 +36,7 @@ public class SleepController extends DateRangeController {
     private Template sleep;
 
     @Inject
-    @RestClient
-    private DefaultApi healthApiClient;
+    private HealthApiClient healthApiClient;
 
     @Inject
     private SleepRepository sleepRepository;
@@ -68,14 +63,8 @@ public class SleepController extends DateRangeController {
                 log.debug("Found {} entities", sleeps.size());
             } else {
                 sleeps.clear();
-                // The API returns at most 25 sleep sessions per page and paging is not implemented, so 10 days leave room for naps
-                for (var dateRange : getQueryDateRanges(Duration.ofDays(10))) {
-                    log.debug("Querying (current): dateBeg={}, dateEnd={}", dateRange.beg(), dateRange.end());
-                    var dataPoints = reconcile(
-                            healthApiClient,
-                            "Bearer " + session.accessToken(),
-                            "users/me/dataTypes/sleep",
-                            dateFilter("sleep.interval.civil_end_time", dateRange.beg(), dateRange.end()));
+                for (var dateRange : getQueryDateRanges(Duration.ofDays(90))) {
+                    var dataPoints = healthApiClient.getReconcile(session, "sleep", "sleep.interval.civil_end_time", dateRange.beg(), dateRange.end());
                     sleeps.putAll(dataPoints.stream()
                             .map(ReconcileDataPointsResponseDataPointsInner::getSleep)
                             .filter(Objects::nonNull)

@@ -1,7 +1,12 @@
 package com.github.phoswald.fitbit.viewer.pages.activities;
 
+import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.logIdOf;
+import static java.util.Objects.requireNonNull;
+
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,12 +24,11 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
-import com.github.phoswald.fitbit.viewer.fitbitapi.ActivityApiClient;
+import com.github.phoswald.fitbit.viewer.healthapi.HealthApiClient;
 import com.github.phoswald.fitbit.viewer.pages.DateRangeController;
 import com.github.phoswald.fitbit.viewer.repository.ActivityDayEntity;
 import com.github.phoswald.fitbit.viewer.repository.ActivityEntity;
@@ -39,16 +43,13 @@ import io.quarkus.qute.TemplateInstance;
 @Path("/pages/activities")
 public class ActivityController extends DateRangeController {
 
-    private static final int PAGE_SIZE = 50;
-
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Inject
     private Template activities;
 
     @Inject
-    @RestClient
-    private ActivityApiClient activityClient;
+    private HealthApiClient healthApiClient;
 
     @Inject
     private ActivityRepository activityRepository;
@@ -96,34 +97,20 @@ public class ActivityController extends DateRangeController {
                 if(!refresh && isComplete(days)) {
                     log.debug("Found {} entities for {} days", activities.size(), days.size());
                 } else {
-                    var oldActivities = activities;
+                    Map<Long, ActivityEntity> oldActivities = activities;
                     activities = new LinkedHashMap<>();
-                    LocalDate currentDateBeg = dateBeg;
-                    while (!currentDateBeg.isAfter(dateEnd)) {
-                        log.debug("Querying (current): dateBeg={}, limit={}", currentDateBeg, PAGE_SIZE);
-                        var response = activityClient.getActivities(
-                                "Bearer " + session.accessToken(),
-                                currentDateBeg.toString(),
-                                null, "asc",
-                                PAGE_SIZE, 0);
-                        var entitiesNew = response.activities().stream()
-                                .map(entry -> ActivityEntity.create(
-                                        session.userId(), entry, getLabels(oldActivities, entry.logId())))
-                                .filter(e -> !e.getDate().isAfter(dateEnd))
-                                .toList();
-                        log.debug("Found: {}", entitiesNew.size());
-                        if (addAll(activities, entitiesNew) == 0) {
-                            break;
-                        }
-                        currentDateBeg = entitiesNew.getLast().getDate();
-                        if (response.activities().size() < PAGE_SIZE) {
-                            break;
-                        }
+                    for (var dateRange : getQueryDateRanges(Duration.ofDays(90))) {
+                        var dataPoints = healthApiClient.getList(session, "exercise", "exercise.interval.civil_start_time", dateRange.beg(), dateRange.end());
+                        activities.putAll(dataPoints.stream()
+                                .filter(dataPoint -> dataPoint.getExercise() != null)
+                                .map(dataPoint -> ActivityEntity.create(
+                                        session.userId(), dataPoint, getLabels(oldActivities, logIdOf(dataPoint.getName()))))
+                                .sorted(Comparator.comparing(ActivityEntity::getBegDateTime))
+                                .collect(toLinkedHashMap(ActivityEntity::getLogId)));
                     }
                     for(LocalDate date = dateBeg; !date.isAfter(dateEnd); date = date.plusDays(1)) {
                         if(!days.containsKey(date)) {
-                            log.debug("Filling gap: {}", date);
-                            days.put(date, ActivityDayEntity.create(session.userId(), date));
+                            days.put(date, createEmptyDay(session.userId(), date));
                         }
                     }
                     log.info("Storing {} entities for {} days", activities.size(), days.size());
@@ -139,20 +126,18 @@ public class ActivityController extends DateRangeController {
         }
     }
 
+    public ActivityDayEntity createEmptyDay(String userId, LocalDate date) {
+        log.debug("Filling gap: {}", date);
+        ActivityDayEntity entity = new ActivityDayEntity();
+        entity.setUserId(requireNonNull(userId, "userId"));
+        entity.setDate(requireNonNull(date, "date"));
+        return entity;
+    }
+
     private boolean isQueryByLabelOnly() {
         return dateBeg == null && dateEnd == null
                 && label != null && !Objects.equals(label, "(none)")
                 && !refresh;
-    }
-
-    private static int addAll(Map<Long, ActivityEntity> activities, List<ActivityEntity> activitiesNew) {
-        int oldSize = activities.size();
-        for(ActivityEntity activity : activitiesNew) {
-            if(!activities.containsKey(activity.getLogId())) {
-                activities.put(activity.getLogId(), activity);
-            }
-        }
-        return activities.size() - oldSize;
     }
 
     private static List<String> getLabels(Map<Long, ActivityEntity> activities, Long logId) {

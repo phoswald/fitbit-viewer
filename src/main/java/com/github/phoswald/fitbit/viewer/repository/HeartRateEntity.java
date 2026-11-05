@@ -35,11 +35,11 @@ public class HeartRateEntity {
     @Column(name = "resting_heart_rate_")
     private Integer restingHeartRate;
 
-    public static HeartRateEntity create(String userId, ReconcileDataPointsResponseDataPointsInnerDailyRestingHeartRate value) {
+    public static HeartRateEntity create(String userId, ReconcileDataPointsResponseDataPointsInnerDailyRestingHeartRate restingHeartRate) {
         HeartRateEntity entity = new HeartRateEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
-        entity.setDate(requireNonNull(dateOf(value.getDate()), "date"));
-        entity.setRestingHeartRate(parseInteger(value.getBeatsPerMinute()));
+        entity.setDate(requireNonNull(dateOf(restingHeartRate.getDate()), "date"));
+        entity.setRestingHeartRate(parseInteger(restingHeartRate.getBeatsPerMinute()));
         return entity;
     }
 

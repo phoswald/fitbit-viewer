@@ -1,9 +1,15 @@
 package com.github.phoswald.fitbit.viewer.repository;
 
+import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.logIdOf;
+import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.minutesOf;
+import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.offsetDateTimeOf;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.dateOf;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.divideBy;
-import static com.github.phoswald.fitbit.viewer.ValueHelpers.parseDateTime;
-import static com.github.phoswald.fitbit.viewer.ValueHelpers.plusMillis;
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.minutesBetween;
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.multiplyBy;
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.parseInteger;
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.round;
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.toDouble;
 import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;
@@ -26,7 +32,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 
-import com.github.phoswald.fitbit.viewer.fitbitapi.ActivityApiClient;
+import com.google.api.health.v4.model.ListDataPointsResponseDataPointsInner;
 
 @Entity
 @Table(name = "fitbit_activity_")
@@ -112,16 +118,16 @@ public class ActivityEntity {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumns({
-        @JoinColumn(name = "user_id_", referencedColumnName = "user_id_"),
-        @JoinColumn(name = "log_id_", referencedColumnName = "log_id_")
+        @JoinColumn(name = "user_id_", referencedColumnName = "user_id_", insertable = false, updatable = false),
+        @JoinColumn(name = "log_id_", referencedColumnName = "log_id_", insertable = false, updatable = false)
     })
     @OrderBy("sortIndex ASC")
     private List<ActivityLevelEntity> activityLevels;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumns({
-        @JoinColumn(name = "user_id_", referencedColumnName = "user_id_"),
-        @JoinColumn(name = "log_id_", referencedColumnName = "log_id_")
+        @JoinColumn(name = "user_id_", referencedColumnName = "user_id_", insertable = false, updatable = false),
+        @JoinColumn(name = "log_id_", referencedColumnName = "log_id_", insertable = false, updatable = false)
     })
     @OrderBy("heartRateMin ASC")
     private List<ActivityHeartRateZoneEntity> heartRateZones;
@@ -138,55 +144,64 @@ public class ActivityEntity {
     @OrderBy
     private List<String> labels;
 
-    public static ActivityEntity create(String userId, ActivityApiClient.ActivityEntry entry, List<String> labels) {
+    /**
+     * The Google Health API has no activity type ID, source URL, source features or activity levels. Heart rate zones
+     * only have a duration, and may differ from the zones of the Fitbit API. Log type and source are mapped to the
+     * closest available fields: recording method, device name and device form factor.
+     */
+    public static ActivityEntity create(String userId, ListDataPointsResponseDataPointsInner dataPoint, List<String> labels) {
+        var exercise = requireNonNull(dataPoint.getExercise(), "exercise");
+        var interval = requireNonNull(exercise.getInterval(), "interval");
+        long logId = logIdOf(requireNonNull(dataPoint.getName(), "name"));
         ActivityEntity entity = new ActivityEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
-        entity.setLogId(requireNonNull(entry.logId(), "logId"));
-        entity.setLogType(entry.logType());
-        entity.setActivityTypeId(entry.activityTypeId());
-        entity.setActivityName(entry.activityName());
-        entity.setDate(dateOf(parseDateTime(entry.startTime())));
-        entity.setBegDateTime(parseDateTime(entry.startTime()));
-        entity.setEndDateTime(plusMillis(parseDateTime(entry.startTime()), entry.duration()));
-        entity.setDurationMinutes(divideBy(entry.duration(),60_000));
-        entity.setDurationActiveMinutes(divideBy(entry.activeDuration(),60_000));
-        if(entry.distanceUnit() != null && !entry.distanceUnit().equals("Kilometer")) {
-            throw new IllegalArgumentException("Unsupported distanceUnit=" + entry.distanceUnit());
-        }
-        entity.setDistance(entry.distance());
-        entity.setSteps(entry.steps());
-        entity.setCalories(entry.calories());
-        entity.setSpeed(entry.speed());
-        entity.setPace(entry.pace());
-        // entry.elevationGain(); // immer 0
-        // entry.floors(); // nicht vorhanden
-        entity.setAverageHeartRate(entry.averageHeartRate());
-        if(entry.activeZoneMinutes() != null) {
-            entity.setActiveZoneMinutes(entry.activeZoneMinutes().totalMinutes()); // redundant: sum over minutes * minuteMultiplier
-        }
-        if(entry.source() != null) {
-            entity.setSourceType(entry.source().type());
-            entity.setSourceName(entry.source().name());
-            entity.setSourceUrl(entry.source().url());
-            entity.setSourceFeatures(entry.source().trackerFeatures() == null ? null : String.join(", ", entry.source().trackerFeatures()));
-        }
-        if(entry.activityLevel() != null && !entry.activityLevel().isEmpty()) {
-            entity.setActivityLevels(new ArrayList<>());
-            int nextSortIndex = 1;
-            for(var activityLevel : entry.activityLevel()) {
-                entity.getActivityLevels().add(ActivityLevelEntity.create(
-                        userId, entity.getLogId(), nextSortIndex++, activityLevel));
+        entity.setLogId(logId);
+        entity.setActivityName(exercise.getDisplayName());
+        entity.setBegDateTime(requireNonNull(offsetDateTimeOf(interval.getStartTime(), interval.getStartUtcOffset()), "begDateTime"));
+        entity.setEndDateTime(offsetDateTimeOf(interval.getEndTime(), interval.getEndUtcOffset()));
+        entity.setDate(dateOf(entity.getBegDateTime()));
+        entity.setDurationMinutes(minutesBetween(entity.getBegDateTime(), entity.getEndDateTime()));
+        entity.setDurationActiveMinutes(minutesOf(exercise.getActiveDuration()));
+        entity.setActivityLevels(new ArrayList<>());
+        entity.setHeartRateZones(new ArrayList<>());
+        var summary = exercise.getMetricsSummary();
+        if(summary != null) {
+            entity.setDistance(divideBy(toDouble(summary.getDistanceMillimeters()), 1_000_000));
+            entity.setSteps(parseInteger(summary.getSteps()));
+            entity.setCalories(round(toDouble(summary.getCaloriesKcal())));
+            entity.setSpeed(multiplyBy(toDouble(summary.getAverageSpeedMillimetersPerSecond()), 0.0036)); // km/h
+            entity.setPace(multiplyBy(toDouble(summary.getAveragePaceSecondsPerMeter()), 1000)); // seconds per km
+            entity.setAverageHeartRate(parseInteger(summary.getAverageHeartRateBeatsPerMinute()));
+            entity.setActiveZoneMinutes(parseInteger(summary.getActiveZoneMinutes()));
+            var zones = summary.getHeartRateZoneDurations();
+            if(zones != null) {
+                // TODO: heart beat ranges would be dynamic (here, observed values from FitBit are used)
+                entity.addHeartRateZone("Out of Range", 30, 98, zones.getLightTime());
+                entity.addHeartRateZone("Fat Burn", 99, 122, zones.getModerateTime());
+                entity.addHeartRateZone("Cardio", 123, 152, zones.getVigorousTime());
+                entity.addHeartRateZone("Peak", 153, 220, zones.getPeakTime());
             }
         }
-        if(entry.heartRateZones() != null && !entry.heartRateZones().isEmpty()) {
-            entity.setHeartRateZones(new ArrayList<>());
-            for(var heartRateZone : entry.heartRateZones()) {
-                entity.getHeartRateZones().add(ActivityHeartRateZoneEntity.create(
-                        userId, entity.getLogId(), heartRateZone));
+        var dataSource = dataPoint.getDataSource();
+        if(dataSource != null) {
+            if(dataSource.getRecordingMethod() != null) {
+                entity.setLogType(dataSource.getRecordingMethod().name());
+            }
+            if(dataSource.getDevice() != null) {
+                entity.setSourceName(dataSource.getDevice().getDisplayName());
+                if(dataSource.getDevice().getFormFactor() != null) {
+                    entity.setSourceType(dataSource.getDevice().getFormFactor().name());
+                }
             }
         }
         entity.setLabels(labels);
         return entity;
+    }
+
+    private void addHeartRateZone(String zoneName, Integer heartRateMin, Integer heartRateMax, String duration) {
+        if(duration != null) {
+            heartRateZones.add(ActivityHeartRateZoneEntity.create(userId, logId, zoneName, round(minutesOf(duration)), heartRateMin, heartRateMax));
+        }
     }
 
     public String getUserId() {
@@ -382,7 +397,8 @@ public class ActivityEntity {
     }
 
     public boolean isAutoDetected() {
-        return logType != null && logType.equals("auto_detected");
+        return "auto_detected".equals(logType) /* Fitbit API */
+                || "PASSIVELY_MEASURED".equals(logType); /* Google Health API */
     }
 
     public boolean isLowCal() {

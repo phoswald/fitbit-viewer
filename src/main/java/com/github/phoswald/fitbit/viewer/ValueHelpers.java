@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.function.Function;
 
-public class ValueHelpers {
+public class ValueHelpers { // TODO: review methods usages
 
     public static Double toDouble(BigDecimal value) {
         return value == null ? null : value.doubleValue();
@@ -67,11 +67,11 @@ public class ValueHelpers {
         return obj -> add(accessor1.apply(obj), value2);
     }
 
-    public static Double divideBy(Integer value, int divisor) {
-        return value == null ? null : value.doubleValue() / divisor;
+    public static Double multiplyBy(Double value, double factor) {
+        return value == null ? null : value * factor;
     }
 
-    public static Double divideBy(Long value, int divisor) {
+    public static Double divideBy(Integer value, int divisor) {
         return value == null ? null : value.doubleValue() / divisor;
     }
 

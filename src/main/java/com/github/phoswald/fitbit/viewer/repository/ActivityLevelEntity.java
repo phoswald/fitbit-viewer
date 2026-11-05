@@ -6,8 +6,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 
-import com.github.phoswald.fitbit.viewer.fitbitapi.ActivityApiClient;
-
 @Entity
 @Table(name = "fitbit_activity_level_")
 @IdClass(ActivityLevelEntity.ActivityLevelId.class)
@@ -30,16 +28,6 @@ public class ActivityLevelEntity {
 
     @Column(name = "sort_index_")
     private Integer sortIndex;
-
-    public static ActivityLevelEntity create(String userId, long logId, int sortIndex, ActivityApiClient.ActivityLevel entry) {
-        ActivityLevelEntity entity = new ActivityLevelEntity();
-        entity.setUserId(userId);
-        entity.setLogId(logId);
-        entity.setLevelName(entry.name());
-        entity.setLevelMinutes(entry.minutes());
-        entity.setSortIndex(sortIndex);
-        return entity;
-    }
 
     public String getUserId() {
         return userId;

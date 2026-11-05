@@ -1,7 +1,5 @@
 package com.github.phoswald.fitbit.viewer.repository;
 
-import static java.util.Objects.requireNonNull;
-
 import java.time.LocalDate;
 
 import jakarta.persistence.Column;
@@ -27,13 +25,6 @@ public class ActivityDayEntity {
     @Id
     @Column(name = "date_", nullable = false)
     private LocalDate date;
-
-    public static ActivityDayEntity create(String userId, LocalDate date) {
-        ActivityDayEntity entity = new ActivityDayEntity();
-        entity.setUserId(requireNonNull(userId, "userId"));
-        entity.setDate(requireNonNull(date, "date"));
-        return entity;
-    }
 
     public String getUserId() {
         return userId;
