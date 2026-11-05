@@ -1,5 +1,8 @@
 package com.github.phoswald.fitbit.viewer.repository;
 
+import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.dateOf;
+import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.firstOf;
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.divideBy;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.maskZero;
 import static java.util.Objects.requireNonNull;
 
@@ -8,7 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-import com.github.phoswald.fitbit.viewer.fitbitapi.ProfileApiClient;
+import com.google.api.health.v4.model.Profile;
 
 @Entity
 @Table(name = "fitbit_profile_")
@@ -54,21 +57,16 @@ public class ProfileEntity {
     @Column(name = "average_daily_steps_")
     private String averageDailySteps;
 
-    public static ProfileEntity create(ProfileApiClient.UserData user) {
+    public static ProfileEntity create(String userId, Profile profile, Integer height, Integer weight) {
+        // TODO: review missing files, get full name, profile from ID token?
         ProfileEntity entity = new ProfileEntity();
-        entity.setUserId(requireNonNull(user.userId(), "userId"));
-        entity.setDisplayName(user.displayName());
-        entity.setFullName(user.fullName());
-        entity.setAvatarUrl(user.avatar());
-        entity.setDateOfBirth(user.dateOfBirth());
-        entity.setAge(user.age());
-        entity.setGender(user.gender());
-        entity.setMemberSince(user.memberSince());
-        entity.setHeight(maskZero(user.height()));
-        entity.setWeight(maskZero(user.weight()));
-        entity.setStrideLengthWalking(maskZero(user.strideLengthWalking()));
-        entity.setStrideLengthRunning(maskZero(user.strideLengthRunning()));
-        entity.setAverageDailySteps(user.averageDailySteps());
+        entity.setUserId(requireNonNull(userId, "userId"));
+        entity.setAge(profile.getAge());
+        entity.setMemberSince(dateOf(profile.getMembershipStartDate()));
+        entity.setHeight(maskZero(height));
+        entity.setWeight(maskZero(weight));
+        entity.setStrideLengthWalking(divideBy(firstOf(profile.getUserConfiguredWalkingStrideLengthMm(), profile.getAutoWalkingStrideLengthMm()), 10));
+        entity.setStrideLengthRunning(divideBy(firstOf(profile.getUserConfiguredRunningStrideLengthMm(), profile.getAutoRunningStrideLengthMm()), 10));
         return entity;
     }
 

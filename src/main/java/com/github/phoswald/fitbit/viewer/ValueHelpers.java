@@ -14,6 +14,10 @@ public class ValueHelpers {
         };
     }
 
+    public static Integer parseInteger(String value) {
+        return value == null ? null : Integer.valueOf(value);
+    }
+
     public static LocalDate parseDate(String value) {
         return value == null ? null : LocalDate.parse(value);
     }
@@ -56,6 +60,10 @@ public class ValueHelpers {
 
     public static <T> Function<T, Double> add(Function<T, Double> accessor1, Integer value2) {
         return obj -> add(accessor1.apply(obj), value2);
+    }
+
+    public static Double divideBy(Integer value, int divisor) {
+        return value == null ? null : value.doubleValue() / divisor;
     }
 
     public static Double divideBy(Long value, int divisor) {

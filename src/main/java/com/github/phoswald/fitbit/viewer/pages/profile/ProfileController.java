@@ -1,5 +1,8 @@
 package com.github.phoswald.fitbit.viewer.pages.profile;
 
+import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.heightCmOf;
+import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.weightKgOf;
+
 import java.util.Optional;
 
 import jakarta.enterprise.context.RequestScoped;
@@ -16,10 +19,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
-import com.github.phoswald.fitbit.viewer.fitbitapi.ProfileApiClient;
 import com.github.phoswald.fitbit.viewer.pages.BaseController;
 import com.github.phoswald.fitbit.viewer.repository.ProfileEntity;
 import com.github.phoswald.fitbit.viewer.repository.ProfileRepository;
+import com.google.api.health.v4.api.DefaultApi;
 
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
@@ -35,7 +38,7 @@ public class ProfileController extends BaseController {
 
     @Inject
     @RestClient
-    private ProfileApiClient profileClient;
+    private DefaultApi healthApiClient;
 
     @Inject
     private ProfileRepository profileRepository;
@@ -67,8 +70,11 @@ public class ProfileController extends BaseController {
             if(!refresh && profile.isPresent()) {
                 log.debug("Found entity");
             } else {
-                var response = profileClient.getProfile("Bearer " + session.accessToken());
-                profile = Optional.of(ProfileEntity.create(response.user()));
+                String authorization = "Bearer " + session.accessToken();
+                var response = healthApiClient.healthUsersGetProfile(authorization, "me");
+                var height = healthApiClient.healthUsersDataTypesDataPointsList(authorization, "users/me/dataTypes/height", null, 1, null, null);
+                var weight = healthApiClient.healthUsersDataTypesDataPointsList(authorization, "users/me/dataTypes/weight", null, 1, null, null);
+                profile = Optional.of(ProfileEntity.create(session.userId(), response, heightCmOf(height), weightKgOf(weight)));
                 log.info("Storing entity");
                 profileRepository.store(profile.get());
             }

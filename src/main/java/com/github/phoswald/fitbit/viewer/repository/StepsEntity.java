@@ -1,5 +1,7 @@
 package com.github.phoswald.fitbit.viewer.repository;
 
+import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.dateOf;
+import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.stepCountOf;
 import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;
@@ -11,7 +13,6 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
-import com.github.phoswald.fitbit.viewer.HealthApiHelpers;
 import com.google.api.health.v4.model.DailyRollUpDataPointsResponseRollupDataPointsInner;
 
 @Entity
@@ -37,8 +38,8 @@ public class StepsEntity {
     public static StepsEntity create(String userId, DailyRollUpDataPointsResponseRollupDataPointsInner entry) {
         StepsEntity entity = new StepsEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
-        entity.setDate(requireNonNull(HealthApiHelpers.dateOf(entry), "date"));
-        entity.setStepCount(HealthApiHelpers.stepCountOf(entry));
+        entity.setDate(requireNonNull(dateOf(entry), "date"));
+        entity.setStepCount(stepCountOf(entry));
         return entity;
     }
 

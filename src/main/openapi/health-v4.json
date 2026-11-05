@@ -87,6 +87,35 @@
         }
       }
     },
+    "/v4/users/{user}/profile": {
+      "get": {
+        "description": "Returns user's Profile.",
+        "operationId": "health.users.getProfile",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "path",
+            "description": "Required. The user whose profile to retrieve: a Health User ID, or the literal `me` for the authenticated user.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Profile"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v4/{name}": {
       "get": {
         "description": "Returns user's Device.",

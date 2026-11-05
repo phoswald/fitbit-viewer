@@ -1,5 +1,9 @@
 package com.github.phoswald.fitbit.viewer;
 
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.divideBy;
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.parseInteger;
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.round;
+
 import java.time.LocalDate;
 
 import com.google.api.health.v4.model.DailyRollUpDataPointsRequestRange;
@@ -8,6 +12,9 @@ import com.google.api.health.v4.model.DailyRollUpDataPointsRequestRangeEndDate;
 import com.google.api.health.v4.model.DailyRollUpDataPointsRequestRangeStart;
 import com.google.api.health.v4.model.DailyRollUpDataPointsRequestRangeStartDate;
 import com.google.api.health.v4.model.DailyRollUpDataPointsResponseRollupDataPointsInner;
+import com.google.api.health.v4.model.ListDataPointsResponse;
+import com.google.api.health.v4.model.ListDataPointsResponseDataPointsInner;
+import com.google.api.health.v4.model.ProfileMembershipStartDate;
 
 public class HealthApiHelpers {
 
@@ -44,5 +51,44 @@ public class HealthApiHelpers {
             return null;
         }
         return Integer.parseInt(entry.getSteps().getCountSum());
+    }
+
+    public static String dateOf(ProfileMembershipStartDate date) {
+        if(date == null) {
+            return null;
+        }
+        return LocalDate.of(date.getYear(), date.getMonth(), date.getDay()).toString();
+    }
+
+    public static Integer heightCmOf(ListDataPointsResponse response) {
+        var entry = firstOf(response);
+        if(entry == null || entry.getHeight() == null || entry.getHeight().getHeightMillimeters() == null) {
+            return null;
+        }
+        return round(divideBy(parseInteger(entry.getHeight().getHeightMillimeters()), 10));
+    }
+
+    public static Integer weightKgOf(ListDataPointsResponse response) {
+        var entry = firstOf(response);
+        if(entry == null || entry.getWeight() == null || entry.getWeight().getWeightGrams() == null) {
+            return null;
+        }
+        return round(divideBy(entry.getWeight().getWeightGrams().doubleValue(), 1000));
+    }
+
+    public static Integer firstOf(Integer... values) {
+        for(Integer value : values) {
+             if(value != null && value != 0) {
+                 return value;
+             }
+        }
+        return null;
+    }
+
+    private static ListDataPointsResponseDataPointsInner firstOf(ListDataPointsResponse response) {
+        if(response.getDataPoints() == null || response.getDataPoints().isEmpty()) {
+            return null;
+        }
+        return response.getDataPoints().getFirst();
     }
 }

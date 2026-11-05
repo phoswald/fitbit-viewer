@@ -1,5 +1,7 @@
 package com.github.phoswald.fitbit.viewer.pages.steps;
 
+import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.dateRange;
+
 import java.time.LocalDate;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -16,7 +18,6 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.phoswald.fitbit.viewer.HealthApiHelpers;
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
 import com.github.phoswald.fitbit.viewer.pages.DateRangeController;
 import com.github.phoswald.fitbit.viewer.repository.StepsEntity;
@@ -68,7 +69,7 @@ public class StepsController extends DateRangeController {
                 for (var dateRange : getQueryDateRanges()) {
                     log.debug("Querying (current): dateBeg={}, dateEnd={}", dateRange.beg(), dateRange.end());
                     var request = new DailyRollUpDataPointsRequest()
-                            .range(HealthApiHelpers.dateRange(dateRange.beg(), dateRange.end()))
+                            .range(dateRange(dateRange.beg(), dateRange.end()))
                             .windowSizeDays(1);
                     var response = healthApiClient.healthUsersDataTypesDataPointsDailyRollUp(
                             "Bearer " + session.accessToken(),
