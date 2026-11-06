@@ -2,12 +2,10 @@ package com.github.phoswald.fitbit.viewer;
 
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.divideBy;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.parseInteger;
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.parseOffsetDateTime;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.round;
 
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 
 import com.google.api.health.v4.model.DailyRollUpDataPointsRequestRange;
 import com.google.api.health.v4.model.DailyRollUpDataPointsRequestRangeEnd;
@@ -21,10 +19,9 @@ import com.google.api.health.v4.model.ProfileMembershipStartDate;
 import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerDailyRestingHeartRateDate;
 import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerDailyVo2MaxDate;
 import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerSleep;
-import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerSleepInterval;
 import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerSleepSummaryStagesSummaryInner;
 
-public class HealthApiHelpers { // TODO: review methods usages
+public class HealthApiHelpers {
 
     public static DailyRollUpDataPointsRequestRange dateRange(LocalDate dateBeg, LocalDate dateEnd) {
         return new DailyRollUpDataPointsRequestRange()
@@ -44,15 +41,6 @@ public class HealthApiHelpers { // TODO: review methods usages
                 .year(date.getYear())
                 .month(date.getMonthValue())
                 .day(date.getDayOfMonth());
-    }
-
-    /**
-     * Returns the numeric ID at the end of a data point name (users/{user}/dataTypes/exercise/dataPoints/{id}).
-     *
-     * @throws NumberFormatException if the ID is not numeric
-     */
-    public static long logIdOf(String dataPointName) {
-        return Long.parseLong(dataPointName.substring(dataPointName.lastIndexOf('/') + 1));
     }
 
     public static LocalDate dateOf(DailyRollUpDataPointsResponseRollupDataPointsInner entry) {
@@ -76,32 +64,10 @@ public class HealthApiHelpers { // TODO: review methods usages
      * Calculated from endTime and endUtcOffset, as the API does not return interval.civilEndTime.
      */
     public static LocalDate dateOf(ReconcileDataPointsResponseDataPointsInnerSleep sleep) {
-        ReconcileDataPointsResponseDataPointsInnerSleepInterval interval = sleep.getInterval();
-        if(interval == null) {
+        if(sleep.getInterval() == null) {
             return null;
         }
-        return ValueHelpers.dateOf(offsetDateTimeOf(interval.getEndTime(), interval.getEndUtcOffset()));
-    }
-
-    /**
-     * Combines a timestamp ("2026-11-05T10:18:00Z") and an offset from UTC ("3600s").
-     */
-    public static OffsetDateTime offsetDateTimeOf(String time, String utcOffset) { // TODO (cleanup): move to value helpers
-        if(time == null || utcOffset == null) {
-            return null;
-        }
-        return OffsetDateTime.parse(time).withOffsetSameInstant(ZoneOffset.ofTotalSeconds((int) durationOf(utcOffset).toSeconds()));
-    }
-
-    /**
-     * Returns the minutes of a duration ("1800s" or "3.5s").
-     */
-    public static Double minutesOf(String duration) { // TODO (cleanup): move to value helpers
-        return duration == null ? null : durationOf(duration).toMillis() / 60_000.0;
-    }
-
-    private static Duration durationOf(String value) { // TODO (cleanup): move to value helpers
-        return Duration.parse("PT" + value);
+        return ValueHelpers.dateOf(parseOffsetDateTime(sleep.getInterval().getEndTime(), sleep.getInterval().getEndUtcOffset()));
     }
 
     public static Integer stageMinutesOf(
@@ -161,5 +127,14 @@ public class HealthApiHelpers { // TODO: review methods usages
             return null;
         }
         return response.getDataPoints().getFirst();
+    }
+
+    public static Long logIdOf(ListDataPointsResponseDataPointsInner dataPoint) {
+        if(dataPoint == null || dataPoint.getName() == null) {
+            return null;
+        }
+        String dataPointName = dataPoint.getName();
+        // format: users/{user}/dataTypes/{dataType}/dataPoints/{dataPointName}
+        return Long.parseLong(dataPointName.substring(dataPointName.lastIndexOf('/') + 1));
     }
 }

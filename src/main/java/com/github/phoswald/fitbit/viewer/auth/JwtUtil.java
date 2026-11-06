@@ -12,6 +12,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import jakarta.json.Json;
+import jakarta.json.JsonObject;
 
 class JwtUtil {
 
@@ -49,10 +50,15 @@ class JwtUtil {
         }
     }
 
-    static String getEMail(String token) {
+    static SessionData getSessionData(String token) {
         JwtToken parsed = parse(token);
         try (var reader = Json.createReader(new StringReader(parsed.payload()))) {
-            return reader.readObject().getString("email"); // TODO: also extract "name" (full name) and "picture" (URL)
+            JsonObject claims = reader.readObject();
+            return SessionData.builder()
+                    .userId(claims.getString("email"))
+                    .userFullName(claims.getString("name"))
+                    .userPictureUrl(claims.getString("picture"))
+                    .build();
         }
     }
 

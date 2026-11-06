@@ -6,5 +6,16 @@ import com.github.phoswald.record.builder.RecordBuilder;
 public record SessionData(
         String accessToken,
         Long expiresAt,
-        String userId
-) { }
+        String userId,
+        String userFullName,
+        String userPictureUrl
+) {
+
+    public static SessionDataBuilder builder() {
+        return new SessionDataBuilder();
+    }
+
+    public SessionDataBuilder toBuilder() {
+        return new SessionDataBuilder(this);
+    }
+}

@@ -81,10 +81,10 @@ public class OAuthController {
                     lengthOf(tokenResponse.idToken()), lengthOf(tokenResponse.accessToken()),
                     lengthOf(tokenResponse.refreshToken()), tokenResponse.expiresIn());
 
-            SessionData sessionData = new SessionDataBuilder()
+            SessionData sessionData = JwtUtil.getSessionData(tokenResponse.idToken())
+                    .toBuilder()
                     .accessToken(tokenResponse.accessToken())
                     .expiresAt(Instant.now().plusSeconds(tokenResponse.expiresIn()).toEpochMilli())
-                    .userId(JwtUtil.getEMail(tokenResponse.idToken()))
                     .build();
             return Response
                     .seeOther(URI.create("pages/profile"))

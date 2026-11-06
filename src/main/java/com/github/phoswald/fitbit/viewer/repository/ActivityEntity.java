@@ -1,15 +1,16 @@
 package com.github.phoswald.fitbit.viewer.repository;
 
 import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.logIdOf;
-import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.minutesOf;
-import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.offsetDateTimeOf;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.dateOf;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.divideBy;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.minutesBetween;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.multiplyBy;
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.parseDuration;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.parseInteger;
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.parseOffsetDateTime;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.round;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.toDouble;
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.toMinutes;
 import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;
@@ -152,16 +153,16 @@ public class ActivityEntity {
     public static ActivityEntity create(String userId, ListDataPointsResponseDataPointsInner dataPoint, List<String> labels) {
         var exercise = requireNonNull(dataPoint.getExercise(), "exercise");
         var interval = requireNonNull(exercise.getInterval(), "interval");
-        long logId = logIdOf(requireNonNull(dataPoint.getName(), "name"));
+        long logId = requireNonNull(logIdOf(dataPoint), "logId");
         ActivityEntity entity = new ActivityEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
         entity.setLogId(logId);
         entity.setActivityName(exercise.getDisplayName());
-        entity.setBegDateTime(requireNonNull(offsetDateTimeOf(interval.getStartTime(), interval.getStartUtcOffset()), "begDateTime"));
-        entity.setEndDateTime(offsetDateTimeOf(interval.getEndTime(), interval.getEndUtcOffset()));
+        entity.setBegDateTime(requireNonNull(parseOffsetDateTime(interval.getStartTime(), interval.getStartUtcOffset()), "begDateTime"));
+        entity.setEndDateTime(parseOffsetDateTime(interval.getEndTime(), interval.getEndUtcOffset()));
         entity.setDate(dateOf(entity.getBegDateTime()));
         entity.setDurationMinutes(minutesBetween(entity.getBegDateTime(), entity.getEndDateTime()));
-        entity.setDurationActiveMinutes(minutesOf(exercise.getActiveDuration()));
+        entity.setDurationActiveMinutes(toMinutes(parseDuration(exercise.getActiveDuration())));
         entity.setActivityLevels(new ArrayList<>());
         entity.setHeartRateZones(new ArrayList<>());
         var summary = exercise.getMetricsSummary();
@@ -200,7 +201,7 @@ public class ActivityEntity {
 
     private void addHeartRateZone(String zoneName, Integer heartRateMin, Integer heartRateMax, String duration) {
         if(duration != null) {
-            heartRateZones.add(ActivityHeartRateZoneEntity.create(userId, logId, zoneName, round(minutesOf(duration)), heartRateMin, heartRateMax));
+            heartRateZones.add(ActivityHeartRateZoneEntity.create(userId, logId, zoneName, round(toMinutes(parseDuration(duration))), heartRateMin, heartRateMax));
         }
     }
 

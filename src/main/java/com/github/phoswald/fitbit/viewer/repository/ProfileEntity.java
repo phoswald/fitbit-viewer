@@ -11,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import com.github.phoswald.fitbit.viewer.auth.SessionData;
 import com.google.api.health.v4.model.Profile;
 
 @Entity
@@ -57,10 +58,11 @@ public class ProfileEntity {
     @Column(name = "average_daily_steps_")
     private String averageDailySteps;
 
-    public static ProfileEntity create(String userId, Profile profile, Integer height, Integer weight) {
-        // TODO: review missing files, get full name, profile from ID token?
+    public static ProfileEntity create(SessionData session, Profile profile, Integer height, Integer weight) {
         ProfileEntity entity = new ProfileEntity();
-        entity.setUserId(requireNonNull(userId, "userId"));
+        entity.setUserId(requireNonNull(session.userId(), "userId"));
+        entity.setFullName(session.userFullName());
+        entity.setAvatarUrl(session.userPictureUrl());
         entity.setAge(profile.getAge());
         entity.setMemberSince(dateOf(profile.getMembershipStartDate()));
         entity.setHeight(maskZero(height));

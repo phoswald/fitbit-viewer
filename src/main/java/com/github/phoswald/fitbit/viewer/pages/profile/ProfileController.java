@@ -74,7 +74,7 @@ public class ProfileController extends BaseController {
                 var response = healthApiClient.healthUsersGetProfile(authorization, "me");
                 var height = healthApiClient.healthUsersDataTypesDataPointsList(authorization, "users/me/dataTypes/height", null, 1, null, null);
                 var weight = healthApiClient.healthUsersDataTypesDataPointsList(authorization, "users/me/dataTypes/weight", null, 1, null, null);
-                profile = Optional.of(ProfileEntity.create(session.userId(), response, heightCmOf(height), weightKgOf(weight)));
+                profile = Optional.of(ProfileEntity.create(session, response, heightCmOf(height), weightKgOf(weight)));
                 log.info("Storing entity");
                 profileRepository.store(profile.get());
             }

@@ -4,9 +4,29 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.function.Function;
 
-public class ValueHelpers { // TODO: review methods usages
+public class ValueHelpers {
+
+    // *** Parsing
+
+    public static Integer parseInteger(String value) {
+        return value == null ? null : Integer.valueOf(value);
+    }
+
+    public static OffsetDateTime parseOffsetDateTime(String time, String utcOffset) {
+        // Format: "2026-11-05T10:18:00Z" and "3600s"
+        return time == null || utcOffset == null ? null : OffsetDateTime.parse(time)
+                .withOffsetSameInstant(ZoneOffset.ofTotalSeconds((int) parseDuration(utcOffset).toSeconds()));
+    }
+
+    public static Duration parseDuration(String value) {
+        // Format: "1800s" or "3.5s"
+        return Duration.parse("PT" + value);
+    }
+
+    // *** Conversion
 
     public static Double toDouble(BigDecimal value) {
         return value == null ? null : value.doubleValue();
@@ -19,25 +39,17 @@ public class ValueHelpers { // TODO: review methods usages
         };
     }
 
-    public static Integer parseInteger(String value) {
-        return value == null ? null : Integer.valueOf(value);
+    public static Double toMinutes(Duration duration) {
+        return duration == null ? null : (double) duration.toMinutes();
     }
 
-    public static LocalDate parseDate(String value) {
-        return value == null ? null : LocalDate.parse(value);
-    }
-
-    public static OffsetDateTime parseDateTime(String value) {
-        return value == null ? null : OffsetDateTime.parse(value);
-    }
+    // *** Component Access
 
     public static LocalDate dateOf(OffsetDateTime value) {
         return value == null ? null : value.toLocalDate();
     }
 
-    public static OffsetDateTime plusMillis(OffsetDateTime value, Long delta) {
-        return value == null || delta == null ? null : value.plusSeconds(delta / 1000);
-    }
+    // *** Computation
 
     public static Double minutesBetween(OffsetDateTime beg, OffsetDateTime end) {
         if (beg != null && end != null) {

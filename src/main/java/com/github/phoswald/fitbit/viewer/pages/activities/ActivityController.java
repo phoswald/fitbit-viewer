@@ -104,7 +104,7 @@ public class ActivityController extends DateRangeController {
                         activities.putAll(dataPoints.stream()
                                 .filter(dataPoint -> dataPoint.getExercise() != null)
                                 .map(dataPoint -> ActivityEntity.create(
-                                        session.userId(), dataPoint, getLabels(oldActivities, logIdOf(dataPoint.getName()))))
+                                        session.userId(), dataPoint, getLabels(oldActivities, logIdOf(dataPoint))))
                                 .sorted(Comparator.comparing(ActivityEntity::getBegDateTime))
                                 .collect(toLinkedHashMap(ActivityEntity::getLogId)));
                     }

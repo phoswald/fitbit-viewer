@@ -28,8 +28,12 @@
     <table>
       <tbody>
         <tr>
-          <th>Name</th>
-          <td>{#if model.profile.displayName}<strong>{model.profile.displayName}</strong>{/if}{#if model.profile.fullName} ({model.profile.fullName}){/if}</td>
+          <th>Display Name</th>
+          <td><strong>{model.profile.displayName}</strong></td>
+        </tr>
+        <tr>
+          <th>Full Name</th>
+          <td>{model.profile.fullName}</td>
         </tr>
         <tr>
           <th>Date of Birth</th>
