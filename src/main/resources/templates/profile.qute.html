@@ -77,6 +77,13 @@
         </tr>
       </tbody>
     </table>
+    <!-- TODO (Legacy API Migration): remove/cleanup when no longer needed -->
+    <p>
+      <a href="{basePath}/app/oauth/logout" class="rstm-button-outline">Logout</a>
+      {#if model.userCanSwitchToFitBit}
+      <a href="{basePath}/app/oauth/switch-to-fitbit" class="rstm-button-outline">Switch to FitBit User</a>
+      {/if}
+    </p>
     {/if}
   </main>
   <footer>

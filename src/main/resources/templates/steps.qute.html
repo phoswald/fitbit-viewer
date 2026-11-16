@@ -64,6 +64,9 @@
       </tbody>
     </table>
     {/if}
+    {#if model.steps != null}
+    <p>{model.steps.size} result(s)</p>
+    {/if}
   </main>
   <footer>
     Generated: {model.now.format('yyyy-MM-dd HH:mm:ss')}

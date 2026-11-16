@@ -59,7 +59,7 @@ public class CardioScoreController extends DateRangeController {
             log.info("Querying: dateBeg={}, dateEnd={}, datePeriod={}", dateBeg, dateEnd, datePeriod);
             SortedMap<LocalDate, CardioScoreEntity> cardioScores = cardioScoreRepository.loadByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
                     .collect(toSortedMap(CardioScoreEntity::getDate));
-            if (!refresh && isComplete(cardioScores)) {
+            if (!refresh && isComplete(session, cardioScores)) {
                 log.debug("Found {} entities", cardioScores.size());
             } else {
                 cardioScores.clear();

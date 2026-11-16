@@ -9,6 +9,7 @@ import com.github.phoswald.record.builder.RecordBuilder;
 record ProfileViewModel(
         ProfileEntity profile,
         String userId,
+        boolean userCanSwitchToFitBit, // TODO (Legacy API Migration): remove when no longer needed
         String errorMessage,
         ZonedDateTime now
 ) {
@@ -17,6 +18,7 @@ record ProfileViewModel(
         return new ProfileViewModelBuilder()
                 .profile(profile)
                 .userId(userId)
+                .userCanSwitchToFitBit(userId.endsWith("@gmail.com"))
                 .now(ZonedDateTime.now())
                 .build();
     }

@@ -57,7 +57,7 @@ public class ActiveZoneMinutesController extends DateRangeController {
             log.info("Querying: dateBeg={}, dateEnd={}, datePeriod={}", dateBeg, dateEnd, datePeriod);
             SortedMap<LocalDate, ActiveZoneMinutesEntity> azms = azmRepository.loadByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
                     .collect(toSortedMap(ActiveZoneMinutesEntity::getDate));
-            if (!refresh && isComplete(azms)) {
+            if (!refresh && isComplete(session, azms)) {
                 log.debug("Found {} entities", azms.size());
             } else {
                 azms.clear();

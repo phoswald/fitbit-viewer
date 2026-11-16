@@ -94,7 +94,7 @@ public class ActivityController extends DateRangeController {
                         .collect(toLinkedHashMap(ActivityEntity::getLogId));
                 SortedMap<LocalDate, ActivityDayEntity> days = activityRepository.loadDaysByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
                         .collect(toSortedMap(ActivityDayEntity::getDate));
-                if(!refresh && isComplete(days)) {
+                if(!refresh && isComplete(session, days)) {
                     log.debug("Found {} entities for {} days", activities.size(), days.size());
                 } else {
                     Map<Long, ActivityEntity> oldActivities = activities;

@@ -87,6 +87,9 @@
       </tbody>
     </table>
     {/if}
+    {#if model.sleeps != null}
+    <p>{model.sleeps.size} result(s)</p>
+    {/if}
   </main>
   <footer>
     Generated: {model.now.format('yyyy-MM-dd HH:mm:ss')}

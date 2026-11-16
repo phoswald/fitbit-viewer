@@ -59,7 +59,7 @@ public class HeartRateController extends DateRangeController {
             log.info("Querying: dateBeg={}, dateEnd={}, datePeriod={}", dateBeg, dateEnd, datePeriod);
             SortedMap<LocalDate, HeartRateEntity> heartRates = heartRateRepository.loadByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
                     .collect(toSortedMap(HeartRateEntity::getDate));
-            if(!refresh && isComplete(heartRates)) {
+            if(!refresh && isComplete(session, heartRates)) {
                 log.debug("Found {} entities", heartRates.size());
             } else {
                 heartRates.clear();

@@ -70,6 +70,9 @@
       </tbody>
     </table>
     {/if}
+    {#if model.azms != null}
+    <p>{model.azms.size} result(s)</p>
+    {/if}
   </main>
   <footer>
     Generated: {model.now.format('yyyy-MM-dd HH:mm:ss')}

@@ -59,7 +59,7 @@ public class SleepController extends DateRangeController {
             log.info("Querying: dateBeg={}, dateEnd={}, datePeriod={}", dateBeg, dateEnd, datePeriod);
             SortedMap<LocalDate, SleepEntity> sleeps = sleepRepository.loadByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
                     .collect(toSortedMap(SleepEntity::getDate));
-            if (!refresh && isComplete(sleeps)) {
+            if (!refresh && isComplete(session, sleeps)) {
                 log.debug("Found {} entities", sleeps.size());
             } else {
                 sleeps.clear();

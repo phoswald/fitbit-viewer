@@ -5,9 +5,11 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.time.Instant;
+import java.util.Objects;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.CookieParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
@@ -93,11 +95,56 @@ public class OAuthController {
         }
     }
 
+    @GET
+    @Path("/logout")
+    public Response logout() {
+        return Response
+                .seeOther(URI.create("pages/profile"))
+                .cookie(deleteCookie())
+                .build();
+    }
+
+    /*
+     * TODO (Legacy API Migration): remove when no longer needed
+     */
+    @GET
+    @Path("/switch-to-fitbit")
+    public Response switchToFitBit(
+            @CookieParam(SessionManager.COOKIE_NAME) String sessionCookie) {
+        var session = sessionManager.parseAndVerifyCookie(sessionCookie);
+        if(!session.isPresent()) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        if(!Objects.equals(session.get().userId(), "philip.oswald@gmail.com")) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        SessionData fitbitSessionData = session.get().toBuilder()
+                .accessToken(null)
+                .userId("7XPRW8")
+                .userPictureUrl("https://static0.fitbit.com/images/profile/defaultProfile_100.png")
+                .build();
+        log.info("switchToFitBit(): old={}, new={}", session.get().userId(), fitbitSessionData.userId());
+        return Response
+                .seeOther(URI.create("pages/profile"))
+                .cookie(createCookie(sessionManager.createAndSignCookie(fitbitSessionData)))
+                .build();
+    }
+
     private static NewCookie createCookie(String sessionCookie) {
         return new NewCookie.Builder(SessionManager.COOKIE_NAME)
                 .value(sessionCookie)
                 .path("/")
                 .httpOnly(true)
+                .build();
+    }
+
+    private static NewCookie deleteCookie() {
+        return new NewCookie.Builder(SessionManager.COOKIE_NAME)
+                .value("")
+                .path("/")
+                .httpOnly(true)
+                .maxAge(0)
                 .build();
     }
 

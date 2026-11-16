@@ -11,6 +11,8 @@ import java.util.SortedMap;
 
 import jakarta.ws.rs.QueryParam;
 
+import com.github.phoswald.fitbit.viewer.auth.SessionData;
+
 public abstract class DateRangeController extends BaseController {
 
     @QueryParam("dateBeg")
@@ -44,7 +46,11 @@ public abstract class DateRangeController extends BaseController {
         }
     }
 
-    protected boolean isComplete(SortedMap<LocalDate, ?> entities) {
+    protected boolean isComplete(SessionData session, SortedMap<LocalDate, ?> entities) {
+        // TODO (Legacy API Migration): remove SessionData argument when no longer needed
+        if(session.accessToken() == null) {
+            return true;
+        }
         return entities.size() == ChronoUnit.DAYS.between(dateBeg, dateEnd) + 1;
     }
 

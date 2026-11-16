@@ -57,7 +57,7 @@ public class StepsController extends DateRangeController {
             log.info("Querying: dateBeg={}, dateEnd={}, datePeriod={}", dateBeg, dateEnd, datePeriod);
             SortedMap<LocalDate, StepsEntity> steps = stepsRepository.loadByUserIdAndDateRange(session.userId(), dateBeg, dateEnd).stream()
                     .collect(toSortedMap(StepsEntity::getDate));
-            if(!refresh && isComplete(steps)) {
+            if(!refresh && isComplete(session, steps)) {
                 log.debug("Found {} entities", steps.size());
             } else {
                 steps.clear();
