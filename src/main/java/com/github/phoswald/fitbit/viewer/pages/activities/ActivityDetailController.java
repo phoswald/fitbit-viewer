@@ -27,10 +27,8 @@ import org.slf4j.LoggerFactory;
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
 import com.github.phoswald.fitbit.viewer.healthapi.HealthApiClient;
 import com.github.phoswald.fitbit.viewer.pages.BaseController;
-import com.github.phoswald.fitbit.viewer.repository.ActivityEntity;
-import com.github.phoswald.fitbit.viewer.repository.ActivityRepository;
-import com.github.phoswald.fitbit.viewer.repository.TcxEntity;
-import com.github.phoswald.fitbit.viewer.repository.TcxRepository;
+import com.github.phoswald.fitbit.viewer.tcx.TcxEntity;
+import com.github.phoswald.fitbit.viewer.tcx.TcxRepository;
 
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;

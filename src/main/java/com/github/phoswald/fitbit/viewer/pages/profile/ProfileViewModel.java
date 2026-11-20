@@ -2,7 +2,6 @@ package com.github.phoswald.fitbit.viewer.pages.profile;
 
 import java.time.ZonedDateTime;
 
-import com.github.phoswald.fitbit.viewer.repository.ProfileEntity;
 import com.github.phoswald.record.builder.RecordBuilder;
 
 @RecordBuilder

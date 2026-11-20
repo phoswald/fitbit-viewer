@@ -19,8 +19,6 @@ import org.slf4j.LoggerFactory;
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
 import com.github.phoswald.fitbit.viewer.healthapi.HealthApiClient;
 import com.github.phoswald.fitbit.viewer.pages.DateRangeController;
-import com.github.phoswald.fitbit.viewer.repository.SleepEntity;
-import com.github.phoswald.fitbit.viewer.repository.SleepRepository;
 import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInner;
 
 import io.quarkus.qute.Template;

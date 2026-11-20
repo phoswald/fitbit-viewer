@@ -1,4 +1,4 @@
-package com.github.phoswald.fitbit.viewer.repository;
+package com.github.phoswald.fitbit.viewer.pages.activities;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -60,12 +60,6 @@ public class ActivityRepository {
 
     public List<String> loadLabelsByUserId(String userId) {
         return em.createNamedQuery("ActivityEntity.loadAllLabels", String.class)
-                .setParameter("userId", userId)
-                .getResultList();
-    }
-
-    public List<LabelSummaryEntity> loadLabelSummariesByUserId(String userId) {
-        return em.createNamedQuery("LabelSummaryEntity.loadByUserId", LabelSummaryEntity.class)
                 .setParameter("userId", userId)
                 .getResultList();
     }

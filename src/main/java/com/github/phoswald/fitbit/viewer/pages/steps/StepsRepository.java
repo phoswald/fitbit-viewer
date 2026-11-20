@@ -1,4 +1,4 @@
-package com.github.phoswald.fitbit.viewer.repository;
+package com.github.phoswald.fitbit.viewer.pages.steps;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -9,21 +9,21 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
 @ApplicationScoped
-public class ActiveZoneMinutesRepository {
+public class StepsRepository {
 
     @PersistenceContext
     private EntityManager em;
 
-    public List<ActiveZoneMinutesEntity> loadByUserIdAndDateRange(String userId, LocalDate dateBeg, LocalDate dateEnd) {
-        return em.createNamedQuery("ActiveZoneMinutesEntity.loadByUserIdAndDateRange", ActiveZoneMinutesEntity.class)
+    public List<StepsEntity> loadByUserIdAndDateRange(String userId, LocalDate dateBeg, LocalDate dateEnd) {
+        return em.createNamedQuery("StepsEntity.loadByUserIdAndDateRange", StepsEntity.class)
                 .setParameter("userId", userId)
                 .setParameter("dateBeg", dateBeg)
                 .setParameter("dateEnd", dateEnd)
                 .getResultList();
     }
 
-    public void storeAll(Collection<ActiveZoneMinutesEntity> entities) {
-        for (ActiveZoneMinutesEntity entity : entities) {
+    public void storeAll(Collection<StepsEntity> entities) {
+        for (StepsEntity entity : entities) {
             em.merge(entity);
         }
     }

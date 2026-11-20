@@ -8,9 +8,8 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import com.github.phoswald.fitbit.viewer.repository.ActivityEntity;
-import com.github.phoswald.fitbit.viewer.repository.TcxEntity;
 import com.github.phoswald.fitbit.viewer.tcx.TcxDatabase;
+import com.github.phoswald.fitbit.viewer.tcx.TcxEntity;
 import com.github.phoswald.fitbit.viewer.tcx.TcxLap;
 import com.github.phoswald.fitbit.viewer.tcx.TcxTrackpoint;
 import com.github.phoswald.fitbit.viewer.widgets.Chart;

@@ -1,4 +1,4 @@
-package com.github.phoswald.fitbit.viewer.repository;
+package com.github.phoswald.fitbit.viewer.pages.azm;
 
 import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.dateOf;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.add;

@@ -1,4 +1,4 @@
-package com.github.phoswald.fitbit.viewer.repository;
+package com.github.phoswald.fitbit.viewer.tcx;
 
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.dateOf;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.max;
@@ -25,8 +25,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 import jakarta.xml.bind.JAXB;
-
-import com.github.phoswald.fitbit.viewer.tcx.TcxDatabase;
 
 @Entity
 @Table(name = "fitbit_tcx_")

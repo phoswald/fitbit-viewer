@@ -1,4 +1,4 @@
-package com.github.phoswald.fitbit.viewer.repository;
+package com.github.phoswald.fitbit.viewer.pages.heartrate;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -9,21 +9,21 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
 @ApplicationScoped
-public class SleepRepository {
+public class HeartRateRepository {
 
     @PersistenceContext
     private EntityManager em;
 
-    public List<SleepEntity> loadByUserIdAndDateRange(String userId, LocalDate dateBeg, LocalDate dateEnd) {
-        return em.createNamedQuery("SleepEntity.loadByUserIdAndDateRange", SleepEntity.class)
+    public List<HeartRateEntity> loadByUserIdAndDateRange(String userId, LocalDate dateBeg, LocalDate dateEnd) {
+        return em.createNamedQuery("HeartRateEntity.loadByUserIdAndDateRange", HeartRateEntity.class)
                 .setParameter("userId", userId)
                 .setParameter("dateBeg", dateBeg)
                 .setParameter("dateEnd", dateEnd)
                 .getResultList();
     }
 
-    public void storeAll(Collection<SleepEntity> entities) {
-        for (SleepEntity entity : entities) {
+    public void storeAll(Collection<HeartRateEntity> entities) {
+        for (HeartRateEntity entity : entities) {
             em.merge(entity);
         }
     }

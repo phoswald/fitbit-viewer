@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
 import com.github.phoswald.fitbit.viewer.pages.BaseController;
-import com.github.phoswald.fitbit.viewer.repository.ActivityRepository;
 
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
@@ -28,7 +27,7 @@ class LabelsController extends BaseController {
     private Template labels;
 
     @Inject
-    private ActivityRepository activityRepository;
+    private LabelSummaryRepository labelSummaryRepository;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
@@ -44,7 +43,7 @@ class LabelsController extends BaseController {
 
     private LabelsViewModel createLabelsViewModel(SessionData session) {
         try {
-            var summaries = activityRepository.loadLabelSummariesByUserId(session.userId());
+            var summaries = labelSummaryRepository.loadLabelSummariesByUserId(session.userId());
             return LabelsViewModel.create(summaries, session.userId());
         } catch (Exception e) {
             log.warn("Failed", e);

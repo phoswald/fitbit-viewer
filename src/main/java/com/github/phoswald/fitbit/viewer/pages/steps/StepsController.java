@@ -18,8 +18,6 @@ import org.slf4j.LoggerFactory;
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
 import com.github.phoswald.fitbit.viewer.healthapi.HealthApiClient;
 import com.github.phoswald.fitbit.viewer.pages.DateRangeController;
-import com.github.phoswald.fitbit.viewer.repository.StepsEntity;
-import com.github.phoswald.fitbit.viewer.repository.StepsRepository;
 
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;

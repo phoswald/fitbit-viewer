@@ -1,4 +1,4 @@
-package com.github.phoswald.fitbit.viewer.repository;
+package com.github.phoswald.fitbit.viewer.tcx;
 
 import java.util.List;
 import java.util.Optional;

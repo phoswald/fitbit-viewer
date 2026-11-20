@@ -10,7 +10,6 @@ import java.util.function.Function;
 
 import com.github.phoswald.fitbit.viewer.pages.DateRangeViewModel;
 import com.github.phoswald.fitbit.viewer.pages.DateRangeViewModelBuilder;
-import com.github.phoswald.fitbit.viewer.repository.ActivityEntity;
 import com.github.phoswald.fitbit.viewer.widgets.Chart;
 import com.github.phoswald.fitbit.viewer.widgets.ChartBuilder;
 import com.github.phoswald.fitbit.viewer.widgets.ChartDataBuilder;

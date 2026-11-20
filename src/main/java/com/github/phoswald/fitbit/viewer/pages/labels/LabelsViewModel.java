@@ -3,7 +3,6 @@ package com.github.phoswald.fitbit.viewer.pages.labels;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-import com.github.phoswald.fitbit.viewer.repository.LabelSummaryEntity;
 import com.github.phoswald.record.builder.RecordBuilder;
 
 @RecordBuilder

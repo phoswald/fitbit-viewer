@@ -1,4 +1,4 @@
-package com.github.phoswald.fitbit.viewer.repository;
+package com.github.phoswald.fitbit.viewer.pages.labels;
 
 import java.io.Serializable;
 import java.time.LocalDate;

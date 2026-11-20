@@ -1,4 +1,4 @@
-package com.github.phoswald.fitbit.viewer.repository;
+package com.github.phoswald.fitbit.viewer.pages.activities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

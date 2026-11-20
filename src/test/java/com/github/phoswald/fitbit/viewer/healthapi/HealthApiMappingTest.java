@@ -1,4 +1,4 @@
-package com.github.phoswald.fitbit.viewer.repository;
+package com.github.phoswald.fitbit.viewer.healthapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -13,6 +13,12 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import com.github.phoswald.fitbit.viewer.pages.activities.ActivityEntity;
+import com.github.phoswald.fitbit.viewer.pages.activities.ActivityHeartRateZoneEntity;
+import com.github.phoswald.fitbit.viewer.pages.azm.ActiveZoneMinutesEntity;
+import com.github.phoswald.fitbit.viewer.pages.cardioscore.CardioScoreEntity;
+import com.github.phoswald.fitbit.viewer.pages.heartrate.HeartRateEntity;
+import com.github.phoswald.fitbit.viewer.pages.sleep.SleepEntity;
 import com.google.api.health.v4.model.DailyRollUpDataPointsResponseRollupDataPointsInner;
 import com.google.api.health.v4.model.DailyRollUpDataPointsResponseRollupDataPointsInnerActiveZoneMinutes;
 import com.google.api.health.v4.model.DailyRollUpDataPointsResponseRollupDataPointsInnerCivilStartTime;

@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Test;
 
 import com.github.phoswald.fitbit.viewer.auth.SessionManager;
 import com.github.phoswald.fitbit.viewer.pages.BaseControllerTest;
-import com.github.phoswald.fitbit.viewer.repository.ProfileEntity;
-import com.github.phoswald.fitbit.viewer.repository.ProfileRepository;
 
 import io.quarkus.narayana.jta.QuarkusTransaction;
 import io.quarkus.test.junit.QuarkusTest;

@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.github.phoswald.fitbit.viewer.pages.DateRangeViewModel;
 import com.github.phoswald.fitbit.viewer.pages.DateRangeViewModelBuilder;
-import com.github.phoswald.fitbit.viewer.repository.StepsEntity;
 import com.github.phoswald.fitbit.viewer.widgets.Chart;
 import com.github.phoswald.fitbit.viewer.widgets.ChartBuilder;
 import com.github.phoswald.fitbit.viewer.widgets.ChartDataBuilder;

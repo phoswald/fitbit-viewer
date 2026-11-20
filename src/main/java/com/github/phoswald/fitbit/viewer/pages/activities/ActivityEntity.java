@@ -1,4 +1,4 @@
-package com.github.phoswald.fitbit.viewer.repository;
+package com.github.phoswald.fitbit.viewer.pages.activities;
 
 import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.logIdOf;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.dateOf;
