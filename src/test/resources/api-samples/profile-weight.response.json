@@ -1,0 +1,31 @@
+{
+  "dataPoints": [
+    {
+      "name": "users/4981657191938844637/dataTypes/weight/dataPoints/1575935999000",
+      "dataSource": {
+        "recordingMethod": "MANUAL",
+        "platform": "FITBIT"
+      },
+      "weight": {
+        "sampleTime": {
+          "physicalTime": "2019-12-09T22:59:59Z",
+          "utcOffset": "3600s",
+          "civilTime": {
+            "date": {
+              "year": 2019,
+              "month": 12,
+              "day": 9
+            },
+            "time": {
+              "hours": 23,
+              "minutes": 59,
+              "seconds": 59
+            }
+          }
+        },
+        "weightGrams": 81000
+      }
+    }
+  ],
+  "nextPageToken": "Xm5hnIPSnCVxMlRuWjx5bmvy98zj85uG34tuMn16mu2pntsnZI32iqhq"
+}

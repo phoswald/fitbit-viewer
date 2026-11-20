@@ -1,0 +1,579 @@
+{
+  "rollupDataPoints": [
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 30
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 10,
+          "day": 1
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "130",
+        "sumInPeakHeartZone": "64",
+        "sumInFatBurnHeartZone": "26"
+      }
+    },
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 29
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 30
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "4",
+        "sumInPeakHeartZone": "0",
+        "sumInFatBurnHeartZone": "3"
+      }
+    },
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 27
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 28
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "194",
+        "sumInPeakHeartZone": "24",
+        "sumInFatBurnHeartZone": "20"
+      }
+    },
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 26
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 27
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "6",
+        "sumInPeakHeartZone": "0",
+        "sumInFatBurnHeartZone": "8"
+      }
+    },
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 25
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 26
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "30",
+        "sumInPeakHeartZone": "28",
+        "sumInFatBurnHeartZone": "24"
+      }
+    },
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 24
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 25
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "190",
+        "sumInPeakHeartZone": "0",
+        "sumInFatBurnHeartZone": "27"
+      }
+    },
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 23
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 24
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "0",
+        "sumInPeakHeartZone": "0",
+        "sumInFatBurnHeartZone": "14"
+      }
+    },
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 22
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 23
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "2",
+        "sumInPeakHeartZone": "0",
+        "sumInFatBurnHeartZone": "49"
+      }
+    },
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 21
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 22
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "0",
+        "sumInPeakHeartZone": "0",
+        "sumInFatBurnHeartZone": "5"
+      }
+    },
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 20
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 21
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "10",
+        "sumInPeakHeartZone": "0",
+        "sumInFatBurnHeartZone": "94"
+      }
+    },
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 19
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 20
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "42",
+        "sumInPeakHeartZone": "4",
+        "sumInFatBurnHeartZone": "20"
+      }
+    },
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 18
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 19
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "28",
+        "sumInPeakHeartZone": "146",
+        "sumInFatBurnHeartZone": "21"
+      }
+    },
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 17
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 18
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "0",
+        "sumInPeakHeartZone": "0",
+        "sumInFatBurnHeartZone": "24"
+      }
+    },
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 15
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 16
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "0",
+        "sumInPeakHeartZone": "0",
+        "sumInFatBurnHeartZone": "4"
+      }
+    },
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 14
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 15
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "12",
+        "sumInPeakHeartZone": "0",
+        "sumInFatBurnHeartZone": "25"
+      }
+    },
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 13
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 14
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "24",
+        "sumInPeakHeartZone": "44",
+        "sumInFatBurnHeartZone": "18"
+      }
+    },
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 12
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 13
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "78",
+        "sumInPeakHeartZone": "6",
+        "sumInFatBurnHeartZone": "68"
+      }
+    },
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 11
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 12
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "0",
+        "sumInPeakHeartZone": "0",
+        "sumInFatBurnHeartZone": "23"
+      }
+    },
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 8
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 9
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "316",
+        "sumInPeakHeartZone": "0",
+        "sumInFatBurnHeartZone": "46"
+      }
+    },
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 7
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 8
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "52",
+        "sumInPeakHeartZone": "34",
+        "sumInFatBurnHeartZone": "15"
+      }
+    },
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 6
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 7
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "60",
+        "sumInPeakHeartZone": "48",
+        "sumInFatBurnHeartZone": "19"
+      }
+    },
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 5
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 6
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "0",
+        "sumInPeakHeartZone": "0",
+        "sumInFatBurnHeartZone": "13"
+      }
+    },
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 4
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 5
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "28",
+        "sumInPeakHeartZone": "40",
+        "sumInFatBurnHeartZone": "15"
+      }
+    },
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 3
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 4
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "8",
+        "sumInPeakHeartZone": "0",
+        "sumInFatBurnHeartZone": "9"
+      }
+    },
+    {
+      "civilStartTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 2
+        },
+        "time": {}
+      },
+      "civilEndTime": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 3
+        },
+        "time": {}
+      },
+      "activeZoneMinutes": {
+        "sumInCardioHeartZone": "92",
+        "sumInPeakHeartZone": "2",
+        "sumInFatBurnHeartZone": "10"
+      }
+    }
+  ]
+}

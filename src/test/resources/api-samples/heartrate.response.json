@@ -1,0 +1,394 @@
+{
+  "dataPoints": [
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 30
+        },
+        "beatsPerMinute": "52",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 29
+        },
+        "beatsPerMinute": "53",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 28
+        },
+        "beatsPerMinute": "53",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 27
+        },
+        "beatsPerMinute": "52",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 26
+        },
+        "beatsPerMinute": "53",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 25
+        },
+        "beatsPerMinute": "51",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 24
+        },
+        "beatsPerMinute": "51",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 23
+        },
+        "beatsPerMinute": "50",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 22
+        },
+        "beatsPerMinute": "51",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 21
+        },
+        "beatsPerMinute": "52",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 20
+        },
+        "beatsPerMinute": "52",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 19
+        },
+        "beatsPerMinute": "51",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 18
+        },
+        "beatsPerMinute": "50",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 17
+        },
+        "beatsPerMinute": "51",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 16
+        },
+        "beatsPerMinute": "53",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 15
+        },
+        "beatsPerMinute": "55",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 14
+        },
+        "beatsPerMinute": "55",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 13
+        },
+        "beatsPerMinute": "56",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 12
+        },
+        "beatsPerMinute": "56",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 11
+        },
+        "beatsPerMinute": "56",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 10
+        },
+        "beatsPerMinute": "55",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 9
+        },
+        "beatsPerMinute": "55",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 8
+        },
+        "beatsPerMinute": "53",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 7
+        },
+        "beatsPerMinute": "51",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 6
+        },
+        "beatsPerMinute": "51",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 5
+        },
+        "beatsPerMinute": "53",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 4
+        },
+        "beatsPerMinute": "54",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 3
+        },
+        "beatsPerMinute": "54",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 2
+        },
+        "beatsPerMinute": "54",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    },
+    {
+      "dailyRestingHeartRate": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 1
+        },
+        "beatsPerMinute": "53",
+        "dailyRestingHeartRateMetadata": {
+          "calculationMethod": "WITH_SLEEP"
+        }
+      }
+    }
+  ]
+}

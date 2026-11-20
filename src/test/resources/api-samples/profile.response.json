@@ -1,0 +1,11 @@
+{
+  "name": "users/4981657191938844637/profile",
+  "age": 49,
+  "membershipStartDate": {
+    "year": 2019,
+    "month": 12,
+    "day": 4
+  },
+  "userConfiguredWalkingStrideLengthMm": 738,
+  "userConfiguredRunningStrideLengthMm": 1021
+}

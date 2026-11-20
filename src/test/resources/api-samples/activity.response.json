@@ -1,0 +1,2225 @@
+{
+  "dataPoints": [
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/3163336676098067440",
+      "dataSource": {
+        "recordingMethod": "PASSIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-30T14:16:52Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-30T15:43:55Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "WALKING",
+        "metricsSummary": {
+          "caloriesKcal": 801,
+          "distanceMillimeters": 6997400,
+          "steps": "9489",
+          "averagePaceSecondsPerMeter": 0.746420098893875,
+          "averageHeartRateBeatsPerMinute": "92",
+          "activeZoneMinutes": "19",
+          "heartRateZoneDurations": {
+            "lightTime": "4140s",
+            "moderateTime": "1080s",
+            "vigorousTime": "0s",
+            "peakTime": "0s"
+          }
+        },
+        "exerciseMetadata": {},
+        "displayName": "Gehen",
+        "activeDuration": "5223s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-30T14:16:52Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-30T15:43:55Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-30T15:57:35.984580Z",
+        "createTime": "2026-09-30T15:57:35.984580Z"
+      }
+    },
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/8932232834512779592",
+      "dataSource": {
+        "recordingMethod": "ACTIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-30T12:32:02Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-30T14:09:41Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "RUNNING",
+        "splits": [
+          {
+            "startTime": "2026-09-30T12:32:07Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-30T12:37:58.458490087Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "351.458490087s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.351458490087
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-30T12:37:58.458490087Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-30T12:44:51.805047878Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "413.346557791s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.413346557791
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-30T12:44:51.805047878Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-30T12:52:47.622395984Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "475.817348106s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.475817348106
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-30T12:52:47.622395984Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-30T13:02:12.836947705Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "565.214551721s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.565214551721
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-30T13:02:12.836947705Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-30T13:11:15.480334697Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "542.643386992s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.5426433869920001
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-30T13:11:15.480334697Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-30T13:19:45.056030090Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "509.575695393s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.509575695393
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-30T13:19:45.056030090Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-30T13:27:48.032341546Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "482.976311456s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.482976311456
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-30T13:27:48.032341546Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-30T13:34:47.457194655Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "419.424853109s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.419424853109
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-30T13:34:47.457194655Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-30T13:42:42.221980039Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "474.764785384s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.47476478538399997
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-30T13:42:42.221980039Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-30T13:48:45.012967015Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "362.790986976s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.362790986976
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-30T13:48:45.012967015Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-30T13:56:14.043171698Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "449.030204683s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.44903020468300003
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-30T13:56:14.043171698Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-30T14:04:57.014485572Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "522.971313874s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.522971313874
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-30T14:04:57.014485572Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-30T14:09:36Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "278.985514428s",
+            "metricsSummary": {
+              "distanceMillimeters": 313547,
+              "averagePaceSecondsPerMeter": 0.8897725522106732
+            },
+            "splitType": "DISTANCE"
+          }
+        ],
+        "metricsSummary": {
+          "caloriesKcal": 1374,
+          "distanceMillimeters": 12313547,
+          "steps": "15852",
+          "averagePaceSecondsPerMeter": 0.47549256116048444,
+          "averageHeartRateBeatsPerMinute": "150",
+          "elevationGainMillimeters": 725951.33892270387,
+          "activeZoneMinutes": "193",
+          "heartRateZoneDurations": {
+            "lightTime": "0s",
+            "moderateTime": "0s",
+            "vigorousTime": "3840s",
+            "peakTime": "1980s"
+          },
+          "mobilityMetrics": {
+            "avgStrideLengthMillimeters": "866"
+          }
+        },
+        "exerciseMetadata": {
+          "hasGps": true
+        },
+        "displayName": "Laufen",
+        "activeDuration": "5855s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-30T12:32:02Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-30T14:09:37Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "PAUSE"
+          },
+          {
+            "eventTime": "2026-09-30T14:09:41Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-30T14:09:51.763067Z",
+        "createTime": "2026-09-30T12:36:16.325969Z"
+      }
+    },
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/6954901408434606624",
+      "dataSource": {
+        "recordingMethod": "PASSIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-30T12:01:10Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-30T12:19:58Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "WALKING",
+        "metricsSummary": {
+          "caloriesKcal": 185,
+          "distanceMillimeters": 1438200,
+          "steps": "1951",
+          "averagePaceSecondsPerMeter": 0.78431372549019607,
+          "averageHeartRateBeatsPerMinute": "93",
+          "activeZoneMinutes": "4",
+          "heartRateZoneDurations": {
+            "lightTime": "840s",
+            "moderateTime": "240s",
+            "vigorousTime": "0s",
+            "peakTime": "0s"
+          }
+        },
+        "exerciseMetadata": {},
+        "displayName": "Gehen",
+        "activeDuration": "1128s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-30T12:01:10Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-30T12:19:58Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-30T12:36:18.558385Z",
+        "createTime": "2026-09-30T12:36:18.558385Z"
+      }
+    },
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/3233959882130777968",
+      "dataSource": {
+        "recordingMethod": "PASSIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-28T17:22:54Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-28T17:52:46Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "WALKING",
+        "metricsSummary": {
+          "caloriesKcal": 257,
+          "distanceMillimeters": 2220400,
+          "steps": "3012",
+          "averagePaceSecondsPerMeter": 0.807061790668348,
+          "averageHeartRateBeatsPerMinute": "86",
+          "heartRateZoneDurations": {
+            "lightTime": "1800s",
+            "moderateTime": "0s",
+            "vigorousTime": "0s",
+            "peakTime": "0s"
+          }
+        },
+        "exerciseMetadata": {},
+        "displayName": "Gehen",
+        "activeDuration": "1792s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-28T17:22:54Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-28T17:52:46Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-28T18:37:42.556449Z",
+        "createTime": "2026-09-28T18:37:42.556449Z"
+      }
+    },
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/1060946614201181480",
+      "dataSource": {
+        "recordingMethod": "PASSIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-28T16:31:42Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-28T17:02:25Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "WALKING",
+        "metricsSummary": {
+          "caloriesKcal": 270,
+          "distanceMillimeters": 2418100,
+          "steps": "3280",
+          "averagePaceSecondsPerMeter": 0.76216864480377156,
+          "averageHeartRateBeatsPerMinute": "76",
+          "heartRateZoneDurations": {
+            "lightTime": "1860s",
+            "moderateTime": "0s",
+            "vigorousTime": "0s",
+            "peakTime": "0s"
+          }
+        },
+        "exerciseMetadata": {},
+        "displayName": "Gehen",
+        "activeDuration": "1843s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-28T16:31:42Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-28T17:02:25Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-28T17:16:06.541927Z",
+        "createTime": "2026-09-28T17:16:06.541927Z"
+      }
+    },
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/2853032246541469160",
+      "dataSource": {
+        "recordingMethod": "ACTIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-27T12:50:54Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-27T14:38:24Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "RUNNING",
+        "splits": [
+          {
+            "startTime": "2026-09-27T12:51:02Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-27T12:57:36.728292053Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "394.728292053s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.39472829205300003
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-27T12:57:36.728292053Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-27T13:04:12.257363912Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "395.529071859s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.395529071859
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-27T13:04:12.257363912Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-27T13:11:11.041695207Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "418.784331295s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.41878433129500003
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-27T13:11:11.041695207Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-27T13:18:27.888037176Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "436.846341969s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.43684634196899996
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-27T13:18:27.888037176Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-27T13:27:31.991719472Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "544.103682296s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.544103682296
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-27T13:27:31.991719472Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-27T13:34:21.322864850Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "409.331145378s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.40933114537799997
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-27T13:34:21.322864850Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-27T13:39:56.778930840Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "335.456065990s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.33545606599
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-27T13:39:56.778930840Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-27T13:45:37.046114641Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "340.267183801s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.34026718380099996
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-27T13:45:37.046114641Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-27T13:52:12.432231132Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "395.386116491s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.395386116491
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-27T13:52:12.432231132Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-27T13:58:13.901302543Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "361.469071411s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.36146907141100004
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-27T13:58:13.901302543Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-27T14:03:55.639752071Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "341.738449528s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.341738449528
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-27T14:03:55.639752071Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-27T14:09:54.051928673Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "358.412176602s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.358412176602
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-27T14:09:54.051928673Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-27T14:17:15.179685700Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "441.127757027s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.44112775702699997
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-27T14:17:15.179685700Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-27T14:26:03.694803626Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "528.515117926s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.528515117926
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-27T14:26:03.694803626Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-27T14:32:04.481415736Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "360.786612110s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.36078661211
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-27T14:32:04.481415736Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-27T14:38:20Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "375.518584264s",
+            "metricsSummary": {
+              "distanceMillimeters": 626946,
+              "averagePaceSecondsPerMeter": 0.59896479802726232
+            },
+            "splitType": "DISTANCE"
+          }
+        ],
+        "metricsSummary": {
+          "caloriesKcal": 1487,
+          "distanceMillimeters": 15626946,
+          "steps": "18142",
+          "averagePaceSecondsPerMeter": 0.41255661854849951,
+          "averageHeartRateBeatsPerMinute": "146",
+          "elevationGainMillimeters": 464144.77913749323,
+          "activeZoneMinutes": "214",
+          "heartRateZoneDurations": {
+            "lightTime": "0s",
+            "moderateTime": "60s",
+            "vigorousTime": "5700s",
+            "peakTime": "720s"
+          },
+          "mobilityMetrics": {
+            "avgStrideLengthMillimeters": "826"
+          }
+        },
+        "exerciseMetadata": {
+          "hasGps": true
+        },
+        "displayName": "Laufen",
+        "activeDuration": "6447s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-27T12:50:54Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-27T14:38:21Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "PAUSE"
+          },
+          {
+            "eventTime": "2026-09-27T14:38:24Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-27T14:38:33.983274Z",
+        "createTime": "2026-09-27T12:57:55.997479Z"
+      }
+    },
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/6828572711732813088",
+      "dataSource": {
+        "recordingMethod": "ACTIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-25T14:54:47Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-25T15:57:28Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "RUNNING",
+        "splits": [
+          {
+            "startTime": "2026-09-25T14:54:55Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-25T15:00:08.991624525Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "313.991624525s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.313991624525
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-25T15:00:08.991624525Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-25T15:05:32.521072831Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "323.529448306s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.323529448306
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-25T15:05:32.521072831Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-25T15:11:40.481541953Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "367.960469122s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.36796046912200003
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-25T15:11:40.481541953Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-25T15:14:41Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "180.518458047s",
+            "metricsSummary": {
+              "distanceMillimeters": 556586,
+              "averagePaceSecondsPerMeter": 0.324331654132515
+            },
+            "splitType": "DISTANCE"
+          }
+        ],
+        "metricsSummary": {
+          "caloriesKcal": 287,
+          "distanceMillimeters": 3556586,
+          "steps": "3437",
+          "averagePaceSecondsPerMeter": 0.33599637405084543,
+          "averageHeartRateBeatsPerMinute": "153",
+          "elevationGainMillimeters": 141125.17129882361,
+          "activeZoneMinutes": "62",
+          "heartRateZoneDurations": {
+            "lightTime": "1320s",
+            "moderateTime": "1080s",
+            "vigorousTime": "480s",
+            "peakTime": "900s"
+          },
+          "mobilityMetrics": {
+            "avgStrideLengthMillimeters": "1042"
+          }
+        },
+        "exerciseMetadata": {
+          "hasGps": true
+        },
+        "displayName": "Laufen",
+        "activeDuration": "1195s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-25T14:54:47Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-25T15:14:42Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "PAUSE"
+          },
+          {
+            "eventTime": "2026-09-25T15:57:28Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-25T15:57:51.631354Z",
+        "createTime": "2026-09-25T15:04:55.414001Z"
+      }
+    },
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/5064472387175566112",
+      "dataSource": {
+        "recordingMethod": "ACTIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-24T13:12:32Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-24T15:01:00Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "RUNNING",
+        "splits": [
+          {
+            "startTime": "2026-09-24T13:12:40Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-24T13:19:12.301592281Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "392.301592281s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.39230159228100003
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-24T13:19:12.301592281Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-24T13:25:53.921515782Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "401.619923501s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.401619923501
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-24T13:25:53.921515782Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-24T13:32:50.396723646Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "416.475207864s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.41647520786400005
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-24T13:32:50.396723646Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-24T13:40:10.760143703Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "440.363420057s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.44036342005699997
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-24T13:40:10.760143703Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-24T13:48:48.363725166Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "517.603581463s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.517603581463
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-24T13:48:48.363725166Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-24T13:55:40.323843129Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "411.960117963s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.411960117963
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-24T13:55:40.323843129Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-24T14:01:23.831968909Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "343.508125780s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.34350812578
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-24T14:01:23.831968909Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-24T14:07:21.460412770Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "357.628443861s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.357628443861
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-24T14:07:21.460412770Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-24T14:13:51.926898357Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "390.466485587s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.39046648558700003
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-24T14:13:51.926898357Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-24T14:20:05.774870361Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "373.847972004s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.373847972004
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-24T14:20:05.774870361Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-24T14:26:05.584764494Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "359.809894133s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.359809894133
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-24T14:26:05.584764494Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-24T14:32:02.036564346Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "356.451799852s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.35645179985200004
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-24T14:32:02.036564346Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-24T14:39:28.853343370Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "446.816779024s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.446816779024
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-24T14:39:28.853343370Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-24T14:47:55.606922139Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "506.753578769s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.506753578769
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-24T14:47:55.606922139Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-24T14:54:07.519447627Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "371.912525488s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.371912525488
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-24T14:54:07.519447627Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-24T15:00:57Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "409.480552373s",
+            "metricsSummary": {
+              "distanceMillimeters": 581836,
+              "averagePaceSecondsPerMeter": 0.7037731463384872
+            },
+            "splitType": "DISTANCE"
+          }
+        ],
+        "metricsSummary": {
+          "caloriesKcal": 1408,
+          "distanceMillimeters": 15581836,
+          "steps": "18278",
+          "averagePaceSecondsPerMeter": 0.41753744552310784,
+          "averageHeartRateBeatsPerMinute": "136",
+          "elevationGainMillimeters": 475748.68519011931,
+          "activeZoneMinutes": "200",
+          "heartRateZoneDurations": {
+            "lightTime": "0s",
+            "moderateTime": "720s",
+            "vigorousTime": "5760s",
+            "peakTime": "0s"
+          },
+          "mobilityMetrics": {
+            "avgStrideLengthMillimeters": "823"
+          }
+        },
+        "exerciseMetadata": {
+          "hasGps": true
+        },
+        "displayName": "Laufen",
+        "activeDuration": "6506s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-24T13:12:32Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-24T15:00:58Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "PAUSE"
+          },
+          {
+            "eventTime": "2026-09-24T15:01:00Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-24T15:01:11.707296Z",
+        "createTime": "2026-09-24T13:24:58.631897Z"
+      }
+    },
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/2001693825428610920",
+      "dataSource": {
+        "recordingMethod": "PASSIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-22T12:20:51Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-22T13:53:00Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "WALKING",
+        "metricsSummary": {
+          "caloriesKcal": 843,
+          "distanceMillimeters": 7706400,
+          "steps": "10298",
+          "averagePaceSecondsPerMeter": 0.7174556213017752,
+          "averageHeartRateBeatsPerMinute": "97",
+          "activeZoneMinutes": "44",
+          "heartRateZoneDurations": {
+            "lightTime": "2940s",
+            "moderateTime": "2520s",
+            "vigorousTime": "60s",
+            "peakTime": "0s"
+          }
+        },
+        "exerciseMetadata": {},
+        "displayName": "Gehen",
+        "activeDuration": "5529s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-22T12:20:51Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-22T13:53:00Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-22T14:09:03.812581Z",
+        "createTime": "2026-09-22T14:09:03.812581Z"
+      }
+    },
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/8329015358800907984",
+      "dataSource": {
+        "recordingMethod": "PASSIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-20T14:13:30Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-20T15:10:41Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "WALKING",
+        "metricsSummary": {
+          "caloriesKcal": 502,
+          "distanceMillimeters": 4621000,
+          "steps": "6266",
+          "averagePaceSecondsPerMeter": 0.74247998268773,
+          "averageHeartRateBeatsPerMinute": "103",
+          "activeZoneMinutes": "52",
+          "heartRateZoneDurations": {
+            "lightTime": "300s",
+            "moderateTime": "3060s",
+            "vigorousTime": "60s",
+            "peakTime": "0s"
+          }
+        },
+        "exerciseMetadata": {},
+        "displayName": "Gehen",
+        "activeDuration": "3431s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-20T14:13:30Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-20T15:10:41Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-20T15:24:41.663614Z",
+        "createTime": "2026-09-20T15:24:41.663614Z"
+      }
+    },
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/206335221146783920",
+      "dataSource": {
+        "recordingMethod": "PASSIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-20T12:21:44Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-20T13:54:45Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "WALKING",
+        "metricsSummary": {
+          "caloriesKcal": 885,
+          "distanceMillimeters": 7547300,
+          "steps": "10125",
+          "averagePaceSecondsPerMeter": 0.73946974414691347,
+          "averageHeartRateBeatsPerMinute": "99",
+          "activeZoneMinutes": "52",
+          "heartRateZoneDurations": {
+            "lightTime": "2640s",
+            "moderateTime": "2640s",
+            "vigorousTime": "300s",
+            "peakTime": "0s"
+          }
+        },
+        "exerciseMetadata": {},
+        "displayName": "Gehen",
+        "activeDuration": "5581s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-20T12:21:44Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-20T13:54:45Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-20T14:09:43.424516Z",
+        "createTime": "2026-09-20T14:09:43.424516Z"
+      }
+    },
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/7095181954097448744",
+      "dataSource": {
+        "recordingMethod": "ACTIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-18T12:23:09Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-18T13:51:20Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "RUNNING",
+        "splits": [
+          {
+            "startTime": "2026-09-18T12:23:15Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-18T12:27:55.543709715Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "280.543709715s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.280543709715
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-18T12:27:55.543709715Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-18T12:32:51.242796337Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "295.699086622s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.295699086622
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-18T12:32:51.242796337Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-18T12:37:38.893873586Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "287.651077249s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.287651077249
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-18T12:37:38.893873586Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-18T12:42:38.587363227Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "299.693489641s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.299693489641
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-18T12:42:38.587363227Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-18T12:47:03.576891601Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "264.989528374s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.26498952837399997
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-18T12:47:03.576891601Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-18T12:52:11.234685132Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "307.657793531s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.307657793531
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-18T12:52:11.234685132Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-18T12:56:22.618698669Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "251.384013537s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.25138401353699996
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-18T12:56:22.618698669Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-18T13:01:43.700413294Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "321.081714625s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.321081714625
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-18T13:01:43.700413294Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-18T13:07:06.688188644Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "322.987775350s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.32298777535
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-18T13:07:06.688188644Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-18T13:12:20.982658443Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "314.294469799s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.314294469799
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-18T13:12:20.982658443Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-18T13:17:42.454374737Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "321.471716294s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.32147171629399995
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-18T13:17:42.454374737Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-18T13:23:07.547940776Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "325.093566039s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.32509356603899997
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-18T13:23:07.547940776Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-18T13:28:45.266321395Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "337.718380619s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.337718380619
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-18T13:28:45.266321395Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-18T13:33:47.955283745Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "302.688962350s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.30268896235
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-18T13:33:47.955283745Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-18T13:39:14.340953043Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "326.385669298s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.326385669298
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-18T13:39:14.340953043Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-18T13:44:52.594754927Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "338.253801884s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.338253801884
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-18T13:44:52.594754927Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-18T13:47:22.836897796Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "150.242142869s",
+            "metricsSummary": {
+              "distanceMillimeters": 455375,
+              "averagePaceSecondsPerMeter": 0.32993059098325556
+            },
+            "splitType": "DISTANCE"
+          }
+        ],
+        "metricsSummary": {
+          "caloriesKcal": 1444,
+          "distanceMillimeters": 16455375,
+          "steps": "15431",
+          "averagePaceSecondsPerMeter": 0.32147550572381367,
+          "averageHeartRateBeatsPerMinute": "156",
+          "elevationGainMillimeters": 95033.571958660526,
+          "activeZoneMinutes": "173",
+          "heartRateZoneDurations": {
+            "lightTime": "0s",
+            "moderateTime": "60s",
+            "vigorousTime": "660s",
+            "peakTime": "4560s"
+          },
+          "mobilityMetrics": {
+            "avgStrideLengthMillimeters": "1027"
+          }
+        },
+        "exerciseMetadata": {
+          "hasGps": true
+        },
+        "displayName": "Laufen",
+        "activeDuration": "5290s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-18T12:23:09Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-18T13:51:19Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "PAUSE"
+          },
+          {
+            "eventTime": "2026-09-18T13:51:20Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-18T13:51:31.621548Z",
+        "createTime": "2026-09-18T12:37:20.686309Z"
+      }
+    },
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/620571295361830152",
+      "dataSource": {
+        "recordingMethod": "PASSIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-17T11:42:55Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-17T12:38:23Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "WALKING",
+        "metricsSummary": {
+          "caloriesKcal": 462,
+          "distanceMillimeters": 4173800,
+          "steps": "5662",
+          "averagePaceSecondsPerMeter": 0.7973549283626431,
+          "averageHeartRateBeatsPerMinute": "95",
+          "activeZoneMinutes": "22",
+          "heartRateZoneDurations": {
+            "lightTime": "2040s",
+            "moderateTime": "1320s",
+            "vigorousTime": "0s",
+            "peakTime": "0s"
+          }
+        },
+        "exerciseMetadata": {},
+        "displayName": "Gehen",
+        "activeDuration": "3328s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-17T11:42:55Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-17T12:38:23Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-17T12:44:05.697301Z",
+        "createTime": "2026-09-17T12:44:05.697301Z"
+      }
+    },
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/2924200262346370712",
+      "dataSource": {
+        "recordingMethod": "PASSIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-15T09:20:27Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-15T09:52:00Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "WALKING",
+        "metricsSummary": {
+          "caloriesKcal": 212,
+          "distanceMillimeters": 1757800,
+          "steps": "2385",
+          "averagePaceSecondsPerMeter": 1.0769143247240869,
+          "averageHeartRateBeatsPerMinute": "85",
+          "activeZoneMinutes": "3",
+          "heartRateZoneDurations": {
+            "lightTime": "1680s",
+            "moderateTime": "180s",
+            "vigorousTime": "0s",
+            "peakTime": "0s"
+          }
+        },
+        "exerciseMetadata": {},
+        "displayName": "Gehen",
+        "activeDuration": "1893s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-15T09:20:27Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-15T09:52:00Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-15T09:57:21.883044Z",
+        "createTime": "2026-09-15T09:57:21.883044Z"
+      }
+    },
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/6162733186633831552",
+      "dataSource": {
+        "recordingMethod": "PASSIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-14T17:40:03Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-14T18:50:53Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "WALKING",
+        "metricsSummary": {
+          "caloriesKcal": 652,
+          "distanceMillimeters": 5433000,
+          "steps": "7368",
+          "averagePaceSecondsPerMeter": 0.78225658015829191,
+          "averageHeartRateBeatsPerMinute": "99",
+          "activeZoneMinutes": "37",
+          "heartRateZoneDurations": {
+            "lightTime": "2340s",
+            "moderateTime": "1500s",
+            "vigorousTime": "360s",
+            "peakTime": "0s"
+          }
+        },
+        "exerciseMetadata": {},
+        "displayName": "Gehen",
+        "activeDuration": "4250s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-14T17:40:03Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-14T18:50:53Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-14T19:02:54.569262Z",
+        "createTime": "2026-09-14T19:02:54.569262Z"
+      }
+    },
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/3174910423311393152",
+      "dataSource": {
+        "recordingMethod": "ACTIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-13T13:11:54Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-13T13:45:41Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "RUNNING",
+        "splits": [
+          {
+            "startTime": "2026-09-13T13:12:01Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-13T13:17:55.793981980Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "354.793981980s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.35479398198
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-13T13:17:55.793981980Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-13T13:25:05.599392667Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "429.805410687s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.429805410687
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-13T13:25:05.599392667Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-13T13:31:19.540673328Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "373.941280661s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.373941280661
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-13T13:31:19.540673328Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-13T13:36:51.341384119Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "331.800710791s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.331800710791
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-13T13:36:51.341384119Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-13T13:42:44.638008389Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "353.296624270s",
+            "metricsSummary": {
+              "distanceMillimeters": 1000000,
+              "averagePaceSecondsPerMeter": 0.35329662426999997
+            },
+            "splitType": "DISTANCE"
+          },
+          {
+            "startTime": "2026-09-13T13:42:44.638008389Z",
+            "startUtcOffset": "7200s",
+            "endTime": "2026-09-13T13:45:38Z",
+            "endUtcOffset": "7200s",
+            "activeDuration": "173.361991611s",
+            "metricsSummary": {
+              "distanceMillimeters": 421969,
+              "averagePaceSecondsPerMeter": 0.41084058689382397
+            },
+            "splitType": "DISTANCE"
+          }
+        ],
+        "metricsSummary": {
+          "caloriesKcal": 492,
+          "distanceMillimeters": 5421969,
+          "steps": "5699",
+          "averagePaceSecondsPerMeter": 0.37348055660222329,
+          "averageHeartRateBeatsPerMinute": "152",
+          "elevationGainMillimeters": 177093.40645857752,
+          "activeZoneMinutes": "65",
+          "heartRateZoneDurations": {
+            "lightTime": "0s",
+            "moderateTime": "60s",
+            "vigorousTime": "660s",
+            "peakTime": "1320s"
+          },
+          "mobilityMetrics": {
+            "avgStrideLengthMillimeters": "972"
+          }
+        },
+        "exerciseMetadata": {
+          "hasGps": true
+        },
+        "displayName": "Laufen",
+        "activeDuration": "2025s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-13T13:11:54Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-13T13:45:39Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "PAUSE"
+          },
+          {
+            "eventTime": "2026-09-13T13:45:41Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-13T13:45:55.106314Z",
+        "createTime": "2026-09-13T13:20:41.592247Z"
+      }
+    },
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/644896255383450784",
+      "dataSource": {
+        "recordingMethod": "PASSIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-13T10:55:09Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-13T11:11:22Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "WALKING",
+        "metricsSummary": {
+          "caloriesKcal": 143,
+          "distanceMillimeters": 1144600,
+          "steps": "1553",
+          "averagePaceSecondsPerMeter": 0.85007863008911422,
+          "averageHeartRateBeatsPerMinute": "89",
+          "activeZoneMinutes": "3",
+          "heartRateZoneDurations": {
+            "lightTime": "780s",
+            "moderateTime": "180s",
+            "vigorousTime": "0s",
+            "peakTime": "0s"
+          }
+        },
+        "exerciseMetadata": {},
+        "displayName": "Gehen",
+        "activeDuration": "973s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-13T10:55:09Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-13T11:11:22Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-13T11:27:37.327873Z",
+        "createTime": "2026-09-13T11:27:37.327873Z"
+      }
+    },
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/5668213195707800840",
+      "dataSource": {
+        "recordingMethod": "ACTIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-12T19:04:05Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-12T19:48:49Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "SPINNING",
+        "metricsSummary": {
+          "caloriesKcal": 524,
+          "distanceMillimeters": 3479640,
+          "averageHeartRateBeatsPerMinute": "139",
+          "activeZoneMinutes": "81",
+          "heartRateZoneDurations": {
+            "lightTime": "0s",
+            "moderateTime": "360s",
+            "vigorousTime": "2100s",
+            "peakTime": "180s"
+          }
+        },
+        "exerciseMetadata": {},
+        "displayName": "Spinning",
+        "activeDuration": "2682s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-12T19:04:05Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-12T19:48:47Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "PAUSE"
+          },
+          {
+            "eventTime": "2026-09-12T19:48:49Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-12T19:48:57.177511Z",
+        "createTime": "2026-09-12T19:20:20.921406Z"
+      }
+    },
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/5319135262538966272",
+      "dataSource": {
+        "recordingMethod": "PASSIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-12T11:26:19Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-12T13:06:10Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "WALKING",
+        "metricsSummary": {
+          "caloriesKcal": 830,
+          "distanceMillimeters": 7156600,
+          "steps": "9708",
+          "averagePaceSecondsPerMeter": 0.83712936310538522,
+          "averageHeartRateBeatsPerMinute": "100",
+          "activeZoneMinutes": "55",
+          "heartRateZoneDurations": {
+            "lightTime": "2820s",
+            "moderateTime": "3060s",
+            "vigorousTime": "120s",
+            "peakTime": "0s"
+          }
+        },
+        "exerciseMetadata": {},
+        "displayName": "Gehen",
+        "activeDuration": "5991s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-12T11:26:19Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-12T13:06:10Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-12T13:21:18.779925Z",
+        "createTime": "2026-09-12T13:21:18.779925Z"
+      }
+    },
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/1138489308431836592",
+      "dataSource": {
+        "recordingMethod": "PASSIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-11T13:04:51Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-11T14:17:24Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "WALKING",
+        "metricsSummary": {
+          "caloriesKcal": 636,
+          "distanceMillimeters": 5583200,
+          "steps": "7574",
+          "averagePaceSecondsPerMeter": 0.77966040980083107,
+          "averageHeartRateBeatsPerMinute": "96",
+          "activeZoneMinutes": "23",
+          "heartRateZoneDurations": {
+            "lightTime": "3000s",
+            "moderateTime": "1380s",
+            "vigorousTime": "0s",
+            "peakTime": "0s"
+          }
+        },
+        "exerciseMetadata": {},
+        "displayName": "Gehen",
+        "activeDuration": "4353s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-11T13:04:51Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-11T14:17:24Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-11T14:37:05.324811Z",
+        "createTime": "2026-09-11T14:37:05.324811Z"
+      }
+    },
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/5005743772992438512",
+      "dataSource": {
+        "recordingMethod": "PASSIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-10T14:50:16Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-10T15:48:15Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "WALKING",
+        "metricsSummary": {
+          "caloriesKcal": 472,
+          "distanceMillimeters": 4116000,
+          "steps": "5581",
+          "averagePaceSecondsPerMeter": 0.84523809523809523,
+          "averageHeartRateBeatsPerMinute": "82",
+          "heartRateZoneDurations": {
+            "lightTime": "3480s",
+            "moderateTime": "0s",
+            "vigorousTime": "0s",
+            "peakTime": "0s"
+          }
+        },
+        "exerciseMetadata": {},
+        "displayName": "Gehen",
+        "activeDuration": "3479s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-10T14:50:16Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-10T15:48:15Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-10T16:00:46.949114Z",
+        "createTime": "2026-09-10T16:00:46.949114Z"
+      }
+    },
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/5233793285172851184",
+      "dataSource": {
+        "recordingMethod": "PASSIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-08T12:25:12Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-08T13:06:09Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "WALKING",
+        "metricsSummary": {
+          "caloriesKcal": 313,
+          "distanceMillimeters": 2487500,
+          "steps": "3379",
+          "averagePaceSecondsPerMeter": 0.98773869346733667,
+          "averageHeartRateBeatsPerMinute": "129",
+          "activeZoneMinutes": "74",
+          "heartRateZoneDurations": {
+            "lightTime": "0s",
+            "moderateTime": "480s",
+            "vigorousTime": "1980s",
+            "peakTime": "0s"
+          }
+        },
+        "exerciseMetadata": {},
+        "displayName": "Gehen",
+        "activeDuration": "2457s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-08T12:25:12Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-08T13:06:09Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-08T13:31:27.273308Z",
+        "createTime": "2026-09-08T13:31:27.273308Z"
+      }
+    },
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/264697746952852160",
+      "dataSource": {
+        "recordingMethod": "PASSIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-08T10:49:37Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-08T12:00:28Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "WALKING",
+        "metricsSummary": {
+          "caloriesKcal": 499,
+          "distanceMillimeters": 3570300,
+          "steps": "4851",
+          "averagePaceSecondsPerMeter": 1.1906562473741702,
+          "averageHeartRateBeatsPerMinute": "127",
+          "activeZoneMinutes": "123",
+          "heartRateZoneDurations": {
+            "lightTime": "180s",
+            "moderateTime": "840s",
+            "vigorousTime": "3240s",
+            "peakTime": "0s"
+          }
+        },
+        "exerciseMetadata": {},
+        "displayName": "Gehen",
+        "activeDuration": "4251s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-08T10:49:37Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-08T12:00:28Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-08T12:04:21.651433Z",
+        "createTime": "2026-09-08T12:04:21.651433Z"
+      }
+    },
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/5730312363894021208",
+      "dataSource": {
+        "recordingMethod": "PASSIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-08T09:30:16Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-08T10:19:45Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "WALKING",
+        "metricsSummary": {
+          "caloriesKcal": 443,
+          "distanceMillimeters": 3171300,
+          "steps": "4305",
+          "averagePaceSecondsPerMeter": 0.93620912559518177,
+          "averageHeartRateBeatsPerMinute": "127",
+          "activeZoneMinutes": "83",
+          "heartRateZoneDurations": {
+            "lightTime": "180s",
+            "moderateTime": "480s",
+            "vigorousTime": "2280s",
+            "peakTime": "0s"
+          }
+        },
+        "exerciseMetadata": {},
+        "displayName": "Gehen",
+        "activeDuration": "2969s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-08T09:30:16Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-08T10:19:45Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-08T10:33:48.391699Z",
+        "createTime": "2026-09-08T10:33:48.391699Z"
+      }
+    },
+    {
+      "name": "users/4981657191938844637/dataTypes/exercise/dataPoints/3674140269671331864",
+      "dataSource": {
+        "recordingMethod": "ACTIVELY_MEASURED",
+        "device": {
+          "formFactor": "FITNESS_BAND",
+          "displayName": "Charge 6"
+        },
+        "platform": "FITBIT"
+      },
+      "exercise": {
+        "interval": {
+          "startTime": "2026-09-07T15:44:57Z",
+          "startUtcOffset": "7200s",
+          "endTime": "2026-09-07T16:30:32Z",
+          "endUtcOffset": "7200s"
+        },
+        "exerciseType": "SPINNING",
+        "metricsSummary": {
+          "caloriesKcal": 507,
+          "distanceMillimeters": 4019719,
+          "averageHeartRateBeatsPerMinute": "151",
+          "activeZoneMinutes": "88",
+          "heartRateZoneDurations": {
+            "lightTime": "0s",
+            "moderateTime": "60s",
+            "vigorousTime": "1620s",
+            "peakTime": "1080s"
+          }
+        },
+        "exerciseMetadata": {},
+        "displayName": "Spinning",
+        "activeDuration": "2733s",
+        "exerciseEvents": [
+          {
+            "eventTime": "2026-09-07T15:44:57Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "START"
+          },
+          {
+            "eventTime": "2026-09-07T16:30:30Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "PAUSE"
+          },
+          {
+            "eventTime": "2026-09-07T16:30:32Z",
+            "eventUtcOffset": "7200s",
+            "exerciseEventType": "STOP"
+          }
+        ],
+        "updateTime": "2026-09-07T16:30:42.146518Z",
+        "createTime": "2026-09-07T15:54:09.982259Z"
+      }
+    }
+  ],
+  "nextPageToken": "25"
+}

@@ -14,15 +14,14 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
+import com.github.phoswald.fitbit.viewer.healthapi.HealthApiClient;
 import com.github.phoswald.fitbit.viewer.pages.BaseController;
 import com.github.phoswald.fitbit.viewer.repository.ProfileEntity;
 import com.github.phoswald.fitbit.viewer.repository.ProfileRepository;
-import com.google.api.health.v4.api.DefaultApi;
 
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
@@ -37,8 +36,7 @@ public class ProfileController extends BaseController {
     private Template profile;
 
     @Inject
-    @RestClient
-    private DefaultApi healthApiClient;
+    private HealthApiClient healthApiClient;
 
     @Inject
     private ProfileRepository profileRepository;
@@ -70,10 +68,9 @@ public class ProfileController extends BaseController {
             if(!refresh && profile.isPresent()) {
                 log.debug("Found entity");
             } else {
-                String authorization = "Bearer " + session.accessToken();
-                var response = healthApiClient.healthUsersGetProfile(authorization, "me");
-                var height = healthApiClient.healthUsersDataTypesDataPointsList(authorization, "users/me/dataTypes/height", null, 1, null, null);
-                var weight = healthApiClient.healthUsersDataTypesDataPointsList(authorization, "users/me/dataTypes/weight", null, 1, null, null);
+                var response = healthApiClient.getProfile(session);
+                var height = healthApiClient.getListFirst(session, "height");
+                var weight = healthApiClient.getListFirst(session, "weight");
                 profile = Optional.of(ProfileEntity.create(session, response, heightCmOf(height), weightKgOf(weight)));
                 log.info("Storing entity");
                 profileRepository.store(profile.get());

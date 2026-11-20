@@ -1,0 +1,364 @@
+{
+  "dataPoints": [
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 30
+        },
+        "vo2Max": 49.144159904536963,
+        "cardioFitnessLevel": "VERY_GOOD",
+        "vo2MaxCovariance": 0.38390132950445321
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 29
+        },
+        "vo2Max": 49.144159904536963,
+        "cardioFitnessLevel": "VERY_GOOD",
+        "vo2MaxCovariance": 0.33390132950445323
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 28
+        },
+        "vo2Max": 49.144159904536963,
+        "cardioFitnessLevel": "VERY_GOOD",
+        "vo2MaxCovariance": 0.28390132950445324
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 27
+        },
+        "vo2Max": 49.27454073082432,
+        "cardioFitnessLevel": "VERY_GOOD",
+        "vo2MaxCovariance": 0.36500542143615694
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 26
+        },
+        "vo2Max": 49.27454073082432,
+        "cardioFitnessLevel": "VERY_GOOD",
+        "vo2MaxCovariance": 0.31500542143615695
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 25
+        },
+        "vo2Max": 49.347017527276748,
+        "cardioFitnessLevel": "VERY_GOOD",
+        "vo2MaxCovariance": 0.421428310117177
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 24
+        },
+        "vo2Max": 49.574834840874246,
+        "cardioFitnessLevel": "EXCELLENT",
+        "vo2MaxCovariance": 0.64662316491022553
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 23
+        },
+        "vo2Max": 49.574834840874246,
+        "cardioFitnessLevel": "EXCELLENT",
+        "vo2MaxCovariance": 0.59662316491022549
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 22
+        },
+        "vo2Max": 49.574834840874246,
+        "cardioFitnessLevel": "EXCELLENT",
+        "vo2MaxCovariance": 0.54662316491022545
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 21
+        },
+        "vo2Max": 49.574834840874246,
+        "cardioFitnessLevel": "EXCELLENT",
+        "vo2MaxCovariance": 0.49662316491022546
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 20
+        },
+        "vo2Max": 49.574834840874246,
+        "cardioFitnessLevel": "EXCELLENT",
+        "vo2MaxCovariance": 0.44662316491022547
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 19
+        },
+        "vo2Max": 49.574834840874246,
+        "cardioFitnessLevel": "EXCELLENT",
+        "vo2MaxCovariance": 0.39662316491022548
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 18
+        },
+        "vo2Max": 49.543840836906412,
+        "cardioFitnessLevel": "EXCELLENT",
+        "vo2MaxCovariance": 0.60936059475877646
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 17
+        },
+        "vo2Max": 49.543840836906412,
+        "cardioFitnessLevel": "EXCELLENT",
+        "vo2MaxCovariance": 0.55936059475877642
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 16
+        },
+        "vo2Max": 49.543840836906412,
+        "cardioFitnessLevel": "EXCELLENT",
+        "vo2MaxCovariance": 0.50936059475877637
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 15
+        },
+        "vo2Max": 49.543840836906412,
+        "cardioFitnessLevel": "EXCELLENT",
+        "vo2MaxCovariance": 0.45936059475877633
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 14
+        },
+        "vo2Max": 49.543840836906412,
+        "cardioFitnessLevel": "EXCELLENT",
+        "vo2MaxCovariance": 0.40936059475877634
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 13
+        },
+        "vo2Max": 49.878913508840512,
+        "cardioFitnessLevel": "EXCELLENT",
+        "vo2MaxCovariance": 0.62089174979952233
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 12
+        },
+        "vo2Max": 49.878913508840512,
+        "cardioFitnessLevel": "EXCELLENT",
+        "vo2MaxCovariance": 0.57089174979952229
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 11
+        },
+        "vo2Max": 49.878913508840512,
+        "cardioFitnessLevel": "EXCELLENT",
+        "vo2MaxCovariance": 0.52089174979952224
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 10
+        },
+        "vo2Max": 49.878913508840512,
+        "cardioFitnessLevel": "EXCELLENT",
+        "vo2MaxCovariance": 0.47089174979952225
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 9
+        },
+        "vo2Max": 49.878913508840512,
+        "cardioFitnessLevel": "EXCELLENT",
+        "vo2MaxCovariance": 0.42089174979952226
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 8
+        },
+        "vo2Max": 49.878913508840512,
+        "cardioFitnessLevel": "EXCELLENT",
+        "vo2MaxCovariance": 0.37089174979952227
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 7
+        },
+        "vo2Max": 49.878913508840512,
+        "cardioFitnessLevel": "EXCELLENT",
+        "vo2MaxCovariance": 0.32089174979952229
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 6
+        },
+        "vo2Max": 50.163082007350248,
+        "cardioFitnessLevel": "EXCELLENT",
+        "vo2MaxCovariance": 0.44806804357393021
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 5
+        },
+        "vo2Max": 50.163082007350248,
+        "cardioFitnessLevel": "EXCELLENT",
+        "vo2MaxCovariance": 0.39806804357393022
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 4
+        },
+        "vo2Max": 50.238596367940751,
+        "cardioFitnessLevel": "EXCELLENT",
+        "vo2MaxCovariance": 0.5965164718645618
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 3
+        },
+        "vo2Max": 50.238596367940751,
+        "cardioFitnessLevel": "EXCELLENT",
+        "vo2MaxCovariance": 0.54651647186456176
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 2
+        },
+        "vo2Max": 50.501831757983894,
+        "cardioFitnessLevel": "EXCELLENT",
+        "vo2MaxCovariance": 0.96822185199385691
+      }
+    },
+    {
+      "dailyVo2Max": {
+        "date": {
+          "year": 2026,
+          "month": 9,
+          "day": 1
+        },
+        "vo2Max": 50.501831757983894,
+        "cardioFitnessLevel": "EXCELLENT",
+        "vo2MaxCovariance": 0.91822185199385686
+      }
+    }
+  ]
+}

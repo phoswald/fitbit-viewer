@@ -1,0 +1,26 @@
+{
+  "dataPoints": [
+    {
+      "name": "users/4981657191938844637/dataTypes/height/dataPoints/1575417600000000",
+      "dataSource": {
+        "recordingMethod": "MANUAL",
+        "platform": "FITBIT"
+      },
+      "height": {
+        "sampleTime": {
+          "physicalTime": "2019-12-04T00:00:00Z",
+          "utcOffset": "0s",
+          "civilTime": {
+            "date": {
+              "year": 2019,
+              "month": 12,
+              "day": 4
+            },
+            "time": {}
+          }
+        },
+        "heightMillimeters": "1780"
+      }
+    }
+  ]
+}

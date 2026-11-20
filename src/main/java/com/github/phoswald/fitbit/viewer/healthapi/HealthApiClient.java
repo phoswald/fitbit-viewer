@@ -22,6 +22,7 @@ import com.google.api.health.v4.model.DailyRollUpDataPointsResponse;
 import com.google.api.health.v4.model.DailyRollUpDataPointsResponseRollupDataPointsInner;
 import com.google.api.health.v4.model.ListDataPointsResponse;
 import com.google.api.health.v4.model.ListDataPointsResponseDataPointsInner;
+import com.google.api.health.v4.model.Profile;
 import com.google.api.health.v4.model.ReconcileDataPointsResponse;
 import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInner;
 
@@ -34,7 +35,14 @@ public class HealthApiClient {
     @RestClient
     private DefaultApi defaultApiClient;
 
-    public List<DailyRollUpDataPointsResponseRollupDataPointsInner> getDailyRollup(
+    public Profile getProfile(SessionData session) {
+        log.info("Requesting Profile");
+        return defaultApiClient.healthUsersGetProfile(
+                "Bearer " + session.accessToken(),
+                "me");
+    }
+
+    public List<DailyRollUpDataPointsResponseRollupDataPointsInner> postDailyRollup(
             SessionData session,
             String dataType,
             LocalDate dateBeg,
@@ -68,7 +76,7 @@ public class HealthApiClient {
             String filterField,
             LocalDate dateBeg,
             LocalDate dateEnd) {
-        log.info("Requesting {} (Reconcile): dateBeg={}, dateEnd={}", dataType, dateBeg, dateEnd);
+        log.info("Requesting {} (Reconcile): dateBeg={}, dateEnd={}, filterField={}", dataType, dateBeg, dateEnd, filterField);
         List<ReconcileDataPointsResponseDataPointsInner> dataPoints = new ArrayList<>();
         String pageToken = null;
         int iterations = 0;
@@ -94,7 +102,7 @@ public class HealthApiClient {
             String filterField,
             LocalDate dateBeg,
             LocalDate dateEnd) {
-        log.info("Requesting {} (List): dateBeg={}, dateEnd={}", dataType, dateBeg, dateEnd);
+        log.info("Requesting {} (List): dateBeg={}, dateEnd={}, filterField={}", dataType, dateBeg, dateEnd, filterField);
         List<ListDataPointsResponseDataPointsInner> dataPoints = new ArrayList<>();
         String pageToken = null;
         int iterations = 0;
@@ -112,6 +120,23 @@ public class HealthApiClient {
         } while(pageToken != null);
         log.info("Received {}: {} points, {} iterations", dataType, dataPoints.size(), iterations);
         return dataPoints;
+    }
+
+    public ListDataPointsResponseDataPointsInner getListFirst(
+            SessionData session,
+            String dataType) {
+        log.info("Requesting {} (first of List)", dataType);
+        List<ListDataPointsResponseDataPointsInner> dataPoints = new ArrayList<>();
+        ListDataPointsResponse response = defaultApiClient.healthUsersDataTypesDataPointsList(
+                "Bearer " + session.accessToken(),
+                "users/me/dataTypes/" + dataType,
+                null, 1,
+                null, null);
+        if(response.getDataPoints() != null) {
+            dataPoints.addAll(response.getDataPoints());
+        }
+        log.info("Received {}: {} points", dataType, dataPoints.size());
+        return dataPoints.isEmpty() ? null : dataPoints.getFirst();
     }
 
     public String getExportExerciseTcx(SessionData session, long logId) {

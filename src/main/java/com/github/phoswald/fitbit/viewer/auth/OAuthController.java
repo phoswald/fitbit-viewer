@@ -5,7 +5,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.time.Instant;
-import java.util.Objects;
+import java.util.Map;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -34,6 +34,12 @@ public class OAuthController {
             "https://www.googleapis.com/auth/googlehealth.location.readonly",
             "https://www.googleapis.com/auth/googlehealth.profile.readonly",
             "https://www.googleapis.com/auth/googlehealth.sleep.readonly");
+
+    /*
+     * TODO (Legacy API Migration): remove when no longer needed
+     */
+    private static final Map<String, FitBitUser> FITBIT_USERS = Map.ofEntries(
+            Map.entry("philip.oswald@gmail.com", new FitBitUser("7XPRW8", "https://static0.fitbit.com/images/profile/defaultProfile_100.png")));
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -115,14 +121,15 @@ public class OAuthController {
         if(!session.isPresent()) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
-        if(!Objects.equals(session.get().userId(), "philip.oswald@gmail.com")) {
+        FitBitUser fitBitUser = FITBIT_USERS.get(session.get().userId());
+        if(fitBitUser == null) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
         SessionData fitbitSessionData = session.get().toBuilder()
                 .accessToken(null)
-                .userId("7XPRW8")
-                .userPictureUrl("https://static0.fitbit.com/images/profile/defaultProfile_100.png")
+                .userId(fitBitUser.userId())
+                .userPictureUrl(fitBitUser.userPictureUrl())
                 .build();
         log.info("switchToFitBit(): old={}, new={}", session.get().userId(), fitbitSessionData.userId());
         return Response
@@ -151,4 +158,6 @@ public class OAuthController {
     private static int lengthOf(String s) {
         return s == null ? 0 : s.length();
     }
+
+    private record FitBitUser(String userId, String userPictureUrl) { }
 }

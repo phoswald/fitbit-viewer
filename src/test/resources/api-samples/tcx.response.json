@@ -1,0 +1,3 @@
+{
+  "tcxData": "\u003c?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?\u003e\n\u003cTrainingCenterDatabase xmlns=\"http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2\"\u003e\n    \u003cActivities\u003e\n        \u003cActivity Sport=\"Other\"\u003e\n            \u003cId\u003e2026-09-30T16:16:52.000+02:00\u003c/Id\u003e\n            \u003cCreator xsi:type=\"Device_t\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\u003e\n                \u003cName\u003eCharge 6\u003c/Name\u003e\n                \u003cUnitId\u003e0\u003c/UnitId\u003e\n                \u003cProductID\u003e0\u003c/ProductID\u003e\n            \u003c/Creator\u003e\n        \u003c/Activity\u003e\n    \u003c/Activities\u003e\n\u003c/TrainingCenterDatabase\u003e\n"
+}
