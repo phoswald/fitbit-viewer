@@ -13,7 +13,7 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
-import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerDailyVo2Max;
+import com.google.api.health.v4.model.DailyVO2Max;
 
 @Entity
 @Table(name = "fitbit_cardioscore_")
@@ -45,7 +45,7 @@ public class CardioScoreEntity {
      * The Google Health API returns a single value, never a range: scoreMin and scoreMax are only set on rows
      * cached from the Fitbit API. The value's "estimated" flag is not related to the scoreEstimated field.
      */
-    public static CardioScoreEntity create(String userId, ReconcileDataPointsResponseDataPointsInnerDailyVo2Max dailyVo2Max) {
+    public static CardioScoreEntity create(String userId, DailyVO2Max dailyVo2Max) {
         CardioScoreEntity entity = new CardioScoreEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
         entity.setDate(requireNonNull(dateOf(dailyVo2Max.getDate()), "date"));

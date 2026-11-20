@@ -13,7 +13,7 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
-import com.google.api.health.v4.model.DailyRollUpDataPointsResponseRollupDataPointsInner;
+import com.google.api.health.v4.model.DailyRollupDataPoint;
 
 @Entity
 @Table(name = "fitbit_steps_")
@@ -35,7 +35,7 @@ public class StepsEntity {
     @Column(name = "step_count_")
     private Integer stepCount;
 
-    public static StepsEntity create(String userId, DailyRollUpDataPointsResponseRollupDataPointsInner dataPoint) {
+    public static StepsEntity create(String userId, DailyRollupDataPoint dataPoint) {
         StepsEntity entity = new StepsEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
         entity.setDate(requireNonNull(dateOf(dataPoint), "date"));

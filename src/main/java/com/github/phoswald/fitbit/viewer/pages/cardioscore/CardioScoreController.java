@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
 import com.github.phoswald.fitbit.viewer.healthapi.HealthApiClient;
 import com.github.phoswald.fitbit.viewer.pages.DateRangeController;
-import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInner;
+import com.google.api.health.v4.model.ReconciledDataPoint;
 
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
@@ -64,7 +64,7 @@ public class CardioScoreController extends DateRangeController {
                 for(var dateRange : getQueryDateRanges(Duration.ofDays(90))) {
                     var dataPoints = healthApiClient.getReconcile(session, "daily-vo2-max", "daily_vo2_max.date", dateRange.beg(), dateRange.end());
                     cardioScores.putAll(dataPoints.stream()
-                            .map(ReconcileDataPointsResponseDataPointsInner::getDailyVo2Max)
+                            .map(ReconciledDataPoint::getDailyVo2Max)
                             .filter(Objects::nonNull)
                             .map(value -> CardioScoreEntity.create(session.userId(), value))
                             .collect(toSortedMap(CardioScoreEntity::getDate)));

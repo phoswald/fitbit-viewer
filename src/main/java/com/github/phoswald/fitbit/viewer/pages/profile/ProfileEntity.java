@@ -4,6 +4,7 @@ import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.dateOf;
 import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.firstOf;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.divideBy;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.maskZero;
+import static com.github.phoswald.fitbit.viewer.ValueHelpers.toDateString;
 import static java.util.Objects.requireNonNull;
 
 import jakarta.persistence.Column;
@@ -64,7 +65,7 @@ public class ProfileEntity {
         entity.setFullName(session.userFullName());
         entity.setAvatarUrl(session.userPictureUrl());
         entity.setAge(profile.getAge());
-        entity.setMemberSince(dateOf(profile.getMembershipStartDate()));
+        entity.setMemberSince(toDateString(dateOf(profile.getMembershipStartDate())));
         entity.setHeight(maskZero(height));
         entity.setWeight(maskZero(weight));
         entity.setStrideLengthWalking(divideBy(firstOf(profile.getUserConfiguredWalkingStrideLengthMm(), profile.getAutoWalkingStrideLengthMm()), 10));

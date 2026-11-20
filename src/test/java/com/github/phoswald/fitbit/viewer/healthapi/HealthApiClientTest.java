@@ -29,8 +29,8 @@ import org.junit.jupiter.api.Test;
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
 import com.github.tomakehurst.wiremock.client.MappingBuilder;
 import com.github.tomakehurst.wiremock.client.WireMock;
-import com.google.api.health.v4.model.ListDataPointsResponseDataPointsInnerExercise.ExerciseTypeEnum;
-import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerDailyVo2Max.CardioFitnessLevelEnum;
+import com.google.api.health.v4.model.DailyVO2Max.CardioFitnessLevelEnum;
+import com.google.api.health.v4.model.Exercise.ExerciseTypeEnum;
 
 import io.quarkiverse.wiremock.devservice.ConnectWireMock;
 import io.quarkus.test.junit.QuarkusTest;

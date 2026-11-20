@@ -15,8 +15,8 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
-import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerSleep;
-import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerSleepSummaryStagesSummaryInner.TypeEnum;
+import com.google.api.health.v4.model.Sleep;
+import com.google.api.health.v4.model.StageSummary;
 
 @Entity
 @Table(name = "fitbit_sleep_")
@@ -56,20 +56,20 @@ public class SleepEntity {
     @Column(name = "minutes_wake_")
     private Integer minutesWake;
 
-    public static SleepEntity create(String userId, ReconcileDataPointsResponseDataPointsInnerSleep sleep) {
+    public static SleepEntity create(String userId, Sleep sleep) {
         SleepEntity entity = new SleepEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
         entity.setDate(requireNonNull(dateOf(sleep), "date"));
-        if(sleep.getType() == ReconcileDataPointsResponseDataPointsInnerSleep.TypeEnum.CLASSIC) {
-            entity.setMinutesAsleep(stageMinutesOf(sleep, TypeEnum.ASLEEP));
-            entity.setMinutesRestless(stageMinutesOf(sleep, TypeEnum.RESTLESS));
-            entity.setMinutesAwake(stageMinutesOf(sleep, TypeEnum.AWAKE));
+        if(sleep.getType() == Sleep.TypeEnum.CLASSIC) {
+            entity.setMinutesAsleep(stageMinutesOf(sleep, StageSummary.TypeEnum.ASLEEP));
+            entity.setMinutesRestless(stageMinutesOf(sleep, StageSummary.TypeEnum.RESTLESS));
+            entity.setMinutesAwake(stageMinutesOf(sleep, StageSummary.TypeEnum.AWAKE));
         }
-        if(sleep.getType() == ReconcileDataPointsResponseDataPointsInnerSleep.TypeEnum.STAGES) {
-            entity.setMinutesDeep(stageMinutesOf(sleep, TypeEnum.DEEP));
-            entity.setMinutesLight(stageMinutesOf(sleep, TypeEnum.LIGHT));
-            entity.setMinutesRem(stageMinutesOf(sleep, TypeEnum.REM));
-            entity.setMinutesWake(stageMinutesOf(sleep, TypeEnum.AWAKE));
+        if(sleep.getType() == Sleep.TypeEnum.STAGES) {
+            entity.setMinutesDeep(stageMinutesOf(sleep, StageSummary.TypeEnum.DEEP));
+            entity.setMinutesLight(stageMinutesOf(sleep, StageSummary.TypeEnum.LIGHT));
+            entity.setMinutesRem(stageMinutesOf(sleep, StageSummary.TypeEnum.REM));
+            entity.setMinutesWake(stageMinutesOf(sleep, StageSummary.TypeEnum.AWAKE));
         }
         return entity;
     }

@@ -13,7 +13,7 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
-import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerDailyRestingHeartRate;
+import com.google.api.health.v4.model.DailyRestingHeartRate;
 
 @Entity
 @Table(name = "fitbit_heartrate_")
@@ -35,7 +35,7 @@ public class HeartRateEntity {
     @Column(name = "resting_heart_rate_")
     private Integer restingHeartRate;
 
-    public static HeartRateEntity create(String userId, ReconcileDataPointsResponseDataPointsInnerDailyRestingHeartRate restingHeartRate) {
+    public static HeartRateEntity create(String userId, DailyRestingHeartRate restingHeartRate) {
         HeartRateEntity entity = new HeartRateEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
         entity.setDate(requireNonNull(dateOf(restingHeartRate.getDate()), "date"));

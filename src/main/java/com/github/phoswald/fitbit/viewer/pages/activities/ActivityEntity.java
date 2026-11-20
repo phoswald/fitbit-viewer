@@ -33,7 +33,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 
-import com.google.api.health.v4.model.ListDataPointsResponseDataPointsInner;
+import com.google.api.health.v4.model.DataPoint;
 
 @Entity
 @Table(name = "fitbit_activity_")
@@ -150,7 +150,7 @@ public class ActivityEntity {
      * only have a duration, and may differ from the zones of the Fitbit API. Log type and source are mapped to the
      * closest available fields: recording method, device name and device form factor.
      */
-    public static ActivityEntity create(String userId, ListDataPointsResponseDataPointsInner dataPoint, List<String> labels) {
+    public static ActivityEntity create(String userId, DataPoint dataPoint, List<String> labels) {
         var exercise = requireNonNull(dataPoint.getExercise(), "exercise");
         var interval = requireNonNull(exercise.getInterval(), "interval");
         long logId = requireNonNull(logIdOf(dataPoint), "logId");

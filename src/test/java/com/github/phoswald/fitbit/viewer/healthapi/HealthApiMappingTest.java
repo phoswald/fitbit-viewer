@@ -19,27 +19,22 @@ import com.github.phoswald.fitbit.viewer.pages.azm.ActiveZoneMinutesEntity;
 import com.github.phoswald.fitbit.viewer.pages.cardioscore.CardioScoreEntity;
 import com.github.phoswald.fitbit.viewer.pages.heartrate.HeartRateEntity;
 import com.github.phoswald.fitbit.viewer.pages.sleep.SleepEntity;
-import com.google.api.health.v4.model.DailyRollUpDataPointsResponseRollupDataPointsInner;
-import com.google.api.health.v4.model.DailyRollUpDataPointsResponseRollupDataPointsInnerActiveZoneMinutes;
-import com.google.api.health.v4.model.DailyRollUpDataPointsResponseRollupDataPointsInnerCivilStartTime;
-import com.google.api.health.v4.model.DailyRollUpDataPointsResponseRollupDataPointsInnerCivilStartTimeDate;
-import com.google.api.health.v4.model.ListDataPointsResponseDataPointsInner;
-import com.google.api.health.v4.model.ListDataPointsResponseDataPointsInnerDataSource;
-import com.google.api.health.v4.model.ListDataPointsResponseDataPointsInnerDataSource.RecordingMethodEnum;
-import com.google.api.health.v4.model.ListDataPointsResponseDataPointsInnerDataSourceDevice;
-import com.google.api.health.v4.model.ListDataPointsResponseDataPointsInnerExercise;
-import com.google.api.health.v4.model.ListDataPointsResponseDataPointsInnerExerciseInterval;
-import com.google.api.health.v4.model.ListDataPointsResponseDataPointsInnerExerciseMetricsSummary;
-import com.google.api.health.v4.model.ListDataPointsResponseDataPointsInnerExerciseMetricsSummaryHeartRateZoneDurations;
-import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerDailyRestingHeartRate;
-import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerDailyRestingHeartRateDate;
-import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerDailyVo2Max;
-import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerDailyVo2MaxDate;
-import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerSleep;
-import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerSleepInterval;
-import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerSleepSummary;
-import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerSleepSummaryStagesSummaryInner;
-import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInnerSleepSummaryStagesSummaryInner.TypeEnum;
+import com.google.api.health.v4.model.ActiveZoneMinutesRollupValue;
+import com.google.api.health.v4.model.CivilDateTime;
+import com.google.api.health.v4.model.DailyRestingHeartRate;
+import com.google.api.health.v4.model.DailyRollupDataPoint;
+import com.google.api.health.v4.model.DailyVO2Max;
+import com.google.api.health.v4.model.DataPoint;
+import com.google.api.health.v4.model.DataSource;
+import com.google.api.health.v4.model.Date;
+import com.google.api.health.v4.model.Device;
+import com.google.api.health.v4.model.Exercise;
+import com.google.api.health.v4.model.MetricsSummary;
+import com.google.api.health.v4.model.SessionTimeInterval;
+import com.google.api.health.v4.model.Sleep;
+import com.google.api.health.v4.model.SleepSummary;
+import com.google.api.health.v4.model.StageSummary;
+import com.google.api.health.v4.model.TimeInHeartRateZones;
 
 class HealthApiMappingTest {
 
@@ -78,8 +73,8 @@ class HealthApiMappingTest {
 
     @Test
     void heartRate_mapsBeatsPerMinute() {
-        var entity = HeartRateEntity.create(USER_ID, new ReconcileDataPointsResponseDataPointsInnerDailyRestingHeartRate()
-                .date(new ReconcileDataPointsResponseDataPointsInnerDailyRestingHeartRateDate().year(2026).month(3).day(14))
+        var entity = HeartRateEntity.create(USER_ID, new DailyRestingHeartRate()
+                .date(new Date().year(2026).month(3).day(14))
                 .beatsPerMinute("58"));
 
         assertEquals(DATE, entity.getDate());
@@ -89,8 +84,8 @@ class HealthApiMappingTest {
     @Test
     void cardioScore_alwaysStoredAsEstimated_regardlessOfFlag() {
         for (Boolean estimated : new Boolean[] { null, Boolean.FALSE, Boolean.TRUE }) {
-            var entity = CardioScoreEntity.create(USER_ID, new ReconcileDataPointsResponseDataPointsInnerDailyVo2Max()
-                    .date(new ReconcileDataPointsResponseDataPointsInnerDailyVo2MaxDate().year(2026).month(3).day(14))
+            var entity = CardioScoreEntity.create(USER_ID, new DailyVO2Max()
+                    .date(new Date().year(2026).month(3).day(14))
                     .vo2Max(new BigDecimal("46.5"))
                     .estimated(estimated));
 
@@ -103,8 +98,8 @@ class HealthApiMappingTest {
 
     @Test
     void sleep_stages_mapsAwakeToWake() {
-        var entity = SleepEntity.create(USER_ID, sleep(ReconcileDataPointsResponseDataPointsInnerSleep.TypeEnum.STAGES,
-                stage(TypeEnum.DEEP, "60"), stage(TypeEnum.LIGHT, "240"), stage(TypeEnum.REM, "90"), stage(TypeEnum.AWAKE, "30")));
+        var entity = SleepEntity.create(USER_ID, sleep(Sleep.TypeEnum.STAGES,
+                stage(StageSummary.TypeEnum.DEEP, "60"), stage(StageSummary.TypeEnum.LIGHT, "240"), stage(StageSummary.TypeEnum.REM, "90"), stage(StageSummary.TypeEnum.AWAKE, "30")));
 
         assertEquals(DATE, entity.getDate());
         assertEquals(60, entity.getMinutesDeep());
@@ -119,8 +114,8 @@ class HealthApiMappingTest {
 
     @Test
     void sleep_classic_mapsAwakeToAwake() {
-        var entity = SleepEntity.create(USER_ID, sleep(ReconcileDataPointsResponseDataPointsInnerSleep.TypeEnum.CLASSIC,
-                stage(TypeEnum.ASLEEP, "400"), stage(TypeEnum.RESTLESS, "20"), stage(TypeEnum.AWAKE, "5")));
+        var entity = SleepEntity.create(USER_ID, sleep(Sleep.TypeEnum.CLASSIC,
+                stage(StageSummary.TypeEnum.ASLEEP, "400"), stage(StageSummary.TypeEnum.RESTLESS, "20"), stage(StageSummary.TypeEnum.AWAKE, "5")));
 
         assertEquals(DATE, entity.getDate());
         assertEquals(400, entity.getMinutesAsleep());
@@ -132,8 +127,8 @@ class HealthApiMappingTest {
 
     @Test
     void sleep_unspecifiedType_minutesNull() {
-        var entity = SleepEntity.create(USER_ID, sleep(ReconcileDataPointsResponseDataPointsInnerSleep.TypeEnum.SLEEP_TYPE_UNSPECIFIED,
-                stage(TypeEnum.AWAKE, "5")));
+        var entity = SleepEntity.create(USER_ID, sleep(Sleep.TypeEnum.SLEEP_TYPE_UNSPECIFIED,
+                stage(StageSummary.TypeEnum.AWAKE, "5")));
 
         assertEquals(DATE, entity.getDate());
         assertNull(entity.getMinutesAwake());
@@ -157,8 +152,8 @@ class HealthApiMappingTest {
 
     @Test
     void sleep_noEndTime_rejected() {
-        var sleep = new ReconcileDataPointsResponseDataPointsInnerSleep()
-                .interval(new ReconcileDataPointsResponseDataPointsInnerSleepInterval());
+        var sleep = new Sleep()
+                .interval(new SessionTimeInterval());
 
         assertThrows(NullPointerException.class, () -> SleepEntity.create(USER_ID, sleep));
     }
@@ -166,11 +161,11 @@ class HealthApiMappingTest {
     @Test
     void activity_allFields_convertsUnits() {
         var entity = ActivityEntity.create(USER_ID, exercise()
-                .dataSource(new ListDataPointsResponseDataPointsInnerDataSource()
-                        .recordingMethod(RecordingMethodEnum.ACTIVELY_MEASURED)
-                        .device(new ListDataPointsResponseDataPointsInnerDataSourceDevice()
+                .dataSource(new DataSource()
+                        .recordingMethod(DataSource.RecordingMethodEnum.ACTIVELY_MEASURED)
+                        .device(new Device()
                                 .displayName("Charge 6")
-                                .formFactor(ListDataPointsResponseDataPointsInnerDataSourceDevice.FormFactorEnum.FITNESS_BAND))),
+                                .formFactor(Device.FormFactorEnum.FITNESS_BAND))),
                 List.of("label"));
 
         assertEquals(USER_ID, entity.getUserId());
@@ -256,18 +251,18 @@ class HealthApiMappingTest {
         assertFalse(entity.isAutoDetected());
     }
 
-    private static ListDataPointsResponseDataPointsInner exercise() {
-        return new ListDataPointsResponseDataPointsInner()
+    private static DataPoint exercise() {
+        return new DataPoint()
                 .name("users/me/dataTypes/exercise/dataPoints/2026443605080188808")
-                .exercise(new ListDataPointsResponseDataPointsInnerExercise()
+                .exercise(new Exercise()
                         .displayName("Run")
                         .activeDuration("1650s")
-                        .interval(new ListDataPointsResponseDataPointsInnerExerciseInterval()
+                        .interval(new SessionTimeInterval()
                                 .startTime("2026-03-14T08:00:00Z")
                                 .startUtcOffset("3600s")
                                 .endTime("2026-03-14T08:30:00Z")
                                 .endUtcOffset("3600s"))
-                        .metricsSummary(new ListDataPointsResponseDataPointsInnerExerciseMetricsSummary()
+                        .metricsSummary(new MetricsSummary()
                                 .distanceMillimeters(new BigDecimal("5500000"))
                                 .steps("6000")
                                 .caloriesKcal(new BigDecimal("350.6"))
@@ -275,43 +270,43 @@ class HealthApiMappingTest {
                                 .averagePaceSecondsPerMeter(new BigDecimal("0.333"))
                                 .averageHeartRateBeatsPerMinute("150")
                                 .activeZoneMinutes("40")
-                                .heartRateZoneDurations(new ListDataPointsResponseDataPointsInnerExerciseMetricsSummaryHeartRateZoneDurations()
+                                .heartRateZoneDurations(new TimeInHeartRateZones()
                                         .lightTime("300s")
                                         .moderateTime("1200s")
                                         .peakTime("60s"))));
     }
 
-    private static DailyRollUpDataPointsResponseRollupDataPointsInner azmEntry(String fatBurn, String cardio, String peak) {
-        return new DailyRollUpDataPointsResponseRollupDataPointsInner()
-                .civilStartTime(new DailyRollUpDataPointsResponseRollupDataPointsInnerCivilStartTime()
-                        .date(new DailyRollUpDataPointsResponseRollupDataPointsInnerCivilStartTimeDate().year(2026).month(3).day(14)))
-                .activeZoneMinutes(new DailyRollUpDataPointsResponseRollupDataPointsInnerActiveZoneMinutes()
+    private static DailyRollupDataPoint azmEntry(String fatBurn, String cardio, String peak) {
+        return new DailyRollupDataPoint()
+                .civilStartTime(new CivilDateTime()
+                        .date(new Date().year(2026).month(3).day(14)))
+                .activeZoneMinutes(new ActiveZoneMinutesRollupValue()
                         .sumInFatBurnHeartZone(fatBurn)
                         .sumInCardioHeartZone(cardio)
                         .sumInPeakHeartZone(peak));
     }
 
     private static LocalDate sleepDate(String endTime, String endUtcOffset) {
-        var sleep = new ReconcileDataPointsResponseDataPointsInnerSleep()
-                .interval(new ReconcileDataPointsResponseDataPointsInnerSleepInterval()
+        var sleep = new Sleep()
+                .interval(new SessionTimeInterval()
                         .endTime(endTime)
                         .endUtcOffset(endUtcOffset));
         return SleepEntity.create(USER_ID, sleep).getDate();
     }
 
-    private static ReconcileDataPointsResponseDataPointsInnerSleep sleep(
-            ReconcileDataPointsResponseDataPointsInnerSleep.TypeEnum type,
-            ReconcileDataPointsResponseDataPointsInnerSleepSummaryStagesSummaryInner... stages) {
-        return new ReconcileDataPointsResponseDataPointsInnerSleep()
+    private static Sleep sleep(
+            Sleep.TypeEnum type,
+            StageSummary... stages) {
+        return new Sleep()
                 .type(type)
-                .interval(new ReconcileDataPointsResponseDataPointsInnerSleepInterval()
+                .interval(new SessionTimeInterval()
                         .endTime("2026-03-14T07:00:00Z")
                         .endUtcOffset("3600s"))
-                .summary(new ReconcileDataPointsResponseDataPointsInnerSleepSummary()
+                .summary(new SleepSummary()
                         .stagesSummary(List.of(stages)));
     }
 
-    private static ReconcileDataPointsResponseDataPointsInnerSleepSummaryStagesSummaryInner stage(TypeEnum type, String minutes) {
-        return new ReconcileDataPointsResponseDataPointsInnerSleepSummaryStagesSummaryInner().type(type).minutes(minutes);
+    private static StageSummary stage(StageSummary.TypeEnum type, String minutes) {
+        return new StageSummary().type(type).minutes(minutes);
     }
 }

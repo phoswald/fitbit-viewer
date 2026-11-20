@@ -14,8 +14,8 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
-import com.google.api.health.v4.model.DailyRollUpDataPointsResponseRollupDataPointsInner;
-import com.google.api.health.v4.model.DailyRollUpDataPointsResponseRollupDataPointsInnerActiveZoneMinutes;
+import com.google.api.health.v4.model.ActiveZoneMinutesRollupValue;
+import com.google.api.health.v4.model.DailyRollupDataPoint;
 
 @Entity
 @Table(name = "fitbit_active_zone_minutes_")
@@ -46,11 +46,11 @@ public class ActiveZoneMinutesEntity {
     @Column(name = "peak_azm_")
     private Integer peakAzm;
 
-    public static ActiveZoneMinutesEntity create(String userId, DailyRollUpDataPointsResponseRollupDataPointsInner dataPoint) {
+    public static ActiveZoneMinutesEntity create(String userId, DailyRollupDataPoint dataPoint) {
         ActiveZoneMinutesEntity entity = new ActiveZoneMinutesEntity();
         entity.setUserId(requireNonNull(userId, "userId"));
         entity.setDate(requireNonNull(dateOf(dataPoint), "date"));
-        DailyRollUpDataPointsResponseRollupDataPointsInnerActiveZoneMinutes activeZoneMinutes = dataPoint.getActiveZoneMinutes();
+        ActiveZoneMinutesRollupValue activeZoneMinutes = dataPoint.getActiveZoneMinutes();
         if(activeZoneMinutes != null) {
             entity.setFatBurnAzm(parseInteger(activeZoneMinutes.getSumInFatBurnHeartZone()));
             entity.setCardioAzm(parseInteger(activeZoneMinutes.getSumInCardioHeartZone()));

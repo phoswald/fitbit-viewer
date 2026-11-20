@@ -28,6 +28,10 @@ public class ValueHelpers {
 
     // *** Conversion
 
+    public static String toDateString(LocalDate value) {
+        return value == null ? null : value.toString();
+    }
+
     public static Double toDouble(BigDecimal value) {
         return value == null ? null : value.doubleValue();
     }

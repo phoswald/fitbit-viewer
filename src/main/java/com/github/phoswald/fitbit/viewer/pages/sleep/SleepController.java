@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 import com.github.phoswald.fitbit.viewer.auth.SessionData;
 import com.github.phoswald.fitbit.viewer.healthapi.HealthApiClient;
 import com.github.phoswald.fitbit.viewer.pages.DateRangeController;
-import com.google.api.health.v4.model.ReconcileDataPointsResponseDataPointsInner;
+import com.google.api.health.v4.model.ReconciledDataPoint;
 
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
@@ -64,7 +64,7 @@ public class SleepController extends DateRangeController {
                 for (var dateRange : getQueryDateRanges(Duration.ofDays(90))) {
                     var dataPoints = healthApiClient.getReconcile(session, "sleep", "sleep.interval.civil_end_time", dateRange.beg(), dateRange.end());
                     sleeps.putAll(dataPoints.stream()
-                            .map(ReconcileDataPointsResponseDataPointsInner::getSleep)
+                            .map(ReconciledDataPoint::getSleep)
                             .filter(Objects::nonNull)
                             .map(value -> SleepEntity.create(session.userId(), value))
                             .collect(toSortedMap(SleepEntity::getDate, SleepEntity::merge)));
