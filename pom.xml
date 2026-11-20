@@ -17,6 +17,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <quarkus.platform.version>3.40.1.1</quarkus.platform.version>
+    <quarkus-wiremock.version>1.8.1</quarkus-wiremock.version>
     <skipITs>true</skipITs>
   </properties>
 
@@ -102,6 +103,18 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-test-security</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkiverse.wiremock</groupId>
+      <artifactId>quarkus-wiremock</artifactId>
+      <version>${quarkus-wiremock.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkiverse.wiremock</groupId>
+      <artifactId>quarkus-wiremock-test</artifactId>
+      <version>${quarkus-wiremock.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
