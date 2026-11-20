@@ -36,8 +36,7 @@ import io.quarkiverse.wiremock.devservice.ConnectWireMock;
 import io.quarkus.test.junit.QuarkusTest;
 
 /**
- * Tests {@link HealthApiClient} against WireMock, using the samples recorded by {@code query-api-samples.sh}.
- * The stubbed requests mirror the requests in that script.
+ * Tests HealthApiClient with WireMock and sample data recorded by {@code query-api-samples.sh}.
  */
 @QuarkusTest
 @ConnectWireMock
