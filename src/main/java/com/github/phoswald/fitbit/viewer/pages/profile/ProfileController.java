@@ -69,8 +69,8 @@ public class ProfileController extends BaseController {
                 log.debug("Found entity");
             } else {
                 var response = healthApiClient.getProfile(session);
-                var height = healthApiClient.getListFirst(session, "height");
-                var weight = healthApiClient.getListFirst(session, "weight");
+                var height = healthApiClient.getFirstOfList(session, "height");
+                var weight = healthApiClient.getFirstOfList(session, "weight");
                 profile = Optional.of(ProfileEntity.create(session, response, heightCmOf(height), weightKgOf(weight)));
                 log.info("Storing entity");
                 profileRepository.store(profile.get());

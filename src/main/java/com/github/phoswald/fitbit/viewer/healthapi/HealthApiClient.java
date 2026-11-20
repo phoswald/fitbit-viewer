@@ -122,7 +122,7 @@ public class HealthApiClient {
         return dataPoints;
     }
 
-    public ListDataPointsResponseDataPointsInner getListFirst(
+    public ListDataPointsResponseDataPointsInner getFirstOfList(
             SessionData session,
             String dataType) {
         log.info("Requesting {} (first of List)", dataType);
@@ -139,7 +139,9 @@ public class HealthApiClient {
         return dataPoints.isEmpty() ? null : dataPoints.getFirst();
     }
 
-    public String getExportExerciseTcx(SessionData session, long logId) {
+    public String getExportExerciseTcx(
+            SessionData session,
+            long logId) {
         log.info("Requesting TCX: logId={}", logId);
         var response = defaultApiClient.healthUsersDataTypesDataPointsExportExerciseTcx(
                 "Bearer " + session.accessToken(),

@@ -1,0 +1,10 @@
+{
+  "rollupDataPoints": [
+    {
+      "steps": {
+        "countSum": "1234"
+      }
+    }
+  ],
+  "nextPageToken": "sample-page-token-1"
+}

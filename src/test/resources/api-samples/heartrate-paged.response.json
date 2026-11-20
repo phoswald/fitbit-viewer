@@ -1,0 +1,10 @@
+{
+  "dataPoints": [
+    {
+      "dailyRestingHeartRate": {
+        "beatsPerMinute": "60"
+      }
+    }
+  ],
+  "nextPageToken": "sample-page-token-2"
+}
