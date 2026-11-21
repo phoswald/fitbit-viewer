@@ -44,7 +44,39 @@ $ mvn quarkus:dev
 - http://localhost:8080/fitbit
 - http://localhost:8080/fitbit/kitchensink.html
 
-## API Migration
+## Google Health API
+
+Sources:
+
+- https://developers.google.com/health
+- https://developers.google.com/health/data-types
+
+Conecpts:
+
+- **Civil time** means local wall-clock time: the date and time a clock would have shown where the user was when the data was recorded.
+- **Physical time** is the absolute moment in UTC.
+
+Endpoints:
+
+- **dataPoints:dailyRollUp**: returns one aggregate per calendar day.
+  Uses **civil** time. This is the one to use for daily **dashboards**.
+- **dataPoints:reconcile**: returns a consistent stream of **deduplicated** records
+  (across sync batches and multiple recording devices). You get **records, not totals**.
+- **dataPoints (list)**: returns **raw** stored data points, paginated, without deduplication.
+
+Overview:
+
+| Data Type           | Endpoint               | Comment            |
+|---------------------|------------------------|--------------------|
+| Profile             | profile                | OK                 |
+| Steps               | dataPoints:dailyRollUp | OK, daily          |
+| Heart Rate          | dataPoints:reconcile   | OK, no dailyRollUp |
+| Cardio Fitness      | dataPoints:reconcile   | OK, no dailyRollUp |
+| Active Zone Minutes | dataPoints:dailyRollUp | OK, daily          |
+| Sleep               | dataPoints:reconcile   | OK, records        |
+| Activities          | dataPoints (list)      | OK, no dailyRollUp |
+
+### Migration status
 
 Profile:
 
@@ -96,14 +128,14 @@ Activities:
 
 - Ordering:        ❌️ is not same or not consistent
 - Date & Time:     ✅️ OK (correctness:❓️)
-- Duration:        ✅️ OK (correctness:❓️)
-- Active Duration: ✅️ OK (correctness:❓️)
-- Calories:        ✅️ OK (correctness:❓️)
-- Steps:           ✅️ OK (correctness:❓️)
-- Distance:        ✅️ OK (correctness:❓️)
-- Pace:            ✅️ OK (correctness:❓️)
+- Duration:        ✅️ OK (identical (?))
+- Active Duration: ✅️ OK (⚠️ many small differences in 2026-09, Google values appear rounded to the minute)
+- Calories:        ✅️ OK (⚠️ many small differences in 2026-09)
+- Steps:           ✅️ OK (⚠️ many small differences in 2026-09)
+- Distance:        ✅️ OK (⚠️ many small differences in 2026-09)
+- Pace:            ✅️ OK (⚠️ many small differences in 2026-09)
 - Speed:           ❌️ missing
-- Avg Heart Rate:  ✅️ OK (correctness:❓️)
+- Avg Heart Rate:  ✅️ OK (identical (?))
 - Log Type:        ✅️ OK (auto_detected -> PASSIVELY_MEASURED; mobile_run -> ACTIVELY_MEASURED)
 - Source Name:     ✅️ OK (Inspire HR, Inspire 2, Charge 6; Fitbit for Android -> MobileTrack) 
                          (⚠️ sometimes null: 407883839870725264)
@@ -114,7 +146,7 @@ Activity Heart Rate Zones:
 
 - Zone:         ✅️ OK (newly hard-coded: Out of Range, Fat Burn, Cardio, Peak; identical)
 - Heart Rate:   ✅️ OK (newly hard-coded: 30...98, 99...122, 123...152, 153...220; ⚠️ should depend on current personal fitness level)
-- Time:         ✅️ OK (correctness:❓️)
+- Time:         ✅️ OK (⚠️ many small differences in 2026-09)
 - Calories Out: ❌️ missing
 - ⚠️ difference when source is phone (6935854779612435696): missing in Google, single value for Out of Range	(30...220) in FitBit
 
@@ -131,4 +163,4 @@ Activity TCX
 - Heart Rate: ✅️ OK (identical)
 - Laps:       ✅️ OK (identical)
 - ✅️ sometimes bitwise identical (probably when sources is phone),
-  ⚠️ sometimes differs in calories of lap only (probably when sources is tracker)
+- ⚠️ sometimes differs in calories of lap only (probably when sources is tracker)
