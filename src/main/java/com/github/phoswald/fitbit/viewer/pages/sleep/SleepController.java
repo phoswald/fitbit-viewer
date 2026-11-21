@@ -62,7 +62,7 @@ public class SleepController extends DateRangeController {
             } else {
                 sleeps.clear();
                 for (var dateRange : getQueryDateRanges(Duration.ofDays(90))) {
-                    var dataPoints = healthApiClient.getReconcile(session, "sleep", "sleep.interval.civil_end_time", dateRange.beg(), dateRange.end());
+                    var dataPoints = healthApiClient.getReconciledDataPoints(session, "sleep", "sleep.interval.civil_end_time", dateRange.beg(), dateRange.end());
                     sleeps.putAll(dataPoints.stream()
                             .map(ReconciledDataPoint::getSleep)
                             .filter(Objects::nonNull)

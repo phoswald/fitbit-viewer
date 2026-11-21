@@ -62,7 +62,7 @@ public class CardioScoreController extends DateRangeController {
             } else {
                 cardioScores.clear();
                 for(var dateRange : getQueryDateRanges(Duration.ofDays(90))) {
-                    var dataPoints = healthApiClient.getReconcile(session, "daily-vo2-max", "daily_vo2_max.date", dateRange.beg(), dateRange.end());
+                    var dataPoints = healthApiClient.getReconciledDataPoints(session, "daily-vo2-max", "daily_vo2_max.date", dateRange.beg(), dateRange.end());
                     cardioScores.putAll(dataPoints.stream()
                             .map(ReconciledDataPoint::getDailyVo2Max)
                             .filter(Objects::nonNull)

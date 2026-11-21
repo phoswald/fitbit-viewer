@@ -97,7 +97,7 @@ public class ActivityController extends DateRangeController {
                     Map<Long, ActivityEntity> oldActivities = activities;
                     activities = new LinkedHashMap<>();
                     for (var dateRange : getQueryDateRanges(Duration.ofDays(90))) {
-                        var dataPoints = healthApiClient.getList(session, "exercise", "exercise.interval.civil_start_time", dateRange.beg(), dateRange.end());
+                        var dataPoints = healthApiClient.getListedDataPoints(session, "exercise", "exercise.interval.civil_start_time", dateRange.beg(), dateRange.end());
                         activities.putAll(dataPoints.stream()
                                 .filter(dataPoint -> dataPoint.getExercise() != null)
                                 .map(dataPoint -> ActivityEntity.create(

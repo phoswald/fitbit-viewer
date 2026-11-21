@@ -62,7 +62,7 @@ public class HeartRateController extends DateRangeController {
             } else {
                 heartRates.clear();
                 for (var dateRange : getQueryDateRanges(Duration.ofDays(90))) {
-                    var dataPoints = healthApiClient.getReconcile(session, "daily-resting-heart-rate", "daily_resting_heart_rate.date", dateRange.beg(), dateRange.end());
+                    var dataPoints = healthApiClient.getReconciledDataPoints(session, "daily-resting-heart-rate", "daily_resting_heart_rate.date", dateRange.beg(), dateRange.end());
                     heartRates.putAll(dataPoints.stream()
                             .map(ReconciledDataPoint::getDailyRestingHeartRate)
                             .filter(Objects::nonNull)

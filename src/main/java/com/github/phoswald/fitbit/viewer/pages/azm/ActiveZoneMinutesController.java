@@ -60,7 +60,7 @@ public class ActiveZoneMinutesController extends DateRangeController {
             } else {
                 azms.clear();
                 for (var dateRange : getQueryDateRanges(Duration.ofDays(90))) {
-                    var dataPoints = healthApiClient.postDailyRollup(session, "active-zone-minutes", dateRange.beg(), dateRange.end());
+                    var dataPoints = healthApiClient.getDailyRollupDataPoints(session, "active-zone-minutes", dateRange.beg(), dateRange.end());
                     azms.putAll(dataPoints.stream()
                             .map(dataPoint -> ActiveZoneMinutesEntity.create(session.userId(), dataPoint))
                             .collect(toSortedMap(ActiveZoneMinutesEntity::getDate)));

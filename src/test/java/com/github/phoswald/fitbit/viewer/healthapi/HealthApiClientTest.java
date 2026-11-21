@@ -74,12 +74,12 @@ class HealthApiClientTest {
     }
 
     @Test
-    void postDailyRollup_steps_success() {
+    void getDailyRollupDataPoints_steps_success() {
         wiremock.register(authorized(post(urlPathEqualTo("/v4/users/me/dataTypes/steps/dataPoints:dailyRollUp")))
                 .withRequestBody(equalToJson(resource("steps.request.json")))
                 .willReturn(okJson(resource("steps.response.json"))));
 
-        var dataPoints = testee.postDailyRollup(SESSION, "steps", DATE_BEG, DATE_END);
+        var dataPoints = testee.getDailyRollupDataPoints(SESSION, "steps", DATE_BEG, DATE_END);
 
         assertEquals(30, dataPoints.size());
         assertEquals(30, dataPoints.getFirst().getCivilStartTime().getDate().getDay());
@@ -88,7 +88,7 @@ class HealthApiClientTest {
     }
 
     @Test
-    void postDailyRollup_stepsPaged_allCollected() {
+    void getDailyRollupDataPoints_stepsPaged_allCollected() {
         wiremock.register(authorized(post(urlPathEqualTo("/v4/users/me/dataTypes/steps/dataPoints:dailyRollUp")))
                 .withRequestBody(matchingJsonPath("$.pageToken", absent()))
                 .willReturn(okJson(resource("steps-paged.response.json"))));
@@ -96,7 +96,7 @@ class HealthApiClientTest {
                 .withRequestBody(matchingJsonPath("$.pageToken", equalTo("sample-page-token-1")))
                 .willReturn(okJson(resource("steps.response.json"))));
 
-        var dataPoints = testee.postDailyRollup(SESSION, "steps", DATE_BEG, DATE_END);
+        var dataPoints = testee.getDailyRollupDataPoints(SESSION, "steps", DATE_BEG, DATE_END);
 
         assertEquals(1 + 30, dataPoints.size());
         assertEquals("1234", dataPoints.getFirst().getSteps().getCountSum());
@@ -107,12 +107,12 @@ class HealthApiClientTest {
     }
 
     @Test
-    void postDailyRollup_azm_success() {
+    void getDailyRollupDataPoints_azm_success() {
         wiremock.register(authorized(post(urlPathEqualTo("/v4/users/me/dataTypes/active-zone-minutes/dataPoints:dailyRollUp")))
                 .withRequestBody(equalToJson(resource("azm.request.json")))
                 .willReturn(okJson(resource("azm.response.json"))));
 
-        var dataPoints = testee.postDailyRollup(SESSION, "active-zone-minutes", DATE_BEG, DATE_END);
+        var dataPoints = testee.getDailyRollupDataPoints(SESSION, "active-zone-minutes", DATE_BEG, DATE_END);
 
         assertEquals(25, dataPoints.size());
         assertEquals("26", dataPoints.getFirst().getActiveZoneMinutes().getSumInFatBurnHeartZone());
@@ -124,12 +124,12 @@ class HealthApiClientTest {
     }
 
     @Test
-    void getReconcile_heartrate_success() {
+    void getReconciledDataPoints_heartrate_success() {
         wiremock.register(authorized(get(urlPathEqualTo("/v4/users/me/dataTypes/daily-resting-heart-rate/dataPoints:reconcile")))
                 .withQueryParam("filter", equalTo("daily_resting_heart_rate.date >= \"2026-09-01\" AND daily_resting_heart_rate.date < \"2026-10-01\""))
                 .willReturn(okJson(resource("heartrate.response.json"))));
 
-        var dataPoints = testee.getReconcile(SESSION, "daily-resting-heart-rate", "daily_resting_heart_rate.date", DATE_BEG, DATE_END);
+        var dataPoints = testee.getReconciledDataPoints(SESSION, "daily-resting-heart-rate", "daily_resting_heart_rate.date", DATE_BEG, DATE_END);
 
         assertEquals(30, dataPoints.size());
         assertEquals(30, dataPoints.getFirst().getDailyRestingHeartRate().getDate().getDay());
@@ -139,7 +139,7 @@ class HealthApiClientTest {
     }
 
     @Test
-    void getReconcile_heartratePaged_allCollected() {
+    void getReconciledDataPoints_heartratePaged_allCollected() {
         wiremock.register(authorized(get(urlPathEqualTo("/v4/users/me/dataTypes/daily-resting-heart-rate/dataPoints:reconcile")))
                 .withQueryParam("pageToken", absent())
                 .willReturn(okJson(resource("heartrate-paged.response.json"))));
@@ -147,7 +147,7 @@ class HealthApiClientTest {
                 .withQueryParam("pageToken", equalTo("sample-page-token-2"))
                 .willReturn(okJson(resource("heartrate.response.json"))));
 
-        var dataPoints = testee.getReconcile(SESSION, "daily-resting-heart-rate", "daily_resting_heart_rate.date", DATE_BEG, DATE_END);
+        var dataPoints = testee.getReconciledDataPoints(SESSION, "daily-resting-heart-rate", "daily_resting_heart_rate.date", DATE_BEG, DATE_END);
 
         assertEquals(1 + 30, dataPoints.size());
         assertEquals("60", dataPoints.getFirst().getDailyRestingHeartRate().getBeatsPerMinute());
@@ -160,12 +160,12 @@ class HealthApiClientTest {
     }
 
     @Test
-    void getReconcile_cardioscore_success() {
+    void getReconciledDataPoints_cardioscore_success() {
         wiremock.register(authorized(get(urlPathEqualTo("/v4/users/me/dataTypes/daily-vo2-max/dataPoints:reconcile")))
                 .withQueryParam("filter", equalTo("daily_vo2_max.date >= \"2026-09-01\" AND daily_vo2_max.date < \"2026-10-01\""))
                 .willReturn(okJson(resource("cardioscore.response.json"))));
 
-        var dataPoints = testee.getReconcile(SESSION, "daily-vo2-max", "daily_vo2_max.date", DATE_BEG, DATE_END);
+        var dataPoints = testee.getReconciledDataPoints(SESSION, "daily-vo2-max", "daily_vo2_max.date", DATE_BEG, DATE_END);
 
         assertEquals(30, dataPoints.size());
         assertEquals(30, dataPoints.getFirst().getDailyVo2Max().getDate().getDay());
@@ -177,7 +177,7 @@ class HealthApiClientTest {
     }
 
     @Test
-    void getReconcile_sleep_success() {
+    void getReconciledDataPoints_sleep_success() {
         wiremock.register(authorized(get(urlPathEqualTo("/v4/users/me/dataTypes/sleep/dataPoints:reconcile")))
                 .withQueryParam("filter", equalTo("sleep.interval.civil_end_time >= \"2026-09-01\" AND sleep.interval.civil_end_time < \"2026-10-01\""))
                 .withQueryParam("pageToken", absent())
@@ -187,7 +187,7 @@ class HealthApiClientTest {
                 .withQueryParam("pageToken", equalTo("chcKCYIBBgjU2bnVBgoKEMjQseKj75-RMQ"))
                 .willReturn(okJson("{}")));
 
-        var dataPoints = testee.getReconcile(SESSION, "sleep", "sleep.interval.civil_end_time", DATE_BEG, DATE_END);
+        var dataPoints = testee.getReconciledDataPoints(SESSION, "sleep", "sleep.interval.civil_end_time", DATE_BEG, DATE_END);
 
         assertEquals(13, dataPoints.size());
         assertEquals("2026-09-29T23:23:00Z", dataPoints.getFirst().getSleep().getInterval().getStartTime());
@@ -201,7 +201,7 @@ class HealthApiClientTest {
     }
 
     @Test
-    void getList_activity_success() {
+    void getListedDataPoints_activity_success() {
         wiremock.register(authorized(get(urlPathEqualTo("/v4/users/me/dataTypes/exercise/dataPoints")))
                 .withQueryParam("filter", equalTo("exercise.interval.civil_start_time >= \"2026-09-01\" AND exercise.interval.civil_start_time < \"2026-10-01\""))
                 .withQueryParam("pageToken", absent())
@@ -211,7 +211,7 @@ class HealthApiClientTest {
                 .withQueryParam("pageToken", equalTo("25"))
                 .willReturn(okJson("{}")));
 
-        var dataPoints = testee.getList(SESSION, "exercise", "exercise.interval.civil_start_time", DATE_BEG, DATE_END);
+        var dataPoints = testee.getListedDataPoints(SESSION, "exercise", "exercise.interval.civil_start_time", DATE_BEG, DATE_END);
 
         assertEquals(25, dataPoints.size());
         assertEquals("users/4981657191938844637/dataTypes/exercise/dataPoints/3163336676098067440", dataPoints.getFirst().getName());
@@ -229,35 +229,35 @@ class HealthApiClientTest {
     }
 
     @Test
-    void getFirstOfList_height_success() {
+    void getFirstDataPoint_height_success() {
         wiremock.register(authorized(get(urlPathEqualTo("/v4/users/me/dataTypes/height/dataPoints")))
                 .withQueryParam("pageSize", equalTo("1"))
                 .willReturn(okJson(resource("profile-height.response.json"))));
 
-        var dataPoint = testee.getFirstOfList(SESSION, "height");
+        var dataPoint = testee.getFirstDataPoint(SESSION, "height");
 
         assertNotNull(dataPoint);
         assertEquals("1780", dataPoint.getHeight().getHeightMillimeters());
     }
 
     @Test
-    void getFirstOfList_weight_success() {
+    void getFirstDataPoint_weight_success() {
         wiremock.register(authorized(get(urlPathEqualTo("/v4/users/me/dataTypes/weight/dataPoints")))
                 .withQueryParam("pageSize", equalTo("1"))
                 .willReturn(okJson(resource("profile-weight.response.json"))));
 
-        var dataPoint = testee.getFirstOfList(SESSION, "weight");
+        var dataPoint = testee.getFirstDataPoint(SESSION, "weight");
 
         assertNotNull(dataPoint);
         assertEquals("81000", dataPoint.getWeight().getWeightGrams().toPlainString());
     }
 
     @Test
-    void getFirstOfList_empty_null() {
+    void getFirstDataPoint_empty_null() {
         wiremock.register(authorized(get(urlPathEqualTo("/v4/users/me/dataTypes/weight/dataPoints")))
                 .willReturn(okJson("{}")));
 
-        assertNull(testee.getFirstOfList(SESSION, "weight"));
+        assertNull(testee.getFirstDataPoint(SESSION, "weight"));
     }
 
     @Test

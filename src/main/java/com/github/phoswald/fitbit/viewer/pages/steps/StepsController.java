@@ -60,7 +60,7 @@ public class StepsController extends DateRangeController {
             } else {
                 steps.clear();
                 for (var dateRange : getQueryDateRanges(Duration.ofDays(90))) {
-                    var dataPoints = healthApiClient.postDailyRollup(session, "steps", dateRange.beg(), dateRange.end());
+                    var dataPoints = healthApiClient.getDailyRollupDataPoints(session, "steps", dateRange.beg(), dateRange.end());
                     steps.putAll(dataPoints.stream()
                             .map(dataPoint -> StepsEntity.create(session.userId(), dataPoint))
                             .collect(toSortedMap(StepsEntity::getDate)));
