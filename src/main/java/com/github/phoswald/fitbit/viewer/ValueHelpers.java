@@ -44,7 +44,7 @@ public class ValueHelpers {
     }
 
     public static Double toMinutes(Duration duration) {
-        return duration == null ? null : (double) duration.toMinutes();
+        return duration == null ? null : duration.toSeconds() / 60.0;
     }
 
     // *** Component Access

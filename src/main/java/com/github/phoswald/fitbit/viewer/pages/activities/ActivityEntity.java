@@ -39,11 +39,11 @@ import com.google.api.health.v4.model.DataPoint;
 @Table(name = "fitbit_activity_")
 @NamedQuery(
         name = "ActivityEntity.loadByUserIdAndDateRange",
-        query = "SELECT a FROM ActivityEntity a LEFT JOIN FETCH a.labels WHERE a.userId = :userId AND a.date >= :dateBeg AND a.date <= :dateEnd ORDER BY a.date"
+        query = "SELECT a FROM ActivityEntity a LEFT JOIN FETCH a.labels WHERE a.userId = :userId AND a.date >= :dateBeg AND a.date <= :dateEnd ORDER BY a.begDateTime"
 )
 @NamedQuery(
         name = "ActivityEntity.loadByUserIdAndLabel",
-        query = "SELECT a FROM ActivityEntity a LEFT JOIN FETCH a.labels WHERE a.userId = :userId AND :label MEMBER OF a.labels ORDER BY a.date"
+        query = "SELECT a FROM ActivityEntity a LEFT JOIN FETCH a.labels WHERE a.userId = :userId AND :label MEMBER OF a.labels ORDER BY a.begDateTime"
 )
 @NamedQuery(
         name = "ActivityEntity.loadAllLabels",
@@ -159,7 +159,7 @@ public class ActivityEntity {
         entity.setLogId(logId);
         entity.setActivityName(exercise.getDisplayName());
         entity.setBegDateTime(requireNonNull(parseOffsetDateTime(interval.getStartTime(), interval.getStartUtcOffset()), "begDateTime"));
-        entity.setEndDateTime(parseOffsetDateTime(interval.getEndTime(), interval.getEndUtcOffset()));
+        entity.setEndDateTime(requireNonNull(parseOffsetDateTime(interval.getEndTime(), interval.getEndUtcOffset()), "endDateTime"));
         entity.setDate(dateOf(entity.getBegDateTime()));
         entity.setDurationMinutes(minutesBetween(entity.getBegDateTime(), entity.getEndDateTime()));
         entity.setDurationActiveMinutes(toMinutes(parseDuration(exercise.getActiveDuration())));

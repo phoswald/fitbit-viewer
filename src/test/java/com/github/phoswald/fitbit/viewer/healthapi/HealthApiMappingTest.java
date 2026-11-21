@@ -176,7 +176,7 @@ class HealthApiMappingTest {
         assertEquals(OffsetDateTime.parse("2026-03-14T09:00:00+01:00"), entity.getBegDateTime());
         assertEquals(OffsetDateTime.parse("2026-03-14T09:30:00+01:00"), entity.getEndDateTime());
         assertEquals(30.0, entity.getDurationMinutes());
-        assertEquals(27, entity.getDurationActiveMinutes());
+        assertEquals(27.5, entity.getDurationActiveMinutes());
         assertEquals(5.5, entity.getDistance());
         assertEquals(6000, entity.getSteps());
         assertEquals(351, entity.getCalories());

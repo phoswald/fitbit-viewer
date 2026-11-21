@@ -126,10 +126,10 @@ Sleep:
 
 Activities:
 
-- Ordering:        ❌️ is not same or not consistent
-- Date & Time:     ✅️ OK (correctness:❓️)
+- Ordering:        ️✅️ OK
+- Date & Time:     ✅️ OK (identical (?))
 - Duration:        ✅️ OK (identical (?))
-- Active Duration: ✅️ OK (⚠️ many small differences in 2026-09, Google values appear rounded to the minute)
+- Active Duration: ✅️ OK (⚠️ many small differences in 2026-09)
 - Calories:        ✅️ OK (⚠️ many small differences in 2026-09)
 - Steps:           ✅️ OK (⚠️ many small differences in 2026-09)
 - Distance:        ✅️ OK (⚠️ many small differences in 2026-09)
