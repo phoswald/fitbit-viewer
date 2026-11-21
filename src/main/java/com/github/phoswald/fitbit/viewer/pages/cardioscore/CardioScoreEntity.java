@@ -1,7 +1,7 @@
 package com.github.phoswald.fitbit.viewer.pages.cardioscore;
 
-import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.dateOf;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.toDouble;
+import static com.github.phoswald.fitbit.viewer.healthapi.HealthApiHelpers.dateOf;
 import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;

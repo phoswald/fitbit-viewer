@@ -1,10 +1,10 @@
 package com.github.phoswald.fitbit.viewer.pages.profile;
 
-import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.dateOf;
-import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.firstOf;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.divideBy;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.maskZero;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.toDateString;
+import static com.github.phoswald.fitbit.viewer.healthapi.HealthApiHelpers.dateOf;
+import static com.github.phoswald.fitbit.viewer.healthapi.HealthApiHelpers.firstOf;
 import static java.util.Objects.requireNonNull;
 
 import jakarta.persistence.Column;

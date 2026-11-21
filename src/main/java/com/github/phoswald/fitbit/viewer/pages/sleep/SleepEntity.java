@@ -1,8 +1,8 @@
 package com.github.phoswald.fitbit.viewer.pages.sleep;
 
-import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.dateOf;
-import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.stageMinutesOf;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.add;
+import static com.github.phoswald.fitbit.viewer.healthapi.HealthApiHelpers.dateOf;
+import static com.github.phoswald.fitbit.viewer.healthapi.HealthApiHelpers.stageMinutesOf;
 import static java.util.Objects.requireNonNull;
 
 import java.io.Serializable;

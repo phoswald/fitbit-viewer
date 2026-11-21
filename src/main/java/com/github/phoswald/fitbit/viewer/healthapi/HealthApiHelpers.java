@@ -1,4 +1,4 @@
-package com.github.phoswald.fitbit.viewer;
+package com.github.phoswald.fitbit.viewer.healthapi;
 
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.divideBy;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.parseInteger;
@@ -7,6 +7,7 @@ import static com.github.phoswald.fitbit.viewer.ValueHelpers.round;
 
 import java.time.LocalDate;
 
+import com.github.phoswald.fitbit.viewer.ValueHelpers;
 import com.google.api.health.v4.model.CivilDateTime;
 import com.google.api.health.v4.model.CivilTimeInterval;
 import com.google.api.health.v4.model.DailyRollupDataPoint;

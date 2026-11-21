@@ -1,7 +1,7 @@
 package com.github.phoswald.fitbit.viewer.pages.profile;
 
-import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.heightCmOf;
-import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.weightKgOf;
+import static com.github.phoswald.fitbit.viewer.healthapi.HealthApiHelpers.heightCmOf;
+import static com.github.phoswald.fitbit.viewer.healthapi.HealthApiHelpers.weightKgOf;
 
 import java.util.Optional;
 

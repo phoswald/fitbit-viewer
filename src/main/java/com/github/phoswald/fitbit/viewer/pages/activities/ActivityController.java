@@ -1,6 +1,6 @@
 package com.github.phoswald.fitbit.viewer.pages.activities;
 
-import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.logIdOf;
+import static com.github.phoswald.fitbit.viewer.healthapi.HealthApiHelpers.logIdOf;
 import static java.util.Objects.requireNonNull;
 
 import java.time.Duration;

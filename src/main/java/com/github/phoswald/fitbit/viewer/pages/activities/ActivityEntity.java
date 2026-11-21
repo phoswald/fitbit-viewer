@@ -1,6 +1,5 @@
 package com.github.phoswald.fitbit.viewer.pages.activities;
 
-import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.logIdOf;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.dateOf;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.divideBy;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.minutesBetween;
@@ -11,6 +10,7 @@ import static com.github.phoswald.fitbit.viewer.ValueHelpers.parseOffsetDateTime
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.round;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.toDouble;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.toMinutes;
+import static com.github.phoswald.fitbit.viewer.healthapi.HealthApiHelpers.logIdOf;
 import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;

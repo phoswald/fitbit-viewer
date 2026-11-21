@@ -1,8 +1,8 @@
 package com.github.phoswald.fitbit.viewer.pages.azm;
 
-import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.dateOf;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.add;
 import static com.github.phoswald.fitbit.viewer.ValueHelpers.parseInteger;
+import static com.github.phoswald.fitbit.viewer.healthapi.HealthApiHelpers.dateOf;
 import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;

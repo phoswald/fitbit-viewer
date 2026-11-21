@@ -1,7 +1,7 @@
 package com.github.phoswald.fitbit.viewer.pages.steps;
 
-import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.dateOf;
-import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.stepCountOf;
+import static com.github.phoswald.fitbit.viewer.healthapi.HealthApiHelpers.dateOf;
+import static com.github.phoswald.fitbit.viewer.healthapi.HealthApiHelpers.stepCountOf;
 import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;

@@ -1,6 +1,6 @@
 package com.github.phoswald.fitbit.viewer.healthapi;
 
-import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.dateRange;
+import static com.github.phoswald.fitbit.viewer.healthapi.HealthApiHelpers.dateRange;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
