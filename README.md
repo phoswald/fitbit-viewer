@@ -136,7 +136,7 @@ Activities:
 - Pace:            ✅️ OK (👉️ many small differences in 2026-09)
 - Speed:           ❌️ missing
 - Avg Heart Rate:  ✅️ OK (identical (?))
-- Log Type:        ✅️ OK (auto_detected -> PASSIVELY_MEASURED; mobile_run -> ACTIVELY_MEASURED)
+- Log Type:        ✅️ OK (auto_detected -> PASSIVELY_MEASURED; tracker, mobile_run -> ACTIVELY_MEASURED)
 - Source Name:     ✅️ OK (Inspire HR, Inspire 2, Charge 6; Fitbit for Android -> MobileTrack) 
                          (⚠️ sometimes null: 407883839870725264)
 - Source Type:     ✅️ OK (tracker -> FITNESS_BAND, api -> PHONE)

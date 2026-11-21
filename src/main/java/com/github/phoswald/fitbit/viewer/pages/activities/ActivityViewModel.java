@@ -47,7 +47,7 @@ public record ActivityViewModel(
                 .activities(activities.stream()
                         .filter(a -> label == null || a.getLabels().contains(label)
                                 || (Objects.equals(label, "(none)") && a.getLabels().isEmpty()))
-                        .filter(a -> !excludeAuto || !a.isAutoDetected())
+                        .filter(a -> !excludeAuto || !a.isLogTypeAuto())
                         .filter(a -> !excludeLowCal || !a.isLowCal())
                         .toList())
                 .allLabels(allLabels)

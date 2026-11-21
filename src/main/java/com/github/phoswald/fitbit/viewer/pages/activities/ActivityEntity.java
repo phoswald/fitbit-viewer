@@ -233,6 +233,15 @@ public class ActivityEntity {
         return logType;
     }
 
+    public String getLogTypeShort() {
+        return isLogTypeAuto() ? "auto" : "manual";
+    }
+
+    public boolean isLogTypeAuto() {
+        return "auto_detected".equals(logType) /* Fitbit API */
+                || "PASSIVELY_MEASURED".equals(logType); /* Google Health API */
+    }
+
     public void setLogType(String logType) {
         this.logType = logType;
     }
@@ -395,11 +404,6 @@ public class ActivityEntity {
 
     public void setLabels(List<String> labels) {
         this.labels = labels;
-    }
-
-    public boolean isAutoDetected() {
-        return "auto_detected".equals(logType) /* Fitbit API */
-                || "PASSIVELY_MEASURED".equals(logType); /* Google Health API */
     }
 
     public boolean isLowCal() {

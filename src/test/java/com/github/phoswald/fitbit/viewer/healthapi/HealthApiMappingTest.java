@@ -241,14 +241,14 @@ class HealthApiMappingTest {
         var entity = new ActivityEntity();
         for (String logType : List.of("auto_detected", "PASSIVELY_MEASURED")) {
             entity.setLogType(logType);
-            assertTrue(entity.isAutoDetected(), logType);
+            assertTrue(entity.isLogTypeAuto(), logType);
         }
         for (String logType : List.of("tracker", "MANUAL", "ACTIVELY_MEASURED")) {
             entity.setLogType(logType);
-            assertFalse(entity.isAutoDetected(), logType);
+            assertFalse(entity.isLogTypeAuto(), logType);
         }
         entity.setLogType(null);
-        assertFalse(entity.isAutoDetected());
+        assertFalse(entity.isLogTypeAuto());
     }
 
     private static DataPoint exercise() {

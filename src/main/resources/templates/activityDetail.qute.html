@@ -74,7 +74,7 @@
         </tr>
         <tr>
           <th>Log Type</th>
-          <td>{model.activity.logType}</td>
+          <td>{#if model.activity.logType}{model.activity.logTypeShort} ({model.activity.logType}){/if}</td>
         </tr>
         <tr>
           <th>Source</th>
