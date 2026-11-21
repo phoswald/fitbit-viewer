@@ -87,21 +87,10 @@
         }
       }
     },
-    "/v4/users/{user}/profile": {
+    "/v4/users/me/profile": {
       "get": {
         "description": "Returns user's Profile.",
         "operationId": "health.users.getProfile",
-        "parameters": [
-          {
-            "name": "user",
-            "in": "path",
-            "description": "Required. The user whose profile to retrieve: a Health User ID, or the literal `me` for the authenticated user.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "default": {
             "description": "Successful operation",
@@ -217,13 +206,13 @@
         }
       }
     },
-    "/v4/{parent}/dataPoints:rollUp": {
+    "/v4/users/me/dataTypes/{data_type}/dataPoints:rollUp": {
       "post": {
         "description": "Roll up data points over physical time intervals for supported data types.",
         "operationId": "health.users.dataTypes.dataPoints.rollUp",
         "parameters": [
           {
-            "name": "parent",
+            "name": "data_type",
             "in": "path",
             "description": "Required. Parent data type of the Data Point collection. Format: `users/{user}/dataTypes/{data_type}`, e.g.: - `users/me/dataTypes/steps` - `users/1234567890/dataTypes/steps` - `users/me/dataTypes/distance` - `users/1234567890/dataTypes/distance` The `{user}` can be either the alias `me` or the authenticated user's numeric Health User ID (retrieved via GetIdentity). For a list of the supported data types see the RollupDataPoint value union field.",
             "required": true,
@@ -255,13 +244,13 @@
         }
       }
     },
-    "/v4/{parent}/dataPoints:batchDelete": {
+    "/v4/users/me/dataTypes/{data_type}/dataPoints:batchDelete": {
       "post": {
         "description": "Delete a batch of identifyable data points.",
         "operationId": "health.users.dataTypes.dataPoints.batchDelete",
         "parameters": [
           {
-            "name": "parent",
+            "name": "data_type",
             "in": "path",
             "description": "Optional. Parent (data type) for the Data Point collection Format: `users/{user}/dataTypes/{data_type}`, e.g.: - `users/me/dataTypes/steps` - `users/1234567890/dataTypes/steps` - `users/me/dataTypes/-` - `users/1234567890/dataTypes/-` The `{user}` can be either the alias `me` or the authenticated user's numeric Health User ID (retrieved via GetIdentity). For a list of the supported data types see the DataPoint data union field. Deleting data points across multiple data type collections is supported following https://aip.dev/159. If this is set, the parent of all of the data points specified in `names` must match this field.",
             "required": true,
@@ -293,13 +282,13 @@
         }
       }
     },
-    "/v4/{parent}/dataPoints:reconcile": {
+    "/v4/users/me/dataTypes/{data_type}/dataPoints:reconcile": {
       "get": {
         "description": "Reconcile data points from multiple data sources into a single data stream.",
         "operationId": "health.users.dataTypes.dataPoints.reconcile",
         "parameters": [
           {
-            "name": "parent",
+            "name": "data_type",
             "in": "path",
             "description": "Required. Parent data type of the Data Point collection. Format: `users/{user}/dataTypes/{data_type}`, e.g.: - `users/me/dataTypes/steps` - `users/1234567890/dataTypes/steps` - `users/me/dataTypes/heart-rate` - `users/1234567890/dataTypes/heart-rate` The `{user}` can be either the alias `me` or the authenticated user's numeric Health User ID (retrieved via GetIdentity). For a list of the supported data types see the DataPoint data union field.",
             "required": true,
@@ -355,13 +344,13 @@
         }
       }
     },
-    "/v4/{parent}/dataPoints:dailyRollUp": {
+    "/v4/users/me/dataTypes/{data_type}/dataPoints:dailyRollUp": {
       "post": {
         "description": "Roll up data points over civil time intervals for supported data types.",
         "operationId": "health.users.dataTypes.dataPoints.dailyRollUp",
         "parameters": [
           {
-            "name": "parent",
+            "name": "data_type",
             "in": "path",
             "description": "Required. Parent data type of the Data Point collection. Format: `users/{user}/dataTypes/{data_type}`, e.g.: - `users/me/dataTypes/steps` - `users/1234567890/dataTypes/steps` - `users/me/dataTypes/distance` - `users/1234567890/dataTypes/distance` The `{user}` can be either the alias `me` or the authenticated user's numeric Health User ID (retrieved via GetIdentity). For a list of the supported data types see the DailyRollupDataPoint value union field.",
             "required": true,
@@ -393,7 +382,7 @@
         }
       }
     },
-    "/v4/{parent}/dataPoints": {
+    "/v4/users/me/dataTypes/{data_type}/dataPoints": {
       "get": {
         "description": "Query user health and fitness data points.",
         "operationId": "health.users.dataTypes.dataPoints.list",
@@ -424,7 +413,7 @@
             }
           },
           {
-            "name": "parent",
+            "name": "data_type",
             "in": "path",
             "description": "Required. Parent data type of the Data Point collection. Format: `users/{user}/dataTypes/{data_type}`, e.g.: - `users/me/dataTypes/steps` - `users/1234567890/dataTypes/steps` - `users/me/dataTypes/weight` - `users/1234567890/dataTypes/weight` The `{user}` can be either the alias `me` or the authenticated user's numeric Health User ID (retrieved via GetIdentity). For a list of the supported data types see the DataPoint data union field.",
             "required": true,
@@ -459,7 +448,7 @@
         "operationId": "health.users.dataTypes.dataPoints.create",
         "parameters": [
           {
-            "name": "parent",
+            "name": "data_type",
             "in": "path",
             "description": "Required. The parent resource name where the data point will be created. Format: `users/{user}/dataTypes/{data_type}`, e.g.: - `users/me/dataTypes/steps` - `users/1234567890/dataTypes/steps` The `{user}` can be either the alias `me` or the authenticated user's numeric Health User ID (retrieved via GetIdentity).",
             "required": true,
@@ -491,7 +480,7 @@
         }
       }
     },
-    "/v4/{name}:exportExerciseTcx": {
+    "/v4/users/me/dataTypes/exercise/dataPoints/{data_point}:exportExerciseTcx": {
       "get": {
         "description": "Exports exercise data in TCX format. **IMPORTANT:** HTTP clients must append `?alt=media` to the request URL to download the raw TCX file. ## Examples: ## `https://health.googleapis.com/v4/users/me/dataTypes/exercise/dataPoints/EXERCISE_ID:exportExerciseTcx?alt=media` `https://health.googleapis.com/v4/users/1234567890/dataTypes/exercise/dataPoints/EXERCISE_ID:exportExerciseTcx?alt=media` Without `alt=media`, the server returns a JSON response (`ExportExerciseTcxResponse`) which is intended primarily for gRPC clients. **Note:** While the Authorization section below states that any one of the listed scopes is accepted, this specific method requires the user to provide both one of the `activity_and_fitness` scopes (`normal` or `readonly`) AND one of the `location` scopes (`normal` or `readonly`) in their access token to succeed.",
         "operationId": "health.users.dataTypes.dataPoints.exportExerciseTcx",
@@ -505,7 +494,7 @@
             }
           },
           {
-            "name": "name",
+            "name": "data_point",
             "in": "path",
             "description": "Required. The resource name of the exercise data point to export. Format: `users/{user}/dataTypes/exercise/dataPoints/{data_point}` Examples: - `users/me/dataTypes/exercise/dataPoints/2026443605080188808` - `users/1234567890/dataTypes/exercise/dataPoints/2026443605080188808` The `{user}` can be either the alias `me` or the authenticated user's numeric Health User ID (retrieved via GetIdentity). The `{data_point}` ID maps to the exercise ID, which is a long integer.",
             "required": true,

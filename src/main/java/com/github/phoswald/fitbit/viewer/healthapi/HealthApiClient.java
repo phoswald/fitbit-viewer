@@ -1,9 +1,7 @@
 package com.github.phoswald.fitbit.viewer.healthapi;
 
 import static com.github.phoswald.fitbit.viewer.HealthApiHelpers.dateRange;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
-import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,9 +36,7 @@ public class HealthApiClient {
 
     public Profile getProfile(SessionData session) {
         log.info("Requesting Profile");
-        return defaultApiClient.healthUsersGetProfile(
-                "Bearer " + session.accessToken(),
-                "me");
+        return defaultApiClient.healthUsersGetProfile(authorization(session));
     }
 
     public List<DailyRollupDataPoint> postDailyRollup(SessionData session, String dataType, LocalDate dateBeg, LocalDate dateEnd) {
@@ -54,9 +50,7 @@ public class HealthApiClient {
                     .windowSizeDays(1)
                     .pageToken(pageToken);
             DailyRollUpDataPointsResponse response = defaultApiClient.healthUsersDataTypesDataPointsDailyRollUp(
-                    "Bearer " + session.accessToken(),
-                    "users/me/dataTypes/" + dataType,
-                    request);
+                    authorization(session), dataType, request);
             if(response.getRollupDataPoints() != null) {
                 dataPoints.addAll(response.getRollupDataPoints());
             }
@@ -73,11 +67,9 @@ public class HealthApiClient {
         String pageToken = null;
         int iterations = 0;
         do {
+            String filter = dateFilter(filterField, dateBeg, dateEnd);
             ReconcileDataPointsResponse response = defaultApiClient.healthUsersDataTypesDataPointsReconcile(
-                    "Bearer " + session.accessToken(),
-                    "users/me/dataTypes/" + dataType,
-                    pageToken, null, null,
-                    encodeQueryParam(dateFilter(filterField, dateBeg, dateEnd)));
+                    authorization(session), dataType, pageToken, null, null, filter);
             if(response.getDataPoints() != null) {
                 dataPoints.addAll(response.getDataPoints());
             }
@@ -94,11 +86,9 @@ public class HealthApiClient {
         String pageToken = null;
         int iterations = 0;
         do {
+            String filter = dateFilter(filterField, dateBeg, dateEnd);
             ListDataPointsResponse response = defaultApiClient.healthUsersDataTypesDataPointsList(
-                    "Bearer " + session.accessToken(),
-                    "users/me/dataTypes/" + dataType,
-                    pageToken, null,
-                    encodeQueryParam(dateFilter(filterField, dateBeg, dateEnd)), null);
+                    authorization(session), dataType, pageToken, null, filter, null);
             if(response.getDataPoints() != null) {
                 dataPoints.addAll(response.getDataPoints());
             }
@@ -113,10 +103,7 @@ public class HealthApiClient {
         log.info("Requesting {} (first of List)", dataType);
         List<DataPoint> dataPoints = new ArrayList<>();
         ListDataPointsResponse response = defaultApiClient.healthUsersDataTypesDataPointsList(
-                "Bearer " + session.accessToken(),
-                "users/me/dataTypes/" + dataType,
-                null, 1,
-                null, null);
+                authorization(session), dataType, null, 1, null, null);
         if(response.getDataPoints() != null) {
             dataPoints.addAll(response.getDataPoints());
         }
@@ -126,20 +113,18 @@ public class HealthApiClient {
 
     public String getExportExerciseTcx(SessionData session, long logId) {
         log.info("Requesting TCX: logId={}", logId);
+        String dataPoint = Long.toString(logId);
         ExportExerciseTcxResponse response = defaultApiClient.healthUsersDataTypesDataPointsExportExerciseTcx(
-                "Bearer " + session.accessToken(),
-                "users/me/dataTypes/exercise/dataPoints/" + logId,
-                null);
+                authorization(session), dataPoint, null);
         log.info("Received TCX: {} chars", response.getTcxData().length());
         return response.getTcxData();
     }
 
-    private String dateFilter(String field, LocalDate dateBeg, LocalDate dateEnd) {
-        return field + " >= \"" + dateBeg + "\" AND " + field + " < \"" + dateEnd.plusDays(1) + "\"";
+    private String authorization(SessionData session) {
+        return "Bearer " + session.accessToken();
     }
 
-    private String encodeQueryParam(String value) {
-        // TODO (cleanup): get rid of this, also see @Encoded in application.properties
-        return URLEncoder.encode(value, UTF_8).replace("+", "%20");
+    private String dateFilter(String field, LocalDate dateBeg, LocalDate dateEnd) {
+        return field + " >= \"" + dateBeg + "\" AND " + field + " < \"" + dateEnd.plusDays(1) + "\"";
     }
 }
