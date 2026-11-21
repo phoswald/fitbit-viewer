@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -18,12 +19,12 @@ import io.quarkus.qute.TemplateExtension;
 @TemplateExtension
 class TemplateExtensions {
 
-    static String format(ZonedDateTime dt, String pattern) {
-        return dt.format(DateTimeFormatter.ofPattern(pattern));
+    static String format(OffsetDateTime dt, String pattern) {
+        return format(dt.toZonedDateTime(), pattern);
     }
 
-    static String format(OffsetDateTime dt, String pattern) {
-        return dt.format(DateTimeFormatter.ofPattern(pattern));
+    static String format(ZonedDateTime dt, String pattern) {
+        return dt.withZoneSameInstant(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern(pattern));
     }
 
     static String format(Double value, String pattern) {
