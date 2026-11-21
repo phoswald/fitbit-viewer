@@ -32,6 +32,10 @@ public class TcxTrackpoint {
         return time;
     }
 
+    public boolean hasPosition() {
+        return position != null && position.getLatitudeDegrees() != null && position.getLongitudeDegrees() != null;
+    }
+
     public Double getLatitude() {
         return position == null ? null : position.getLatitudeDegrees();
     }

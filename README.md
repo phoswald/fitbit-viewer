@@ -94,15 +94,15 @@ Profile:
 
 Steps:
 
-- Steps: ✅️ OK (️⚠️ many small differences in 2026-09, FitBit values are slightly larger)
+- Steps: ✅️ OK (️👉️ many small differences in 2026-09, FitBit values are slightly larger)
 
 Heart Rate:
 
-- Resting Heart Rate: ✅️ OK (️⚠️ many small differences in 2026-09)
+- Resting Heart Rate: ✅️ OK (️👉️ many small differences in 2026-09)
 
 Cardio Fitness:
 
-- Score (estimated): ✅️ OK (️⚠️ many small differences in 2026-09, Google values are fractional)
+- Score (estimated): ✅️ OK (️👉️ many small differences in 2026-09, Google values are fractional)
 - Score (min, max):  ❌️ missing (data before 2026-08-22)
 
 Active Zone Minutes:
@@ -114,12 +114,12 @@ Active Zone Minutes:
 
 Sleep:
 
-- Total: ✅️ OK (⚠️ many small differences in 2026-09, 💡 calculated)
-- Sleep: ✅️ OK (⚠️ many small differences in 2026-09, 💡 calculated)
-- Deep:  ✅️ OK (⚠️ many small differences in 2026-09)
-- Light: ✅️ OK (⚠️ many small differences in 2026-09)
-- REM:   ✅️ OK (⚠️ many small differences in 2026-09)
-- Wake:  ✅️ OK (⚠️ many small differences in 2026-09)
+- Total: ✅️ OK (👉️ many small differences in 2026-09, 💡 calculated)
+- Sleep: ✅️ OK (👉️ many small differences in 2026-09, 💡 calculated)
+- Deep:  ✅️ OK (👉️ many small differences in 2026-09)
+- Light: ✅️ OK (👉️ many small differences in 2026-09)
+- REM:   ✅️ OK (👉️ many small differences in 2026-09)
+- Wake:  ✅️ OK (👉️ many small differences in 2026-09)
 - Asleep   (classic): ✅️ OK (identical in 2026-01-05)
 - Restless (classic): ✅️ OK (identical in 2026-01-05, Google with 0 instead of null)
 - Awake    (classic): ✅️ OK (identical in 2026-01-05, Google with 0 instead of null)
@@ -129,11 +129,11 @@ Activities:
 - Ordering:        ️✅️ OK
 - Date & Time:     ✅️ OK (identical (?))
 - Duration:        ✅️ OK (identical (?))
-- Active Duration: ✅️ OK (⚠️ many small differences in 2026-09)
-- Calories:        ✅️ OK (⚠️ many small differences in 2026-09)
-- Steps:           ✅️ OK (⚠️ many small differences in 2026-09)
-- Distance:        ✅️ OK (⚠️ many small differences in 2026-09)
-- Pace:            ✅️ OK (⚠️ many small differences in 2026-09)
+- Active Duration: ✅️ OK (👉️ many small differences in 2026-09)
+- Calories:        ✅️ OK (👉️ many small differences in 2026-09)
+- Steps:           ✅️ OK (👉️ many small differences in 2026-09)
+- Distance:        ✅️ OK (👉️ many small differences in 2026-09)
+- Pace:            ✅️ OK (👉️ many small differences in 2026-09)
 - Speed:           ❌️ missing
 - Avg Heart Rate:  ✅️ OK (identical (?))
 - Log Type:        ✅️ OK (auto_detected -> PASSIVELY_MEASURED; mobile_run -> ACTIVELY_MEASURED)
@@ -146,9 +146,9 @@ Activity Heart Rate Zones:
 
 - Zone:         ✅️ OK (newly hard-coded: Out of Range, Fat Burn, Cardio, Peak; identical)
 - Heart Rate:   ✅️ OK (newly hard-coded: 30...98, 99...122, 123...152, 153...220; ⚠️ should depend on current personal fitness level)
-- Time:         ✅️ OK (⚠️ many small differences in 2026-09)
+- Time:         ✅️ OK (👉️ many small differences in 2026-09)
 - Calories Out: ❌️ missing
-- ⚠️ difference when source is phone (6935854779612435696): missing in Google, single value for Out of Range	(30...220) in FitBit
+- 👉️ difference when source is phone (6935854779612435696): missing in Google, single value for Out of Range	(30...220) in FitBit
 
 Activity Levels: ❌️ missing
 
@@ -163,4 +163,5 @@ Activity TCX
 - Heart Rate: ✅️ OK (identical)
 - Laps:       ✅️ OK (identical)
 - ✅️ sometimes bitwise identical (probably when sources is phone),
-- ⚠️ sometimes differs in calories of lap only (probably when sources is tracker)
+- 👉️ sometimes differs in calories of lap only (probably when sources is tracker)
+- 👉️ sometimes differs in missing positions and/or heart rates of some track points.

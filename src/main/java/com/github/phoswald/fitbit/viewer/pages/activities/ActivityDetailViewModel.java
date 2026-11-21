@@ -52,7 +52,7 @@ public record ActivityDetailViewModel(
                 .allLabels(allLabels)
                 .editLabels(editLabels)
                 .laps(tcxDb.map(TcxDatabase::getAllLaps).orElse(List.of()))
-                .track(tcxTrack)
+                .track(tcxTrack.stream().filter(TcxTrackpoint::hasPosition).toList())
                 .altitudes(tcxTrack.stream().filter(TcxTrackpoint::hasAltitude).toList())
                 .heartRates(tcxTrack.stream().filter(TcxTrackpoint::hasHeartRate).toList())
                 .userId(userId)
